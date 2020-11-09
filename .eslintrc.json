@@ -1,0 +1,20 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "react"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "eol-last": ["error", "always"],
+    "linebreak-style": ["error", "unix"],
+    "no-multiple-empty-lines": "error"
+  },
+  "globals": {
+    "React": "writable"
+  }
+}
