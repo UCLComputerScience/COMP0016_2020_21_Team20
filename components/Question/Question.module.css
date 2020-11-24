@@ -1,0 +1,8 @@
+.questionText {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.question + .question {
+  margin-top: 15px;
+}
