@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import { LikertScale, Info } from '../';
+import { LikertScale, Info } from '..';
 
-import styles from './Question.module.css';
+import styles from './LikertScaleQuestion.module.css';
 
-function Question(props) {
+function LikertScaleQuestion(props) {
   const [value, setValue] = useState(null);
 
   const updateValue = value => {
@@ -26,4 +26,4 @@ function Question(props) {
   );
 }
 
-export default Question;
+export default LikertScaleQuestion;

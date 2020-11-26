@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Question, AlertDialog } from '../components';
+import { LikertScaleQuestion, AlertDialog } from '../components';
 
 import {
   Button,
@@ -131,7 +131,7 @@ function selfAssessment() {
 
       <div className={styles.selfAssessmentContainer}>
         {questions.map((question, i) => (
-          <Question
+          <LikertScaleQuestion
             key={i}
             question={question.question}
             questionId={question.questionId}

@@ -1,6 +1,6 @@
 import Info from './Info/Info';
-import Question from './Question/Question';
+import LikertScaleQuestion from './LikertScaleQuestion/LikertScaleQuestion';
 import LikertScale from './LikertScale/LikertScale';
 import AlertDialog from './AlertDialog/AlertDialog';
 
-export { Info, Question, LikertScale, AlertDialog };
+export { Info, LikertScaleQuestion, LikertScale, AlertDialog, WordQuestion };
