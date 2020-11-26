@@ -1,4 +1,5 @@
 import { Question } from '../components';
+import { useState } from 'react';
 
 import { Button } from '@material-ui/core';
 //import { Icon } from '@material-ui/icons';
@@ -43,6 +44,7 @@ function selfAssessment() {
             questionId={question.questionId}
             questionNumber={i + 1}
             questionUrl={question.url}
+            onChange={score => (question.score = score)}
           />
         ))}
 
@@ -50,6 +52,7 @@ function selfAssessment() {
           variant="contained"
           color="primary"
           className={styles.submit}
+          onClick={() => handleSubmit()}
           // startIcon={<SaveIcon />}
         >
           Submit

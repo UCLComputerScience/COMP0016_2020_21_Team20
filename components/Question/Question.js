@@ -5,7 +5,12 @@ import { LikertScale, Info } from '../';
 import styles from './Question.module.css';
 
 function Question(props) {
-  const [score, setScore] = useState(null);
+  const [value, setValue] = useState(null);
+
+  const updateValue = value => {
+    setValue(value);
+    props.onChange(value);
+  };
 
   return (
     <div className={styles.question}>
@@ -14,7 +19,7 @@ function Question(props) {
       </div>
       <Info url={props.questionUrl} />
       <LikertScale
-        onChange={value => setScore(value)}
+        onChange={value => updateValue(value)}
         questionId={props.questionId}
       />
     </div>
