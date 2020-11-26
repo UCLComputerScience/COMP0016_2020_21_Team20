@@ -8,3 +8,12 @@
   width: 60%;
   margin: auto;
 }
+
+.mentoringSessionContainer {
+  display: block;
+}
+
+.mentoringSessionRow {
+  display: flex;
+  flex-direction: row;
+}

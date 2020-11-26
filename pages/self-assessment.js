@@ -105,6 +105,30 @@ function selfAssessment() {
         actions={dialogActions}
       />
 
+      {/* TODO make the mentoring thing prettier */}
+      <div className={styles.mentoringSessionContainer}>
+        <FormControl
+          component="fieldset"
+          className={styles.mentoringSessionRow}>
+          <label>This submission is part of a mentoring session:</label>
+          <RadioGroup
+            aria-label="mentoring-session"
+            name="mentoring-session"
+            row>
+            <FormControlLabel
+              value="1"
+              control={<Radio color="primary" />}
+              label="Yes"
+            />
+            <FormControlLabel
+              value="0"
+              control={<Radio color="primary" />}
+              label="No"
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
+
       <div className={styles.selfAssessmentContainer}>
         {questions.map((question, i) => (
           <Question
