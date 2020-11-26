@@ -10,20 +10,44 @@ import styles from './self-assessment.module.css';
 const questions = [
   {
     question:
-      'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case',
+      'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
     questionId: 1,
     url: 'https://example.com',
   },
   {
     question:
-      'I have listened to and understood the patient’s knowledge and concerns about their presentation.',
+      'I have applied knowledge of best evidence to the context of this patient’s presentation to present appropriate treatment options to the patient.',
     questionId: 2,
     url: 'https://example.com',
   },
   {
     question:
-      'I have applied knowledge of best evidence to the context of this patient’s presentation to present appropriate treatment options to the patient.',
+      'I have optimised the opportunity in our interaction today to discuss relevant activities and behaviours that support wellbeing and a healthy lifestyle for this patient.',
     questionId: 3,
+    url: 'https://example.com',
+  },
+  {
+    question:
+      'I have listened and responded with empathy to the patient’s concerns.',
+    questionId: 4,
+    url: 'https://example.com',
+  },
+  {
+    question:
+      'I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.',
+    questionId: 5,
+    url: 'https://example.com',
+  },
+  {
+    question:
+      'I have established progress markers to help me and the patient monitor and evaluate the success of the treatment plan.',
+    questionId: 6,
+    url: 'https://example.com',
+  },
+  {
+    question:
+      'My reflection/discussion about this interaction has supported my development through consolidation or a unique experience I can learn from.',
+    questionId: 7,
     url: 'https://example.com',
   },
 ];
