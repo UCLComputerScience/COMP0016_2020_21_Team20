@@ -1,7 +1,16 @@
-import { Question } from '../components';
 import { useState } from 'react';
 
-import { Button } from '@material-ui/core';
+import { Question, AlertDialog } from '../components';
+
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormLabel,
+} from '@material-ui/core';
+
 //import { Icon } from '@material-ui/icons';
 //import SaveIcon from '@material-ui/icons/SaveIcon';
 
@@ -53,6 +62,34 @@ const questions = [
 ];
 
 function selfAssessment() {
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState(null);
+  const [dialogText, setDialogText] = useState(null);
+  const [dialogActions, setDialogActions] = useState([]);
+
+  const handleSubmit = () => {
+    const answeredQuestions = questions.filter(
+      q => typeof q.score !== 'undefined'
+    ).length;
+
+    if (answeredQuestions !== questions.length) {
+      setDialogTitle('Error');
+      setDialogText('Please ensure you have answered all questions');
+      setDialogActions([
+        <Button onClick={() => setShowDialog(false)}>Edit my responses</Button>,
+      ]);
+    } else {
+      setDialogTitle('Are you sure you want to submit?');
+      setDialogText('Your answer will not be able to be changed.');
+      setDialogActions([
+        <Button onClick={() => setShowDialog(false)}>Edit my responses</Button>,
+        <Button href="/self-assessment">Confirm submission</Button>,
+      ]);
+    }
+
+    setShowDialog(true);
+  };
+
   return (
     <div>
       <h1>Your Self Assessement</h1>
@@ -60,6 +97,14 @@ function selfAssessment() {
         To what extent do you agree with the following statements regarding your
         experience in the last week?
       </h3>
+
+      <AlertDialog
+        open={showDialog}
+        title={dialogTitle}
+        text={dialogText}
+        actions={dialogActions}
+      />
+
       <div className={styles.selfAssessmentContainer}>
         {questions.map((question, i) => (
           <Question
