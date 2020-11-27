@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { LikertScaleQuestion, AlertDialog } from '../components';
+import { LikertScaleQuestion, AlertDialog, WordsQuestion } from '../components';
 
 import {
   Button,
@@ -16,7 +16,7 @@ import {
 
 import styles from './self-assessment.module.css';
 
-const questions = [
+const likertScaleQuestions = [
   {
     question:
       'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
@@ -61,6 +61,19 @@ const questions = [
   },
 ];
 
+const wordsQuestions = [
+  {
+    question:
+      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
+    questionId: 8,
+  },
+  {
+    question:
+      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
+    questionId: 9,
+  },
+];
+
 function selfAssessment() {
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
@@ -68,25 +81,32 @@ function selfAssessment() {
   const [dialogActions, setDialogActions] = useState([]);
 
   const handleSubmit = () => {
-    const answeredQuestions = questions.filter(
+    const answeredQuestions = likertScaleQuestions.filter(
       q => typeof q.score !== 'undefined'
     ).length;
 
-    if (answeredQuestions !== questions.length) {
+    if (answeredQuestions !== likertScaleQuestions.length) {
       setDialogTitle('Error');
       setDialogText('Please ensure you have answered all questions');
       setDialogActions([
-        <Button onClick={() => setShowDialog(false)}>Edit my responses</Button>,
+        <Button key="alertdialog-confirm" onClick={() => setShowDialog(false)}>
+          Edit my responses
+        </Button>,
       ]);
     } else {
       setDialogTitle('Are you sure you want to submit?');
       setDialogText('Your answer will not be able to be changed.');
       setDialogActions([
-        <Button onClick={() => setShowDialog(false)}>Edit my responses</Button>,
-        <Button href="/self-assessment">Confirm submission</Button>,
+        <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
+          Edit my responses
+        </Button>,
+        <Button key="alertdialog-confirm" href="/self-assessment">
+          Confirm submission
+        </Button>,
       ]);
     }
 
+    console.log(likertScaleQuestions, wordsQuestions);
     setShowDialog(true);
   };
 
@@ -130,7 +150,7 @@ function selfAssessment() {
       </div>
 
       <div className={styles.selfAssessmentContainer}>
-        {questions.map((question, i) => (
+        {likertScaleQuestions.map((question, i) => (
           <LikertScaleQuestion
             key={i}
             question={question.question}
@@ -138,6 +158,16 @@ function selfAssessment() {
             questionNumber={i + 1}
             questionUrl={question.url}
             onChange={score => (question.score = score)}
+          />
+        ))}
+
+        {wordsQuestions.map((question, i) => (
+          <WordsQuestion
+            key={i}
+            question={question.question}
+            questionId={question.questionId}
+            questionNumber={i + 8}
+            onChange={words => (question.words = words)}
           />
         ))}
 
