@@ -19,6 +19,13 @@ export default function Home() {
             <h3>Self assessment &rarr;</h3>
             <p>Do your self assessment!</p>
           </a>
+          <a href="/statistics" className="card">
+            <h3>Statistics &rarr;</h3>
+            <p>
+              Consult your personal statistics for the different Health and Care
+              Standards
+            </p>
+          </a>
         </div>
       </main>
 
