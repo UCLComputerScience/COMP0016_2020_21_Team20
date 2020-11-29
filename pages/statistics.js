@@ -6,7 +6,7 @@ function statistics() {
     //Circles
     //checkboxes inside linechart
     <div>
-      <Header curPath="statistics" paths={['statistics', 'self-assessment']} />
+      <Header curPath="statistics" />
       <h1>Statistics</h1>
       <LineChart />
       <LineChart />

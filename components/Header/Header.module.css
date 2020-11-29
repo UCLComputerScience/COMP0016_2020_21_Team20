@@ -29,5 +29,14 @@
   flex-direction: column;
   margin-left: 10px;
   margin-right: 10px;
-  color: #005eb8;
+  color: #768692;
+}
+
+.header__selected__option {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #425563;
+  text-decoration: underline;
 }

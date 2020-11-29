@@ -117,10 +117,7 @@ function selfAssessment() {
 
   return (
     <div>
-      <Header
-        curPath="self assessment"
-        paths={['statistics', 'self-assessment']}
-      />
+      <Header curPath="self-assessment" />
       <h1>Your Self Assessement</h1>
       <h3>
         To what extent do you agree with the following statements regarding your
