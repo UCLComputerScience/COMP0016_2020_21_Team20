@@ -1,6 +1,11 @@
 import { useState } from 'react';
 
-import { LikertScaleQuestion, AlertDialog, WordsQuestion } from '../components';
+import {
+  LikertScaleQuestion,
+  AlertDialog,
+  WordsQuestion,
+  Header,
+} from '../components';
 
 import {
   Button,
@@ -112,6 +117,10 @@ function selfAssessment() {
 
   return (
     <div>
+      <Header
+        curPath="self assessment"
+        paths={['statistics', 'self-assessment']}
+      />
       <h1>Your Self Assessement</h1>
       <h3>
         To what extent do you agree with the following statements regarding your
