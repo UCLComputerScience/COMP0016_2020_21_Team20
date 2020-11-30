@@ -40,3 +40,12 @@
   color: #425563;
   text-decoration: underline;
 }
+
+.header__profile__option {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 10px;
+  /*TODO display the profile option on the right */
+  text-align: right;
+}

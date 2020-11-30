@@ -5,6 +5,7 @@ import AlertDialog from './AlertDialog/AlertDialog';
 import WordsQuestion from './WordsQuestion/WordsQuestion';
 import LineChart from './LineChart/LineChart';
 import Header from './Header/Header';
+import ProfileButton from './ProfileButton/ProfileButton';
 export {
   Info,
   LikertScaleQuestion,
@@ -13,4 +14,5 @@ export {
   WordsQuestion,
   LineChart,
   Header,
+  ProfileButton,
 };
