@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model dept_clincian_user_type {
+  user_id     Int         @id
+  dept_id     Int
+  departments departments @relation(fields: [dept_id], references: [id])
+  users       users       @relation(fields: [user_id], references: [id])
+}
+
+model feedback {
+  user_id     Int
+  dept_id     Int
+  score       Int
+  timestamp   DateTime
+  comments    String?
+  departments departments @relation(fields: [dept_id], references: [id])
+  users       users       @relation(fields: [user_id], references: [id])
+
+  @@id([user_id, timestamp])
+}
+
+model health_board_type {
+  user_id         Int           @id
+  health_board_id Int
+  health_boards   health_boards @relation(fields: [health_board_id], references: [id])
+  users           users         @relation(fields: [user_id], references: [id])
+}
+
+model hospital_user_type {
+  user_id     Int       @id
+  hospital_id Int
+  hospitals   hospitals @relation(fields: [hospital_id], references: [id])
+  users       users     @relation(fields: [user_id], references: [id])
+}
+
+model hospitals {
+  id                 Int                  @id
+  hospital_name      String
+  health_board_id    Int
+  health_boards      health_boards        @relation(fields: [health_board_id], references: [id])
+  departments        departments[]
+  hospital_user_type hospital_user_type[]
+}
+
+model questions {
+  id            Int           @id @default(autoincrement())
+  question_url  String
+  standard_id   Int
+  question_body String
+  question_type question_type
+  standards     standards     @relation(fields: [standard_id], references: [id])
+  words         words[]
+}
+
+model responses {
+  id                   Int         @id @default(autoincrement())
+  user_id              Int
+  timestamp            DateTime
+  dept_id              Int
+  is_mentoring_session Boolean
+  departments          departments @relation(fields: [dept_id], references: [id])
+  users                users       @relation(fields: [user_id], references: [id])
+  scores               scores[]
+  words                words[]
+}
+
+model scores {
+  id          Int       @id @default(autoincrement())
+  response_id Int
+  standard_id Int
+  score       Int
+  responses   responses @relation(fields: [response_id], references: [id])
+  standards   standards @relation(fields: [standard_id], references: [id])
+}
+
+model standards {
+  id        Int         @id @default(autoincrement())
+  name      String
+  questions questions[]
+  scores    scores[]
+}
+
+model user_types {
+  id          Int    @id @default(autoincrement())
+  description String
+}
+
+model users {
+  id                      Int                      @id @default(autoincrement())
+  password                String
+  user_type_id            Int
+  dept_clincian_user_type dept_clincian_user_type?
+  feedback                feedback[]
+  health_board_type       health_board_type?
+  hospital_user_type      hospital_user_type?
+  responses               responses[]
+}
+
+model words {
+  id          Int       @id @default(autoincrement())
+  response_id Int
+  word        String
+  question_id Int
+  questions   questions @relation(fields: [question_id], references: [id])
+  responses   responses @relation(fields: [response_id], references: [id])
+}
+
+model health_boards {
+  id                Int                 @id
+  health_board_name String
+  health_board_type health_board_type[]
+  hospitals         hospitals[]
+}
+
+model departments {
+  id                      Int                       @id @default(autoincrement())
+  department_name         String
+  hospital_id             Int
+  hospitals               hospitals                 @relation(fields: [hospital_id], references: [id])
+  dept_clincian_user_type dept_clincian_user_type[]
+  feedback                feedback[]
+  responses               responses[]
+}
+
+enum question_type {
+  likert_scale
+  words
+}
