@@ -1,6 +1,12 @@
+import useSWR from 'swr';
+
 import { LineChart, Header } from '../components';
 
-function statistics() {
+const fetcher = (...args) => fetch(...args).then(res => res.json());
+
+function statistics(props) {
+  const { data, error } = useSWR('/api/responses', fetcher);
+
   return (
     //Filters
     //Circles
