@@ -25,4 +25,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.KEY }}
-          script: docker-compose up -d --build -f ${{ secrets.DOCKER_COMPOSE_FILE }}
+          script: docker-compose -f ${{ secrets.DOCKER_COMPOSE_FILE }} up -d --build
