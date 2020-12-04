@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+      - name: Create Prisma env file
+        run: |
+          touch .env
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
       - name: Build & Push to GitHub Packages
         uses: docker/build-push-action@v1
         with:
@@ -17,7 +21,6 @@ jobs:
           registry: docker.pkg.github.com
           repository: uclcomputerscience/comp0016_2020_21_team20/nhsw-self-assessment-web
           tags: latest
-          tag_with_ref: true
       - name: Rebuild & restart containers on server
         uses: appleboy/ssh-action@master
         with:

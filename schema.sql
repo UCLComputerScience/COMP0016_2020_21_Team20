@@ -1,5 +1,5 @@
--- CREATE USER nhsw_self_assessment WITH PASSWORD 'dev';
--- CREATE DATABASE nhsw_self_assessment OWNER nhsw_self_assessment;
+-- CREATE USER "nhsw-self-assessment" WITH PASSWORD 'PASSWORD';
+-- CREATE DATABASE nhsw_self_assessment OWNER "nhsw-self-assessment";
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY, -- TODO: depends if we're using NHS IDs, might not be SERIAL in that case
