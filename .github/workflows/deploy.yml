@@ -1,10 +1,10 @@
-name: Publish Docker image to GitHub Packages
+name: Publish Docker image to GitHub Packages & deploy on server
 on:
   push:
     branches: 'main'
 jobs:
-  push_to_github_packages:
-    name: Push Docker image to GitHub Packages
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -18,3 +18,11 @@ jobs:
           repository: uclcomputerscience/comp0016_2020_21_team20/nhsw-self-assessment-web
           tags: latest
           tag_with_ref: true
+      - name: Rebuild & restart containers on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          script: docker-compose up -d --build -f ${{ secrets.DOCKER_COMPOSE_FILE }}
