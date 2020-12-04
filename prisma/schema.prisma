@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://nhsw-self-assessment:POST@database:5432/nhsw_self_assessment?host=/var/run/postgresql&schema=public"
 }
 
 model dept_clincian_user_type {
