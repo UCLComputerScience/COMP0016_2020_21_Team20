@@ -1,17 +1,15 @@
 import Head from 'next/head';
+
 export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>NHSW</title>
+        <title>NHSW Self Assessment Tool</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className="title">Welcome to NHSW Self Assessment</h1>
-        <p className="description">
-          Get Started Today to know the NHSW Care Standards
-        </p>
 
         <div className="grid">
           <a href="/self-assessment" className="card">
@@ -29,7 +27,7 @@ export default function Home() {
       </main>
 
       <footer>
-        <h3> Systems Engineering Team 20</h3>
+        <h3>Systems Engineering Team 20</h3>
       </footer>
 
       <style jsx>{`
@@ -60,30 +58,9 @@ export default function Home() {
           align-items: center;
         }
 
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
         a {
           color: inherit;
           text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
         }
 
         .title {
@@ -95,20 +72,6 @@ export default function Home() {
         .title,
         .description {
           text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
         }
 
         .grid {
@@ -151,30 +114,11 @@ export default function Home() {
           line-height: 1.5;
         }
 
-        .logo {
-          height: 1em;
-        }
-
         @media (max-width: 600px) {
           .grid {
             width: 100%;
             flex-direction: column;
           }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
         }
       `}</style>
     </div>
