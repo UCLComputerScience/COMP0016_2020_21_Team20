@@ -15,9 +15,6 @@ function statistics(props) {
       <Header curPath="statistics" />
       <h1>Statistics</h1>
       <LineChart />
-      <LineChart />
-      <LineChart />
-      <LineChart />
     </div>
   );
 }
