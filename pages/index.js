@@ -10,6 +10,16 @@ export default function Home() {
 
       <main>
         <h1 className="title">Welcome to NHSW Self Assessment</h1>
+        <p>
+          This is a demo of the current state of development for the NHSW Self
+          Assessment Tool.
+          <br />
+          Please expect things to break and bear with us whilst we implement all
+          the features!
+          <br />
+          However, if you spot something that doesn't look right please do let
+          us know (via Trello or Whatsapp) and we'll get it fixed!
+        </p>
 
         <div className="grid">
           <a href="/self-assessment" className="card">
