@@ -90,7 +90,16 @@ function selfAssessment() {
       q => typeof q.score !== 'undefined'
     ).length;
 
-    if (answeredQuestions !== likertScaleQuestions.length) {
+    var isMentoringOption =
+      document.getElementById('mentoring-session-yes').checked == false &&
+      document.getElementById('mentoring-session-no').checked == false;
+
+    //console.log(document.getElementById("mentoring-session-yes"), document.getElementById("mentoring-session-no").checked);
+
+    if (
+      answeredQuestions !== likertScaleQuestions.length ||
+      isMentoringOption
+    ) {
       setDialogTitle('Error');
       setDialogText('Please ensure you have answered all questions');
       setDialogActions([
@@ -143,12 +152,12 @@ function selfAssessment() {
             row>
             <FormControlLabel
               value="1"
-              control={<Radio color="primary" />}
+              control={<Radio id="mentoring-session-yes" color="primary" />}
               label="Yes"
             />
             <FormControlLabel
               value="0"
-              control={<Radio color="primary" />}
+              control={<Radio id="mentoring-session-no" color="primary" />}
               label="No"
             />
           </RadioGroup>
