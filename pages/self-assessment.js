@@ -84,27 +84,24 @@ function selfAssessment() {
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
   const [dialogActions, setDialogActions] = useState([]);
+  const [isMentoringSession, setIsMentoringSession] = useState(null);
 
   const handleSubmit = () => {
     const unAnsweredQuestions = likertScaleQuestions.filter(
       q => typeof q.score === 'undefined'
     );
 
-    const isMentoringOptionUnchecked =
-      document.getElementById('mentoring-session-yes').checked == false &&
-      document.getElementById('mentoring-session-no').checked == false;
-
     handleUnansweredQs();
     handleMentoring();
 
-    if (unAnsweredQuestions.length !== 0 || isMentoringOptionUnchecked) {
+    if (unAnsweredQuestions.length !== 0 || isMentoringSession === null) {
       var dialogText = 'Unanswered questions: ';
-      if (isMentoringOptionUnchecked) {
-        dialogText = dialogText.concat(' mentoring question,');
+      if (isMentoringSession === null) {
+        dialogText = dialogText + ' mentoring question,';
       }
       likertScaleQuestions.forEach(function (q) {
         if (unAnsweredQuestions.includes(q)) {
-          dialogText = dialogText.concat(' q' + q.questionId.toString() + ',');
+          dialogText = dialogText + ' q' + q.questionId.toString() + ',';
         }
       });
       dialogText = dialogText.substring(0, dialogText.length - 1);
@@ -152,10 +149,7 @@ function selfAssessment() {
   };
 
   const handleMentoring = () => {
-    const isMentoringOptionUnchecked =
-      document.getElementById('mentoring-session-yes').checked == false &&
-      document.getElementById('mentoring-session-no').checked == false;
-    if (isMentoringOptionUnchecked) {
+    if (isMentoringSession === null) {
       document.getElementById('unaswered-mentoring').style.display = 'block';
     } else {
       document.getElementById('unaswered-mentoring').style.display = 'none';
@@ -193,12 +187,22 @@ function selfAssessment() {
             row>
             <FormControlLabel
               value="1"
-              control={<Radio id="mentoring-session-yes" color="primary" />}
+              control={
+                <Radio
+                  color="primary"
+                  onChange={event => setIsMentoringSession(true)}
+                />
+              }
               label="Yes"
             />
             <FormControlLabel
               value="0"
-              control={<Radio id="mentoring-session-no" color="primary" />}
+              control={
+                <Radio
+                  color="primary"
+                  onChange={event => setIsMentoringSession(false)}
+                />
+              }
               label="No"
             />
           </RadioGroup>
