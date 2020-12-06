@@ -85,16 +85,18 @@ function selfAssessment() {
   const [dialogText, setDialogText] = useState(null);
   const [dialogActions, setDialogActions] = useState([]);
   const [isMentoringSession, setIsMentoringSession] = useState(null);
+  const [showMentoringError, setShowMentoringError] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   const handleSubmit = () => {
     const unAnsweredQuestions = likertScaleQuestions.filter(
       q => typeof q.score === 'undefined'
     );
 
-    handleUnansweredQs();
     handleMentoring();
 
     if (unAnsweredQuestions.length !== 0 || isMentoringSession === null) {
+      setShowErrors(true);
       var dialogText = 'Unanswered questions: ';
       if (isMentoringSession === null) {
         dialogText = dialogText + ' mentoring question,';
@@ -114,6 +116,7 @@ function selfAssessment() {
         </Button>,
       ]);
     } else {
+      setShowErrors(false);
       setDialogTitle('Are you sure you want to submit?');
       setDialogText('Your answer will not be able to be changed.');
       setDialogActions([
@@ -131,28 +134,11 @@ function selfAssessment() {
     setShowDialog(true);
   };
 
-  const handleUnansweredQs = () => {
-    const unAnsweredQuestions = likertScaleQuestions.filter(
-      q => typeof q.score === 'undefined'
-    );
-    likertScaleQuestions.forEach(function (q) {
-      if (unAnsweredQuestions.includes(q)) {
-        document.getElementById(
-          'unaswered' + q.questionId.toString()
-        ).style.display = 'block';
-      } else {
-        document.getElementById(
-          'unaswered' + q.questionId.toString()
-        ).style.display = 'none';
-      }
-    });
-  };
-
   const handleMentoring = () => {
     if (isMentoringSession === null) {
-      document.getElementById('unaswered-mentoring').style.display = 'block';
+      setShowMentoringError(true);
     } else {
-      document.getElementById('unaswered-mentoring').style.display = 'none';
+      setShowMentoringError(false);
     }
   };
 
@@ -178,9 +164,11 @@ function selfAssessment() {
           component="fieldset"
           className={styles.mentoringSessionRow}>
           <label>This submission is part of a mentoring session:</label>
-          <div id={'unaswered-mentoring'} className={styles.unAnsweredAlert}>
-            *please choose an answer
-          </div>
+          {showMentoringError && (
+            <div className={styles.unAnsweredAlert}>
+              *please choose an answer
+            </div>
+          )}
           <RadioGroup
             aria-label="mentoring-session"
             name="mentoring-session"
@@ -218,6 +206,7 @@ function selfAssessment() {
             questionNumber={i + 1}
             questionUrl={question.url}
             onChange={score => (question.score = score)}
+            showError={showErrors && typeof question.score === 'undefined'}
           />
         ))}
 
