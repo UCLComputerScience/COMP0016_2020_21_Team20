@@ -1,8 +1,14 @@
 .questionText {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   text-align: left;
 }
 
 .question + .question {
   margin-top: 15px;
+}
+
+.unAnsweredAlert {
+  display: none;
+  color: red;
+  margin-bottom: 5px;
 }

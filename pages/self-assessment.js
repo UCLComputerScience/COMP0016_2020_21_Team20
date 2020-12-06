@@ -86,22 +86,31 @@ function selfAssessment() {
   const [dialogActions, setDialogActions] = useState([]);
 
   const handleSubmit = () => {
-    const answeredQuestions = likertScaleQuestions.filter(
-      q => typeof q.score !== 'undefined'
-    ).length;
+    const unAnsweredQuestions = likertScaleQuestions.filter(
+      q => typeof q.score === 'undefined'
+    );
 
-    var isMentoringOption =
+    const isMentoringOptionUnchecked =
       document.getElementById('mentoring-session-yes').checked == false &&
       document.getElementById('mentoring-session-no').checked == false;
 
-    //console.log(document.getElementById("mentoring-session-yes"), document.getElementById("mentoring-session-no").checked);
+    handleUnansweredQs();
+    handleMentoring();
 
-    if (
-      answeredQuestions !== likertScaleQuestions.length ||
-      isMentoringOption
-    ) {
-      setDialogTitle('Error');
-      setDialogText('Please ensure you have answered all questions');
+    if (unAnsweredQuestions.length !== 0 || isMentoringOptionUnchecked) {
+      var dialogText = 'Unanswered questions: ';
+      if (isMentoringOptionUnchecked) {
+        dialogText = dialogText.concat(' mentoring question,');
+      }
+      likertScaleQuestions.forEach(function (q) {
+        if (unAnsweredQuestions.includes(q)) {
+          dialogText = dialogText.concat(' q' + q.questionId.toString() + ',');
+        }
+      });
+      dialogText = dialogText.substring(0, dialogText.length - 1);
+
+      setDialogTitle('Please ensure you have answered all questions');
+      setDialogText(dialogText);
       setDialogActions([
         <Button key="alertdialog-confirm" onClick={() => setShowDialog(false)}>
           Edit my responses
@@ -114,6 +123,7 @@ function selfAssessment() {
         <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
           Edit my responses
         </Button>,
+        //TO DO: send submission using api
         <Button key="alertdialog-confirm" href="/self-assessment">
           Confirm submission
         </Button>,
@@ -122,6 +132,34 @@ function selfAssessment() {
 
     console.log(likertScaleQuestions, wordsQuestions);
     setShowDialog(true);
+  };
+
+  const handleUnansweredQs = () => {
+    const unAnsweredQuestions = likertScaleQuestions.filter(
+      q => typeof q.score === 'undefined'
+    );
+    likertScaleQuestions.forEach(function (q) {
+      if (unAnsweredQuestions.includes(q)) {
+        document.getElementById(
+          'unaswered' + q.questionId.toString()
+        ).style.display = 'block';
+      } else {
+        document.getElementById(
+          'unaswered' + q.questionId.toString()
+        ).style.display = 'none';
+      }
+    });
+  };
+
+  const handleMentoring = () => {
+    const isMentoringOptionUnchecked =
+      document.getElementById('mentoring-session-yes').checked == false &&
+      document.getElementById('mentoring-session-no').checked == false;
+    if (isMentoringOptionUnchecked) {
+      document.getElementById('unaswered-mentoring').style.display = 'block';
+    } else {
+      document.getElementById('unaswered-mentoring').style.display = 'none';
+    }
   };
 
   return (
@@ -146,6 +184,9 @@ function selfAssessment() {
           component="fieldset"
           className={styles.mentoringSessionRow}>
           <label>This submission is part of a mentoring session:</label>
+          <div id={'unaswered-mentoring'} className={styles.unAnsweredAlert}>
+            *please choose an answer
+          </div>
           <RadioGroup
             aria-label="mentoring-session"
             name="mentoring-session"
