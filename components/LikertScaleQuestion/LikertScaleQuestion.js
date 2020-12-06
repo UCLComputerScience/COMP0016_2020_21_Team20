@@ -17,6 +17,11 @@ function LikertScaleQuestion(props) {
       <div className={styles.questionText}>
         {props.questionNumber}. {props.question}
       </div>
+
+      {props.showError && (
+        <div className={styles.unAnsweredAlert}>*please choose an answer</div>
+      )}
+
       <Info url={props.questionUrl} />
       <LikertScale
         onChange={value => updateValue(value)}

@@ -84,27 +84,46 @@ function selfAssessment() {
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
   const [dialogActions, setDialogActions] = useState([]);
+  const [isMentoringSession, setIsMentoringSession] = useState(null);
+  const [showMentoringError, setShowMentoringError] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   const handleSubmit = () => {
-    const answeredQuestions = likertScaleQuestions.filter(
-      q => typeof q.score !== 'undefined'
-    ).length;
+    const unAnsweredQuestions = likertScaleQuestions.filter(
+      q => typeof q.score === 'undefined'
+    );
 
-    if (answeredQuestions !== likertScaleQuestions.length) {
-      setDialogTitle('Error');
-      setDialogText('Please ensure you have answered all questions');
+    handleMentoring();
+
+    if (unAnsweredQuestions.length !== 0 || isMentoringSession === null) {
+      setShowErrors(true);
+      var dialogText = 'Unanswered questions: ';
+      if (isMentoringSession === null) {
+        dialogText = dialogText + ' mentoring question,';
+      }
+      likertScaleQuestions.forEach(function (q) {
+        if (unAnsweredQuestions.includes(q)) {
+          dialogText = dialogText + ' q' + q.questionId.toString() + ',';
+        }
+      });
+      dialogText = dialogText.substring(0, dialogText.length - 1);
+
+      setDialogTitle('Please ensure you have answered all questions');
+      setDialogText(dialogText);
       setDialogActions([
         <Button key="alertdialog-confirm" onClick={() => setShowDialog(false)}>
           Edit my responses
         </Button>,
       ]);
     } else {
+      setShowErrors(false);
       setDialogTitle('Are you sure you want to submit?');
       setDialogText('Your answer will not be able to be changed.');
       setDialogActions([
         <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
           Edit my responses
         </Button>,
+        //TO DO: send submission using api
         <Button key="alertdialog-confirm" href="/self-assessment">
           Confirm submission
         </Button>,
@@ -113,6 +132,14 @@ function selfAssessment() {
 
     console.log(likertScaleQuestions, wordsQuestions);
     setShowDialog(true);
+  };
+
+  const handleMentoring = () => {
+    if (isMentoringSession === null) {
+      setShowMentoringError(true);
+    } else {
+      setShowMentoringError(false);
+    }
   };
 
   return (
@@ -137,18 +164,33 @@ function selfAssessment() {
           component="fieldset"
           className={styles.mentoringSessionRow}>
           <label>This submission is part of a mentoring session:</label>
+          {showMentoringError && (
+            <div className={styles.unAnsweredAlert}>
+              *please choose an answer
+            </div>
+          )}
           <RadioGroup
             aria-label="mentoring-session"
             name="mentoring-session"
             row>
             <FormControlLabel
               value="1"
-              control={<Radio color="primary" />}
+              control={
+                <Radio
+                  color="primary"
+                  onChange={event => setIsMentoringSession(true)}
+                />
+              }
               label="Yes"
             />
             <FormControlLabel
               value="0"
-              control={<Radio color="primary" />}
+              control={
+                <Radio
+                  color="primary"
+                  onChange={event => setIsMentoringSession(false)}
+                />
+              }
               label="No"
             />
           </RadioGroup>
@@ -164,6 +206,7 @@ function selfAssessment() {
             questionNumber={i + 1}
             questionUrl={question.url}
             onChange={score => (question.score = score)}
+            showError={showErrors && typeof question.score === 'undefined'}
           />
         ))}
 
