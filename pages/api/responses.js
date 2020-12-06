@@ -2,19 +2,36 @@ import prisma from '../../lib/prisma';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const { from, to, dept_id: deptId, user_id: userId } = req.query;
+    const {
+      from,
+      to,
+      dept_id: deptId,
+      user_id: userId,
+      hospital_id: hospitalId,
+      health_board_id: healthBoardId,
+    } = req.query;
 
     const filters = [];
     if (from) filters.push({ timestamp: { gte: new Date(from) } });
     if (to) filters.push({ timestamp: { lte: new Date(to) } });
-    if (userId) filters.push({ user_id: { equals: userId } });
-    if (deptId) filters.push({ dept_id: { equals: deptId } });
+    if (userId) filters.push({ user_id: { equals: +userId } });
+    if (deptId) filters.push({ dept_id: { equals: +deptId } });
+
+    if (hospitalId) {
+      filters.push({ departments: { hospital_id: { equals: +hospitalId } } });
+    }
+
+    if (healthBoardId) {
+      filters.push({
+        departments: {
+          hospitals: { health_board_id: { equals: +healthBoardId } },
+        },
+      });
+    }
 
     if (filters.length) {
       return res.json(
-        await prisma.responses.findMany({
-          where: { AND: filters },
-        })
+        await prisma.responses.findMany({ where: { AND: filters } })
       );
     } else {
       return res.json(await prisma.responses.findMany());
