@@ -7,6 +7,8 @@ import LineChart from './LineChart/LineChart';
 import Header from './Header/Header';
 import ProfileButton from './ProfileButton/ProfileButton';
 import Table from './Table/Table';
+import Accordion from './Accordion/Accordion';
+import Circle from './Circle/Circle';
 export {
   Info,
   LikertScaleQuestion,
@@ -17,4 +19,6 @@ export {
   Header,
   ProfileButton,
   Table,
+  Accordion,
+  Circle,
 };
