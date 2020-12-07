@@ -6,6 +6,7 @@ import WordsQuestion from './WordsQuestion/WordsQuestion';
 import LineChart from './LineChart/LineChart';
 import Header from './Header/Header';
 import ProfileButton from './ProfileButton/ProfileButton';
+import Table from './Table/Table';
 export {
   Info,
   LikertScaleQuestion,
@@ -15,4 +16,5 @@ export {
   LineChart,
   Header,
   ProfileButton,
+  Table,
 };
