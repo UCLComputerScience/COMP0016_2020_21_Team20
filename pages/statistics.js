@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { LineChart, Header } from '../components';
+import { LineChart, Header, Accordion } from '../components';
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
@@ -14,8 +14,7 @@ function statistics(props) {
     <div>
       <Header curPath="statistics" />
       <h1>Statistics</h1>
-      <p>Circles</p>
-
+      <Accordion />
       <LineChart />
     </div>
   );
