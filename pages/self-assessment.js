@@ -24,7 +24,11 @@ import useSWR from '../lib/swr';
 import styles from './self-assessment.module.css';
 
 const useQuestions = () => {
-  const { data, error } = useSWR('/api/questions');
+  const { data, error } = useSWR('/api/questions', {
+    // We don't want to refetch questions, as we're storing our score state in this
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   return {
     likertScaleQuestions: data ? data.likert_scale : [],
