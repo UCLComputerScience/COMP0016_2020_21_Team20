@@ -85,16 +85,16 @@ function selfAssessment() {
 
     if (unAnsweredQuestions.length !== 0 || isMentoringSession === null) {
       setShowErrors(true);
-      var dialogText = 'Unanswered questions: ';
-      if (isMentoringSession === null) {
-        dialogText = dialogText + ' mentoring question,';
-      }
-      likertScaleQuestions.forEach(function (q) {
-        if (unAnsweredQuestions.includes(q)) {
-          dialogText = dialogText + ' q' + q.questionId.toString() + ',';
-        }
-      });
-      dialogText = dialogText.substring(0, dialogText.length - 1);
+
+      let dialogText = 'Please complete the following unanswered questions: ';
+      const errors = [];
+      if (isMentoringSession === null) errors.push('Mentoring session');
+      errors.push(
+        ...likertScaleQuestions
+          .filter(q => typeof q.score === 'undefined')
+          .map(q => `Question ${q.id}`)
+      );
+      dialogText += errors.join('; ');
 
       setDialogTitle('Please ensure you have answered all questions');
       setDialogText(dialogText);
