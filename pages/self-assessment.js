@@ -16,77 +16,33 @@ import {
   FormLabel,
 } from '@material-ui/core';
 
+import useSWR from '../lib/swr';
+
 //import { Icon } from '@material-ui/icons';
 //import SaveIcon from '@material-ui/icons/SaveIcon';
 
 import styles from './self-assessment.module.css';
 
-const likertScaleQuestions = [
-  {
-    question:
-      'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
-    questionId: 1,
-    standardId: 1,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have applied knowledge of best evidence to the context of this patient’s presentation to present appropriate treatment options to the patient.',
-    questionId: 2,
-    standardId: 2,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have optimised the opportunity in our interaction today to discuss relevant activities and behaviours that support wellbeing and a healthy lifestyle for this patient.',
-    questionId: 3,
-    standardId: 3,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have listened and responded with empathy to the patient’s concerns.',
-    questionId: 4,
-    standardId: 4,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.',
-    questionId: 5,
-    standardId: 5,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have established progress markers to help me and the patient monitor and evaluate the success of the treatment plan.',
-    questionId: 6,
-    standardId: 6,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'My reflection/discussion about this interaction has supported my development through consolidation or a unique experience I can learn from.',
-    questionId: 7,
-    standardId: 7,
-    url: 'https://example.com',
-  },
-];
+const useQuestions = () => {
+  const { data, error } = useSWR('/api/questions');
 
-const wordsQuestions = [
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-];
+  return {
+    likertScaleQuestions: data ? data.likert_scale : [],
+    wordsQuestions: data ? data.words : [],
+    isQuestionsLoading: !error && !data,
+    questionsError: error,
+  };
+};
 
 function selfAssessment() {
+  // TODO improve loading/error UI, or use server-side rendering for this page
+  const {
+    likertScaleQuestions,
+    wordsQuestions,
+    isQuestionsLoading,
+    questionsError,
+  } = useQuestions();
+
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
@@ -233,10 +189,10 @@ function selfAssessment() {
         {likertScaleQuestions.map((question, i) => (
           <LikertScaleQuestion
             key={i}
-            question={question.question}
-            questionId={question.questionId}
+            question={question.question_body}
+            questionId={question.id}
             questionNumber={i + 1}
-            questionUrl={question.url}
+            questionUrl={question.question_url}
             onChange={score => (question.score = score)}
             showError={showErrors && typeof question.score === 'undefined'}
           />
@@ -245,8 +201,8 @@ function selfAssessment() {
         {wordsQuestions.map((question, i) => (
           <WordsQuestion
             key={i}
-            question={question.question}
-            questionId={question.questionId}
+            question={question.question_body}
+            questionId={question.id}
             questionNumber={i + 8}
             onChange={words => (question.words = words)}
           />
