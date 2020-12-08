@@ -1,39 +1,34 @@
 import styles from './Header.module.css';
 
-import { Button } from '@material-ui/core';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { ProfileButton } from '..';
-//Logo
-//statistics
-//self assessment
-// profile page
 
 const paths = ['statistics', 'self-assessment', 'manage'];
 
 function Header(props) {
+  // TODO show different links depending on logged in user
+  const router = useRouter();
+
   return (
     <nav className={styles.header}>
-      {/*logo on the left*/}
-      <h1 className={styles.header__nav}>NHSW Safety and Care Standards</h1>
-      {/*3 links: Statistics, Self Assessment, manage*/}
+      <h1 className={styles.logo}>NHSW Safety and Care Standards</h1>
 
-      <div className={styles.header__nav}>
-        {paths.map(path => (
-          <Button href={'/'.concat(path)} className={styles.header__link}>
-            <div
-              className={
-                path.localeCompare(props.curPath)
-                  ? styles.header__option
-                  : styles.header__selected__option
-              }>
-              <span className={styles.header__optionLineTwo}> {path}</span>
-            </div>
-          </Button>
+      <ul className={styles.links}>
+        {paths.map((path, i) => (
+          <Link key={i} href={'/'.concat(path)}>
+            <li
+              className={`${styles.link} ${
+                router.pathname === `/${path}` && styles.active
+              }`}>
+              {path}
+            </li>
+          </Link>
         ))}
-        {/*profile option*/}
+      </ul>
 
-        <ProfileButton className={styles.header__profile__option} />
-      </div>
+      <ProfileButton />
     </nav>
   );
 }
