@@ -26,42 +26,49 @@ const likertScaleQuestions = [
     question:
       'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
     questionId: 1,
+    standardId: 1,
     url: 'https://example.com',
   },
   {
     question:
       'I have applied knowledge of best evidence to the context of this patient’s presentation to present appropriate treatment options to the patient.',
     questionId: 2,
+    standardId: 2,
     url: 'https://example.com',
   },
   {
     question:
       'I have optimised the opportunity in our interaction today to discuss relevant activities and behaviours that support wellbeing and a healthy lifestyle for this patient.',
     questionId: 3,
+    standardId: 3,
     url: 'https://example.com',
   },
   {
     question:
       'I have listened and responded with empathy to the patient’s concerns.',
     questionId: 4,
+    standardId: 4,
     url: 'https://example.com',
   },
   {
     question:
       'I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.',
     questionId: 5,
+    standardId: 5,
     url: 'https://example.com',
   },
   {
     question:
       'I have established progress markers to help me and the patient monitor and evaluate the success of the treatment plan.',
     questionId: 6,
+    standardId: 6,
     url: 'https://example.com',
   },
   {
     question:
       'My reflection/discussion about this interaction has supported my development through consolidation or a unique experience I can learn from.',
     questionId: 7,
+    standardId: 7,
     url: 'https://example.com',
   },
 ];
@@ -87,6 +94,31 @@ function selfAssessment() {
   const [isMentoringSession, setIsMentoringSession] = useState(null);
   const [showMentoringError, setShowMentoringError] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+
+  const submitAnswers = async () => {
+    const words = [];
+    wordsQuestions.map(q =>
+      q.words.forEach(w => words.push({ questionId: q.questionId, word: w }))
+    );
+    const scores = likertScaleQuestions.map(q => ({
+      standardId: q.standardId,
+      score: q.score,
+    }));
+
+    const res = await fetch('/api/responses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: 1, // TODO this should probably just come from the session when we have a login system
+        dept_id: 1, // TODO same as above
+        is_mentoring_session: isMentoringSession,
+        scores,
+        words,
+      }),
+    });
+
+    return await res.json();
+  };
 
   const handleSubmit = () => {
     const unAnsweredQuestions = likertScaleQuestions.filter(
@@ -124,7 +156,7 @@ function selfAssessment() {
           Edit my responses
         </Button>,
         //TO DO: send submission using api
-        <Button key="alertdialog-confirm" href="/self-assessment">
+        <Button key="alertdialog-confirm" onClick={() => submitAnswers()}>
           Confirm submission
         </Button>,
       ]);
