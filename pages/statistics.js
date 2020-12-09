@@ -10,7 +10,7 @@ function statistics(props) {
     //Circles
     //checkboxes inside linechart
     <div>
-      <Header curPath="statistics" />
+      <Header />
       <h1>Statistics</h1>
       <LineChart />
     </div>

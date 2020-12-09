@@ -13,7 +13,6 @@ import {
   Radio,
   RadioGroup,
   FormControl,
-  FormLabel,
 } from '@material-ui/core';
 
 import useSWR from '../lib/swr';
@@ -136,7 +135,7 @@ function selfAssessment() {
 
   return (
     <div>
-      <Header curPath="self-assessment" />
+      <Header />
       <h1>Your Self Assessement</h1>
       <h3>
         To what extent do you agree with the following statements regarding your

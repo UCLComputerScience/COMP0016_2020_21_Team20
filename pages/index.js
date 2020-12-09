@@ -1,5 +1,7 @@
 import Head from 'next/head';
 
+import { Header } from '../components';
+
 export default function Home() {
   return (
     <div className="container">
@@ -7,9 +9,10 @@ export default function Home() {
         <title>NHSW Self Assessment Tool</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
 
       <main>
-        <h1 className="title">Welcome to NHSW Self Assessment</h1>
+        <h1 className="title">Welcome to NHSW Self Assessment Tool</h1>
         <p>
           This is a demo of the current state of development for the NHSW Self
           Assessment Tool.

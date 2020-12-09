@@ -38,7 +38,7 @@ function Header() {
 
   return (
     <nav className={styles.header}>
-      <h1 className={styles.logo}>NHSW Safety and Care Standards</h1>
+      <h1 className={styles.logo}>NHSW Self-Assessment</h1>
       <ul className={styles.links}>{session && renderLinks()}</ul>
       <ProfileButton />
     </nav>
