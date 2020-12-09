@@ -9,6 +9,7 @@
   display: flex;
   justify-content: space-evenly;
   color: #005eb8;
+  cursor: pointer;
 }
 
 .links {

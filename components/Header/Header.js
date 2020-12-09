@@ -2,7 +2,7 @@ import styles from './Header.module.css';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/client';
+import { signIn, useSession } from 'next-auth/client';
 
 import { ProfileButton } from '..';
 import roles from '../../lib/roles';
@@ -20,6 +20,14 @@ function Header() {
   const [session, loading] = useSession(); // TODO use loading state better?
 
   const renderLinks = () => {
+    if (!session) {
+      return (
+        <div onClick={signIn}>
+          <li className={styles.link}>Log in</li>
+        </div>
+      );
+    }
+
     const role = session.roles[0]; // TODO do we want to support multiple roles?
     const pathsForRole = paths[role];
     if (!pathsForRole) return <div />;
@@ -38,9 +46,11 @@ function Header() {
 
   return (
     <nav className={styles.header}>
-      <h1 className={styles.logo}>NHSW Self-Assessment</h1>
-      <ul className={styles.links}>{session && renderLinks()}</ul>
-      <ProfileButton />
+      <Link href="/">
+        <h1 className={styles.logo}>NHSW Self-Assessment</h1>
+      </Link>
+      <ul className={styles.links}>{renderLinks()}</ul>
+      {session && <ProfileButton />}
     </nav>
   );
 }
