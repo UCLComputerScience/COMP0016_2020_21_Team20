@@ -1,11 +1,9 @@
-import useSWR from 'swr';
+import useSWR from '../lib/swr';
 
 import { LineChart, Header } from '../components';
 
-const fetcher = (...args) => fetch(...args).then(res => res.json());
-
 function statistics(props) {
-  const { data, error } = useSWR('/api/responses', fetcher);
+  const { data, error } = useSWR('/api/responses');
 
   return (
     //Filters

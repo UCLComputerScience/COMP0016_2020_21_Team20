@@ -1,51 +1,30 @@
 .header {
-  height: 60px;
   display: flex;
   align-items: center;
-  background-color: #f5f6fa;
   position: sticky;
-  top: 0;
-  z-index: 100;
+  z-index: 2;
 }
 
-.header__link {
-  color: #005eb8;
-  text-decoration: none;
-}
-
-.header__optionLineTwo {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.header__nav {
+.logo {
   display: flex;
   justify-content: space-evenly;
   color: #005eb8;
 }
 
-.header__option {
+.links {
+  list-style-type: none;
   display: flex;
-  flex-direction: column;
+}
+
+.link {
   margin-left: 10px;
   margin-right: 10px;
   color: #768692;
+  font-weight: 800;
+  cursor: pointer;
 }
 
-.header__selected__option {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-  margin-right: 10px;
+.active {
   color: #425563;
   text-decoration: underline;
-}
-
-.header__profile__option {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-  margin-right: 10px;
-  /*TODO display the profile option on the right */
-  text-align: right;
 }
