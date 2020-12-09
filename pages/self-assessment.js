@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSession } from 'next-auth/client';
 
 import {
   LikertScaleQuestion,
@@ -38,6 +39,8 @@ const useQuestions = () => {
 };
 
 function selfAssessment() {
+  const [session] = useSession();
+
   // TODO improve loading/error UI, or use server-side rendering for this page
   const {
     likertScaleQuestions,
@@ -132,6 +135,16 @@ function selfAssessment() {
       setShowMentoringError(false);
     }
   };
+
+  if (!session) {
+    return (
+      <div>
+        <Header />
+        <h1>Your Self Assessement</h1>
+        <p>Please login to perform your self-assessment</p>
+      </div>
+    );
+  }
 
   return (
     <div>
