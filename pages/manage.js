@@ -1,3 +1,13 @@
-export default function () {
-  return <h1>This page is in development.</h1>;
+import { Table, Header } from '../components';
+
+function manage() {
+  return (
+    <div>
+      <Header curPath="manage" />
+      <h3>Manage the URL's of each question</h3>
+      <Table />
+    </div>
+  );
 }
+
+export default manage;
