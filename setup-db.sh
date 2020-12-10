@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Script tweaked from https://github.com/mrts/docker-postgresql-multiple-databases
+# Multiple databases script tweaked from https://github.com/mrts/docker-postgresql-multiple-databases
 set -e
 set -u
 
 function create_database() {
 	local database=$1
 	echo "  Creating database '$database'"
-	PGPASSWORD=$POSTGRES_PASSWORD psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+	psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
 	    CREATE DATABASE $database;
 	    GRANT ALL PRIVILEGES ON DATABASE $database TO "$POSTGRES_USER";
 EOSQL
@@ -20,3 +20,5 @@ if [ -n "$POSTGRES_MULTIPLE_DATABASES" ]; then
 	done
 	echo "Multiple databases created"
 fi
+
+cat /docker-entrypoint-initdb.d/schema.sql | psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname nhsw_self_assessment
