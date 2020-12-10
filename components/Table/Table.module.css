@@ -1,0 +1,11 @@
+.input {
+  border-radius: 5px;
+  position: relative;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 3px;
+}
+
+.buttons {
+  text-align: right;
+}
