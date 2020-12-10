@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSession } from 'next-auth/client';
 
 import {
   LikertScaleQuestion,
@@ -13,7 +14,6 @@ import {
   Radio,
   RadioGroup,
   FormControl,
-  FormLabel,
 } from '@material-ui/core';
 
 import useSWR from '../lib/swr';
@@ -39,6 +39,8 @@ const useQuestions = () => {
 };
 
 function selfAssessment() {
+  const [session] = useSession();
+
   // TODO improve loading/error UI, or use server-side rendering for this page
   const {
     likertScaleQuestions,
@@ -134,9 +136,19 @@ function selfAssessment() {
     }
   };
 
+  if (!session) {
+    return (
+      <div>
+        <Header />
+        <h1>Your Self Assessement</h1>
+        <p>Please login to perform your self-assessment</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <Header curPath="self-assessment" />
+      <Header />
       <h1>Your Self Assessement</h1>
       <h3>
         To what extent do you agree with the following statements regarding your

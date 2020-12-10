@@ -1,8 +1,11 @@
-import useSWR from '../lib/swr';
+import { useSession } from 'next-auth/client';
 
 import { LineChart, Header } from '../components';
 
+import useSWR from '../lib/swr';
+
 function statistics(props) {
+  const [session] = useSession();
   const { data, error } = useSWR('/api/responses');
 
   return (
@@ -10,9 +13,9 @@ function statistics(props) {
     //Circles
     //checkboxes inside linechart
     <div>
-      <Header curPath="statistics" />
+      <Header />
       <h1>Statistics</h1>
-      <LineChart />
+      {session ? <LineChart /> : <p>Please login to view statistics</p>}
     </div>
   );
 }

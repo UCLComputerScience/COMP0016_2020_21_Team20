@@ -1,4 +1,7 @@
+import { Link } from '@material-ui/core';
 import Head from 'next/head';
+
+import { Header } from '../components';
 
 export default function Home() {
   return (
@@ -7,9 +10,10 @@ export default function Home() {
         <title>NHSW Self Assessment Tool</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
 
       <main>
-        <h1 className="title">Welcome to NHSW Self Assessment</h1>
+        <h1 className="title">Welcome to NHSW Self Assessment Tool</h1>
         <p>
           This is a demo of the current state of development for the NHSW Self
           Assessment Tool.
@@ -22,17 +26,21 @@ export default function Home() {
         </p>
 
         <div className="grid">
-          <a href="/self-assessment" className="card">
-            <h3>Self assessment &rarr;</h3>
-            <p>Do your self assessment!</p>
-          </a>
-          <a href="/statistics" className="card">
-            <h3>Statistics &rarr;</h3>
-            <p>
-              Consult your personal statistics for the different Health and Care
-              Standards
-            </p>
-          </a>
+          <div className="card">
+            <Link href="/self-assessment">
+              <h3>Self assessment &rarr;</h3>
+              <p>Do your self assessment!</p>
+            </Link>
+          </div>
+          <div className="card">
+            <Link href="/statistics">
+              <h3>Statistics &rarr;</h3>
+              <p>
+                Consult your personal statistics for the different Health and
+                Care Standards
+              </p>
+            </Link>
+          </div>
         </div>
       </main>
 
@@ -104,6 +112,7 @@ export default function Home() {
           border: 1px solid #eaeaea;
           border-radius: 10px;
           transition: color 0.15s ease, border-color 0.15s ease;
+          cursor: pointer;
         }
 
         .card:hover,
