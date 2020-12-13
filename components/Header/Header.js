@@ -45,10 +45,12 @@ function Header() {
 
   return (
     <nav className={styles.header}>
-      <Link href="/">
-        <h1 className={styles.logo}>CQ Dashboard</h1>
-      </Link>
-      <ul className={styles.links}>{renderLinks()}</ul>
+      <div className={styles.left}>
+        <Link href="/">
+          <h1 className={styles.logo}>CQ Dashboard</h1>
+        </Link>
+        <ul className={styles.links}>{renderLinks()}</ul>
+      </div>
       {session && <ProfileButton />}
     </nav>
   );
