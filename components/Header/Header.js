@@ -20,14 +20,6 @@ function Header() {
   const [session, loading] = useSession(); // TODO use loading state better?
 
   const renderLinks = () => {
-    if (!session) {
-      return (
-        <div onClick={() => signIn('keycloak')}>
-          <li className={styles.link}>Log in</li>
-        </div>
-      );
-    }
-
     const role = session.roles[0]; // TODO do we want to support multiple roles?
     const pathsForRole = paths[role];
     if (!pathsForRole) return <div />;
@@ -49,9 +41,15 @@ function Header() {
         <Link href="/">
           <h1 className={styles.logo}>CQ Dashboard</h1>
         </Link>
-        <ul className={styles.links}>{renderLinks()}</ul>
+        <ul className={styles.links}>{session && renderLinks()}</ul>
       </div>
-      {session && <ProfileButton />}
+      {session ? (
+        <ProfileButton />
+      ) : (
+        <div onClick={() => signIn('keycloak')} className={styles.link}>
+          Log in
+        </div>
+      )}
     </nav>
   );
 }
