@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import Fade from '@material-ui/core/Fade';
 
-import { LineChart, Header, Accordion, Filters } from '../components';
-import Filters from '../../presentational/Utils/Filters';
-import { FiltersBuilderHelper } from '../../../helpers/filtersBuilder.helper';
+import { LineChart, Header, Accordion, DateFilter } from '../components';
+//import Filters from '../../presentational/Utils/Filters';
+//import { FiltersBuilderHelper } from '../../../helpers/filtersBuilder.helper';
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
+/** 
 const [filterValues, setFilterValues] = useState({});
 
 const LIVE_FILTERS_CONFIGURATION = new FiltersBuilderHelper()
@@ -34,6 +35,8 @@ useEffect(() => {
     filterValues?.genderFilter ?? undefined
   );
 }, [page, filterValues]);
+*/
+
 function statistics(props) {
   const { data, error } = useSWR('/api/responses', fetcher);
 
@@ -46,12 +49,7 @@ function statistics(props) {
       <h1>Statistics</h1>
 
       <Accordion />
-      <Fade in>
-        <Filters
-          config={LIVE_FILTERS_CONFIGURATION.provide()}
-          emitValues={setFilterValues}
-        />
-      </Fade>
+      <DateFilter />
       <LineChart />
     </div>
   );
