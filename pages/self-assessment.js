@@ -15,6 +15,7 @@ import {
   Radio,
   RadioGroup,
   FormControl,
+  FormLabel,
 } from '@material-ui/core';
 
 import useSWR from '../lib/swr';
@@ -162,17 +163,18 @@ function selfAssessment() {
       />
 
       {/* TODO make the mentoring thing prettier */}
-      <div className={styles.mentoringSessionContainer}>
+      <div>
         <FormControl
           component="fieldset"
-          className={styles.mentoringSessionRow}>
-          <label>This submission is part of a mentoring session:</label>
-          {showMentoringError && (
-            <div className={styles.unAnsweredAlert}>
-              *please choose an answer
-            </div>
-          )}
+          error={showMentoringError}
+          required
+          className={styles.mentoringSessionContainer}>
+          <FormLabel>
+            This submission is part of a mentoring session:
+            {showMentoringError && ` (please choose an answer)`}
+          </FormLabel>
           <RadioGroup
+            className={styles.mentoringSessionRadios}
             aria-label="mentoring-session"
             name="mentoring-session"
             row>
@@ -181,7 +183,7 @@ function selfAssessment() {
               control={
                 <Radio
                   color="primary"
-                  onChange={event => setIsMentoringSession(true)}
+                  onChange={() => setIsMentoringSession(true)}
                 />
               }
               label="Yes"
@@ -191,7 +193,7 @@ function selfAssessment() {
               control={
                 <Radio
                   color="primary"
-                  onChange={event => setIsMentoringSession(false)}
+                  onChange={() => setIsMentoringSession(false)}
                 />
               }
               label="No"
