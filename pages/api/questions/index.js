@@ -1,5 +1,5 @@
-import prisma from '../../lib/prisma';
-import roles from '../../lib/roles';
+import prisma from '../../../lib/prisma';
+import roles from '../../../lib/roles';
 
 import { getSession } from 'next-auth/client';
 
