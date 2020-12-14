@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import Fade from '@material-ui/core/Fade';
 
-import { LineChart, Header, Accordion, DateFilter } from '../components';
+import { LineChart, Header, Accordion, Filter } from '../components';
 //import Filters from '../../presentational/Utils/Filters';
 //import { FiltersBuilderHelper } from '../../../helpers/filtersBuilder.helper';
 
@@ -49,7 +49,7 @@ function statistics(props) {
       <h1>Statistics</h1>
 
       <Accordion />
-      <DateFilter />
+      <Filter />
       <LineChart />
     </div>
   );
