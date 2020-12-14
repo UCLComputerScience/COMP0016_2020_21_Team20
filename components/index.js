@@ -8,7 +8,7 @@ import Header from './Header/Header';
 import ProfileButton from './ProfileButton/ProfileButton';
 import Accordion from './Accordion/Accordion';
 import Circle from './Circle/Circle';
-import Filter from './Filter/Filter';
+import Filters from './Filters/Filters';
 export {
   Info,
   LikertScaleQuestion,
@@ -20,5 +20,5 @@ export {
   ProfileButton,
   Accordion,
   Circle,
-  Filter,
+  Filters,
 };
