@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import styles from './linechart.module.css';
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -51,7 +52,7 @@ const data = {
 
 export default () => (
   <div>
-    <h2>Compliance over time</h2>
+    <h2 className={styles.title}>Compliance over time</h2>
     <Line data={data} />
   </div>
 );

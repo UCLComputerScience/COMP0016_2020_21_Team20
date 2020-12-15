@@ -1,5 +1,6 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import styles from './circle.module.css';
 
 const data = {
   labels: ['Red', 'Green', 'Yellow'],
@@ -13,7 +14,7 @@ const data = {
 };
 
 export default () => (
-  <div>
+  <div className={styles.circles}>
     <h2>Timely Care</h2>
     <Doughnut data={data} width={400} height={400} />
   </div>

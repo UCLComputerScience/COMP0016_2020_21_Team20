@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.filters {
+  text-align: left;
+  width: 20%;
+}
+
+.graph {
+  text-align: right;
+  width: 80%;
+}

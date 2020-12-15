@@ -6,8 +6,52 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { Circle } from '..';
+import styles from './accordion.module.css';
 
+import { Circle } from '..';
+/** 
+const circles = [
+  {
+    question: 'Timely Care',
+    questionId: 8,
+  },
+  {
+    question:
+      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
+    questionId: 9,
+  },
+  {
+    question:
+      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
+    questionId: 8,
+  },
+  {
+    question:
+      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
+    questionId: 9,
+  },
+  {
+    question:
+      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
+    questionId: 8,
+  },
+  {
+    question:
+      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
+    questionId: 9,
+  },
+  {
+    question:
+      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
+    questionId: 8,
+  },
+  {
+    question:
+      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
+    questionId: 9,
+  },
+];
+*/
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -20,7 +64,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleAccordion() {
   const classes = useStyles();
-
+  /**I will be mapping through each circle individually to make it
+            cleaner and the data will not be hardcoded*/
   return (
     <div className={classes.root}>
       <Accordion>
@@ -31,7 +76,31 @@ export default function SimpleAccordion() {
           <Typography className={classes.heading}>Quick Summary</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          <div className={styles.circlesWrapper}>
+            {/* <div className={styles.circle}>
+              <Circle />
+            </div>
+            <div className={styles.circle}>
+              <Circle />
+            </div>
+            <div className={styles.circle}>
+              <Circle />
+            </div>
+            <div className={styles.circle}>
+              <Circle />
+            </div>
+            <div className={styles.circle}>
+              <Circle />
+            </div>
+            <div className={styles.circle}>
+              <Circle />
+            </div>
+            <div className={styles.circle}>
+              <Circle />
+            </div>
+            <div className={styles.circle}>
+              <Circle />
+            </div> */}
             <Circle />
             <Circle />
             <Circle />
@@ -40,7 +109,7 @@ export default function SimpleAccordion() {
             <Circle />
             <Circle />
             <Circle />
-          </Typography>
+          </div>
         </AccordionDetails>
       </Accordion>
     </div>

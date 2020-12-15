@@ -5,6 +5,7 @@ import Fade from '@material-ui/core/Fade';
 import { LineChart, Header, Accordion, Filter, Circle } from '../components';
 //import Filters from '../../presentational/Utils/Filters';
 //import { FiltersBuilderHelper } from '../../../helpers/filtersBuilder.helper';
+import styles from './statistics.module.css';
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
@@ -37,48 +38,6 @@ useEffect(() => {
 }, [page, filterValues]);
 */
 
-const circles = [
-  {
-    question: 'Timely Care',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-];
-
 function statistics(props) {
   const { data, error } = useSWR('/api/responses', fetcher);
 
@@ -88,20 +47,18 @@ function statistics(props) {
     //checkboxes inside linechart
     <div>
       <Header curPath="statistics" />
-      <h1>Statistics</h1>
+      <h1>Your Statistics</h1>
 
-      {circles.map((question, i) => (
-        <Accordion
-          key={i}
-          question={question.question}
-          questionId={question.questionId}
-          questionNumber={i + 8}
-          onChange={words => (question.words = words)}
-        />
-      ))}
+      <Accordion />
 
-      <Filter />
-      <LineChart />
+      <div className={styles.content}>
+        <div className={styles.filters}>
+          <Filter />
+        </div>
+        <div className={styles.graph}>
+          <LineChart />
+        </div>
+      </div>
     </div>
   );
 }
