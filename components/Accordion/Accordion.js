@@ -33,6 +33,13 @@ export default function SimpleAccordion() {
         <AccordionDetails>
           <Typography>
             <Circle />
+            <Circle />
+            <Circle />
+            <Circle />
+            <Circle />
+            <Circle />
+            <Circle />
+            <Circle />
           </Typography>
         </AccordionDetails>
       </Accordion>
