@@ -7,51 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import styles from './accordion.module.css';
+import colors from '../../lib/colors';
 
 import { Circle } from '..';
-/** 
-const circles = [
-  {
-    question: 'Timely Care',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-];
-*/
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -77,38 +35,16 @@ export default function SimpleAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <div className={styles.circlesWrapper}>
-            {/* <div className={styles.circle}>
-              <Circle />
-            </div>
-            <div className={styles.circle}>
-              <Circle />
-            </div>
-            <div className={styles.circle}>
-              <Circle />
-            </div>
-            <div className={styles.circle}>
-              <Circle />
-            </div>
-            <div className={styles.circle}>
-              <Circle />
-            </div>
-            <div className={styles.circle}>
-              <Circle />
-            </div>
-            <div className={styles.circle}>
-              <Circle />
-            </div>
-            <div className={styles.circle}>
-              <Circle />
-            </div> */}
-            <Circle />
-            <Circle />
-            <Circle />
-            <Circle />
-            <Circle />
-            <Circle />
-            <Circle />
-            <Circle />
+            <Circle name="Safely" color={colors.STANDARD_SAFE} />
+            <Circle name="Timely" color={colors.STANDARD_TIMELY} />
+            <Circle
+              name="Individualised"
+              color={colors.STANDARD_INDIVIDUALISED}
+            />
+            <Circle name="Healthy" color={colors.STANDARD_HEALTHY} />
+            <Circle name="Staff" color={colors.STANDARD_STAFF} />
+            <Circle name="Dignified" color={colors.STANDARD_DIGNIFIED} />
+            <Circle name="Effective" color={colors.STANDARD_EFFECTIVE} />
           </div>
         </AccordionDetails>
       </Accordion>
