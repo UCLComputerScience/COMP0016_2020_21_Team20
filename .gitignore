@@ -30,3 +30,4 @@ yarn-error.log*
 .env.production.local
 
 .env
+nhsw_self_assessment_realm.json

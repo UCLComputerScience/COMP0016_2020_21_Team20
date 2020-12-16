@@ -1,7 +1,15 @@
-# Note this is a development version of the Docker Compose configuration, so there is no web container
-# The web service should be run manually, outside of Docker, for easiest development
 version: '3.8'
 services:
+  web:
+    user: '1001:1001'
+    image: 'docker.pkg.github.com/uclcomputerscience/comp0016_2020_21_team20/nhsw-self-assessment-web:latest'
+    container_name: web
+    depends_on:
+      - database
+    ports:
+      - '127.0.0.1:3000:3000'
+    env_file:
+      - .env
   keycloak:
     image: 'jboss/keycloak'
     container_name: keycloak
@@ -21,11 +29,9 @@ services:
       - ./nhsw_self_assessment_realm.json:/tmp/nhsw_self_assessment_realm.json
   # Note: no need to publish postgres port; all containers running on same network!
   database:
+    user: '1001:1001'
     image: 'postgres:13.1-alpine'
     container_name: database
-    # XXX: we only publish 5432 in the development version. The production version should NOT publish the db port
-    ports:
-      - '127.0.0.1:5432:5432'
     environment:
       POSTGRES_MULTIPLE_DATABASES: nhsw_self_assessment,keycloak
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
