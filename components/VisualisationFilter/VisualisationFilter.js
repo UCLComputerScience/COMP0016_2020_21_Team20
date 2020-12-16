@@ -19,30 +19,30 @@ const useStyles = makeStyles(theme => ({
 export default function NativeSelects() {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    age: '',
-    name: 'hai',
+    visualisation: '',
+    visualisationType: '',
   });
 
   const handleChange = event => {
-    const name = event.target.name;
+    const visualisationType = event.target.visualisationType;
     setState({
       ...state,
-      [name]: event.target.value,
+      [visualisationType]: event.target.value,
     });
   };
 
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel shrink htmlFor="age-native-label-placeholder">
+        <InputLabel shrink htmlFor="visualisation-native-label-placeholder">
           Visualisation
         </InputLabel>
         <NativeSelect
-          value={state.age}
+          value={state.visualisation}
           onChange={handleChange}
           inputProps={{
-            name: 'age',
-            id: 'age-native-label-placeholder',
+            visualisationType: 'visualisation',
+            id: 'visualisation-native-label-placeholder',
           }}>
           <option value="">Line Chart</option>
           <option value={10}>Pie Chart</option>
@@ -51,15 +51,15 @@ export default function NativeSelects() {
       </FormControl>
 
       <FormControl className={classes.formControl}>
-        <InputLabel shrink htmlFor="age-native-label-placeholder">
+        <InputLabel shrink htmlFor="visualisation-native-label-placeholder">
           Mentoring
         </InputLabel>
         <NativeSelect
-          value={state.age}
+          value={state.visualisation}
           onChange={handleChange}
           inputProps={{
-            name: 'age',
-            id: 'age-native-label-placeholder',
+            visualisationType: 'visualisation',
+            id: 'visualisation-native-label-placeholder',
           }}>
           <option value="">No</option>
           <option value={10}>Yes</option>

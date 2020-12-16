@@ -15,25 +15,23 @@ const useStyles = makeStyles(theme => ({
 export function Filter(props) {
   const classes = useStyles();
   return (
-    <>
-      <div className={styles.content}>
-        <div className={styles.title}>
-          <h3>Filters:</h3>
-        </div>
-
-        <div className={styles.dateFilter}>
-          <DateFilter />
-        </div>
-        <div className={styles.visualisationFilter}>
-          <VisualisationFilter />
-        </div>
-        <div className={styles.button}>
-          <Button variant="contained" color="secondary">
-            Apply Filters
-          </Button>
-        </div>
+    <div className={styles.content}>
+      <div className={styles.title}>
+        <h3>Filters:</h3>
       </div>
-    </>
+
+      <div className={styles.dateFilter}>
+        <DateFilter />
+      </div>
+      <div className={styles.visualisationFilter}>
+        <VisualisationFilter />
+      </div>
+      <div className={styles.button}>
+        <Button variant="contained" color="secondary">
+          Apply Filters
+        </Button>
+      </div>
+    </div>
   );
 }
 export default Filter;

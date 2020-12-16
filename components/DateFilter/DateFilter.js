@@ -13,14 +13,12 @@ export function DateFilter(props) {
   ]);
 
   return (
-    <>
-      <DateRange
-        editableDateInputs={true}
-        onChange={item => setState([item.selection])}
-        moveRangeOnFirstSelection={false}
-        ranges={state}
-      />
-    </>
+    <DateRange
+      editableDateInputs={true}
+      onChange={item => setState([item.selection])}
+      moveRangeOnFirstSelection={false}
+      ranges={state}
+    />
   );
 }
 export default DateFilter;
