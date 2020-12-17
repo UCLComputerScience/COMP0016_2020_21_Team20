@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSession } from 'next-auth/client';
 
 import {
   LikertScaleQuestion,
@@ -13,73 +14,41 @@ import {
   Radio,
   RadioGroup,
   FormControl,
-  FormLabel,
 } from '@material-ui/core';
+
+import useSWR from '../lib/swr';
 
 //import { Icon } from '@material-ui/icons';
 //import SaveIcon from '@material-ui/icons/SaveIcon';
 
 import styles from './self-assessment.module.css';
 
-const likertScaleQuestions = [
-  {
-    question:
-      'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
-    questionId: 1,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have applied knowledge of best evidence to the context of this patient’s presentation to present appropriate treatment options to the patient.',
-    questionId: 2,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have optimised the opportunity in our interaction today to discuss relevant activities and behaviours that support wellbeing and a healthy lifestyle for this patient.',
-    questionId: 3,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have listened and responded with empathy to the patient’s concerns.',
-    questionId: 4,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.',
-    questionId: 5,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have established progress markers to help me and the patient monitor and evaluate the success of the treatment plan.',
-    questionId: 6,
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'My reflection/discussion about this interaction has supported my development through consolidation or a unique experience I can learn from.',
-    questionId: 7,
-    url: 'https://example.com',
-  },
-];
+const useQuestions = () => {
+  const { data, error } = useSWR('/api/questions', {
+    // We don't want to refetch questions, as we're storing our score state in this
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
-const wordsQuestions = [
-  {
-    question:
-      'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
-    questionId: 8,
-  },
-  {
-    question:
-      'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
-    questionId: 9,
-  },
-];
+  return {
+    likertScaleQuestions: data ? data.likert_scale : [],
+    wordsQuestions: data ? data.words : [],
+    isQuestionsLoading: !error && !data,
+    questionsError: error,
+  };
+};
 
 function selfAssessment() {
+  const [session] = useSession();
+
+  // TODO improve loading/error UI, or use server-side rendering for this page
+  const {
+    likertScaleQuestions,
+    wordsQuestions,
+    isQuestionsLoading,
+    questionsError,
+  } = useQuestions();
+
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
@@ -87,6 +56,31 @@ function selfAssessment() {
   const [isMentoringSession, setIsMentoringSession] = useState(null);
   const [showMentoringError, setShowMentoringError] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
+
+  const submitAnswers = async () => {
+    const words = [];
+    wordsQuestions.map(q =>
+      q.words.forEach(w => words.push({ questionId: q.questionId, word: w }))
+    );
+    const scores = likertScaleQuestions.map(q => ({
+      standardId: q.standardId,
+      score: q.score,
+    }));
+
+    const res = await fetch('/api/responses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: 1, // TODO this should probably just come from the session when we have a login system
+        dept_id: 1, // TODO same as above
+        is_mentoring_session: isMentoringSession,
+        scores,
+        words,
+      }),
+    });
+
+    return await res.json();
+  };
 
   const handleSubmit = () => {
     const unAnsweredQuestions = likertScaleQuestions.filter(
@@ -97,16 +91,16 @@ function selfAssessment() {
 
     if (unAnsweredQuestions.length !== 0 || isMentoringSession === null) {
       setShowErrors(true);
-      var dialogText = 'Unanswered questions: ';
-      if (isMentoringSession === null) {
-        dialogText = dialogText + ' mentoring question,';
-      }
-      likertScaleQuestions.forEach(function (q) {
-        if (unAnsweredQuestions.includes(q)) {
-          dialogText = dialogText + ' q' + q.questionId.toString() + ',';
-        }
-      });
-      dialogText = dialogText.substring(0, dialogText.length - 1);
+
+      let dialogText = 'Please complete the following unanswered questions: ';
+      const errors = [];
+      if (isMentoringSession === null) errors.push('Mentoring session');
+      errors.push(
+        ...likertScaleQuestions
+          .filter(q => typeof q.score === 'undefined')
+          .map(q => `Question ${q.id}`)
+      );
+      dialogText += errors.join('; ');
 
       setDialogTitle('Please ensure you have answered all questions');
       setDialogText(dialogText);
@@ -124,7 +118,7 @@ function selfAssessment() {
           Edit my responses
         </Button>,
         //TO DO: send submission using api
-        <Button key="alertdialog-confirm" href="/self-assessment">
+        <Button key="alertdialog-confirm" onClick={() => submitAnswers()}>
           Confirm submission
         </Button>,
       ]);
@@ -142,9 +136,19 @@ function selfAssessment() {
     }
   };
 
+  if (!session) {
+    return (
+      <div>
+        <Header />
+        <h1>Your Self Assessement</h1>
+        <p>Please login to perform your self-assessment</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <Header curPath="self-assessment" />
+      <Header />
       <h1>Your Self Assessement</h1>
       <h3>
         To what extent do you agree with the following statements regarding your
@@ -201,10 +205,10 @@ function selfAssessment() {
         {likertScaleQuestions.map((question, i) => (
           <LikertScaleQuestion
             key={i}
-            question={question.question}
-            questionId={question.questionId}
+            question={question.question_body}
+            questionId={question.id}
             questionNumber={i + 1}
-            questionUrl={question.url}
+            questionUrl={question.question_url}
             onChange={score => (question.score = score)}
             showError={showErrors && typeof question.score === 'undefined'}
           />
@@ -213,8 +217,8 @@ function selfAssessment() {
         {wordsQuestions.map((question, i) => (
           <WordsQuestion
             key={i}
-            question={question.question}
-            questionId={question.questionId}
+            question={question.question_body}
+            questionId={question.id}
             questionNumber={i + 8}
             onChange={words => (question.words = words)}
           />

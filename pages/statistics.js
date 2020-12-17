@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import Fade from '@material-ui/core/Fade';
+import { useSession } from 'next-auth/client';
+
 
 import { LineChart, Header, Accordion, Filter, Circle } from '../components';
 //import Filters from '../../presentational/Utils/Filters';
 //import { FiltersBuilderHelper } from '../../../helpers/filtersBuilder.helper';
 import styles from './statistics.module.css';
 
-const fetcher = (...args) => fetch(...args).then(res => res.json());
+import useSWR from '../lib/swr';
 
 /** 
 const [filterValues, setFilterValues] = useState({});
@@ -39,26 +41,29 @@ useEffect(() => {
 */
 
 function statistics(props) {
-  const { data, error } = useSWR('/api/responses', fetcher);
+  const [session] = useSession();
+  const { data, error } = useSWR('/api/responses');
 
   return (
     //Filters
     //Circles
     //checkboxes inside linechart
     <div>
-      <Header curPath="statistics" />
+      <Header />
       <h1>Your Statistics</h1>
-
-      <Accordion />
-
-      <div className={styles.content}>
-        <div className={styles.filters}>
-          <Filter />
-        </div>
-        <div className={styles.graph}>
-          <LineChart />
-        </div>
-      </div>
+      {!session
+       ? <p>Please login to view statistics</p>
+       : (<Accordion />
+          <div className={styles.content}>
+            <div className={styles.filters}>
+              <Filter />
+            </div>
+            <div className={styles.graph}>
+              <LineChart />
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 }

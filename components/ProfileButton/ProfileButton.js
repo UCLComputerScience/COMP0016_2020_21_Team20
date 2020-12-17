@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { signOut } from 'next-auth/client';
 
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -70,9 +71,8 @@ function ProfileButton() {
                   autoFocusItem={open}
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}>
-                  {/*TODO change href to actually sign out */}
                   <MenuItem>
-                    <Button href="/">Sign out</Button>
+                    <Button onClick={signOut}>Sign out</Button>
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>
