@@ -6,7 +6,13 @@ import WordsQuestion from './WordsQuestion/WordsQuestion';
 import LineChart from './LineChart/LineChart';
 import Header from './Header/Header';
 import ProfileButton from './ProfileButton/ProfileButton';
+import Accordion from './Accordion/Accordion';
+import Circle from './Circle/Circle';
+import Filter from './Filter/Filter';
+import DateFilter from './DateFilter/DateFilter';
+import VisualisationFilter from './VisualisationFilter/VisualisationFilter';
 import Table from './Table/Table';
+
 export {
   Info,
   LikertScaleQuestion,
@@ -16,5 +22,10 @@ export {
   LineChart,
   Header,
   ProfileButton,
+  Accordion,
+  Circle,
+  Filter,
+  DateFilter,
+  VisualisationFilter,
   Table,
 };

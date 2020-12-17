@@ -1,0 +1,4 @@
+.circlesWrapper {
+  display: flex;
+  flex-direction: row;
+}
