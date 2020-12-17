@@ -45,7 +45,7 @@ export default function NativeSelects() {
             id: 'visualisation-native-label-placeholder',
           }}>
           <option value="">Line Chart</option>
-          <option value={10}>Pie Chart</option>
+          <option value={10}>Word Cloud</option>
         </NativeSelect>
         <FormHelperText></FormHelperText>
       </FormControl>
