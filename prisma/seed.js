@@ -99,14 +99,14 @@ const seedUserTypes = async () => {
 const seedEntities = async () => {
   await prisma.health_boards.create({
     data: {
-      health_board_name: 'Demo Health Board',
+      name: 'Demo Health Board',
       id: 1,
       hospitals: {
         create: {
           id: 1,
-          hospital_name: 'Demo Hospital',
+          name: 'Demo Hospital',
           departments: {
-            create: { department_name: 'Demo Department' },
+            create: { name: 'Demo Department' },
           },
         },
       },
@@ -129,10 +129,10 @@ const seedQuestions = async () => {
     likertScaleQuestions.map(question =>
       prisma.questions.create({
         data: {
-          question_url: question.url,
+          default_url: question.url,
           standards: { connect: { id: question.standardId } },
-          question_type: 'likert_scale',
-          question_body: question.question,
+          type: 'likert_scale',
+          body: question.question,
         },
       })
     )
@@ -142,10 +142,10 @@ const seedQuestions = async () => {
     wordsQuestions.map(question =>
       prisma.questions.create({
         data: {
-          question_url: question.url,
+          default_url: question.url,
           standards: { connect: { id: question.standardId } },
-          question_type: 'words',
-          question_body: question.question,
+          type: 'words',
+          body: question.question,
         },
       })
     )
