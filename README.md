@@ -1,4 +1,4 @@
-# nhsw-self-assessment-tool
+# care-quality-dashboard
 
 ## Project Structure
 

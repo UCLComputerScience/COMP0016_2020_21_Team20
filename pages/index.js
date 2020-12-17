@@ -7,16 +7,16 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>NHSW Self Assessment Tool</title>
+        <title>Care Quality Dashboard</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
 
       <main>
-        <h1 className="title">Welcome to NHSW Self Assessment Tool</h1>
+        <h1 className="title">Welcome to Care Quality Dashboard</h1>
         <p>
-          This is a demo of the current state of development for the NHSW Self
-          Assessment Tool.
+          This is a demo of the current state of development for the Care
+          Quality Dashboard.
           <br />
           Please expect things to break and bear with us whilst we implement all
           the features!
