@@ -205,10 +205,10 @@ function selfAssessment() {
         {likertScaleQuestions.map((question, i) => (
           <LikertScaleQuestion
             key={i}
-            question={question.question_body}
+            question={question.body}
             questionId={question.id}
             questionNumber={i + 1}
-            questionUrl={question.question_url}
+            questionUrl={question.default_url}
             onChange={score => (question.score = score)}
             showError={showErrors && typeof question.score === 'undefined'}
           />
@@ -217,7 +217,7 @@ function selfAssessment() {
         {wordsQuestions.map((question, i) => (
           <WordsQuestion
             key={i}
-            question={question.question_body}
+            question={question.body}
             questionId={question.id}
             questionNumber={i + 8}
             onChange={words => (question.words = words)}
