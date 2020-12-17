@@ -12,13 +12,13 @@ services:
     environment:
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-      KEYCLOAK_IMPORT: /tmp/nhsw_self_assessment_realm.json
+      KEYCLOAK_IMPORT: /tmp/keycloak/nhsw_self_assessment_realm.json
       DB_VENDOR: postgres
       DB_ADDR: database
       DB_USER: nhsw-self-assessment
       DB_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./nhsw_self_assessment_realm.json:/tmp/nhsw_self_assessment_realm.json
+      - /home/mateuszz7/COMP0016_2020_21_Team20/keycloak:/tmp/keycloak
   # Note: no need to publish postgres port; all containers running on same network!
   database:
     image: 'postgres:13.1-alpine'
