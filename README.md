@@ -21,20 +21,20 @@ You also need some secrets. Make a `.env` file in the project root, replacing `P
 
 ```bash
 POSTGRES_PASSWORD=PASSWORD
-DATABASE_URL="postgresql://nhsw-self-assessment:PASSWORD@localhost:5432/nhsw_self_assessment"
+DATABASE_URL="postgresql://cqdashboard:PASSWORD@localhost:5432/care_quality_dashboard"
 
 KEYCLOAK_USER=admin
 KEYCLOAK_PASSWORD=PASSWORD
 
-BASE_AUTH_URL="http://localhost:8080/auth/realms/nhsw_self_assessment/protocol/openid-connect"
-CLIENT_ID=nhsw_self_assessment_web
+BASE_AUTH_URL="http://localhost:8080/auth/realms/care_quality_dashboard/protocol/openid-connect"
+CLIENT_ID=care_quality_dashboard_web
 
 NEXTAUTH_URL="http://localhost:3000"
 ```
 
 If you need to use the login system or database, you'll also need to start the Docker containers for our database (PostgreSQL) and login system (Keycloak).
 
-At the moment, you need a secret Realm file for Keycloak. Get the `nhsw_self_assessment_realm.json` secret file from Shubham, and place this in your project root.
+At the moment, you need a secret Realm file for Keycloak. Get the `care_quality_dashboard_realm.json` secret file from Shubham, and place this in your project root.
 
 To do this, make sure you have the latest version of [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 

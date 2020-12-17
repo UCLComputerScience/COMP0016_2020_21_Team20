@@ -21,4 +21,4 @@ if [ -n "$POSTGRES_MULTIPLE_DATABASES" ]; then
 	echo "Multiple databases created"
 fi
 
-cat /docker-entrypoint-initdb.d/schema.txt | psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname nhsw_self_assessment
+cat /docker-entrypoint-initdb.d/schema.txt | psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname care_quality_dashboard

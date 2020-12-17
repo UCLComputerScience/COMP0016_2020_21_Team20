@@ -19,7 +19,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: uclcomputerscience/comp0016_2020_21_team20/nhsw-self-assessment-web
+          repository: uclcomputerscience/comp0016_2020_21_team20/care-quality-dashboard
           tags: latest
       - name: Rebuild & restart containers on server
         uses: appleboy/ssh-action@master
