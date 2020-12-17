@@ -8,20 +8,20 @@ datasource db {
 }
 
 model dept_clincian_user_type {
-  user_id     Int         @id
-  dept_id     Int
-  departments departments @relation(fields: [dept_id], references: [id])
-  users       users       @relation(fields: [user_id], references: [id])
+  user_id       Int         @id
+  department_id Int
+  departments   departments @relation(fields: [department_id], references: [id])
+  users         users       @relation(fields: [user_id], references: [id])
 }
 
 model feedback {
-  user_id     Int
-  dept_id     Int
-  score       Int
-  timestamp   DateTime
-  comments    String?
-  departments departments @relation(fields: [dept_id], references: [id])
-  users       users       @relation(fields: [user_id], references: [id])
+  user_id       Int
+  department_id Int
+  score         Int
+  timestamp     DateTime
+  comments      String?
+  departments   departments @relation(fields: [department_id], references: [id])
+  users         users       @relation(fields: [user_id], references: [id])
 
   @@id([user_id, timestamp])
 }
@@ -42,7 +42,7 @@ model hospital_user_type {
 
 model hospitals {
   id                 Int                  @id
-  hospital_name      String
+  name               String
   health_board_id    Int
   health_boards      health_boards        @relation(fields: [health_board_id], references: [id])
   departments        departments[]
@@ -50,12 +50,13 @@ model hospitals {
 }
 
 model questions {
-  id            Int           @id @default(autoincrement())
-  question_url  String
+  id            Int             @id @default(autoincrement())
+  default_url   String
   standard_id   Int
-  question_body String
-  question_type question_type
-  standards     standards     @relation(fields: [standard_id], references: [id])
+  body          String
+  type          question_type
+  standards     standards       @relation(fields: [standard_id], references: [id])
+  question_urls question_urls[]
   words         words[]
 }
 
@@ -63,9 +64,9 @@ model responses {
   id                   Int         @id @default(autoincrement())
   user_id              Int
   timestamp            DateTime
-  dept_id              Int
+  department_id        Int
   is_mentoring_session Boolean
-  departments          departments @relation(fields: [dept_id], references: [id])
+  departments          departments @relation(fields: [department_id], references: [id])
   users                users       @relation(fields: [user_id], references: [id])
   scores               scores[]
   words                words[]
@@ -114,19 +115,30 @@ model words {
 
 model health_boards {
   id                Int                 @id
-  health_board_name String
+  name              String
   health_board_type health_board_type[]
   hospitals         hospitals[]
 }
 
 model departments {
   id                      Int                       @id @default(autoincrement())
-  department_name         String
+  name                    String
   hospital_id             Int
   hospitals               hospitals                 @relation(fields: [hospital_id], references: [id])
   dept_clincian_user_type dept_clincian_user_type[]
   feedback                feedback[]
+  question_urls           question_urls[]
   responses               responses[]
+}
+
+model question_urls {
+  question_id   Int
+  department_id Int
+  url           String
+  departments   departments @relation(fields: [department_id], references: [id])
+  questions     questions   @relation(fields: [question_id], references: [id])
+
+  @@id([question_id, department_id])
 }
 
 enum question_type {
