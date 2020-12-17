@@ -47,7 +47,7 @@ function Header() {
   return (
     <nav className={styles.header}>
       <Link href="/">
-        <h1 className={styles.logo}>NHSW Self-Assessment</h1>
+        <h1 className={styles.logo}>CQ Dashboard</h1>
       </Link>
       <ul className={styles.links}>{renderLinks()}</ul>
       {session && <ProfileButton />}

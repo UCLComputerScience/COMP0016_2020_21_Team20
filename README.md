@@ -1,4 +1,4 @@
-# nhsw-self-assessment-tool
+# care-quality-dashboard
 
 ## Project Structure
 
@@ -14,6 +14,7 @@ Prettier and ESLint enforce code style. There is a pre-commit hook to auto-forma
 ## Development
 
 - Run `npm install` to make sure you have all dependencies installed
+- Run `npx prisma generate` to generate the Prisma client
 - Run `npm run dev` to start the web-app in development mode on `localhost:3000` -- hot reloading should be enabled by default
 - Run `npm run build` to build the project (although, only really needed on deployment)
 
@@ -21,20 +22,20 @@ You also need some secrets. Make a `.env` file in the project root, replacing `P
 
 ```bash
 POSTGRES_PASSWORD=PASSWORD
-DATABASE_URL="postgresql://nhsw-self-assessment:PASSWORD@localhost:5432/nhsw_self_assessment"
+DATABASE_URL="postgresql://cqdashboard:PASSWORD@localhost:5432/care_quality_dashboard"
 
 KEYCLOAK_USER=admin
 KEYCLOAK_PASSWORD=PASSWORD
 
-BASE_AUTH_URL="http://localhost:8080/auth/realms/nhsw_self_assessment/protocol/openid-connect"
-CLIENT_ID=nhsw_self_assessment_web
+BASE_AUTH_URL="http://localhost:8080/auth/realms/care_quality_dashboard/protocol/openid-connect"
+CLIENT_ID=care_quality_dashboard_web
 
 NEXTAUTH_URL="http://localhost:3000"
 ```
 
 If you need to use the login system or database, you'll also need to start the Docker containers for our database (PostgreSQL) and login system (Keycloak).
 
-At the moment, you need a secret Realm file for Keycloak. Get the `nhsw_self_assessment_realm.json` secret file from Shubham, and place this in your project root.
+At the moment, you need a secret Realm file for Keycloak. Get the `care_quality_dashboard_realm.json` secret file from Shubham, and place this in your project root.
 
 To do this, make sure you have the latest version of [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
@@ -44,10 +45,7 @@ Run `npm run dev` in the project root after the Docker containers have started t
 
 Note: if you're doing this for the first time, your database will be empty and you need to seed it:
 
-1. Run `docker ps`, and find the ID of the `database` container
-2. Run `docker exec -it ID /bin/sh`, replacing `ID` with the container's ID. This will open a shell inside the Docker container
-3. Run `cd prisma` and then `node seed.js`. Note, if this gives you errors, you may need to add the `module: true` property to the `package.json` file **within** the container (using e.g. `vim` or `nano`)
-4. Exit the container by pressing Ctrl+d
+1. Run `node prisma/seed.js` from the root project directory. Note, if this gives you errors, you may need to temporarily add the `module: true` property to the `package.json` file
 
 Now your database should be running with some initial data!
 
@@ -56,9 +54,18 @@ If you need to make some test users to play around with locally, you'll can use 
 1. Go to <http://localhost:8080> and login to the administrative console
 2. Use `admin` and the password you set in your `.env` file as the login details
 3. On the left hand side, find `Users`
-4. Add a new user, give it a name like `clinician` or `department`, etc. (make sure it **IS** activated)
+4. Add a new user, give it a name like `clinician` or `department`, etc. (make sure the email **IS** marked as verified)
+
+<img width="50%" alt="Add user screen" src="./docs/new-user.png" />
+
 5. Once you add the user, go back to the user and edit the "roles": add clinician/department/etc to it
+
+<img width="50%" alt="Edit roles screen" src="./docs/new-user-role.png" />
+
 6. Also, set a password (make sure it's **NOT** temporary)
+
+<img width="50%" alt="Edit password screen" src="./docs/new-user-creds.png" />
+
 7. Repeat for any other users you need
 
 ## Database
