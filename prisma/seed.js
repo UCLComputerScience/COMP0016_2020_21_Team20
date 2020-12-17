@@ -138,6 +138,14 @@ const seedQuestions = async () => {
     )
   );
 
+  await prisma.question_urls.create({
+    data: {
+      questions: { connect: { id: 1 } },
+      departments: { connect: { id: 1 } },
+      url: 'https://overriddenurl.com',
+    },
+  });
+
   await Promise.all(
     wordsQuestions.map(question =>
       prisma.questions.create({
