@@ -208,7 +208,7 @@ function selfAssessment() {
             question={question.body}
             questionId={question.id}
             questionNumber={i + 1}
-            questionUrl={question.default_url}
+            questionUrl={question.url}
             onChange={score => (question.score = score)}
             showError={showErrors && typeof question.score === 'undefined'}
           />

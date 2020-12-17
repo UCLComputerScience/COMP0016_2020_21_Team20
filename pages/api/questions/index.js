@@ -36,11 +36,31 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const questions = await prisma.questions.findMany();
+    const questions = await prisma.questions.findMany({
+      select: {
+        id: true,
+        body: true,
+        default_url: true,
+        type: true,
+        standard_id: true,
+        // TODO update this department_id to be the logged in user's department id
+        question_urls: { select: { url: true }, where: { department_id: 1 } },
+      },
+    });
 
     // Return an object with keys as question types, and values as arrays of questions with each type
     // e.g. { likert_scale: [{...}, {...}], words: [{...}, {...}] }
     const questionsToReturn = questions.reduce((result, question) => {
+      // Only return a single URL: either the custom URL
+      if (question.question_urls.length) {
+        question.url = question.question_urls[0].url;
+      } else {
+        question.url = question.default_url;
+      }
+
+      delete question.question_urls;
+      delete question.default_url;
+
       if (result[question.type]) {
         result[question.type].push(question);
       } else {
