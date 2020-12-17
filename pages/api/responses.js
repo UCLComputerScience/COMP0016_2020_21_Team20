@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     const {
       from,
       to,
-      dept_id: deptId,
+      department_id: departmentId,
       user_id: userId,
       hospital_id: hospitalId,
       health_board_id: healthBoardId,
@@ -25,7 +25,8 @@ export default async function handler(req, res) {
     if (from) filters.push({ timestamp: { gte: new Date(from) } });
     if (to) filters.push({ timestamp: { lte: new Date(to) } });
     if (userId) filters.push({ user_id: { equals: +userId } });
-    if (deptId) filters.push({ dept_id: { equals: +deptId } });
+    if (departmentId)
+      filters.push({ department_id: { equals: +departmentId } });
 
     if (hospitalId) {
       filters.push({ departments: { hospital_id: { equals: +hospitalId } } });
@@ -67,7 +68,7 @@ export default async function handler(req, res) {
       data: {
         users: { connect: { id: req.body.user_id } },
         timestamp: new Date(),
-        departments: { connect: { id: req.body.dept_id } },
+        departments: { connect: { id: req.body.department_id } },
         is_mentoring_session: req.body.is_mentoring_session,
         scores: { create: scores },
         words: { create: words },

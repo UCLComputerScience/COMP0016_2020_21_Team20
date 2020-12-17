@@ -34,8 +34,8 @@ export default async function handler(req, res) {
     }
 
     const fields = {};
-    if (url) fields.question_url = url;
-    if (body) fields.question_body = body;
+    if (url) fields.default_url = url;
+    if (body) fields.body = body;
     if (standard) fields.standards = { connect: { id: standard } };
 
     const response = await prisma.questions.update({

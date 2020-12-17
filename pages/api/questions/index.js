@@ -25,10 +25,10 @@ export default async function handler(req, res) {
 
     const record = await prisma.questions.create({
       data: {
-        question_body: body,
-        question_url: url,
+        body: body,
+        default_url: url,
         standards: { connect: { id: standard } },
-        question_type: type,
+        type: type,
       },
     });
 
@@ -41,10 +41,10 @@ export default async function handler(req, res) {
     // Return an object with keys as question types, and values as arrays of questions with each type
     // e.g. { likert_scale: [{...}, {...}], words: [{...}, {...}] }
     const questionsToReturn = questions.reduce((result, question) => {
-      if (result[question.question_type]) {
-        result[question.question_type].push(question);
+      if (result[question.type]) {
+        result[question.type].push(question);
       } else {
-        result[question.question_type] = [question];
+        result[question.type] = [question];
       }
       return result;
     }, {});
