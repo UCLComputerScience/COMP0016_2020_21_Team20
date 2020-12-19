@@ -8,14 +8,14 @@ datasource db {
 }
 
 model dept_clincian_user_type {
-  user_id       Int         @id
+  user_id       String      @id
   department_id Int
   departments   departments @relation(fields: [department_id], references: [id])
   users         users       @relation(fields: [user_id], references: [id])
 }
 
 model feedback {
-  user_id       Int
+  user_id       String
   department_id Int
   score         Int
   timestamp     DateTime
@@ -27,14 +27,14 @@ model feedback {
 }
 
 model health_board_type {
-  user_id         Int           @id
+  user_id         String        @id
   health_board_id Int
   health_boards   health_boards @relation(fields: [health_board_id], references: [id])
   users           users         @relation(fields: [user_id], references: [id])
 }
 
 model hospital_user_type {
-  user_id     Int       @id
+  user_id     String    @id
   hospital_id Int
   hospitals   hospitals @relation(fields: [hospital_id], references: [id])
   users       users     @relation(fields: [user_id], references: [id])
@@ -62,7 +62,7 @@ model questions {
 
 model responses {
   id                   Int         @id @default(autoincrement())
-  user_id              Int
+  user_id              String
   timestamp            DateTime
   department_id        Int
   is_mentoring_session Boolean
@@ -94,9 +94,8 @@ model user_types {
 }
 
 model users {
-  id                      Int                      @id @default(autoincrement())
-  password                String
-  user_type_id            Int
+  id                      String                   @id
+  user_type               user_type
   dept_clincian_user_type dept_clincian_user_type?
   feedback                feedback[]
   health_board_type       health_board_type?
@@ -144,4 +143,12 @@ model question_urls {
 enum question_type {
   likert_scale
   words
+}
+
+enum user_type {
+  platform_administrator
+  health_board
+  hospital
+  department_manager
+  clinician
 }
