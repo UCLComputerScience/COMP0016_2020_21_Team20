@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+import handleUserLogin from '../../../lib/handleUserLogin';
 
 import roles from '../../../lib/roles';
 
@@ -36,6 +37,9 @@ const options = {
       session.roles = user.roles;
       return session;
     },
+  },
+  events: {
+    signIn: async message => handleUserLogin(message),
   },
 };
 
