@@ -27,6 +27,7 @@ const options = {
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
       if (profile) {
+        token.sub = profile.sub;
         token.roles = profile.roles.filter(r =>
           Object.values(roles).includes(r)
         );
@@ -35,6 +36,7 @@ const options = {
     },
     session: async (session, user) => {
       session.roles = user.roles;
+      session.user.userId = user.sub;
       return session;
     },
   },
