@@ -2,14 +2,13 @@
 -- CREATE DATABASE care_quality_dashboard OWNER "cqdashboard";
 
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY, -- TODO: depends if we're using NHS IDs, might not be SERIAL in that case
-    password TEXT NOT NULL,
+    id TEXT PRIMARY KEY,
     user_type_id INTEGER NOT NULL
 );
 
 CREATE TABLE responses (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
+    user_id TEXT NOT NULL,
     timestamp TIMESTAMPTZ NOT NULL,
     department_id INTEGER NOT NULL,
     is_mentoring_session BOOLEAN NOT NULL
@@ -74,22 +73,22 @@ CREATE TABLE user_types (
 );
 
 CREATE TABLE dept_clincian_user_type (
-    user_id INTEGER PRIMARY KEY,
+    user_id TEXT PRIMARY KEY,
     department_id INTEGER NOT NULL
 );
 
 CREATE TABLE hospital_user_type (
-    user_id INTEGER PRIMARY KEY,
+    user_id TEXT PRIMARY KEY,
     hospital_id INTEGER NOT NULL
 );
 
 CREATE TABLE health_board_type (
-    user_id INTEGER PRIMARY KEY,
+    user_id TEXT PRIMARY KEY,
     health_board_id INTEGER NOT NULL
 );
 
 CREATE TABLE feedback (
-    user_id INTEGER NOT NULL,
+    user_id TEXT NOT NULL,
     department_id INTEGER NOT NULL,
     score INTEGER NOT NULL,
     timestamp TIMESTAMPTZ NOT NULL,
