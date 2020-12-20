@@ -38,6 +38,7 @@ Prettier and ESLint enforce code style. There is a pre-commit hook to auto-forma
 └── package.json             # Node.js package configuration for web-app
 └── setup-db.sh              # Helper bash script to set up databases in Docker Container
 └── schema.sql               # SQL Schema file for project database
+└── .env.example             # Example .env enviroment file (a .env file is required for development/deployment)
 ```
 
 ## Development
@@ -47,24 +48,13 @@ Prettier and ESLint enforce code style. There is a pre-commit hook to auto-forma
 - Run `npm run dev` to start the web-app in development mode on `localhost:3000` -- hot reloading should be enabled by default
 - Run `npm run build` to build the project (although, only really needed on deployment)
 
-You also need some secrets. Make a `.env` file in the project root, replacing `PASSWORD` with an appropriate password. You could just use `dev` if running locally.
+You also need some secrets. Make a `.env` file in the project root, replacing the relevant placeholders with an appropriate value. For passwords, you could just use something like `dev` if running locally.
 
-```bash
-POSTGRES_PASSWORD=PASSWORD
-DATABASE_URL="postgresql://cqdashboard:PASSWORD@localhost:5432/care_quality_dashboard"
-
-KEYCLOAK_USER=admin
-KEYCLOAK_PASSWORD=PASSWORD
-
-BASE_AUTH_URL="http://localhost:8080/auth/realms/care_quality_dashboard/protocol/openid-connect"
-CLIENT_ID=care_quality_dashboard_web
-
-NEXTAUTH_URL="http://localhost:3000"
-```
+See the [`.env.example`](./.env.example) file to base your `.env` file off of.
 
 If you need to use the login system or database, you'll also need to start the Docker containers for our database (PostgreSQL) and login system (Keycloak).
 
-At the moment, you need a secret Realm file for Keycloak. Get the `care_quality_dashboard_realm.json` secret file from Shubham, and place this in your project root.
+At the moment, you need a secret Realm file for Keycloak. Get the `care_quality_dashboard_realm.json` secret file from Shubham, and place this into a folder called `keycloak` in your project root (i.e. `./keycloak/care_quality_dashboard_realm/json`).
 
 To do this, make sure you have the latest version of [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
@@ -119,6 +109,6 @@ Finally, to generate the Prisma Client, for use in our code, run:
 npx prisma generate
 ```
 
-This will generate the database-specific Prisma Client into `./node_modules/@prisma/client`.
+This will generate the database-specific Prisma Client into `./node_modules/.prisma`.
 
 See the [Prisma docs](https://www.prisma.io/docs/) for more detailed information and the API reference.

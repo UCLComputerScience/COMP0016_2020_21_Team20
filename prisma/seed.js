@@ -12,14 +12,6 @@ const standards = [
   'Governance, Leadership and Accountability',
 ];
 
-const userTypes = [
-  'Administrator',
-  'Health Board',
-  'Hospital',
-  'Department',
-  'Clinician',
-];
-
 const likertScaleQuestions = [
   {
     question:
@@ -88,25 +80,17 @@ const seedStandards = async () => {
   );
 };
 
-const seedUserTypes = async () => {
-  await Promise.all(
-    userTypes.map(type =>
-      prisma.user_types.create({ data: { description: type } })
-    )
-  );
-};
-
 const seedEntities = async () => {
   await prisma.health_boards.create({
     data: {
-      health_board_name: 'Demo Health Board',
+      name: 'Demo Health Board',
       id: 1,
       hospitals: {
         create: {
           id: 1,
-          hospital_name: 'Demo Hospital',
+          name: 'Demo Hospital',
           departments: {
-            create: { department_name: 'Demo Department' },
+            create: { name: 'Demo Department' },
           },
         },
       },
@@ -115,11 +99,8 @@ const seedEntities = async () => {
 
   await prisma.users.create({
     data: {
-      password: 'demo',
-      user_type_id: 1,
-      dept_clincian_user_type: {
-        create: { departments: { connect: { id: 1 } } },
-      },
+      id: 'fa0c7dea-ade1-4425-c659-4bf56eae7eb6',
+      user_type: 'clinician',
     },
   });
 };
@@ -129,23 +110,31 @@ const seedQuestions = async () => {
     likertScaleQuestions.map(question =>
       prisma.questions.create({
         data: {
-          question_url: question.url,
+          default_url: question.url,
           standards: { connect: { id: question.standardId } },
-          question_type: 'likert_scale',
-          question_body: question.question,
+          type: 'likert_scale',
+          body: question.question,
         },
       })
     )
   );
 
+  await prisma.question_urls.create({
+    data: {
+      questions: { connect: { id: 1 } },
+      departments: { connect: { id: 1 } },
+      url: 'https://overriddenurl.com',
+    },
+  });
+
   await Promise.all(
     wordsQuestions.map(question =>
       prisma.questions.create({
         data: {
-          question_url: question.url,
+          default_url: question.url,
           standards: { connect: { id: question.standardId } },
-          question_type: 'words',
-          question_body: question.question,
+          type: 'words',
+          body: question.question,
         },
       })
     )
@@ -154,7 +143,6 @@ const seedQuestions = async () => {
 
 const seedData = async () => {
   await seedStandards();
-  await seedUserTypes();
   await seedEntities();
   await seedQuestions();
 };

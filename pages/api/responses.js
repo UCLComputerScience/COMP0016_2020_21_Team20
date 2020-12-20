@@ -15,8 +15,7 @@ export default async function handler(req, res) {
     const {
       from,
       to,
-      dept_id: deptId,
-      user_id: userId,
+      department_id: departmentId,
       hospital_id: hospitalId,
       health_board_id: healthBoardId,
     } = req.query;
@@ -24,8 +23,11 @@ export default async function handler(req, res) {
     const filters = [];
     if (from) filters.push({ timestamp: { gte: new Date(from) } });
     if (to) filters.push({ timestamp: { lte: new Date(to) } });
-    if (userId) filters.push({ user_id: { equals: +userId } });
-    if (deptId) filters.push({ dept_id: { equals: +deptId } });
+    // TODO use session roles to determine what to do here
+    if (session.user.userId)
+      filters.push({ user_id: { equals: session.user.userId } });
+    if (departmentId)
+      filters.push({ department_id: { equals: +departmentId } });
 
     if (hospitalId) {
       filters.push({ departments: { hospital_id: { equals: +hospitalId } } });
@@ -65,9 +67,9 @@ export default async function handler(req, res) {
 
     const insertion = await prisma.responses.create({
       data: {
-        users: { connect: { id: req.body.user_id } },
+        users: { connect: { id: session.user.userId } },
         timestamp: new Date(),
-        departments: { connect: { id: req.body.dept_id } },
+        departments: { connect: { id: session.user.departmentId } },
         is_mentoring_session: req.body.is_mentoring_session,
         scores: { create: scores },
         words: { create: words },

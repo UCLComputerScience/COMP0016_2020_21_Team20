@@ -7,65 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model dept_clincian_user_type {
-  user_id     Int         @id
-  dept_id     Int
-  departments departments @relation(fields: [dept_id], references: [id])
-  users       users       @relation(fields: [user_id], references: [id])
-}
-
 model feedback {
-  user_id     Int
-  dept_id     Int
-  score       Int
-  timestamp   DateTime
-  comments    String?
-  departments departments @relation(fields: [dept_id], references: [id])
-  users       users       @relation(fields: [user_id], references: [id])
+  user_id       String
+  department_id Int
+  score         Int
+  timestamp     DateTime
+  comments      String?
+  departments   departments @relation(fields: [department_id], references: [id])
+  users         users       @relation(fields: [user_id], references: [id])
 
   @@id([user_id, timestamp])
 }
 
-model health_board_type {
-  user_id         Int           @id
+model hospitals {
+  id              Int           @id
+  name            String
   health_board_id Int
   health_boards   health_boards @relation(fields: [health_board_id], references: [id])
-  users           users         @relation(fields: [user_id], references: [id])
-}
-
-model hospital_user_type {
-  user_id     Int       @id
-  hospital_id Int
-  hospitals   hospitals @relation(fields: [hospital_id], references: [id])
-  users       users     @relation(fields: [user_id], references: [id])
-}
-
-model hospitals {
-  id                 Int                  @id
-  hospital_name      String
-  health_board_id    Int
-  health_boards      health_boards        @relation(fields: [health_board_id], references: [id])
-  departments        departments[]
-  hospital_user_type hospital_user_type[]
+  departments     departments[]
 }
 
 model questions {
-  id            Int           @id @default(autoincrement())
-  question_url  String
+  id            Int             @id @default(autoincrement())
+  default_url   String
   standard_id   Int
-  question_body String
-  question_type question_type
-  standards     standards     @relation(fields: [standard_id], references: [id])
+  body          String
+  type          question_type
+  standards     standards       @relation(fields: [standard_id], references: [id])
+  question_urls question_urls[]
   words         words[]
 }
 
 model responses {
   id                   Int         @id @default(autoincrement())
-  user_id              Int
+  user_id              String
   timestamp            DateTime
-  dept_id              Int
+  department_id        Int
   is_mentoring_session Boolean
-  departments          departments @relation(fields: [dept_id], references: [id])
+  departments          departments @relation(fields: [department_id], references: [id])
   users                users       @relation(fields: [user_id], references: [id])
   scores               scores[]
   words                words[]
@@ -87,20 +66,11 @@ model standards {
   scores    scores[]
 }
 
-model user_types {
-  id          Int    @id @default(autoincrement())
-  description String
-}
-
 model users {
-  id                      Int                      @id @default(autoincrement())
-  password                String
-  user_type_id            Int
-  dept_clincian_user_type dept_clincian_user_type?
-  feedback                feedback[]
-  health_board_type       health_board_type?
-  hospital_user_type      hospital_user_type?
-  responses               responses[]
+  id        String      @id
+  user_type user_type
+  feedback  feedback[]
+  responses responses[]
 }
 
 model words {
@@ -113,23 +83,40 @@ model words {
 }
 
 model health_boards {
-  id                Int                 @id
-  health_board_name String
-  health_board_type health_board_type[]
-  hospitals         hospitals[]
+  id        Int         @id
+  name      String
+  hospitals hospitals[]
 }
 
 model departments {
-  id                      Int                       @id @default(autoincrement())
-  department_name         String
-  hospital_id             Int
-  hospitals               hospitals                 @relation(fields: [hospital_id], references: [id])
-  dept_clincian_user_type dept_clincian_user_type[]
-  feedback                feedback[]
-  responses               responses[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  hospital_id   Int
+  hospitals     hospitals       @relation(fields: [hospital_id], references: [id])
+  feedback      feedback[]
+  question_urls question_urls[]
+  responses     responses[]
+}
+
+model question_urls {
+  question_id   Int
+  department_id Int
+  url           String
+  departments   departments @relation(fields: [department_id], references: [id])
+  questions     questions   @relation(fields: [question_id], references: [id])
+
+  @@id([question_id, department_id])
 }
 
 enum question_type {
   likert_scale
   words
+}
+
+enum user_type {
+  platform_administrator
+  health_board
+  hospital
+  department_manager
+  clinician
 }

@@ -25,10 +25,10 @@ export default async function handler(req, res) {
 
     const record = await prisma.questions.create({
       data: {
-        question_body: body,
-        question_url: url,
+        body: body,
+        default_url: url,
         standards: { connect: { id: standard } },
-        question_type: type,
+        type: type,
       },
     });
 
@@ -36,15 +36,37 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const questions = await prisma.questions.findMany();
+    const questions = await prisma.questions.findMany({
+      select: {
+        id: true,
+        body: true,
+        default_url: true,
+        type: true,
+        standard_id: true,
+        question_urls: {
+          select: { url: true },
+          where: { department_id: session.departmentId },
+        },
+      },
+    });
 
     // Return an object with keys as question types, and values as arrays of questions with each type
     // e.g. { likert_scale: [{...}, {...}], words: [{...}, {...}] }
     const questionsToReturn = questions.reduce((result, question) => {
-      if (result[question.question_type]) {
-        result[question.question_type].push(question);
+      // Only return a single URL: custom URL if it exists, else the default one
+      if (question.question_urls.length) {
+        question.url = question.question_urls[0].url;
       } else {
-        result[question.question_type] = [question];
+        question.url = question.default_url;
+      }
+
+      delete question.question_urls;
+      delete question.default_url;
+
+      if (result[question.type]) {
+        result[question.type].push(question);
+      } else {
+        result[question.type] = [question];
       }
       return result;
     }, {});
