@@ -11,6 +11,35 @@ This is a Next.js app:
 
 Prettier and ESLint enforce code style. There is a pre-commit hook to auto-format code.
 
+### Project tree
+
+```
+.
+├── .github/                 # GitHub-specific files, e.g. GitHub Actions Workflows
+├── .vscode/                 # Visual Studio Code common configuration for development
+├── components/              # React components for the web-app front-end
+│   ├── Accordion/
+│   ├── AlertDialog/
+│   ├── ...
+├── keycloak/                # Configuration files for the Keycloak Docker Container
+├── lib/                     # Project-specific helper/constant/etc. files
+├── pages/                   # Next.js page routes. Each file corresponds to a public URL path
+│   └── api/                 # Next.js API routes. Each folder/file corresponds to a public API endpoint
+│       ├── auth/
+│       └── questions/
+├── prisma/                  # Prisma schema and helper files
+└── public/                  # Static assets for use in the web-app front-end
+└── .eslintrc.json           # Project ESLint configuration for enforced code style
+└── .prettierrc              # Project Prettier configuration for enforced code style
+└── Caddyfile                # Caddy server configuration for production web-app
+└── docker-compose-prod.yml  # Production Docker Compose configuration
+└── docker-compose.yml       # Development Docker Compose configuration
+└── Dockerfile               # Web-app Dockerfile
+└── package.json             # Node.js package configuration for web-app
+└── setup-db.sh              # Helper bash script to set up databases in Docker Container
+└── schema.sql               # SQL Schema file for project database
+```
+
 ## Development
 
 - Run `npm install` to make sure you have all dependencies installed
