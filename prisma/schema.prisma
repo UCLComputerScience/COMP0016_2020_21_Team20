@@ -7,13 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model dept_clincian_user_type {
-  user_id       String      @id
-  department_id Int
-  departments   departments @relation(fields: [department_id], references: [id])
-  users         users       @relation(fields: [user_id], references: [id])
-}
-
 model feedback {
   user_id       String
   department_id Int
@@ -26,27 +19,12 @@ model feedback {
   @@id([user_id, timestamp])
 }
 
-model health_board_type {
-  user_id         String        @id
+model hospitals {
+  id              Int           @id
+  name            String
   health_board_id Int
   health_boards   health_boards @relation(fields: [health_board_id], references: [id])
-  users           users         @relation(fields: [user_id], references: [id])
-}
-
-model hospital_user_type {
-  user_id     String    @id
-  hospital_id Int
-  hospitals   hospitals @relation(fields: [hospital_id], references: [id])
-  users       users     @relation(fields: [user_id], references: [id])
-}
-
-model hospitals {
-  id                 Int                  @id
-  name               String
-  health_board_id    Int
-  health_boards      health_boards        @relation(fields: [health_board_id], references: [id])
-  departments        departments[]
-  hospital_user_type hospital_user_type[]
+  departments     departments[]
 }
 
 model questions {
@@ -88,19 +66,11 @@ model standards {
   scores    scores[]
 }
 
-model user_types {
-  id          Int    @id @default(autoincrement())
-  description String
-}
-
 model users {
-  id                      String                   @id
-  user_type               user_type
-  dept_clincian_user_type dept_clincian_user_type?
-  feedback                feedback[]
-  health_board_type       health_board_type?
-  hospital_user_type      hospital_user_type?
-  responses               responses[]
+  id        String      @id
+  user_type user_type
+  feedback  feedback[]
+  responses responses[]
 }
 
 model words {
@@ -113,21 +83,19 @@ model words {
 }
 
 model health_boards {
-  id                Int                 @id
-  name              String
-  health_board_type health_board_type[]
-  hospitals         hospitals[]
+  id        Int         @id
+  name      String
+  hospitals hospitals[]
 }
 
 model departments {
-  id                      Int                       @id @default(autoincrement())
-  name                    String
-  hospital_id             Int
-  hospitals               hospitals                 @relation(fields: [hospital_id], references: [id])
-  dept_clincian_user_type dept_clincian_user_type[]
-  feedback                feedback[]
-  question_urls           question_urls[]
-  responses               responses[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  hospital_id   Int
+  hospitals     hospitals       @relation(fields: [hospital_id], references: [id])
+  feedback      feedback[]
+  question_urls question_urls[]
+  responses     responses[]
 }
 
 model question_urls {
