@@ -69,26 +69,6 @@ CREATE TABLE departments (
     hospital_id INTEGER NOT NULL
 );
 
-CREATE TABLE user_types (
-    id SERIAL PRIMARY KEY,
-    description TEXT NOT NULL
-);
-
-CREATE TABLE dept_clincian_user_type (
-    user_id TEXT PRIMARY KEY,
-    department_id INTEGER NOT NULL
-);
-
-CREATE TABLE hospital_user_type (
-    user_id TEXT PRIMARY KEY,
-    hospital_id INTEGER NOT NULL
-);
-
-CREATE TABLE health_board_type (
-    user_id TEXT PRIMARY KEY,
-    health_board_id INTEGER NOT NULL
-);
-
 CREATE TABLE feedback (
     user_id TEXT NOT NULL,
     department_id INTEGER NOT NULL,
@@ -115,15 +95,6 @@ ALTER TABLE question_urls ADD FOREIGN KEY (department_id) REFERENCES departments
 ALTER TABLE hospitals ADD FOREIGN KEY (health_board_id) REFERENCES health_boards(id);
 
 ALTER TABLE departments ADD FOREIGN KEY (hospital_id) REFERENCES hospitals(id);
-
-ALTER TABLE dept_clincian_user_type ADD FOREIGN KEY (user_id) REFERENCES users(id);
-ALTER TABLE dept_clincian_user_type ADD FOREIGN KEY (department_id) REFERENCES departments(id);
-
-ALTER TABLE hospital_user_type ADD FOREIGN KEY (user_id) REFERENCES users(id);
-ALTER TABLE hospital_user_type ADD FOREIGN KEY (hospital_id) REFERENCES hospitals(id);
-
-ALTER TABLE health_board_type ADD FOREIGN KEY (user_id) REFERENCES users(id);
-ALTER TABLE health_board_type ADD FOREIGN KEY (health_board_id) REFERENCES health_boards(id);
 
 ALTER TABLE feedback ADD FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE feedback ADD FOREIGN KEY (department_id) REFERENCES departments(id);
