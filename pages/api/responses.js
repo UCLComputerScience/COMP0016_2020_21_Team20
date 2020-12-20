@@ -4,7 +4,6 @@ import { getSession } from 'next-auth/client';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
-  const { userId } = session.user;
 
   if (!session) {
     res.status = 401;
@@ -24,8 +23,8 @@ export default async function handler(req, res) {
     const filters = [];
     if (from) filters.push({ timestamp: { gte: new Date(from) } });
     if (to) filters.push({ timestamp: { lte: new Date(to) } });
-    // TODO use roles to determine what to do here
-    if (userId) filters.push({ user_id: { equals: userId } });
+    // TODO use session roles to determine what to do here
+    if (userId) filters.push({ user_id: { equals: session.user.userId } });
     if (departmentId)
       filters.push({ department_id: { equals: +departmentId } });
 
@@ -67,9 +66,9 @@ export default async function handler(req, res) {
 
     const insertion = await prisma.responses.create({
       data: {
-        users: { connect: { id: userId } },
+        users: { connect: { id: session.user.userId } },
         timestamp: new Date(),
-        departments: { connect: { id: req.body.department_id } },
+        departments: { connect: { id: session.user.departmentId } },
         is_mentoring_session: req.body.is_mentoring_session,
         scores: { create: scores },
         words: { create: words },
