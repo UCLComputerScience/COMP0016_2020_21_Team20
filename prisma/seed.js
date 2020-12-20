@@ -99,7 +99,7 @@ const seedEntities = async () => {
 
   await prisma.users.create({
     data: {
-      id: 'fa0c7der-ade1-4425-c659-4bf56eae7eb6',
+      id: 'fa0c7dea-ade1-4425-c659-4bf56eae7eb6',
       user_type: 'clinician',
     },
   });

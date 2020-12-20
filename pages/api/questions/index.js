@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     // Return an object with keys as question types, and values as arrays of questions with each type
     // e.g. { likert_scale: [{...}, {...}], words: [{...}, {...}] }
     const questionsToReturn = questions.reduce((result, question) => {
-      // Only return a single URL: either the custom URL
+      // Only return a single URL: custom URL if it exists, else the default one
       if (question.question_urls.length) {
         question.url = question.question_urls[0].url;
       } else {
