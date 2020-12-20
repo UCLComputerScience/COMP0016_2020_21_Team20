@@ -28,6 +28,9 @@ const options = {
     jwt: async (token, user, account, profile, isNewUser) => {
       if (profile) {
         token.sub = profile.sub;
+        token.department_id = profile.department_id;
+        token.hospital_id = profile.hospital_id;
+        token.health_board_id = profile.health_board_id;
         token.roles = profile.roles.filter(r =>
           Object.values(roles).includes(r)
         );
@@ -37,6 +40,9 @@ const options = {
     session: async (session, user) => {
       session.roles = user.roles;
       session.user.userId = user.sub;
+      session.user.departmentId = user.department_id;
+      session.user.hospitalId = user.hospital_id;
+      session.user.healthBoardId = user.health_board_id;
       return session;
     },
   },
