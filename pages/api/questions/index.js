@@ -43,8 +43,10 @@ export default async function handler(req, res) {
         default_url: true,
         type: true,
         standard_id: true,
-        // TODO update this department_id to be the logged in user's department id
-        question_urls: { select: { url: true }, where: { department_id: 1 } },
+        question_urls: {
+          select: { url: true },
+          where: { department_id: session.departmentId },
+        },
       },
     });
 
