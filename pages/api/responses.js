@@ -24,7 +24,8 @@ export default async function handler(req, res) {
     if (from) filters.push({ timestamp: { gte: new Date(from) } });
     if (to) filters.push({ timestamp: { lte: new Date(to) } });
     // TODO use session roles to determine what to do here
-    if (userId) filters.push({ user_id: { equals: session.user.userId } });
+    if (session.user.userId)
+      filters.push({ user_id: { equals: session.user.userId } });
     if (departmentId)
       filters.push({ department_id: { equals: +departmentId } });
 
