@@ -12,14 +12,6 @@ const standards = [
   'Governance, Leadership and Accountability',
 ];
 
-const userTypes = [
-  'Administrator',
-  'Health Board',
-  'Hospital',
-  'Department',
-  'Clinician',
-];
-
 const likertScaleQuestions = [
   {
     question:
@@ -88,14 +80,6 @@ const seedStandards = async () => {
   );
 };
 
-const seedUserTypes = async () => {
-  await Promise.all(
-    userTypes.map(type =>
-      prisma.user_types.create({ data: { description: type } })
-    )
-  );
-};
-
 const seedEntities = async () => {
   await prisma.health_boards.create({
     data: {
@@ -115,11 +99,8 @@ const seedEntities = async () => {
 
   await prisma.users.create({
     data: {
-      password: 'demo',
-      user_type_id: 1,
-      dept_clincian_user_type: {
-        create: { departments: { connect: { id: 1 } } },
-      },
+      id: 'fa0c7der-ade1-4425-c659-4bf56eae7eb6',
+      user_type: 'clinician',
     },
   });
 };
@@ -162,7 +143,6 @@ const seedQuestions = async () => {
 
 const seedData = async () => {
   await seedStandards();
-  await seedUserTypes();
   await seedEntities();
   await seedQuestions();
 };
