@@ -64,7 +64,7 @@ NEXTAUTH_URL="http://localhost:3000"
 
 If you need to use the login system or database, you'll also need to start the Docker containers for our database (PostgreSQL) and login system (Keycloak).
 
-At the moment, you need a secret Realm file for Keycloak. Get the `care_quality_dashboard_realm.json` secret file from Shubham, and place this in your project root.
+At the moment, you need a secret Realm file for Keycloak. Get the `care_quality_dashboard_realm.json` secret file from Shubham, and place this into a folder called `keycloak` in your project root (i.e. `./keycloak/care_quality_dashboard_realm/json`).
 
 To do this, make sure you have the latest version of [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
@@ -119,6 +119,6 @@ Finally, to generate the Prisma Client, for use in our code, run:
 npx prisma generate
 ```
 
-This will generate the database-specific Prisma Client into `./node_modules/@prisma/client`.
+This will generate the database-specific Prisma Client into `./node_modules/.prisma`.
 
 See the [Prisma docs](https://www.prisma.io/docs/) for more detailed information and the API reference.
