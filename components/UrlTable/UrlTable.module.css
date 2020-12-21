@@ -9,3 +9,8 @@
 .buttons {
   text-align: right;
 }
+
+.header {
+  font-weight: bold;
+  text-decoration: underline;
+}
