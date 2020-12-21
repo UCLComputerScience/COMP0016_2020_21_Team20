@@ -92,7 +92,6 @@ export default function StickyHeadTable() {
     question: row.question,
     standard: row.standard,
     url: row.url,
-    edit: row.edit,
   }));
 
   const setToDatabaseData = () => {
@@ -100,12 +99,11 @@ export default function StickyHeadTable() {
       question: row.question,
       standard: row.standard,
       url: row.url,
-      edit: row.edit,
     }));
   };
 
   const cancelEditing = () => {
-    setEditing(false);
+    setEditing(null);
     setToDatabaseData;
   };
 
