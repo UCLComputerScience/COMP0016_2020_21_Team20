@@ -15,17 +15,41 @@ import SaveIcon from '@material-ui/icons/Save';
 import styles from './UrlTable.module.css';
 
 const columns = [
-  { id: 'question', label: 'Question body', minWidth: 50 },
-  { id: 'standard', label: 'Standard', minWidth: 50 },
+  {
+    id: 'question', label: 'Question body', minWidth: 50,
+    render: (editing, i, row) => (
+      row['question']
+    )
+  },
+  {
+    id: 'standard', label: 'Standard', minWidth: 50,
+    render: (editing, i, row) => (
+      row['standard']
+    )
+  },
   {
     id: 'url',
     label: 'Training URL',
     minWidth: 50,
-    format: value => (
-      <a href={value} target="_blank">
-        {value}
-      </a>
-    ),
+    render: (editing, i, row) => {
+      if (editing === i) { //if this url is being editted then it needs to be an input box
+        //copy all the info about the row being currently edited
+        editedRow = localData[i];
+        return <Input
+          className={styles.input}
+          key={row['standard']}
+          defaultValue={row['url']}
+          variant="filled"
+          onChange={event =>
+            (editedRow.url = event.target.value)
+          }
+        />
+      } else { //else just display url as link
+        return <a href={row['url']} target="_blank">
+          {row['url']}
+        </a>
+      }
+    }
   },
   { id: 'actions', label: 'Actions', minWidth: 50 },
 ];
@@ -39,7 +63,7 @@ const useStyles = makeStyles({
   },
 });
 
-var rows = [
+var stubData = [
   //currently hard coded but will need get this from db
   {
     question:
@@ -85,32 +109,36 @@ var rows = [
   },
 ];
 
+let localData = {}
+
+var editedRow = null;
+
+function setToDatabaseData() {
+  //JSON methods to ensure deep copy not shallow, with api connected won't need to do this
+  //instead will replace stubData with data from api call
+  localData = JSON.parse(JSON.stringify(stubData))
+}
+
 export default function StickyHeadTable() {
   const classes = useStyles();
   const [editing, setEditing] = useState(null);
-  var newData = rows.map(row => ({
-    question: row.question,
-    standard: row.standard,
-    url: row.url,
-  }));
 
-  const setToDatabaseData = () => {
-    newData = rows.map(row => ({
-      question: row.question,
-      standard: row.standard,
-      url: row.url,
-    }));
-  };
+  setToDatabaseData();
 
   const cancelEditing = () => {
+    //no row is being edited so reset this value
+    editedRow = null;
     setEditing(null);
-    setToDatabaseData;
+    //to ensure no stale data
+    setToDatabaseData();
   };
 
   const sendData = () => {
-    //will need to send data to db here, then set this data in local copy for table
-    rows[editing].url = newData[editing].url
+    //will need to send data to db using api here
+    stubData[editing] = editedRow;
     setEditing(null);
+    //to ensure no stale data
+    setToDatabaseData();
   };
 
   return (
@@ -133,26 +161,15 @@ export default function StickyHeadTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, i) => {
+              {localData.map((row, i) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map(column => {
-                      const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.id === 'url' && editing === i ? (
-                            <Input
-                              className={styles.input}
-                              key={row['standard']}
-                              defaultValue={row['url']}
-                              variant="filled"
-                              onChange={event =>
-                                (newData[i].url = event.target.value)
-                              }
-                            />
-                          ) : column.id === 'url' ? (
-                            column.format(value)
-                          ) : column.id === 'actions' && editing === i ? (
+                          {column.id !== 'actions' ? (
+                            column.render(editing, i, row)
+                          ) : editing === i ? (
                             <div>
                               <Button
                                 variant="contained"
@@ -168,16 +185,14 @@ export default function StickyHeadTable() {
                                 <ClearIcon fontSize="inherit" />
                               </Button>
                             </div>
-                          ) : column.id === 'actions' ? (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => setEditing(i)}>
-                              <CreateIcon fontSize="inherit" />
-                            </Button>
                           ) : (
-                                    value
-                                  )}
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => setEditing(i)}>
+                                  <CreateIcon fontSize="inherit" />
+                                </Button>
+                              )}
                         </TableCell>
                       );
                     })}
