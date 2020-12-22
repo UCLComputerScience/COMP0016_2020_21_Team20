@@ -11,7 +11,7 @@ import Circle from './Circle/Circle';
 import Filter from './Filter/Filter';
 import DateFilter from './DateFilter/DateFilter';
 import VisualisationFilter from './VisualisationFilter/VisualisationFilter';
-import Table from './Table/Table';
+import UrlTable from './UrlTable/UrlTable';
 
 export {
   Info,
@@ -27,5 +27,5 @@ export {
   Filter,
   DateFilter,
   VisualisationFilter,
-  Table,
+  UrlTable,
 };
