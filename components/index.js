@@ -14,6 +14,7 @@ import VisualisationFilter from './VisualisationFilter/VisualisationFilter';
 import UrlTable from './UrlTable/UrlTable';
 import QuestionsTable from './QuestionsTable/QuestionsTable';
 import LoginMessage from './LoginMessage/LoginMessage';
+import WordCloud from './WordCloud/WordCloud';
 
 export {
   Info,
@@ -32,4 +33,5 @@ export {
   UrlTable,
   QuestionsTable,
   LoginMessage,
+  WordCloud,
 };

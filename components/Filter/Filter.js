@@ -4,6 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import styles from './filter.module.css';
 
+import { useRouter } from 'next/router';
+import { signIn, useSession } from 'next-auth/client';
+import roles from '../../lib/roles';
+
 const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
