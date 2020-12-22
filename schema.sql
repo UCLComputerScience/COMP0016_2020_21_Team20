@@ -8,6 +8,12 @@ CREATE TABLE users (
     user_type user_type NOT NULL
 );
 
+CREATE TABLE join_codes (
+    department_id INTEGER PRIMARY KEY,
+    department_join_code TEXT NOT NULL,
+    clinician_join_code TEXT NOT NULL
+);
+
 CREATE TABLE responses (
     id SERIAL PRIMARY KEY,
     user_id TEXT NOT NULL,
@@ -77,6 +83,8 @@ CREATE TABLE feedback (
     comments TEXT,
     PRIMARY KEY (user_id, timestamp)
 );
+
+ALTER TABLE join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
 
 ALTER TABLE responses ADD FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE responses ADD FOREIGN KEY (department_id) REFERENCES departments(id);
