@@ -10,6 +10,7 @@ import {
   Filter,
   Circle,
   LoginMessage,
+  WordCloud,
 } from '../components';
 //import Filters from '../../presentational/Utils/Filters';
 //import { FiltersBuilderHelper } from '../../../helpers/filtersBuilder.helper';
@@ -68,6 +69,7 @@ function statistics(props) {
         </div>
         <div className={styles.graph}>
           <LineChart />
+          <WordCloud />
         </div>
       </div>
     </div>
