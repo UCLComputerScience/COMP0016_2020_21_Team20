@@ -36,25 +36,31 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
+    const queryParams = {
+      id: true,
+      body: true,
+      default_url: true,
+      type: true,
+      standards: { select: { name: true, id: true } },
+    };
+
+    // Handle the `default_urls` override to always fetch the default URL
+    if (req.query.default_urls !== '1') {
+      queryParams.question_urls = {
+        select: { url: true },
+        where: { department_id: session.departmentId },
+      };
+    }
+
     const questions = await prisma.questions.findMany({
-      select: {
-        id: true,
-        body: true,
-        default_url: true,
-        type: true,
-        standards: { select: { name: true, id: true } },
-        question_urls: {
-          select: { url: true },
-          where: { department_id: session.departmentId },
-        },
-      },
+      select: queryParams,
     });
 
     // Return an object with keys as question types, and values as arrays of questions with each type
     // e.g. { likert_scale: [{...}, {...}], words: [{...}, {...}] }
     const questionsToReturn = questions.reduce((result, question) => {
       // Only return a single URL: custom URL if it exists, else the default one
-      if (question.question_urls.length) {
+      if (question.question_urls && question.question_urls.length) {
         question.url = question.question_urls[0].url;
       } else {
         question.url = question.default_url;
