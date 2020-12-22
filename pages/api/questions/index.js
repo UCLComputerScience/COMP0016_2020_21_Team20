@@ -42,7 +42,7 @@ export default async function handler(req, res) {
         body: true,
         default_url: true,
         type: true,
-        standard_id: true,
+        standards: { select: { name: true, id: true } },
         question_urls: {
           select: { url: true },
           where: { department_id: session.departmentId },
