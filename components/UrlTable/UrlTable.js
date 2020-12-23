@@ -21,13 +21,13 @@ import { mutate } from 'swr';
 const columns = [
   {
     id: 'question', label: 'Question body', minWidth: 50,
-    render: (editing, i, row) => (
+    render: (editted, row) => (
       row['body']
     )
   },
   {
     id: 'standard', label: 'Standard', minWidth: 50,
-    render: (editing, i, row) => (
+    render: (editted, row) => (
       row['standards']['name']
     )
   },
@@ -35,11 +35,11 @@ const columns = [
     id: 'url',
     label: 'Training URL',
     minWidth: 50,
-    render: (editing, i, row, localRow) => {
-      if (editing === i) { //if this url is being editted then it needs to be an input box
+    render: (editted, row) => {
+      if (editted) { //if this url is being edited then it needs to be an input box
         //copy all the info about the row being currently edited
         let buffer = {};
-        editedRow = Object.assign(buffer, localRow);
+        editedRow = Object.assign(buffer, row);
         return <Input
           className={styles.input}
           key={row['standards']['name']}
@@ -79,11 +79,10 @@ const useDatabaseData = () => {
 
 var editedRow = null;
 
-export default function StickyHeadTable() {
+export default function UrlTable() {
   const classes = useStyles();
   const [editing, setEditing] = useState(null);
   let localData = useDatabaseData();
-  let idToReset = null;
 
   const sendDataToDatabase = async () => {
     const res = await fetch('/api/question_urls/' + editedRow['id'], {
@@ -96,8 +95,8 @@ export default function StickyHeadTable() {
     return await res.json();
   };
 
-  const setToDefaultInDatabase = async () => {
-    const res = await fetch('/api/question_urls/' + idToReset, {
+  const setToDefaultInDatabase = async (id) => {
+    const res = await fetch('/api/question_urls/' + id, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -112,19 +111,15 @@ export default function StickyHeadTable() {
     mutate('/api/questions');
   };
 
-  const sendData = () => {
-    sendDataToDatabase();
+  const sendData = async () => {
+    await sendDataToDatabase();
     setEditing(null);
     //to ensure no stale data, so refetch
     mutate('/api/questions');
   };
 
-  const setToDefaultUrl = (id) => {
-    console.log("id:", id);
-    idToReset = id;
-    console.log("id:", idToReset);
-    setToDefaultInDatabase();
-    idToReset = null;
+  const setToDefaultUrl = async (id) => {
+    await setToDefaultInDatabase(id);
     //to ensure no stale data, so refetch
     mutate('/api/questions');
   };
@@ -156,7 +151,7 @@ export default function StickyHeadTable() {
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.id !== 'actions' ? (
-                            column.render(editing, i, row, localData[i])
+                            column.render(editing === i, row)
                           ) : editing === i ? (
                             <div>
                               <Button
