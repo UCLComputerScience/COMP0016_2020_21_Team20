@@ -21,13 +21,13 @@ import { mutate } from 'swr';
 const columns = [
   {
     id: 'question', label: 'Question body', minWidth: 50,
-    render: (editted, row) => (
+    render: (edited, row) => (
       row['body']
     )
   },
   {
     id: 'standard', label: 'Standard', minWidth: 50,
-    render: (editted, row) => (
+    render: (edited, row) => (
       row['standards']['name']
     )
   },
@@ -35,8 +35,8 @@ const columns = [
     id: 'url',
     label: 'Training URL',
     minWidth: 50,
-    render: (editted, row) => {
-      if (editted) { //if this url is being edited then it needs to be an input box
+    render: (edited, row) => {
+      if (edited) { //if this url is being edited then it needs to be an input box
         //copy all the info about the row being currently edited
         let buffer = {};
         editedRow = Object.assign(buffer, row);
