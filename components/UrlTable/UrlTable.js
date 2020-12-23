@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useSession } from 'next-auth/client';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -83,7 +82,6 @@ var editedRow = null;
 export default function StickyHeadTable() {
   const classes = useStyles();
   const [editing, setEditing] = useState(null);
-  const [session] = useSession();
   let localData = useDatabaseData();
   let idToReset = null;
 
