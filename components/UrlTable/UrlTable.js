@@ -174,7 +174,7 @@ export default function StickyHeadTable() {
                               </Button>
                             </div>
                           ) : (
-                                <div className={styles.buttonRow}>
+                                <div>
                                   <Button
                                     variant="contained"
                                     color="primary"
