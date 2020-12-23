@@ -16,6 +16,7 @@ import SaveIcon from '@material-ui/icons/Save';
 
 import styles from './UrlTable.module.css';
 import useSWR from '../../lib/swr';
+import { mutate } from 'swr';
 
 
 const columns = [
@@ -70,20 +71,12 @@ const useStyles = makeStyles({
 
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/questions', {
-    // We don't want to refetch questions, as we're storing our score state in this
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
 
   return data ? data.likert_scale : [];
 };
-
-// function setToDatabaseData() {
-//   // //JSON methods to ensure deep copy not shallow, with api connected won't need to do this
-//   // //instead will replace stubData with data from api call
-//   // localData = JSON.parse(JSON.stringify(stubData))
-//   localData = useDatabaseData();
-// }
 
 var editedRow = null;
 
@@ -92,26 +85,50 @@ export default function StickyHeadTable() {
   const [editing, setEditing] = useState(null);
   const [session] = useSession();
   let localData = useDatabaseData();
-  console.log(localData, "data should be here");
+  let idToReset = null;
 
-  const setToDatabaseData = () => {
-    localData = useDatabaseData();
+  const sendDataToDatabase = async () => {
+    const res = await fetch('/api/question_urls/' + editedRow['id'], {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: editedRow['url'],
+      }),
+    });
+    return await res.json();
+  };
+
+  const setToDefaultInDatabase = async () => {
+    const res = await fetch('/api/question_urls/' + idToReset, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return await res.json();
   };
 
   const cancelEditing = () => {
     //no row is being edited so reset this value
     editedRow = null;
     setEditing(null);
-    //to ensure no stale data
-    setToDatabaseData;
+    //to ensure no stale data, so refetch
+    mutate('/api/questions');
   };
 
   const sendData = () => {
-    // //will need to send data to db using api here
-    // stubData[editing] = editedRow;
+    sendDataToDatabase();
     setEditing(null);
-    //to ensure no stale data
-    setToDatabaseData;
+    //to ensure no stale data, so refetch
+    mutate('/api/questions');
+  };
+
+  const setToDefaultUrl = (id) => {
+    console.log("id:", id);
+    idToReset = id;
+    console.log("id:", idToReset);
+    setToDefaultInDatabase();
+    idToReset = null;
+    //to ensure no stale data, so refetch
+    mutate('/api/questions');
   };
 
   return (
@@ -159,12 +176,23 @@ export default function StickyHeadTable() {
                               </Button>
                             </div>
                           ) : (
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={() => setEditing(i)}>
-                                  <CreateIcon fontSize="inherit" />
-                                </Button>
+                                <div className={styles.buttonRow}>
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => setEditing(i)}>
+                                    <CreateIcon fontSize="inherit" />
+                                  </Button>
+                                  {' '}
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => setToDefaultUrl(row['id'])}>
+                                    <div className={styles.buttonText}>
+                                      Set to Default
+                                    </div>
+                                  </Button>
+                                </div>
                               )}
                         </TableCell>
                       );
