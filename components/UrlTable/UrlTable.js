@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -13,31 +14,35 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
 
 import styles from './UrlTable.module.css';
+import useSWR from '../../lib/swr';
+import { mutate } from 'swr';
+
 
 const columns = [
   {
     id: 'question', label: 'Question body', minWidth: 50,
-    render: (editing, i, row) => (
-      row['question']
+    render: (edited, row) => (
+      row['body']
     )
   },
   {
     id: 'standard', label: 'Standard', minWidth: 50,
-    render: (editing, i, row) => (
-      row['standard']
+    render: (edited, row) => (
+      row['standards']['name']
     )
   },
   {
     id: 'url',
     label: 'Training URL',
     minWidth: 50,
-    render: (editing, i, row) => {
-      if (editing === i) { //if this url is being editted then it needs to be an input box
+    render: (edited, row) => {
+      if (edited) { //if this url is being edited then it needs to be an input box
         //copy all the info about the row being currently edited
-        editedRow = localData[i];
+        let buffer = {};
+        editedRow = Object.assign(buffer, row);
         return <Input
           className={styles.input}
-          key={row['standard']}
+          key={row['standards']['name']}
           defaultValue={row['url']}
           variant="filled"
           onChange={event =>
@@ -63,82 +68,60 @@ const useStyles = makeStyles({
   },
 });
 
-var stubData = [
-  //currently hard coded but will need get this from db
-  {
-    question:
-      'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
-    standard: 'Staff and Resources',
-    url: 'https://example.com',
-  },
-  {
-    question:
-      'I have applied knowledge of best evidence to the context of this patient’s presentation to present appropriate treatment options to the patient.',
-    standard: 'Staying Healthy',
-    url: 'https://example2.com',
-  },
-  {
-    question:
-      'I have optimised the opportunity in our interaction today to discuss relevant activities and behaviours that support wellbeing and a healthy lifestyle for this patient.',
-    standard: 'Individual Care',
-    url: 'https://example3.com',
-  },
-  {
-    question:
-      'I have listened and responded with empathy to the patient’s concerns.',
-    standard: 'Timely Care',
-    url: 'https://example4.com',
-  },
-  {
-    question:
-      'I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.',
-    standard: 'Dignified Care',
-    url: 'https://example5.com',
-  },
-  {
-    question:
-      'I have established progress markers to help me and the patient monitor and evaluate the success of the treatment plan.',
-    standard: 'Effective Care',
-    url: 'https://example6.com',
-  },
-  {
-    question:
-      'My reflection/discussion about this interaction has supported my development through consolidation or a unique experience I can learn from.',
-    standard: 'Safe Care',
-    url: 'https://example7.com',
-  },
-];
+const useDatabaseData = () => {
+  const { data, error } = useSWR('/api/questions', {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
-let localData = {}
+  return data ? data.likert_scale : [];
+};
 
 var editedRow = null;
 
-function setToDatabaseData() {
-  //JSON methods to ensure deep copy not shallow, with api connected won't need to do this
-  //instead will replace stubData with data from api call
-  localData = JSON.parse(JSON.stringify(stubData))
-}
-
-export default function StickyHeadTable() {
+export default function UrlTable() {
   const classes = useStyles();
   const [editing, setEditing] = useState(null);
+  let localData = useDatabaseData();
 
-  setToDatabaseData();
+  const sendDataToDatabase = async () => {
+    const res = await fetch('/api/question_urls/' + editedRow['id'], {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: editedRow['url'],
+      }),
+    });
+    return await res.json();
+  };
+
+  const setToDefaultInDatabase = async (id) => {
+    const res = await fetch('/api/question_urls/' + id, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return await res.json();
+  };
 
   const cancelEditing = () => {
     //no row is being edited so reset this value
     editedRow = null;
     setEditing(null);
-    //to ensure no stale data
-    setToDatabaseData();
+    //to ensure no stale data, so refetch
+    mutate('/api/questions');
   };
 
-  const sendData = () => {
-    //will need to send data to db using api here
-    stubData[editing] = editedRow;
+  const sendData = async () => {
+    await sendDataToDatabase();
     setEditing(null);
-    //to ensure no stale data
-    setToDatabaseData();
+    //to ensure no stale data, so refetch
+    mutate('/api/questions');
+  };
+
+  const setToDefaultUrl = async (id) => {
+    await setToDefaultInDatabase(id);
+    //to ensure no stale data, so refetch
+    mutate('/api/questions');
   };
 
   return (
@@ -168,7 +151,7 @@ export default function StickyHeadTable() {
                       return (
                         <TableCell key={column.id} align={column.align}>
                           {column.id !== 'actions' ? (
-                            column.render(editing, i, row)
+                            column.render(editing === i, row)
                           ) : editing === i ? (
                             <div>
                               <Button
@@ -186,12 +169,23 @@ export default function StickyHeadTable() {
                               </Button>
                             </div>
                           ) : (
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={() => setEditing(i)}>
-                                  <CreateIcon fontSize="inherit" />
-                                </Button>
+                                <div>
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => setEditing(i)}>
+                                    <CreateIcon fontSize="inherit" />
+                                  </Button>
+                                  {' '}
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => setToDefaultUrl(row['id'])}>
+                                    <div className={styles.buttonText}>
+                                      Set to Default
+                                    </div>
+                                  </Button>
+                                </div>
                               )}
                         </TableCell>
                       );
