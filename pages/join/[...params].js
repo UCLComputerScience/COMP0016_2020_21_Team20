@@ -2,7 +2,7 @@ import { Header } from '../../components';
 
 import { useSession, getSession, signOut } from 'next-auth/client';
 
-import setUserDepartment from '../../lib/setUserDepartment';
+import setUserDepartmentAndRole from '../../lib/setUserDepartmentAndRole';
 import prisma from '../../lib/prisma';
 import roles from '../../lib/roles';
 
@@ -32,7 +32,7 @@ export const getServerSideProps = async ctx => {
 
   if (!department) return { props: { invalidCode: true } };
 
-  const success = await setUserDepartment({
+  const success = await setUserDepartmentAndRole({
     departmentId: department.department_id,
     newUserType: type,
     session,
