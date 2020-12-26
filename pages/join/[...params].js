@@ -23,9 +23,12 @@ export const getServerSideProps = async ctx => {
     return { props: {} };
   }
 
-  const department = await prisma.department_join_codes.findFirst({
-    where: { code: joinCode },
-  });
+  const dbTable =
+    type === roles.USER_TYPE_DEPARTMENT
+      ? prisma.department_join_codes
+      : prisma.clinician_join_codes;
+
+  const department = await dbTable.findFirst({ where: { code: joinCode } });
 
   if (!department) return { props: { invalidCode: true } };
 
