@@ -8,10 +8,14 @@ CREATE TABLE users (
     user_type user_type NOT NULL
 );
 
-CREATE TABLE join_codes (
+CREATE TABLE clinician_join_codes (
     department_id INTEGER PRIMARY KEY,
-    department_join_code TEXT NOT NULL,
-    clinician_join_code TEXT NOT NULL
+    code TEXT NOT NULL
+);
+
+CREATE TABLE department_join_codes (
+    department_id INTEGER PRIMARY KEY,
+    code TEXT NOT NULL
 );
 
 CREATE TABLE responses (
@@ -84,7 +88,8 @@ CREATE TABLE feedback (
     PRIMARY KEY (user_id, timestamp)
 );
 
-ALTER TABLE join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE clinician_join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE department_join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
 
 ALTER TABLE responses ADD FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE responses ADD FOREIGN KEY (department_id) REFERENCES departments(id);
