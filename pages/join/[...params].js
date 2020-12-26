@@ -1,6 +1,6 @@
 import { Header } from '../../components';
 
-import { useSession, getSession } from 'next-auth/client';
+import { useSession, getSession, signOut } from 'next-auth/client';
 
 import setUserDepartment from '../../lib/setUserDepartment';
 import prisma from '../../lib/prisma';
@@ -19,7 +19,7 @@ export const getServerSideProps = async ctx => {
 
   // User must have no roles to be able to join a department
   const session = await getSession(ctx);
-  if (session.roles.length) return { props: {} };
+  if (!session || session.roles.length > 0) return { props: {} };
 
   const department = await prisma.department_join_codes.findFirst({
     where: { code: joinCode },
@@ -48,6 +48,10 @@ function Join(props) {
     );
   }
 
+  if (props.success === true) {
+    setTimeout(() => signOut({ callbackUrl: '/' }), 5000);
+  }
+
   return (
     <div>
       <Header />
@@ -55,7 +59,8 @@ function Join(props) {
         'You are not eligible to join a department at this time.'}
       {props.invalidCode &&
         'Your join code is invalid. Please ensure your code has not expired and is exactly as you were provided.'}
-      {props.success === true && 'You have successfully joined the department.'}
+      {props.success === true &&
+        'You have successfully joined the department. You will be redirected in 5 seconds.'}
       {props.success === false && 'There was an error joining the department.'}
     </div>
   );
