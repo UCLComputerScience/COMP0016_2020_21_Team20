@@ -24,14 +24,12 @@ export default async function handler(req, res) {
     }
 
     const code = await createJoinCode();
-    await prisma.join_codes.upsert({
+    await prisma.clinician_join_codes.upsert({
       create: {
         departments: { connect: departmentId },
-        clinician_join_code: code,
+        code,
       },
-      update: {
-        clinician_join_code: code,
-      },
+      update: { code },
       where: { department_id: departmentId },
     });
 
