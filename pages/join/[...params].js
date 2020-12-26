@@ -17,9 +17,11 @@ export const getServerSideProps = async ctx => {
     return { notFound: true };
   }
 
-  // User must have no roles to be able to join a department
+  // User must have no role to be able to join a department
   const session = await getSession(ctx);
-  if (!session || session.roles.length > 0) return { props: {} };
+  if (!session || session.roles[0] !== roles.USER_TYPE_UNKNOWN) {
+    return { props: {} };
+  }
 
   const department = await prisma.department_join_codes.findFirst({
     where: { code: joinCode },
@@ -55,7 +57,7 @@ function Join(props) {
   return (
     <div>
       <Header />
-      {session.roles.length &&
+      {session.roles[0] !== roles.USER_TYPE_UNKNOWN &&
         'You are not eligible to join a department at this time.'}
       {props.invalidCode &&
         'Your join code is invalid. Please ensure your code has not expired and is exactly as you were provided.'}
