@@ -89,14 +89,15 @@ model health_boards {
 }
 
 model departments {
-  id            Int             @id @default(autoincrement())
-  name          String
-  hospital_id   Int
-  hospitals     hospitals       @relation(fields: [hospital_id], references: [id])
-  feedback      feedback[]
-  join_codes    join_codes?
-  question_urls question_urls[]
-  responses     responses[]
+  id                    Int                    @id @default(autoincrement())
+  name                  String
+  hospital_id           Int
+  hospitals             hospitals              @relation(fields: [hospital_id], references: [id])
+  clinician_join_codes  clinician_join_codes?
+  department_join_codes department_join_codes?
+  feedback              feedback[]
+  question_urls         question_urls[]
+  responses             responses[]
 }
 
 model question_urls {
@@ -109,11 +110,16 @@ model question_urls {
   @@id([question_id, department_id])
 }
 
-model join_codes {
-  department_id        Int         @id
-  department_join_code String
-  clinician_join_code  String
-  departments          departments @relation(fields: [department_id], references: [id])
+model clinician_join_codes {
+  department_id Int         @id
+  code          String
+  departments   departments @relation(fields: [department_id], references: [id])
+}
+
+model department_join_codes {
+  department_id Int         @id
+  code          String
+  departments   departments @relation(fields: [department_id], references: [id])
 }
 
 enum question_type {
