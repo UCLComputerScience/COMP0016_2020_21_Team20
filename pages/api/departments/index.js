@@ -1,5 +1,6 @@
 import prisma from '../../../lib/prisma';
 import roles from '../../../lib/roles';
+import createJoinCode from '../../../lib/createJoinCode';
 
 import { getSession } from 'next-auth/client';
 
@@ -30,6 +31,20 @@ export default async function handler(req, res) {
       data: {
         name: name,
         hospitals: { connect: { id: session.user.hospitalId } },
+        join_codes: {
+          create: {
+            department_join_code: await createJoinCode(),
+            clinician_join_code: await createJoinCode(),
+          },
+        },
+      },
+      include: {
+        join_codes: {
+          select: {
+            department_join_code: true,
+            clinician_join_code: true,
+          },
+        },
       },
     });
 
