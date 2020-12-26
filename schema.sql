@@ -1,11 +1,11 @@
 -- CREATE USER "cqdashboard" WITH PASSWORD 'PASSWORD';
 -- CREATE DATABASE care_quality_dashboard OWNER "cqdashboard";
 
-CREATE TYPE user_type AS ENUM ('platform_administrator', 'health_board', 'hospital', 'department_manager', 'clinician');
+CREATE TYPE user_type AS ENUM ('unknown', 'platform_administrator', 'health_board', 'hospital', 'department_manager', 'clinician');
 
 CREATE TABLE users (
     id TEXT PRIMARY KEY,
-    user_type user_type NOT NULL
+    user_type user_type DEFAULT 'unknown'
 );
 
 CREATE TABLE clinician_join_codes (

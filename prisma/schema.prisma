@@ -68,7 +68,7 @@ model standards {
 
 model users {
   id        String      @id
-  user_type user_type
+  user_type user_type?  @default(unknown)
   feedback  feedback[]
   responses responses[]
 }
@@ -128,6 +128,7 @@ enum question_type {
 }
 
 enum user_type {
+  unknown
   platform_administrator
   health_board
   hospital
