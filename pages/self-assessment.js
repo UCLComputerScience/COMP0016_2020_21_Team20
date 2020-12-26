@@ -6,6 +6,7 @@ import {
   AlertDialog,
   WordsQuestion,
   Header,
+  LoginMessage,
 } from '../components';
 
 import {
@@ -140,8 +141,7 @@ function selfAssessment() {
     return (
       <div>
         <Header />
-        <h1>Your Self Assessement</h1>
-        <p>Please login to perform your self-assessment</p>
+        <LoginMessage />
       </div>
     );
   }

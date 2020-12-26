@@ -22,7 +22,7 @@ function Header() {
   const renderLinks = () => {
     if (!session) {
       return (
-        <div onClick={signIn}>
+        <div onClick={() => signIn('keycloak')}>
           <li className={styles.link}>Log in</li>
         </div>
       );

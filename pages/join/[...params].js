@@ -1,4 +1,4 @@
-import { Header } from '../../components';
+import { Header, LoginMessage } from '../../components';
 
 import { useSession, getSession, signOut } from 'next-auth/client';
 
@@ -48,7 +48,7 @@ function Join(props) {
     return (
       <div>
         <Header />
-        <p>Please login</p>
+        <LoginMessage />
       </div>
     );
   }
