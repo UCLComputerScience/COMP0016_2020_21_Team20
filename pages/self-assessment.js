@@ -125,7 +125,6 @@ function selfAssessment() {
       ]);
     }
 
-    console.log(likertScaleQuestions, wordsQuestions);
     setShowDialog(true);
   };
 
