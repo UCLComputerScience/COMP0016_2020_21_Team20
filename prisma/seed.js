@@ -90,7 +90,11 @@ const seedEntities = async () => {
           id: 1,
           name: 'Demo Hospital',
           departments: {
-            create: { name: 'Demo Department' },
+            create: {
+              name: 'Demo Department',
+              department_join_codes: { create: { code: 'aaa-aaa-aaa' } },
+              clinician_join_codes: { create: { code: 'bbb-bbb-bbb' } },
+            },
           },
         },
       },
