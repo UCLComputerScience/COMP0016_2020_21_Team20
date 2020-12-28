@@ -8,7 +8,7 @@ import { ProfileButton } from '..';
 import roles from '../../lib/roles';
 
 const paths = {
-  [roles.USER_TYPE_ADMIN]: ['TODO'],
+  [roles.USER_TYPE_ADMIN]: ['manage'],
   [roles.USER_TYPE_HEALTH_BOARD]: ['statistics'],
   [roles.USER_TYPE_HOSPITAL]: ['statistics'],
   [roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-assessment', 'manage'],
@@ -35,9 +35,8 @@ function Header() {
     return pathsForRole.map((path, i) => (
       <Link key={i} href={'/'.concat(path)}>
         <li
-          className={`${styles.link} ${
-            router.pathname === `/${path}` && styles.active
-          }`}>
+          className={`${styles.link} ${router.pathname === `/${path}` && styles.active
+            }`}>
           {path}
         </li>
       </Link>

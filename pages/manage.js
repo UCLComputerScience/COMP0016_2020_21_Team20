@@ -1,4 +1,4 @@
-import { UrlTable, Header } from '../components';
+import { UrlTable, Header, QuestionsTable } from '../components';
 
 import { signIn, useSession } from 'next-auth/client';
 
@@ -26,10 +26,9 @@ function manage() {
           <UrlTable />
         </div>
       ) : role === roles.USER_TYPE_ADMIN ? (
-        //TODO create and put questions table for admins
         <div>
-          <h3>Manage and add new questions</h3>
-            In development
+          <h3>Manage and add new questions (delete functionality not yet added)</h3>
+          <QuestionsTable />
         </div>
       ) : (
             "You do not have access to this page"
