@@ -46,6 +46,20 @@ export default async function handler(req, res) {
     return res.json(response);
   }
 
+  if (req.method === 'DELETE') {
+    if (!session.roles.includes(roles.USER_TYPE_ADMIN)) {
+      res.statusCode = 403;
+      return res.end('You do not have permission to delete questions');
+    }
+
+    const response = await prisma.questions.update({
+      data: { archived: true },
+      where: { id: +questionId },
+    });
+
+    return res.json(response);
+  }
+
   res.statusCode = 405;
   return res.end('HTTP Method Not Allowed');
 }

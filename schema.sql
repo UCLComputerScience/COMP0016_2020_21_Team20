@@ -1,11 +1,21 @@
 -- CREATE USER "cqdashboard" WITH PASSWORD 'PASSWORD';
 -- CREATE DATABASE care_quality_dashboard OWNER "cqdashboard";
 
-CREATE TYPE user_type AS ENUM ('platform_administrator', 'health_board', 'hospital', 'department_manager', 'clinician');
+CREATE TYPE user_type AS ENUM ('unknown', 'platform_administrator', 'health_board', 'hospital', 'department_manager', 'clinician');
 
 CREATE TABLE users (
     id TEXT PRIMARY KEY,
-    user_type user_type NOT NULL
+    user_type user_type DEFAULT 'unknown'
+);
+
+CREATE TABLE clinician_join_codes (
+    department_id INTEGER PRIMARY KEY,
+    code TEXT NOT NULL
+);
+
+CREATE TABLE department_join_codes (
+    department_id INTEGER PRIMARY KEY,
+    code TEXT NOT NULL
 );
 
 CREATE TABLE responses (
@@ -42,7 +52,8 @@ CREATE TABLE questions (
     default_url TEXT NOT NULL,
     standard_id INTEGER NOT NULL,
     body TEXT NOT NULL,
-    type question_type NOT NULL
+    type question_type NOT NULL,
+    archived BOOLEAN DEFAULT FALSE
 );
 
 CREATE table question_urls (
@@ -77,6 +88,9 @@ CREATE TABLE feedback (
     comments TEXT,
     PRIMARY KEY (user_id, timestamp)
 );
+
+ALTER TABLE clinician_join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
+ALTER TABLE department_join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
 
 ALTER TABLE responses ADD FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE responses ADD FOREIGN KEY (department_id) REFERENCES departments(id);

@@ -1,4 +1,4 @@
-import { UrlTable, Header, QuestionsTable } from '../components';
+import { UrlTable, Header, LoginMessage, QuestionsTable } from '../components';
 
 import { signIn, useSession } from 'next-auth/client';
 
@@ -11,7 +11,7 @@ function manage() {
     return (
       <div>
         <Header />
-        <p>Please login</p>
+        <LoginMessage />
       </div>
     );
   }
@@ -31,7 +31,7 @@ function manage() {
           <QuestionsTable />
         </div>
       ) : (
-            "You do not have access to this page"
+            'You do not have access to this page'
           )}
     </div>
   );

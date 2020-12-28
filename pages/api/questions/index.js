@@ -54,6 +54,7 @@ export default async function handler(req, res) {
 
     const questions = await prisma.questions.findMany({
       select: queryParams,
+      where: { archived: false },
     });
 
     // Return an object with keys as question types, and values as arrays of questions with each type

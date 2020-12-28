@@ -3,7 +3,14 @@ import useSWR from 'swr';
 import Fade from '@material-ui/core/Fade';
 import { useSession } from 'next-auth/client';
 
-import { LineChart, Header, Accordion, Filter, Circle } from '../components';
+import {
+  LineChart,
+  Header,
+  Accordion,
+  Filter,
+  Circle,
+  LoginMessage,
+} from '../components';
 //import Filters from '../../presentational/Utils/Filters';
 //import { FiltersBuilderHelper } from '../../../helpers/filtersBuilder.helper';
 import styles from './statistics.module.css';
@@ -45,8 +52,7 @@ function statistics(props) {
     return (
       <div>
         <Header />
-        <h1>Your Statistics</h1>
-        <p>Please login to view statistics</p>
+        <LoginMessage />
       </div>
     );
   }

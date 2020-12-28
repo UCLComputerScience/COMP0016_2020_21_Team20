@@ -34,10 +34,13 @@ const options = {
         token.roles = profile.roles.filter(r =>
           Object.values(roles).includes(r)
         );
+
+        if (!token.roles.length) token.roles = [roles.USER_TYPE_UNKNOWN];
       }
       return token;
     },
     session: async (session, user) => {
+      // TODO move this to session.user.roles
       session.roles = user.roles;
       session.user.userId = user.sub;
       session.user.departmentId = user.department_id;

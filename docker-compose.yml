@@ -19,6 +19,7 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./keycloak:/tmp/keycloak
+      - ./keycloak/register.ftl:/opt/jboss/keycloak/themes/base/login/register.ftl
   # Note: no need to publish postgres port; all containers running on same network!
   database:
     image: 'postgres:13.1-alpine'

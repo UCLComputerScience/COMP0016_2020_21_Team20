@@ -28,6 +28,7 @@ services:
       PROXY_ADDRESS_FORWARDING: 'true'
     volumes:
       - ./keycloak:/tmp/keycloak
+      - ./keycloak/register.ftl:/opt/jboss/keycloak/themes/base/login/register.ftl
   # Note: no need to publish postgres port; all containers running on same network!
   database:
     user: '1001:1001'
