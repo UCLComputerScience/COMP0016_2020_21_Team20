@@ -52,7 +52,8 @@ CREATE TABLE questions (
     default_url TEXT NOT NULL,
     standard_id INTEGER NOT NULL,
     body TEXT NOT NULL,
-    type question_type NOT NULL
+    type question_type NOT NULL,
+    archived BOOLEAN DEFAULT FALSE
 );
 
 CREATE table question_urls (

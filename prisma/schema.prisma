@@ -33,6 +33,7 @@ model questions {
   standard_id   Int
   body          String
   type          question_type
+  archived      Boolean?        @default(false)
   standards     standards       @relation(fields: [standard_id], references: [id])
   question_urls question_urls[]
   words         words[]
