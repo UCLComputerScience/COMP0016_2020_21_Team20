@@ -12,6 +12,7 @@ import Filter from './Filter/Filter';
 import DateFilter from './DateFilter/DateFilter';
 import VisualisationFilter from './VisualisationFilter/VisualisationFilter';
 import UrlTable from './UrlTable/UrlTable';
+import QuestionsTable from './QuestionsTable/QuestionsTable';
 
 export {
   Info,
@@ -28,4 +29,5 @@ export {
   DateFilter,
   VisualisationFilter,
   UrlTable,
+  QuestionsTable,
 };

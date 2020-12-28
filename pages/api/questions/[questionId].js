@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'PUT') {
     if (
-      !session.roles.includes(roles.USER_TYPE_DEPARTMENT) ||
+      !session.roles.includes(roles.USER_TYPE_DEPARTMENT) &&
       !session.roles.includes(roles.USER_TYPE_ADMIN)
     ) {
       res.statusCode = 403;

@@ -25,6 +25,7 @@ export default function AlertDialog(props) {
           <DialogContentText id="alert-dialog-description">
             {props.text}
           </DialogContentText>
+          {props.content}
         </DialogContent>
         <DialogActions>{props.actions}</DialogActions>
       </Dialog>
