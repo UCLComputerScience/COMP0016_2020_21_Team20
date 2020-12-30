@@ -13,11 +13,13 @@ import {
 
 import styles from './statistics.module.css';
 
-import { Visualisations } from '../lib/constants';
+import useSWR from '../lib/swr';
+import { StandardColors, Visualisations } from '../lib/constants';
 
 function statistics(props) {
   const [session] = useSession();
 
+  // TODO actually use these
   const [dateRange, setDateRange] = useState({
     start: new Date(),
     end: new Date(),
@@ -27,8 +29,7 @@ function statistics(props) {
   );
   const [isMentoringSession, setIsMentoringSession] = useState(true);
 
-  // const { data, error } = useSWR('/api/responses');
-  // console.log(data);
+  const { data, error } = useSWR('/api/responses');
 
   if (!session) {
     return (
@@ -49,17 +50,28 @@ function statistics(props) {
           <Filters
             dateRange={dateRange}
             setDateRange={setDateRange}
-
             visualisationType={visualisationType}
             setVisualisationType={setVisualisationType}
-
             isMentoringSession={isMentoringSession}
             setIsMentoringSession={setIsMentoringSession}
           />
         </div>
         <div className={styles.graph}>
-          <LineChart />
-          <WordCloud />
+          <LineChart
+            data={
+              data
+                ? data.map(d => ({
+                    timestamp: d.timestamp,
+                    scores: d.scores.map(s => ({
+                      score: s.score,
+                      standardName: s.standards.name,
+                      color: StandardColors[s.standards.name],
+                    })),
+                  }))
+                : []
+            }
+          />
+          {/* <WordCloud /> */}
         </div>
       </div>
     </div>
