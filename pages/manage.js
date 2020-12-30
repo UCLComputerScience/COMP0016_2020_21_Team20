@@ -27,7 +27,7 @@ function manage() {
         </div>
       ) : role === roles.USER_TYPE_ADMIN ? (
         <div>
-          <h3>Manage and add new questions (delete functionality not yet added)</h3>
+          <h3>Manage and add new questions</h3>
           <QuestionsTable />
         </div>
       ) : (

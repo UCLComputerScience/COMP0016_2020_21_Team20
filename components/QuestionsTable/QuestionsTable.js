@@ -138,6 +138,8 @@ export default function QuestionsTable() {
   const [dialogText, setDialogText] = useState(null);
   const [dialogContent, setDialogContent] = useState([]);
   const [dialogActions, setDialogActions] = useState([]);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteDialogActions, setDeleteDialogActions] = useState([]);
   var newRow = { body: null, url: null, standard: -1, type: 'likert_scale' };
   let localData = useDatabaseData();
   standards = getStandards();
@@ -173,8 +175,13 @@ export default function QuestionsTable() {
     return await res.json();
   };
 
-  // const deleteInDatabase = async (id) => {
-  // };
+  const deleteInDatabase = async (id) => {
+    const res = await fetch('/api/questions/' + id, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return await res.json();
+  };
 
   const cancelEditing = () => {
     //no row is being edited so reset this value
@@ -191,12 +198,24 @@ export default function QuestionsTable() {
     mutate('/api/questions?default_urls=1');
   };
 
-  const deleteRow = (id) => {
-    //TODO DELETE THIS QUESTION IN DATABASE
-    //await deleteInDatabase(id);
+  const deleteRow = async (id) => {
+    await deleteInDatabase(id);
     //to ensure no stale data, so refetch
     mutate('/api/questions?default_urls=1');
+    setShowDeleteDialog(false);
   };
+
+  const confirmDelete = (id) => {
+    setShowDeleteDialog(true);
+    setDeleteDialogActions([
+      <Button key="alertdialog-edit" color="secondary" onClick={() => setShowDeleteDialog(false)}>
+        Cancel
+      </Button>,
+      <Button key="alertdialog-confirm" onClick={() => deleteRow(id)}>
+        Yes
+      </Button>,
+    ]);
+  }
 
   const addRow = async () => {
     if (newRow.body === null || newRow.standard === -1 || newRow.url === null) {
@@ -280,6 +299,12 @@ export default function QuestionsTable() {
         content={dialogContent}
         actions={dialogActions}
       />
+      <AlertDialog
+        open={showDeleteDialog}
+        title={'Are you sure you want to delete this question?'}
+        text={'Deleting a question cannot be undone.'}
+        actions={deleteDialogActions}
+      />
       <Button className={styles.buttons}
         variant="contained"
         color="primary"
@@ -342,7 +367,7 @@ export default function QuestionsTable() {
                                   <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => deleteRow(row['id'])}>
+                                    onClick={() => confirmDelete(row['id'])}>
                                     <div className={styles.buttonText}>
                                       Delete
                                     </div>
