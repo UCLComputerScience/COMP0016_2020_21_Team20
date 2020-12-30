@@ -3,7 +3,7 @@ import { signIn } from 'next-auth/client';
 
 function LoginMessage() {
   return (
-    <p style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: 'center' }}>
       <p>You must login or register to use the Care Quality Dashboard.</p>
       <Button
         variant="contained"
@@ -11,7 +11,7 @@ function LoginMessage() {
         onClick={() => signIn('keycloak')}>
         Login or Register
       </Button>
-    </p>
+    </div>
   );
 }
 
