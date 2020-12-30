@@ -6,7 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import { DateRange } from 'react-date-range';
 
-import styles from './filter.module.css';
+import styles from './filters.module.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 

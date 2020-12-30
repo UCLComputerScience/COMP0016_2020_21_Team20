@@ -7,8 +7,7 @@ import {
   LineChart,
   Header,
   Accordion,
-  Filter,
-  Circle,
+  Filters,
   LoginMessage,
   WordCloud,
 } from '../components';
@@ -65,7 +64,7 @@ function statistics(props) {
       <Accordion />
       <div className={styles.content}>
         <div className={styles.filters}>
-          <Filter />
+          <Filters />
         </div>
         <div className={styles.graph}>
           <LineChart />

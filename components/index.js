@@ -8,7 +8,7 @@ import Header from './Header/Header';
 import ProfileButton from './ProfileButton/ProfileButton';
 import Accordion from './Accordion/Accordion';
 import Circle from './Circle/Circle';
-import Filter from './Filter/Filter';
+import Filters from './Filters/Filters';
 import UrlTable from './UrlTable/UrlTable';
 import QuestionsTable from './QuestionsTable/QuestionsTable';
 import LoginMessage from './LoginMessage/LoginMessage';
@@ -25,7 +25,7 @@ export {
   ProfileButton,
   Accordion,
   Circle,
-  Filter,
+  Filters,
   UrlTable,
   QuestionsTable,
   LoginMessage,
