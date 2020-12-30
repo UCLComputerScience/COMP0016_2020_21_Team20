@@ -43,7 +43,23 @@ export default async function handler(req, res) {
 
     if (filters.length) {
       return res.json(
-        await prisma.responses.findMany({ where: { AND: filters } })
+        await prisma.responses.findMany({
+          where: { AND: filters },
+          select: {
+            id: true,
+            timestamp: true,
+            is_mentoring_session: true,
+            departments: true,
+            words: true,
+            scores: {
+              select: {
+                standards: true,
+                score: true,
+                id: true,
+              },
+            },
+          },
+        })
       );
     } else {
       return res.json(await prisma.responses.findMany());
