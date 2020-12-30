@@ -9,7 +9,6 @@ import ProfileButton from './ProfileButton/ProfileButton';
 import Accordion from './Accordion/Accordion';
 import Circle from './Circle/Circle';
 import Filter from './Filter/Filter';
-import DateFilter from './DateFilter/DateFilter';
 import VisualisationFilter from './VisualisationFilter/VisualisationFilter';
 import UrlTable from './UrlTable/UrlTable';
 import QuestionsTable from './QuestionsTable/QuestionsTable';
@@ -28,7 +27,6 @@ export {
   Accordion,
   Circle,
   Filter,
-  DateFilter,
   VisualisationFilter,
   UrlTable,
   QuestionsTable,
