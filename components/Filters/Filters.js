@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,18 +8,9 @@ import styles from './filters.module.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-const VISUALISATION_TYPE_LINE_CHART = 'line-chart';
-const VISUALISATION_TYPE_WORD_CLOUD = 'word-cloud';
+import { Visualisations } from '../../lib/constants';
 
-export function Filter(props) {
-  const [dateRange, setDateRange] = useState([
-    { startDate: new Date(), endDate: null, key: 'selection' },
-  ]);
-
-  const [visualisationType, setVisualisationType] = useState('line-chart');
-  const [isMentoringSession, setIsMentoringSession] = useState(false);
-
-  console.log(dateRange);
+export function Filters(props) {
   return (
     <div className={styles.content}>
       <div className={styles.title}>
@@ -31,9 +20,20 @@ export function Filter(props) {
       <div className={styles.dateFilter}>
         <DateRange
           editableDateInputs={true}
-          onChange={item => setDateRange([item.selection])}
+          onChange={item =>
+            props.setDateRange({
+              start: item.selection.startDate,
+              end: item.selection.endDate,
+            })
+          }
           moveRangeOnFirstSelection={false}
-          ranges={dateRange}
+          ranges={[
+            {
+              startDate: props.dateRange.start,
+              endDate: props.dateRange.end,
+              key: 'selection',
+            },
+          ]}
         />
       </div>
 
@@ -43,11 +43,11 @@ export function Filter(props) {
             Visualisation
           </InputLabel>
           <NativeSelect
-            value={visualisationType}
-            onChange={event => setVisualisationType(event.target.value)}
+            value={props.visualisationType}
+            onChange={event => props.setVisualisationType(event.target.value)}
             inputProps={{ id: 'visualisation-type' }}>
-            <option value={VISUALISATION_TYPE_LINE_CHART}>Line Chart</option>
-            <option value={VISUALISATION_TYPE_WORD_CLOUD}>Word Cloud</option>
+            <option value={Visualisations.LINE_CHART}>Line Chart</option>
+            <option value={Visualisations.WORD_CLOUD}>Word Cloud</option>
           </NativeSelect>
         </FormControl>
 
@@ -56,8 +56,8 @@ export function Filter(props) {
             Mentoring?
           </InputLabel>
           <NativeSelect
-            value={isMentoringSession}
-            onChange={event => setIsMentoringSession(event.target.value)}
+            value={props.isMentoringSession}
+            onChange={event => props.setIsMentoringSession(event.target.value)}
             inputProps={{ id: 'is-mentoring-session' }}>
             <option value={false}>No</option>
             <option value={true}>Yes</option>
@@ -74,4 +74,4 @@ export function Filter(props) {
   );
 }
 
-export default Filter;
+export default Filters;
