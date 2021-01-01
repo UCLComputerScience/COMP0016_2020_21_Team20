@@ -1,3 +1,5 @@
+import querystring from 'querystring';
+
 import { useState } from 'react';
 
 import { useSession } from 'next-auth/client';
@@ -16,12 +18,18 @@ import styles from './statistics.module.css';
 import useSWR from '../lib/swr';
 import { StandardColors, Visualisations } from '../lib/constants';
 
+const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 7 * 1000; // 7 days ago;
+
+const generateQueryParams = ({
+  start = new Date().getTime() - DEFAULT_DATE_OFFSET,
+  end = new Date().getTime(),
+} = {}) => querystring.stringify({ from: start, to: end });
+
 function statistics(props) {
   const [session] = useSession();
 
-  // TODO actually use these
   const [dateRange, setDateRange] = useState({
-    start: new Date(),
+    start: new Date(new Date().getTime() - DEFAULT_DATE_OFFSET),
     end: new Date(),
   });
   const [visualisationType, setVisualisationType] = useState(
@@ -29,7 +37,12 @@ function statistics(props) {
   );
   const [isMentoringSession, setIsMentoringSession] = useState(true);
 
-  const { data, error } = useSWR('/api/responses');
+  const { data, error } = useSWR(
+    `/api/responses?${generateQueryParams({
+      start: dateRange.start.getTime(),
+      end: dateRange.end.getTime(),
+    })}`
+  );
 
   if (!session) {
     return (
