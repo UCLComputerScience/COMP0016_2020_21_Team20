@@ -56,11 +56,13 @@ export function Filters(props) {
             Mentoring?
           </InputLabel>
           <NativeSelect
-            value={props.isMentoringSession}
-            onChange={event => props.setIsMentoringSession(event.target.value)}
+            value={props.isMentoringSession ? '1' : '0'}
+            onChange={event =>
+              props.setIsMentoringSession(event.target.value === '1')
+            }
             inputProps={{ id: 'is-mentoring-session' }}>
-            <option value={false}>No</option>
-            <option value={true}>Yes</option>
+            <option value={'0'}>No</option>
+            <option value={'1'}>Yes</option>
           </NativeSelect>
         </FormControl>
       </div>

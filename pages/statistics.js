@@ -23,24 +23,30 @@ const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 7 * 1000; // 7 days ago;
 const generateQueryParams = ({
   start = new Date().getTime() - DEFAULT_DATE_OFFSET,
   end = new Date().getTime(),
-} = {}) => querystring.stringify({ from: start, to: end });
+  isMentoringSession = true,
+} = {}) =>
+  querystring.stringify({
+    from: start,
+    to: end,
+    is_mentoring_session: isMentoringSession ? '1' : '0',
+  });
 
 function statistics(props) {
   const [session] = useSession();
-
+  const [isMentoringSession, setIsMentoringSession] = useState(true);
+  const [visualisationType, setVisualisationType] = useState(
+    Visualisations.LINE_CHART
+  );
   const [dateRange, setDateRange] = useState({
     start: new Date(new Date().getTime() - DEFAULT_DATE_OFFSET),
     end: new Date(),
   });
-  const [visualisationType, setVisualisationType] = useState(
-    Visualisations.LINE_CHART
-  );
-  const [isMentoringSession, setIsMentoringSession] = useState(true);
 
   const { data, error } = useSWR(
     `/api/responses?${generateQueryParams({
       start: dateRange.start.getTime(),
       end: dateRange.end.getTime(),
+      isMentoringSession,
     })}`
   );
 
