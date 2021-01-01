@@ -12,33 +12,32 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const {
-      from,
-      to,
-      department_id: departmentId,
-      hospital_id: hospitalId,
-      health_board_id: healthBoardId,
-    } = req.query;
-
+    const { from, to } = req.query;
     const filters = [];
+
     if (from) filters.push({ timestamp: { gte: new Date(from) } });
     if (to) filters.push({ timestamp: { lte: new Date(to) } });
-    // TODO use session roles to determine what to do here
-    if (session.user.userId)
-      filters.push({ user_id: { equals: session.user.userId } });
-    if (departmentId)
-      filters.push({ department_id: { equals: +departmentId } });
 
-    if (hospitalId) {
-      filters.push({ departments: { hospital_id: { equals: +hospitalId } } });
-    }
-
-    if (healthBoardId) {
+    if (session.user.departmentId) {
+      filters.push({ department_id: { equals: session.user.departmentId } });
+    } else if (session.user.hospitalId) {
+      // TODO as below
+      filters.push({
+        departments: { hospital_id: { equals: session.user.hospitalId } },
+      });
+    } else if (session.user.healthBoardId) {
+      // TODO do we want health boards to also see hospital-level/department-level data?
+      // If so, pass in a department_id/hospital_id parameter to override this
       filters.push({
         departments: {
-          hospitals: { health_board_id: { equals: +healthBoardId } },
+          hospitals: {
+            health_board_id: { equals: session.user.healthBoardId },
+          },
         },
       });
+    } else {
+      // Default to lowest-level i.e. logged in user's data
+      filters.push({ user_id: { equals: session.user.userId } });
     }
 
     if (filters.length) {
