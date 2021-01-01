@@ -15,8 +15,8 @@ export default async function handler(req, res) {
     const { from, to } = req.query;
     const filters = [];
 
-    if (from) filters.push({ timestamp: { gte: new Date(from) } });
-    if (to) filters.push({ timestamp: { lte: new Date(to) } });
+    if (from) filters.push({ timestamp: { gte: new Date(+from) } });
+    if (to) filters.push({ timestamp: { lte: new Date(+to) } });
 
     if (session.user.departmentId) {
       filters.push({ department_id: { equals: session.user.departmentId } });
