@@ -13,11 +13,11 @@ import { Visualisations } from '../../lib/constants';
 export function Filters(props) {
   return (
     <div className={styles.content}>
-      <div className={styles.title}>
+      <div>
         <h3>Filters:</h3>
       </div>
 
-      <div className={styles.dateFilter}>
+      <div>
         <DateRange
           editableDateInputs={true}
           onChange={item =>
@@ -37,7 +37,7 @@ export function Filters(props) {
         />
       </div>
 
-      <div className={styles.visualisationFilter}>
+      <div className={styles.dropdownFilters}>
         <FormControl>
           <InputLabel shrink htmlFor="visualisation-type">
             Visualisation

@@ -1,26 +1,12 @@
-.body {
-  margin: 10px;
-}
-
 .content {
   display: flex;
   flex-direction: column;
 }
 
-.dateFilter {
-  text-align: left;
+.dropdownFilters {
   display: flex;
-}
-
-.title {
-  text-align: left;
-  display: flex;
-  width: 20%;
-}
-.visualisationFilter {
-  text-align: left;
-  width: 200%;
-  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .button {
