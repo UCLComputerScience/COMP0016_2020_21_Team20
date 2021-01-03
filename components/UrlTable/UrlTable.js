@@ -16,6 +16,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import styles from './UrlTable.module.css';
 import useSWR from '../../lib/swr';
 import { mutate } from 'swr';
+import { ClinicianJoinCode } from '..';
 
 const columns = [
   {
@@ -126,6 +127,7 @@ export default function UrlTable() {
 
   return (
     <div>
+      <ClinicianJoinCode />
       <Paper className={classes.root}>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">

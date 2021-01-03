@@ -14,6 +14,7 @@ import QuestionsTable from './QuestionsTable/QuestionsTable';
 import LoginMessage from './LoginMessage/LoginMessage';
 import WordCloud from './WordCloud/WordCloud';
 import DepartmentsTable from './DepartmentsTable/DepartmentsTable';
+import ClinicianJoinCode from './ClinicianJoinCode/ClinicianJoinCode';
 
 export {
   Info,
@@ -32,4 +33,5 @@ export {
   LoginMessage,
   WordCloud,
   DepartmentsTable,
+  ClinicianJoinCode,
 };
