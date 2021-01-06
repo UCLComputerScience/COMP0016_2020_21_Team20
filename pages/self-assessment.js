@@ -149,7 +149,6 @@ function selfAssessment() {
   return (
     <div>
       <Header />
-      <h1>Your Self Assessement</h1>
       <h3>
         To what extent do you agree with the following statements regarding your
         experience in the last week?

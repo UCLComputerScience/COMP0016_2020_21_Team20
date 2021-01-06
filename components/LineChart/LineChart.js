@@ -22,7 +22,7 @@ const formatData = data => {
     const standardData = Object.assign({}, baseProperties);
     standardData.borderColor = thisStandardData[0].color;
     standardData.label = thisStandardData[0].standardName;
-    standardData.data = thisStandardData.map(s => s.score);
+    standardData.data = thisStandardData.map(s => (s.score / 4) * 100);
     formattedData.datasets.push(standardData);
   }
 

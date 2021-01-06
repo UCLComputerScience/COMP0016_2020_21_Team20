@@ -13,29 +13,23 @@ import { Visualisations } from '../../lib/constants';
 export function Filters(props) {
   return (
     <div className={styles.content}>
-      <div>
-        <h3>Filters:</h3>
-      </div>
-
-      <div>
-        <DateRange
-          editableDateInputs={true}
-          onChange={item =>
-            props.setDateRange({
-              start: item.selection.startDate,
-              end: item.selection.endDate,
-            })
-          }
-          moveRangeOnFirstSelection={false}
-          ranges={[
-            {
-              startDate: props.dateRange.start,
-              endDate: props.dateRange.end,
-              key: 'selection',
-            },
-          ]}
-        />
-      </div>
+      <DateRange
+        editableDateInputs={true}
+        onChange={item =>
+          props.setDateRange({
+            start: item.selection.startDate,
+            end: item.selection.endDate,
+          })
+        }
+        moveRangeOnFirstSelection={false}
+        ranges={[
+          {
+            startDate: props.dateRange.start,
+            endDate: props.dateRange.end,
+            key: 'selection',
+          },
+        ]}
+      />
 
       <div className={styles.dropdownFilters}>
         <FormControl>

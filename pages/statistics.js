@@ -18,12 +18,12 @@ import styles from './statistics.module.css';
 import useSWR from '../lib/swr';
 import { StandardColors, Visualisations } from '../lib/constants';
 
-const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 7 * 1000; // 7 days ago;
+const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 30 * 1000; // 30 days ago;
 
 const generateQueryParams = ({
   start = new Date().getTime() - DEFAULT_DATE_OFFSET,
   end = new Date().getTime(),
-  isMentoringSession = true,
+  isMentoringSession = false,
 } = {}) =>
   querystring.stringify({
     from: start,
@@ -33,7 +33,7 @@ const generateQueryParams = ({
 
 function statistics(props) {
   const [session] = useSession();
-  const [isMentoringSession, setIsMentoringSession] = useState(true);
+  const [isMentoringSession, setIsMentoringSession] = useState(false);
   const [visualisationType, setVisualisationType] = useState(
     Visualisations.LINE_CHART
   );
@@ -62,7 +62,6 @@ function statistics(props) {
   return (
     <div>
       <Header />
-      <h1>Your Statistics</h1>
       <Accordion />
       <div className={styles.content}>
         <div className={styles.filters}>
