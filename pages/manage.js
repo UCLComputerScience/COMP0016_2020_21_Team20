@@ -22,7 +22,7 @@ function manage() {
       <Header />
       {role === roles.USER_TYPE_DEPARTMENT ? (
         <div>
-          <h3>Manage the URL's of each question</h3>
+          <h3>Manage the URLs of each question</h3>
           <UrlTable />
         </div>
       ) : role === roles.USER_TYPE_ADMIN ? (
@@ -31,8 +31,8 @@ function manage() {
           <QuestionsTable />
         </div>
       ) : (
-            'You do not have access to this page'
-          )}
+        'You do not have access to this page'
+      )}
     </div>
   );
 }
