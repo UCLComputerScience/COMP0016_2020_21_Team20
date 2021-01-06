@@ -55,7 +55,6 @@ export default function Home() {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          align-items: center;
         }
 
         main {

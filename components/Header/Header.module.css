@@ -1,13 +1,21 @@
 .header {
   display: flex;
-  align-items: center;
   position: sticky;
   z-index: 2;
+  justify-content: space-between;
+  background-color: #f5f6fa;
+  width: 90%;
+  top: 0px;
+  height: 40px;
+  margin: auto;
+}
+
+.left {
+  display: flex;
+  align-items: center;
 }
 
 .logo {
-  display: flex;
-  justify-content: space-evenly;
   color: #005eb8;
   cursor: pointer;
 }

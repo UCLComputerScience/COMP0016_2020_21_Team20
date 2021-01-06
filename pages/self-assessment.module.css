@@ -5,17 +5,18 @@
 
 .selfAssessmentContainer {
   text-align: center;
-  width: 60%;
+  width: 80%;
   margin: auto;
 }
 
 .mentoringSessionContainer {
-  display: block;
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
 }
 
-.mentoringSessionRow {
-  display: flex;
-  flex-direction: row;
+.mentoringSessionRadios {
+  margin-left: 10px;
 }
 
 .unAnsweredAlert {
