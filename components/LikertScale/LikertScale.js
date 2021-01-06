@@ -31,6 +31,7 @@ function LikertScale(props) {
           return (
             <FormControlLabel
               key={i}
+              className={styles.likertScale}
               value={score}
               label={text}
               onChange={() => updateValue(score)}
