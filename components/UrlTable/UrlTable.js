@@ -33,7 +33,7 @@ const columns = [
   {
     id: 'url',
     label: 'Training URL',
-    width: '25%',
+    width: 'auto',
     render: (edited, row) => {
       if (edited) {
         //if this url is being edited then it needs to be an input box

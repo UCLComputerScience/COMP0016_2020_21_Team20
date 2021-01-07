@@ -162,7 +162,7 @@ function selfAssessment() {
       />
 
       {/* TODO make the mentoring thing prettier */}
-      <div>
+      <div className={styles.mentoringSessionContainer}>
         <FormControl
           component="fieldset"
           error={showMentoringError}
@@ -219,7 +219,7 @@ function selfAssessment() {
             key={i}
             question={question.body}
             questionId={question.id}
-            questionNumber={i + 8}
+            questionNumber={i + likertScaleQuestions.length + 1}
             onChange={words => (question.words = words)}
           />
         ))}
