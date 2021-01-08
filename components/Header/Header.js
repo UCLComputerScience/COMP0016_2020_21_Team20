@@ -10,7 +10,7 @@ import roles from '../../lib/roles';
 const paths = {
   [roles.USER_TYPE_ADMIN]: ['manage'],
   [roles.USER_TYPE_HEALTH_BOARD]: ['statistics'],
-  [roles.USER_TYPE_HOSPITAL]: ['statistics'],
+  [roles.USER_TYPE_HOSPITAL]: ['statistics', 'manage'],
   [roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-assessment', 'manage'],
   [roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-assessment'],
 };
@@ -46,10 +46,10 @@ function Header() {
       {session ? (
         <ProfileButton />
       ) : (
-        <div onClick={() => signIn('keycloak')} className={styles.link}>
-          Log in
-        </div>
-      )}
+          <div onClick={() => signIn('keycloak')} className={styles.link}>
+            Log in
+          </div>
+        )}
     </nav>
   );
 }

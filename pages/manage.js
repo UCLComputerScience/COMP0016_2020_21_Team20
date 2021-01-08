@@ -1,4 +1,4 @@
-import { UrlTable, Header, LoginMessage, QuestionsTable } from '../components';
+import { UrlTable, Header, LoginMessage, QuestionsTable, DepartmentsTable } from '../components';
 
 import { signIn, useSession } from 'next-auth/client';
 
@@ -30,9 +30,14 @@ function manage() {
           <h3>Manage and add new questions</h3>
           <QuestionsTable />
         </div>
+      ) : role === roles.USER_TYPE_HOSPITAL ? (
+        <div>
+          <h3>Manage and add new departments</h3>
+          <DepartmentsTable />
+        </div>
       ) : (
-        'You do not have access to this page'
-      )}
+              'You do not have access to this page'
+            )}
     </div>
   );
 }

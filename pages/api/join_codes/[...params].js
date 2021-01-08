@@ -2,6 +2,7 @@ import { getSession } from 'next-auth/client';
 
 import prisma from '../../../lib/prisma';
 import roles from '../../../lib/roles';
+import createJoinCode from '../../../lib/createJoinCode';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
@@ -15,6 +16,7 @@ export default async function handler(req, res) {
   const { params } = req.query;
   const [type, departmentId] = params;
 
+  console.log(type);
   if (
     ![roles.USER_TYPE_DEPARTMENT, roles.USER_TYPE_HOSPITAL].includes(type) ||
     !departmentId
@@ -28,11 +30,10 @@ export default async function handler(req, res) {
       res.statusCode = 403;
       return res.end(
         `You do not have permission to modify
-         ${
-           type === roles.USER_TYPE_DEPARTMENT
-             ? 'department-level'
-             : 'clinician-level'
-         } join codes`
+         ${type === roles.USER_TYPE_DEPARTMENT
+          ? 'department-level'
+          : 'clinician-level'
+        } join codes`
       );
     }
 
@@ -44,11 +45,11 @@ export default async function handler(req, res) {
 
     await dbTable.upsert({
       create: {
-        departments: { connect: departmentId },
+        departments: { connect: { id: +departmentId } },
         code,
       },
       update: { code },
-      where: { department_id: departmentId },
+      where: { department_id: +departmentId },
     });
 
     return res.json({ code });
