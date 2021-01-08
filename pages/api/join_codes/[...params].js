@@ -30,11 +30,10 @@ export default async function handler(req, res) {
       res.statusCode = 403;
       return res.end(
         `You do not have permission to modify
-         ${
-           type === roles.USER_TYPE_DEPARTMENT
-             ? 'department-level'
-             : 'clinician-level'
-         } join codes`
+         ${type === roles.USER_TYPE_DEPARTMENT
+          ? 'department-level'
+          : 'clinician-level'
+        } join codes`
       );
     }
 
