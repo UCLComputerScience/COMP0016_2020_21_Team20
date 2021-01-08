@@ -62,7 +62,7 @@ function statistics(props) {
 
   const getAverage = name => {
     const average = data ? data.averages[name] : null;
-    return average ? average * 25 : 0;
+    return average ? Math.ceil(average * 25) : 0;
   };
 
   const circles = [
