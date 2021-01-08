@@ -8,10 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Input, Select, MenuItem } from '@material-ui/core';
-import CreateIcon from '@material-ui/icons/Create';
-import ClearIcon from '@material-ui/icons/Clear';
-import SaveIcon from '@material-ui/icons/Save';
+import { Button, Input } from '@material-ui/core';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -45,7 +42,6 @@ const useStyles = makeStyles({
 });
 
 const useDatabaseData = () => {
-  //TODO
   const { data, error } = useSWR('/api/departments', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
@@ -65,16 +61,6 @@ export default function DepartmentsTable() {
   const [deleteDialogActions, setDeleteDialogActions] = useState([]);
   var newRow = { name: null };
   let localData = useDatabaseData();
-  // let localData = [
-  //   {
-  //     name: "dept1",
-  //     department_join_code: 'aaa',
-  //   },
-  //   {
-  //     name: "dept2",
-  //     department_join_code: 'bbb',
-  //   },
-  // ];
 
   const regenerateInDatabase = async id => {
     const res = await fetch(
