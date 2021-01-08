@@ -16,7 +16,6 @@ export default async function handler(req, res) {
   const { params } = req.query;
   const [type, departmentId] = params;
 
-  console.log(type);
   if (
     ![roles.USER_TYPE_DEPARTMENT, roles.USER_TYPE_HOSPITAL].includes(type) ||
     !departmentId
@@ -30,10 +29,11 @@ export default async function handler(req, res) {
       res.statusCode = 403;
       return res.end(
         `You do not have permission to modify
-         ${type === roles.USER_TYPE_DEPARTMENT
-          ? 'department-level'
-          : 'clinician-level'
-        } join codes`
+         ${
+           type === roles.USER_TYPE_DEPARTMENT
+             ? 'department-level'
+             : 'clinician-level'
+         } join codes`
       );
     }
 
