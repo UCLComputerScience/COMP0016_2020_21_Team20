@@ -6,7 +6,7 @@ import WordsQuestion from './WordsQuestion/WordsQuestion';
 import LineChart from './LineChart/LineChart';
 import Header from './Header/Header';
 import ProfileButton from './ProfileButton/ProfileButton';
-import Accordion from './Accordion/Accordion';
+import CirclesAccordion from './CirclesAccordion/CirclesAccordion';
 import Circle from './Circle/Circle';
 import Filters from './Filters/Filters';
 import UrlTable from './UrlTable/UrlTable';
@@ -26,7 +26,7 @@ export {
   LineChart,
   Header,
   ProfileButton,
-  Accordion,
+  CirclesAccordion,
   Circle,
   Filters,
   UrlTable,
