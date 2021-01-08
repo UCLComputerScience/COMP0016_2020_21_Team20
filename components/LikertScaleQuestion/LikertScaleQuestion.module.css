@@ -1,6 +1,8 @@
 .questionText {
   margin-bottom: 5px;
   text-align: left;
+  color: #005eb8;
+  font-weight: bold;
 }
 
 .question + .question {

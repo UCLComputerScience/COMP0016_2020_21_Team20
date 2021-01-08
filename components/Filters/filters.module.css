@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownFilters {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.button {
+  text-align: right;
+  display: flex;
+}

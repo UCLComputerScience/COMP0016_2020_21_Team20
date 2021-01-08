@@ -8,12 +8,11 @@ import Header from './Header/Header';
 import ProfileButton from './ProfileButton/ProfileButton';
 import Accordion from './Accordion/Accordion';
 import Circle from './Circle/Circle';
-import Filter from './Filter/Filter';
-import DateFilter from './DateFilter/DateFilter';
-import VisualisationFilter from './VisualisationFilter/VisualisationFilter';
+import Filters from './Filters/Filters';
 import UrlTable from './UrlTable/UrlTable';
 import QuestionsTable from './QuestionsTable/QuestionsTable';
 import LoginMessage from './LoginMessage/LoginMessage';
+import WordCloud from './WordCloud/WordCloud';
 
 export {
   Info,
@@ -26,10 +25,9 @@ export {
   ProfileButton,
   Accordion,
   Circle,
-  Filter,
-  DateFilter,
-  VisualisationFilter,
+  Filters,
   UrlTable,
   QuestionsTable,
   LoginMessage,
+  WordCloud,
 };

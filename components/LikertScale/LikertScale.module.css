@@ -4,3 +4,7 @@
   text-align: center;
   border: none;
 }
+
+.likertScale {
+  padding: 10px;
+}

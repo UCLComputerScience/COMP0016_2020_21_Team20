@@ -5,6 +5,7 @@ import {
   FormControlLabel,
   FormControl,
 } from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import styles from './LikertScale.module.css';
 
@@ -17,6 +18,7 @@ const options = {
 };
 
 function LikertScale(props) {
+  const matches = useMediaQuery('(min-width:576px)');
   const [value, setValue] = useState(null);
 
   const updateValue = value => {
@@ -31,10 +33,11 @@ function LikertScale(props) {
           return (
             <FormControlLabel
               key={i}
+              className={styles.likertScale}
               value={score}
               label={text}
               onChange={() => updateValue(score)}
-              labelPlacement="top"
+              labelPlacement={matches ? 'top' : 'start'}
               control={<Radio color="primary" />}
             />
           );

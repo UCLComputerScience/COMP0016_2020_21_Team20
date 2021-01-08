@@ -15,6 +15,7 @@ import {
   Radio,
   RadioGroup,
   FormControl,
+  FormLabel,
 } from '@material-ui/core';
 
 import useSWR from '../lib/swr';
@@ -148,7 +149,6 @@ function selfAssessment() {
   return (
     <div>
       <Header />
-      <h1>Your Self Assessement</h1>
       <h3>
         To what extent do you agree with the following statements regarding your
         experience in the last week?
@@ -165,14 +165,15 @@ function selfAssessment() {
       <div className={styles.mentoringSessionContainer}>
         <FormControl
           component="fieldset"
-          className={styles.mentoringSessionRow}>
-          <label>This submission is part of a mentoring session:</label>
-          {showMentoringError && (
-            <div className={styles.unAnsweredAlert}>
-              *please choose an answer
-            </div>
-          )}
+          error={showMentoringError}
+          required
+          className={styles.mentoringSessionContainer}>
+          <FormLabel>
+            This submission is part of a mentoring session:
+            {showMentoringError && ` (please choose an answer)`}
+          </FormLabel>
           <RadioGroup
+            className={styles.mentoringSessionRadios}
             aria-label="mentoring-session"
             name="mentoring-session"
             row>
@@ -181,7 +182,7 @@ function selfAssessment() {
               control={
                 <Radio
                   color="primary"
-                  onChange={event => setIsMentoringSession(true)}
+                  onChange={() => setIsMentoringSession(true)}
                 />
               }
               label="Yes"
@@ -191,7 +192,7 @@ function selfAssessment() {
               control={
                 <Radio
                   color="primary"
-                  onChange={event => setIsMentoringSession(false)}
+                  onChange={() => setIsMentoringSession(false)}
                 />
               }
               label="No"
@@ -218,7 +219,7 @@ function selfAssessment() {
             key={i}
             question={question.body}
             questionId={question.id}
-            questionNumber={i + 8}
+            questionNumber={i + likertScaleQuestions.length + 1}
             onChange={words => (question.words = words)}
           />
         ))}

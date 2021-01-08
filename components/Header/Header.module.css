@@ -1,13 +1,24 @@
 .header {
   display: flex;
-  align-items: center;
   position: sticky;
   z-index: 2;
+  justify-content: space-between;
+  background-color: #f5f6fa;
+  top: 0px;
+  height: 40px;
+  margin: auto;
+  margin-bottom: 10px;
+  border-bottom: 1px solid darkgrey;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
+.left {
+  display: flex;
+  align-items: center;
 }
 
 .logo {
-  display: flex;
-  justify-content: space-evenly;
   color: #005eb8;
   cursor: pointer;
 }
