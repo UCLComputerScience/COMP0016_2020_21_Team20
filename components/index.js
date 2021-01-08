@@ -13,6 +13,7 @@ import UrlTable from './UrlTable/UrlTable';
 import QuestionsTable from './QuestionsTable/QuestionsTable';
 import LoginMessage from './LoginMessage/LoginMessage';
 import WordCloud from './WordCloud/WordCloud';
+import DepartmentsTable from './DepartmentsTable/DepartmentsTable';
 
 export {
   Info,
@@ -30,4 +31,5 @@ export {
   QuestionsTable,
   LoginMessage,
   WordCloud,
+  DepartmentsTable,
 };

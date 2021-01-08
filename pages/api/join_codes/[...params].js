@@ -2,6 +2,7 @@ import { getSession } from 'next-auth/client';
 
 import prisma from '../../../lib/prisma';
 import roles from '../../../lib/roles';
+import createJoinCode from '../../../lib/createJoinCode';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
@@ -15,6 +16,7 @@ export default async function handler(req, res) {
   const { params } = req.query;
   const [type, departmentId] = params;
 
+  console.log(type);
   if (
     ![roles.USER_TYPE_DEPARTMENT, roles.USER_TYPE_HOSPITAL].includes(type) ||
     !departmentId
@@ -38,17 +40,17 @@ export default async function handler(req, res) {
 
     const code = await createJoinCode();
     const dbTable =
-      type === roles.USER_TYPE_DEPARTMENT
+      type === roles.USER_TYPE_HOSPITAL
         ? prisma.department_join_codes
         : prisma.clinician_join_codes;
 
     await dbTable.upsert({
       create: {
-        departments: { connect: departmentId },
+        departments: { connect: { id: +departmentId } },
         code,
       },
       update: { code },
-      where: { department_id: departmentId },
+      where: { department_id: +departmentId },
     });
 
     return res.json({ code });
