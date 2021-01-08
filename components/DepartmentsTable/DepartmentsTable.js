@@ -8,12 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {
-  Button,
-  Input,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
+import { Button, Input, Select, MenuItem } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/Save';
@@ -31,13 +26,14 @@ const columns = [
     id: 'department',
     label: 'Department Name',
     width: 'auto',
-    render: (row) => row['name'],
+    render: row => row['name'],
   },
   {
     id: 'url',
     label: 'Join URL',
     width: 'auto',
-    render: (row) => (window.location.hostname + '/join/department_manager/' + row['department_join_code']),
+    render: row =>
+      `https://${window.location.host}/join/department_manager/${row['department_join_code']}`,
   },
   { id: 'actions', label: 'Actions', width: '15%' },
 ];
@@ -81,15 +77,18 @@ export default function DepartmentsTable() {
   // ];
 
   const regenerateInDatabase = async id => {
-    const res = await fetch('/api/join_codes/' + roles.USER_TYPE_HOSPITAL + '/' + id, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const res = await fetch(
+      '/api/join_codes/' + roles.USER_TYPE_HOSPITAL + '/' + id,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
     return await res.json();
   };
 
   const regenerateCode = async id => {
-    await regenerateInDatabase(id)
+    await regenerateInDatabase(id);
     mutate('/api/departments');
   };
 
@@ -134,7 +133,11 @@ export default function DepartmentsTable() {
         onClick={() => setShowDeleteDialog(false)}>
         Cancel
       </Button>,
-      <Button key="alertdialog-confirm" onClick={() => {/*deleteRow(name)*/ }}>
+      <Button
+        key="alertdialog-confirm"
+        onClick={() => {
+          /*deleteRow(name)*/
+        }}>
         Yes (deleting not supported yet)
       </Button>,
     ]);
@@ -143,7 +146,9 @@ export default function DepartmentsTable() {
   const addRow = async () => {
     if (newRow.name === null) {
       setDialogText(
-        <div className={styles.alertText}>*Please don't leave department name blank</div>
+        <div className={styles.alertText}>
+          *Please don't leave department name blank
+        </div>
       );
     } else {
       await sendNewToDatabase();
@@ -164,7 +169,7 @@ export default function DepartmentsTable() {
           variant="filled"
           onChange={event => (newRow.name = event.target.value)}
         />
-      </div>
+      </div>,
     ]);
     setDialogActions([
       <Button
@@ -184,7 +189,8 @@ export default function DepartmentsTable() {
   return (
     <div>
       <div>
-        Please send these unique URLs to department managers to join the respective departments
+        Please send these unique URLs to department managers to join the
+        respective departments
       </div>
       <AlertDialog
         open={showDialog}
@@ -196,7 +202,9 @@ export default function DepartmentsTable() {
       <AlertDialog
         open={showDeleteDialog}
         title={'Are you sure you want to delete this deprtment?'}
-        text={'Deleting a department cannot be undone and all of the departments data will be deleted.'}
+        text={
+          'Deleting a department cannot be undone and all of the departments data will be deleted.'
+        }
         actions={deleteDialogActions}
       />
       <Button
@@ -222,42 +230,53 @@ export default function DepartmentsTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {localData !== undefined && localData.map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map(column => {
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.id !== 'actions' ? (
-                            column.render(row)
-                          ) : (
+              {localData !== undefined &&
+                localData.map(row => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}>
+                      {columns.map(column => {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.id !== 'actions' ? (
+                              column.render(row)
+                            ) : (
                               <div>
                                 <div className={styles.copyButton}>
                                   <CopyToClipboard
-                                    text={window.location.hostname + '/join/department_manager/' + row['department_join_code']}>
-                                    <button><FileCopyIcon fontSize="inherit" /></button>
+                                    text={`https://${window.location.host}/join/department_manager/${row['department_join_code']}`}>
+                                    <button>
+                                      <FileCopyIcon fontSize="inherit" />
+                                    </button>
                                   </CopyToClipboard>
                                 </div>
                                 <Button
                                   variant="contained"
                                   color="primary"
                                   onClick={() => regenerateCode(row['id'])}>
-                                  <div className={styles.buttonText}>Re-generate URL</div>
+                                  <div className={styles.buttonText}>
+                                    Re-generate URL
+                                  </div>
                                 </Button>
                                 <Button
                                   variant="contained"
                                   color="secondary"
                                   onClick={() => confirmDelete(row['name'])}>
-                                  <div className={styles.buttonText}>Delete</div>
+                                  <div className={styles.buttonText}>
+                                    Delete
+                                  </div>
                                 </Button>
                               </div>
                             )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
