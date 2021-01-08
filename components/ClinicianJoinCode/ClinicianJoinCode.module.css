@@ -12,3 +12,13 @@
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   font-size: 10px;
 }
+
+.textPadding {
+  padding: 1ch;
+}
+
+.buttonPadding {
+  padding: 1ch;
+  display: flex;
+  flex-direction: row;
+}
