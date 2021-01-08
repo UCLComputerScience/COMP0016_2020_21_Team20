@@ -30,16 +30,17 @@ export default async function handler(req, res) {
       res.statusCode = 403;
       return res.end(
         `You do not have permission to modify
-         ${type === roles.USER_TYPE_DEPARTMENT
-          ? 'department-level'
-          : 'clinician-level'
-        } join codes`
+         ${
+           type === roles.USER_TYPE_DEPARTMENT
+             ? 'department-level'
+             : 'clinician-level'
+         } join codes`
       );
     }
 
     const code = await createJoinCode();
     const dbTable =
-      type === roles.USER_TYPE_DEPARTMENT
+      type === roles.USER_TYPE_HOSPITAL
         ? prisma.department_join_codes
         : prisma.clinician_join_codes;
 
