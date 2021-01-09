@@ -1,25 +1,6 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(() => ({
-  root: {
-    width: '10%',
-  },
-  circleLabel: {
-    transform: 'translateY(0.2em)',
-  },
-  percentage: {
-    fontSize: '0.6em',
-    textAnchor: 'middle',
-  },
-  leftOffset: {
-    marginLeft: '-15px',
-  },
-  rightOffset: {
-    marginLeft: '10px',
-  },
-}));
+import styles from './Circle.module.css';
 
 const circleConfig = {
   viewBox: '0 0 40 40',
@@ -31,12 +12,9 @@ const circleConfig = {
 // TODO make this responsive for tablet-sizes and lower (somehow...)
 // Basic implementation from https://dev.to/dastasoft/animated-circle-progress-bar-with-svg-as-react-component-28nm
 const Circle = ({ name, color, percentage }) => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <h3
-        className={name.length > 10 ? classes.leftOffset : classes.rightOffset}>
+    <div className={styles.circle}>
+      <h3 className={name.length > 10 ? styles.leftOffset : styles.rightOffset}>
         {name}
       </h3>
       <svg viewBox={circleConfig.viewBox}>
@@ -57,8 +35,8 @@ const Circle = ({ name, color, percentage }) => {
           strokeDasharray={`${percentage} ${100 - percentage}`}
           strokeDashoffset={25}
         />
-        <g className={classes.circleLabel}>
-          <text x="50%" y="50%" className={classes.percentage}>
+        <g className={styles.circleLabel}>
+          <text x="50%" y="50%" className={styles.percentage}>
             {percentage}%
           </text>
         </g>
