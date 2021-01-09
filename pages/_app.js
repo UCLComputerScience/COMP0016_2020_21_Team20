@@ -1,3 +1,4 @@
+import 'rsuite/dist/styles/rsuite-default.min.css';
 import './style.css';
 
 import { Provider } from 'next-auth/client';
