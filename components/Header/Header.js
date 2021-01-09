@@ -44,7 +44,9 @@ function Header() {
         <ul className={styles.links}>{session && renderLinks()}</ul>
       </div>
       {session ? (
-        <ProfileButton />
+        <div className={styles.profile}>
+          <ProfileButton />
+        </div>
       ) : (
           <div onClick={() => signIn('keycloak')} className={styles.link}>
             Log in
