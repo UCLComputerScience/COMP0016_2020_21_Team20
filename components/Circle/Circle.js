@@ -14,9 +14,10 @@ const circleConfig = {
 const Circle = ({ name, color, percentage }) => {
   return (
     <div className={styles.circle}>
-      <h3 className={name.length > 10 ? styles.leftOffset : styles.rightOffset}>
+      <strong
+        className={name.length > 10 ? styles.leftOffset : styles.rightOffset}>
         {name}
-      </h3>
+      </strong>
       <svg viewBox={circleConfig.viewBox}>
         <circle
           cx={circleConfig.x}
