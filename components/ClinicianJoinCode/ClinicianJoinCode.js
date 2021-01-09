@@ -1,6 +1,5 @@
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import Button from '@material-ui/core/Button';
+import { Button, Icon } from 'rsuite';
 
 import styles from './ClinicianJoinCode.module.css';
 
@@ -40,40 +39,33 @@ function ClinicianJoinCode() {
 
   return (
     <div className={styles.content}>
-      <div className={styles.textPadding}>
+      <div style={{ width: '70%' }}>
         {'Please send this unique URL to clinicians so they can join your ' +
           (code !== undefined ? code['0']['name'] : 'loading...') +
-          ' department:'}
-      </div>
-      <div className={styles.textPadding}>
+          ' department:'}{' '}
         {`https://${window.location.host}/join/clincian/${
           code !== undefined
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
         }`}
       </div>
-      <div className={styles.buttonPadding}>
-        <div className={styles.button}>
-          <CopyToClipboard
-            text={`https://${window.location.host}/join/clincian/${
-              code !== undefined
-                ? code['0']['clinician_join_codes']['code']
-                : 'loading...'
-            }`}>
-            <button>
-              <FileCopyIcon fontSize="inherit" />
-            </button>
-          </CopyToClipboard>
-        </div>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => regenerateCode(session.user.departmentId)}>
-            <div className={styles.buttonText}>Re-generate URL</div>
-          </Button>
-        </div>
-      </div>
+
+      <CopyToClipboard
+        text={`https://${window.location.host}/join/clincian/${
+          code !== undefined
+            ? code['0']['clinician_join_codes']['code']
+            : 'loading...'
+        }`}>
+        <Button appearance="primary">
+          <Icon icon="clone" /> Copy to clipboard
+        </Button>
+      </CopyToClipboard>
+
+      <Button
+        appearance="primary"
+        onClick={() => regenerateCode(session.user.departmentId)}>
+        <div>Re-generate URL</div>
+      </Button>
     </div>
   );
 }
