@@ -9,19 +9,9 @@ import {
   LoginMessage,
 } from '../components';
 
-import {
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  FormControl,
-  FormLabel,
-} from '@material-ui/core';
+import { Button, Radio, RadioGroup, IconButton, Icon } from 'rsuite';
 
 import useSWR from '../lib/swr';
-
-//import { Icon } from '@material-ui/icons';
-//import SaveIcon from '@material-ui/icons/SaveIcon';
 
 import styles from './self-assessment.module.css';
 
@@ -149,10 +139,10 @@ function selfAssessment() {
   return (
     <div>
       <Header />
-      <h3>
+      <h4>
         To what extent do you agree with the following statements regarding your
-        experience in the last week?
-      </h3>
+        recent experience?
+      </h4>
 
       <AlertDialog
         open={showDialog}
@@ -164,42 +154,21 @@ function selfAssessment() {
 
       {/* TODO make the mentoring thing prettier */}
       <div className={styles.mentoringSessionContainer}>
-        <FormControl
-          component="fieldset"
-          error={showMentoringError}
-          required
-          className={styles.mentoringSessionContainer}>
-          <FormLabel>
-            This submission is part of a mentoring session:
-            {showMentoringError && ` (please choose an answer)`}
-          </FormLabel>
-          <RadioGroup
-            className={styles.mentoringSessionRadios}
-            aria-label="mentoring-session"
-            name="mentoring-session"
-            row>
-            <FormControlLabel
-              value="1"
-              control={
-                <Radio
-                  color="primary"
-                  onChange={() => setIsMentoringSession(true)}
-                />
-              }
-              label="Yes"
-            />
-            <FormControlLabel
-              value="0"
-              control={
-                <Radio
-                  color="primary"
-                  onChange={() => setIsMentoringSession(false)}
-                />
-              }
-              label="No"
-            />
-          </RadioGroup>
-        </FormControl>
+        <label htmlFor="mentoring-session">
+          Is this submission as part of a mentoring session?
+          {showMentoringError && ` (please choose an answer)`}
+        </label>
+        <RadioGroup
+          aria-label="mentoring-session"
+          id="mentoring-session"
+          inline>
+          <Radio value="1" onChange={() => setIsMentoringSession(true)}>
+            Yes
+          </Radio>
+          <Radio value="0" onChange={() => setIsMentoringSession(false)}>
+            No
+          </Radio>
+        </RadioGroup>
       </div>
 
       <div className={styles.selfAssessmentContainer}>
@@ -225,15 +194,13 @@ function selfAssessment() {
           />
         ))}
 
-        <Button
-          variant="contained"
-          color="primary"
-          className={styles.submit}
+        <IconButton
+          appearance="primary"
           onClick={() => handleSubmit()}
-          // startIcon={<SaveIcon />}
-        >
+          placement="right"
+          icon={<Icon icon="send" />}>
           Submit
-        </Button>
+        </IconButton>
       </div>
     </div>
   );
