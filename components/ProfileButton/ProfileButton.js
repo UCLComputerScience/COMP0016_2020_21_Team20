@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { signOut } from 'next-auth/client';
+import { signOut, useSession } from 'next-auth/client';
 
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -11,7 +11,13 @@ import MenuList from '@material-ui/core/MenuList';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
+import { LeaveDeptButton } from '../';
+import styles from './ProfileButton.module.css';
+import roles from '../../lib/roles';
+
 function ProfileButton() {
+  const [session] = useSession();
+  const role = session.roles[0];
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
@@ -71,8 +77,17 @@ function ProfileButton() {
                   autoFocusItem={open}
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}>
+                  {/*only show leave option if clinician or department*/}
+                  {(role === roles.USER_TYPE_CLINICIAN || role === roles.USER_TYPE_DEPARTMENT) &&
+                    (<MenuItem>
+                      <LeaveDeptButton />
+                    </MenuItem>)}
                   <MenuItem>
-                    <Button onClick={signOut}>Sign out</Button>
+                    <Button onClick={signOut}>
+                      <div className={styles.buttonText}>
+                        Sign out
+                      </div>
+                    </Button>
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

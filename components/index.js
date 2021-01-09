@@ -15,6 +15,7 @@ import LoginMessage from './LoginMessage/LoginMessage';
 import WordCloud from './WordCloud/WordCloud';
 import DepartmentsTable from './DepartmentsTable/DepartmentsTable';
 import ClinicianJoinCode from './ClinicianJoinCode/ClinicianJoinCode';
+import LeaveDeptButton from './LeaveDeptButton/LeaveDeptButton';
 
 export {
   Info,
@@ -34,4 +35,5 @@ export {
   WordCloud,
   DepartmentsTable,
   ClinicianJoinCode,
+  LeaveDeptButton,
 };
