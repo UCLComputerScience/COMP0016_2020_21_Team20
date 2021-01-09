@@ -9,7 +9,7 @@ import {
   LoginMessage,
 } from '../components';
 
-import { Button, Radio, RadioGroup, IconButton, Icon } from 'rsuite';
+import { Button, Radio, RadioGroup, IconButton, Icon, Toggle } from 'rsuite';
 
 import useSWR from '../lib/swr';
 
@@ -109,7 +109,6 @@ function selfAssessment() {
         <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
           Edit my responses
         </Button>,
-        //TO DO: send submission using api
         <Button key="alertdialog-confirm" onClick={() => submitAnswers()}>
           Confirm submission
         </Button>,
@@ -119,6 +118,7 @@ function selfAssessment() {
     setShowDialog(true);
   };
 
+  // TODO improve error handling styling
   const handleMentoring = () => {
     if (isMentoringSession === null) {
       setShowMentoringError(true);
@@ -139,11 +139,6 @@ function selfAssessment() {
   return (
     <div>
       <Header />
-      <h4>
-        To what extent do you agree with the following statements regarding your
-        recent experience?
-      </h4>
-
       <AlertDialog
         open={showDialog}
         setOpen={setShowDialog}
@@ -152,26 +147,26 @@ function selfAssessment() {
         actions={dialogActions}
       />
 
-      {/* TODO make the mentoring thing prettier */}
       <div className={styles.mentoringSessionContainer}>
         <label htmlFor="mentoring-session">
           Is this submission as part of a mentoring session?
           {showMentoringError && ` (please choose an answer)`}
         </label>
-        <RadioGroup
-          aria-label="mentoring-session"
-          id="mentoring-session"
-          inline>
-          <Radio value="1" onChange={() => setIsMentoringSession(true)}>
-            Yes
-          </Radio>
-          <Radio value="0" onChange={() => setIsMentoringSession(false)}>
-            No
-          </Radio>
-        </RadioGroup>
+        <Toggle
+          className={styles.mentoringToggle}
+          size="lg"
+          checkedChildren="Yes"
+          unCheckedChildren="No"
+          onChange={value => setIsMentoringSession(value)}
+        />
       </div>
 
       <div className={styles.selfAssessmentContainer}>
+        <p className={styles.mainQuestion}>
+          To what extent do you agree with the following statements regarding
+          your recent experience?
+        </p>
+
         {likertScaleQuestions.map((question, i) => (
           <LikertScaleQuestion
             key={i}
@@ -195,6 +190,7 @@ function selfAssessment() {
         ))}
 
         <IconButton
+          className={styles.submit}
           appearance="primary"
           onClick={() => handleSubmit()}
           placement="right"

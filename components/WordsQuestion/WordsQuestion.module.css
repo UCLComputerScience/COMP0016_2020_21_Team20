@@ -5,7 +5,7 @@
   font-weight: bold;
 }
 
-.question + .question {
+.question {
   margin-top: 15px;
 }
 

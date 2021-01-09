@@ -21,11 +21,13 @@
 .logo {
   color: #005eb8;
   cursor: pointer;
+  font-size: 2em;
 }
 
 .links {
   list-style-type: none;
   display: flex;
+  margin: initial;
 }
 
 .link {

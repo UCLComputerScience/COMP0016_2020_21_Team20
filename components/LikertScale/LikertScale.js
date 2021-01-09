@@ -34,7 +34,7 @@ function LikertScale(props) {
             className={styles.likertScale}
             value={score}
             title={text}>
-            {text}
+            {value === score ? <strong>{text}</strong> : text}
           </Radio>
         );
       })}

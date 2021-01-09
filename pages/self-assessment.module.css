@@ -1,23 +1,31 @@
+.mainQuestion {
+  font-style: italic;
+  font-size: 1.1em;
+}
+
 .selfAssessmentContainer {
-  text-align: center;
   width: 80%;
   margin: auto;
 }
 
 .mentoringSessionContainer {
-  display: flex;
-  flex-direction: row !important;
-  align-items: center;
-  background-color: white;
+  font-weight: bold;
   padding: 5px;
-  width: 100%;
   text-align: center;
-  justify-content: center;
-  margin-bottom: 10px;
+}
+
+.mentoringToggle {
+  margin-left: 5px;
 }
 
 .unAnsweredAlert {
   display: block;
   color: red;
   margin-bottom: 5px;
+}
+
+.submit {
+  display: block;
+  margin: auto;
+  margin-top: 10px;
 }
