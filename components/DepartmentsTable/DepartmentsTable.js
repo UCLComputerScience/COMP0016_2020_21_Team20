@@ -1,19 +1,45 @@
 import { useState } from 'react';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import { Button, Input } from '@material-ui/core';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import { Input, Icon, Button, Table } from 'rsuite';
-
-import { AlertDialog } from '..';
+import { AlertDialog } from '../';
 import styles from './DepartmentsTable.module.css';
 import useSWR from '../../lib/swr';
 import { mutate } from 'swr';
 import roles from '../../lib/roles';
 
 const columns = [
-  { id: 'department', label: 'Department Name', flexGrow: 1 },
-  { id: 'joinUrl', label: 'Join URL', flexGrow: 2 },
+  {
+    id: 'department',
+    label: 'Department Name',
+    width: 'auto',
+    render: row => row['name'],
+  },
+  {
+    id: 'url',
+    label: 'Join URL',
+    width: 'auto',
+    render: row =>
+      `https://${window.location.host}/join/department_manager/${row['department_join_code']}`,
+  },
+  { id: 'actions', label: 'Actions', width: '15%' },
 ];
+
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+  },
+});
 
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/departments', {
@@ -21,17 +47,11 @@ const useDatabaseData = () => {
     revalidateOnReconnect: false,
   });
 
-  return data
-    ? data.map(d => ({
-        department: d.name,
-        joinUrl: `https://${window.location.host}/join/department_manager/${d.department_join_code}`,
-        joinCode: d.department_join_code,
-        id: d.id,
-      }))
-    : data;
+  return data;
 };
 
 export default function DepartmentsTable() {
+  const classes = useStyles();
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
@@ -133,7 +153,7 @@ export default function DepartmentsTable() {
           className={styles.input}
           key={'new-department-name'}
           variant="filled"
-          onChange={value => (newRow.name = value)}
+          onChange={event => (newRow.name = event.target.value)}
         />
       </div>,
     ]);
@@ -182,39 +202,73 @@ export default function DepartmentsTable() {
         onClick={() => setDialog()}>
         <div className={styles.buttonText}>Add new department</div>
       </Button>
-
-      <Table data={localData} autoHeight virtualized bordered>
-        {columns.map(column => (
-          <Table.Column key={column.id} flexGrow={column.flexGrow}>
-            <Table.HeaderCell>{column.label}</Table.HeaderCell>
-            <Table.Cell dataKey={column.id} />
-          </Table.Column>
-        ))}
-        <Table.Column flexGrow={1}>
-          <Table.HeaderCell>Actions</Table.HeaderCell>
-          <Table.Cell>
-            {rowData => (
-              <div>
-                <CopyToClipboard text={rowData.joinUrl}>
-                  <Button appearance="primary">
-                    <Icon icon="clone" />
-                  </Button>
-                </CopyToClipboard>
-                <Button
-                  appearance="primary"
-                  onClick={() => regenerateCode(rowData.id)}>
-                  Re-generate URL
-                </Button>
-                <Button
-                  appearance="primary"
-                  onClick={() => confirmDelete(rowData.department)}>
-                  Delete
-                </Button>
-              </div>
-            )}
-          </Table.Cell>
-        </Table.Column>
-      </Table>
+      <Paper className={classes.root}>
+        <TableContainer>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map(column => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ width: column.width }}>
+                    <div className={styles.header}>{column.label}</div>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {localData !== undefined &&
+                localData.map(row => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}>
+                      {columns.map(column => {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.id !== 'actions' ? (
+                              column.render(row)
+                            ) : (
+                              <div>
+                                <div className={styles.copyButton}>
+                                  <CopyToClipboard
+                                    text={`https://${window.location.host}/join/department_manager/${row['department_join_code']}`}>
+                                    <button>
+                                      <FileCopyIcon fontSize="inherit" />
+                                    </button>
+                                  </CopyToClipboard>
+                                </div>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => regenerateCode(row['id'])}>
+                                  <div className={styles.buttonText}>
+                                    Re-generate URL
+                                  </div>
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  color="secondary"
+                                  onClick={() => confirmDelete(row['name'])}>
+                                  <div className={styles.buttonText}>
+                                    Delete
+                                  </div>
+                                </Button>
+                              </div>
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
     </div>
   );
 }
