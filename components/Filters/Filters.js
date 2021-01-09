@@ -1,9 +1,4 @@
 import { SelectPicker, DateRangePicker } from 'rsuite';
-import { DateRange } from 'react-date-range';
-
-import styles from './filters.module.css';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
 
 import { Visualisations } from '../../lib/constants';
 
@@ -14,7 +9,7 @@ const subtractDays = days => {
 
 export function Filters(props) {
   return (
-    <div className={styles.content}>
+    <div>
       <p>Date Range</p>
       <DateRangePicker
         showOneCalendar

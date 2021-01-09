@@ -1,9 +1,0 @@
-.content {
-  display: flex;
-  flex-direction: column;
-}
-
-.button {
-  text-align: right;
-  display: flex;
-}
