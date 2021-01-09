@@ -1,6 +1,8 @@
 import styles from './Header.module.css';
 
 import Link from 'next/link';
+
+import { Nav } from 'rsuite';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/client';
 
@@ -26,33 +28,27 @@ function Header() {
 
     return pathsForRole.map((path, i) => (
       <Link key={i} href={'/'.concat(path)}>
-        <li
-          className={`${styles.link} ${router.pathname === `/${path}` && styles.active
-            }`}>
-          {path}
-        </li>
+        <Nav.Item active={router.pathname === `/${path}`}>{path}</Nav.Item>
       </Link>
     ));
   };
 
   return (
-    <nav className={styles.header}>
-      <div className={styles.left}>
-        <Link href="/">
-          <h1 className={styles.logo}>CQ Dashboard</h1>
-        </Link>
-        <ul className={styles.links}>{session && renderLinks()}</ul>
-      </div>
-      {session ? (
-        <div className={styles.profile}>
+    <Nav className={styles.header}>
+      <Link href="/">
+        <Nav.Item className={styles.logoWrapper}>
+          <span className={styles.logo}>CQ Dashboard</span>
+        </Nav.Item>
+      </Link>
+      {session && renderLinks()}
+      <div className={styles.profile}>
+        {session ? (
           <ProfileButton />
-        </div>
-      ) : (
-          <div onClick={() => signIn('keycloak')} className={styles.link}>
-            Log in
-          </div>
+        ) : (
+          <div onClick={() => signIn('keycloak')}>Log in</div>
         )}
-    </nav>
+      </div>
+    </Nav>
   );
 }
 

@@ -1,48 +1,31 @@
 .header {
-  display: flex;
   position: sticky;
   z-index: 2;
-  justify-content: space-between;
   background-color: #f5f6fa;
   top: 0px;
   height: 40px;
   margin: auto;
   margin-bottom: 10px;
   border-bottom: 1px solid darkgrey;
-  padding-bottom: 5px;
+  margin-top: -10px;
   width: 100%;
 }
 
-.left {
-  display: flex;
-  align-items: center;
+.header ul {
+  width: 100%;
+}
+
+.logoWrapper {
+  margin-top: -5px;
 }
 
 .logo {
   color: #005eb8;
   cursor: pointer;
-  font-size: 2em;
-}
-
-.links {
-  list-style-type: none;
-  display: flex;
-  margin: initial;
-}
-
-.link {
-  margin-left: 10px;
-  margin-right: 10px;
-  color: #768692;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.active {
-  color: #425563;
-  text-decoration: underline;
+  font-size: 1.5em;
+  margin-top: -5px;
 }
 
 .profile {
-  margin-right: 5ch;
+  float: right;
 }
