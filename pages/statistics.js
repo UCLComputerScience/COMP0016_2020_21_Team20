@@ -116,6 +116,7 @@ function statistics(props) {
             setIsMentoringSession={setIsMentoringSession}
           />
         </div>
+
         <div className={styles.graph}>
           <LineChart
             data={
@@ -131,7 +132,6 @@ function statistics(props) {
                 : []
             }
           />
-          {/* <WordCloud /> */}
         </div>
       </div>
     </div>
