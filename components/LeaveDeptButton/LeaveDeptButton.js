@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signOut } from 'next-auth/client';
 
 import { Button } from 'rsuite';
@@ -27,10 +27,12 @@ function LeaveDeptButton() {
     }
   };
 
+  // TODO this dialog opening logic is broken for some reason?? it just doesn't open!
   return (
     <div>
       <AlertDialog
         open={showDialog}
+        setOpen={setShowDialog}
         title="Are you sure you want to leave your department?"
         text="To re-join/join a new department you will need a unique URL."
         actions={[
@@ -47,6 +49,7 @@ function LeaveDeptButton() {
       />
       <AlertDialog
         open={showErrorDialog}
+        setOpen={setShowErrorDialog}
         title="Error"
         text="Leaving department failed, please try again or contact system administrator."
         actions={[

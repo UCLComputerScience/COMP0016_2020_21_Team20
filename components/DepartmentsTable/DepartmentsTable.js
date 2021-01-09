@@ -180,6 +180,7 @@ export default function DepartmentsTable() {
       </div>
       <AlertDialog
         open={showDialog}
+        setOpen={setShowDialog}
         title={dialogTitle}
         text={dialogText}
         content={dialogContent}
@@ -187,6 +188,7 @@ export default function DepartmentsTable() {
       />
       <AlertDialog
         open={showDeleteDialog}
+        setOpen={setShowDeleteDialog}
         title={'Are you sure you want to delete this deprtment?'}
         text={
           'Deleting a department cannot be undone and all of the departments data will be deleted.'

@@ -156,6 +156,7 @@ function selfAssessment() {
 
       <AlertDialog
         open={showDialog}
+        setOpen={setShowDialog}
         title={dialogTitle}
         text={dialogText}
         actions={dialogActions}

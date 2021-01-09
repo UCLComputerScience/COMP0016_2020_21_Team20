@@ -298,6 +298,7 @@ export default function QuestionsTable() {
     <div>
       <AlertDialog
         open={showDialog}
+        setOpen={setShowDialog}
         title={dialogTitle}
         text={dialogText}
         content={dialogContent}
@@ -305,6 +306,7 @@ export default function QuestionsTable() {
       />
       <AlertDialog
         open={showDeleteDialog}
+        setOpen={setShowDeleteDialog}
         title={'Are you sure you want to delete this question?'}
         text={'Deleting a question cannot be undone.'}
         actions={deleteDialogActions}
