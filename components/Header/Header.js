@@ -45,7 +45,7 @@ function Header() {
         {session ? (
           <ProfileButton />
         ) : (
-          <div onClick={() => signIn('keycloak')}>Log in</div>
+          <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
         )}
       </div>
     </Nav>
