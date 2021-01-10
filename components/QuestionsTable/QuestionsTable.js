@@ -1,27 +1,12 @@
 import { useState } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import {
-  Button,
-  Input,
-  Select,
-  MenuItem,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  InputLabel,
-} from '@material-ui/core';
-import CreateIcon from '@material-ui/icons/Create';
-import ClearIcon from '@material-ui/icons/Clear';
-import SaveIcon from '@material-ui/icons/Save';
+import { Button, Icon, Input, SelectPicker } from 'rsuite';
 
 import { AlertDialog } from '../';
 import styles from './QuestionsTable.module.css';
@@ -32,7 +17,7 @@ const columns = [
   {
     id: 'question',
     label: 'Question body',
-    width: 'auto',
+    width: '50%',
     render: (edited, row) => {
       if (edited) {
         //if this url is being edited then it needs to be an input box
@@ -44,8 +29,7 @@ const columns = [
             className={styles.input}
             key={row['standards']['name']}
             defaultValue={row['body']}
-            variant="filled"
-            onChange={event => (editedRow.body = event.target.value)}
+            onChange={value => (editedRow.body = value)}
           />
         );
       } else {
@@ -57,7 +41,7 @@ const columns = [
   {
     id: 'standard',
     label: 'Standard',
-    width: '15%',
+    width: 'auto',
     render: (edited, row) => {
       if (edited) {
         //if this url is being edited then it needs to be an input box
@@ -65,14 +49,16 @@ const columns = [
         let buffer = {};
         editedRow = Object.assign(buffer, row);
         return (
-          <Select
-            id={row['body']}
+          <SelectPicker
+            searchable={false}
+            cleanable={false}
             defaultValue={editedRow.standards.id}
-            onChange={handleStandardChange}>
-            {standards.map(standard => (
-              <MenuItem value={standard.id}>{standard.name}</MenuItem>
-            ))}
-          </Select>
+            onChange={value => (editedRow.standards.id = value)}
+            data={standards.map(standard => ({
+              label: standard.name,
+              value: standard.id,
+            }))}
+          />
         );
       } else {
         //else just display standards name
@@ -95,8 +81,7 @@ const columns = [
             className={styles.input}
             key={row['standards']['name']}
             defaultValue={row['url']}
-            variant="filled"
-            onChange={event => (editedRow.url = event.target.value)}
+            onChange={value => (editedRow.url = value)}
           />
         );
       } else {
@@ -109,18 +94,8 @@ const columns = [
       }
     },
   },
-  { id: 'actions', label: 'Actions', width: '15%' },
+  { id: 'actions', label: 'Actions', width: 'auto' },
 ];
-
-const handleStandardChange = event => {
-  editedRow.standards.id = event.target.value;
-};
-
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-  },
-});
 
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/questions?default_urls=1', {
@@ -144,7 +119,6 @@ var standards = [];
 var editedRow = null;
 
 export default function QuestionsTable() {
-  const classes = useStyles();
   const [editing, setEditing] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
@@ -221,13 +195,13 @@ export default function QuestionsTable() {
   const confirmDelete = id => {
     setShowDeleteDialog(true);
     setDeleteDialogActions([
-      <Button
-        key="alertdialog-edit"
-        color="secondary"
-        onClick={() => setShowDeleteDialog(false)}>
+      <Button key="alertdialog-edit" onClick={() => setShowDeleteDialog(false)}>
         Cancel
       </Button>,
-      <Button key="alertdialog-confirm" onClick={() => deleteRow(id)}>
+      <Button
+        key="alertdialog-confirm"
+        onClick={() => deleteRow(id)}
+        color="red">
         Yes
       </Button>,
     ]);
@@ -250,43 +224,37 @@ export default function QuestionsTable() {
   const setDialog = () => {
     setDialogTitle('Please fill in the information of the new question:');
     setDialogContent([
-      <div className={styles.alertContent}>
-        <div>Body:</div>
+      <div>
+        <label>Body:</label>
         <Input
           className={styles.input}
-          key={'new-body'}
-          variant="filled"
-          onChange={event => (newRow.body = event.target.value)}
+          onChange={value => (newRow.body = value)}
         />
-        <div>Standard:</div>
-        <Select
-          id="new-standard"
+        <label>Standard:</label>
+        <SelectPicker
           defaultValue={newRow.standard}
-          onChange={event => (newRow.standard = event.target.value)}>
-          <MenuItem value={-1} disabled>
-            Choose Standard
-          </MenuItem>
-          {standards.map(standard => (
-            <MenuItem value={standard.id}>{standard.name}</MenuItem>
-          ))}
-        </Select>
-        <div>Url:</div>
+          onChange={value => (newRow.standard = value)}
+          placeholder="Choose Standard"
+          data={standards.map(standard => ({
+            label: standard.name,
+            value: standard.id,
+          }))}
+        />
+        <label>Url:</label>
         <Input
           className={styles.input}
-          key={'new-url'}
-          variant="filled"
-          onChange={event => (newRow.url = event.target.value)}
+          onChange={value => (newRow.url = value)}
         />
       </div>,
     ]);
     setDialogActions([
-      <Button
-        key="alertdialog-edit"
-        color="secondary"
-        onClick={() => setShowDialog(false)}>
+      <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
         Cancel
       </Button>,
-      <Button key="alertdialog-confirm" onClick={() => addRow()}>
+      <Button
+        key="alertdialog-confirm"
+        onClick={() => addRow()}
+        appearance="primary">
         Add
       </Button>,
     ]);
@@ -313,76 +281,67 @@ export default function QuestionsTable() {
       />
       <Button
         className={styles.buttons}
-        variant="contained"
-        color="primary"
+        appearance="primary"
         onClick={() => setDialog()}>
-        <div className={styles.buttonText}>Add new question</div>
+        <div>Add new question</div>
       </Button>
-      <Paper className={classes.root}>
-        <TableContainer>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map(column => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ width: column.width }}>
-                    <div className={styles.header}>{column.label}</div>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {localData.map((row, i) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map(column => {
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.id !== 'actions' ? (
-                            column.render(editing === i, row)
-                          ) : editing === i ? (
-                            <div>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => sendUpdated()}>
-                                <SaveIcon fontSize="inherit" />
-                              </Button>
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => cancelEditing()}>
-                                <ClearIcon fontSize="inherit" />
-                              </Button>
-                            </div>
-                          ) : (
-                            <div>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => setEditing(i)}>
-                                <CreateIcon fontSize="inherit" />
-                              </Button>
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => confirmDelete(row['id'])}>
-                                <div className={styles.buttonText}>Delete</div>
-                              </Button>
-                            </div>
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
+      <TableContainer>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map(column => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ width: column.width }}>
+                  <div className={styles.header}>{column.label}</div>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {localData.map((row, i) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  {columns.map(column => {
+                    return (
+                      <TableCell key={column.id} align={column.align}>
+                        {column.id !== 'actions' ? (
+                          column.render(editing === i, row)
+                        ) : editing === i ? (
+                          <div className={styles.actionButtons}>
+                            <Button
+                              appearance="primary"
+                              onClick={() => sendUpdated()}>
+                              <Icon icon="save" />
+                            </Button>
+                            <Button color="red" onClick={() => cancelEditing()}>
+                              <Icon icon="close" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className={styles.actionButtons}>
+                            <Button
+                              appearance="primary"
+                              onClick={() => setEditing(i)}>
+                              <Icon icon="pencil" />
+                            </Button>
+                            <Button
+                              color="red"
+                              onClick={() => confirmDelete(row['id'])}>
+                              Delete
+                            </Button>
+                          </div>
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

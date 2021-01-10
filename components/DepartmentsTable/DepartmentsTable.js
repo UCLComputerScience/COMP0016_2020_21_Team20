@@ -141,8 +141,7 @@ export default function DepartmentsTable() {
         <Input
           className={styles.input}
           key={'new-department-name'}
-          variant="filled"
-          onChange={event => (newRow.name = event.target.value)}
+          onChange={value => (newRow.name = value)}
         />
       </div>,
     ]);
