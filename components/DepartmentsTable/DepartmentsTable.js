@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { Button, Input, Icon } from 'rsuite';
@@ -187,7 +189,7 @@ export default function DepartmentsTable() {
         className={styles.buttons}
         appearance="primary"
         onClick={() => setDialog()}>
-        <div className={styles.buttonText}>Add new department</div>
+        Add new department
       </Button>
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
