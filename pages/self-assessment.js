@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/client';
+import { Button, IconButton, Icon, Toggle } from 'rsuite';
+
+import styles from './self-assessment.module.css';
 
 import {
   LikertScaleQuestion,
@@ -8,22 +11,7 @@ import {
   Header,
   LoginMessage,
 } from '../components';
-
-import {
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  FormControl,
-  FormLabel,
-} from '@material-ui/core';
-
 import useSWR from '../lib/swr';
-
-//import { Icon } from '@material-ui/icons';
-//import SaveIcon from '@material-ui/icons/SaveIcon';
-
-import styles from './self-assessment.module.css';
 
 const useQuestions = () => {
   const { data, error } = useSWR('/api/questions', {
@@ -119,7 +107,6 @@ function selfAssessment() {
         <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
           Edit my responses
         </Button>,
-        //TO DO: send submission using api
         <Button key="alertdialog-confirm" onClick={() => submitAnswers()}>
           Confirm submission
         </Button>,
@@ -129,6 +116,7 @@ function selfAssessment() {
     setShowDialog(true);
   };
 
+  // TODO improve error handling styling
   const handleMentoring = () => {
     if (isMentoringSession === null) {
       setShowMentoringError(true);
@@ -149,59 +137,34 @@ function selfAssessment() {
   return (
     <div>
       <Header />
-      <h3>
-        To what extent do you agree with the following statements regarding your
-        experience in the last week?
-      </h3>
-
       <AlertDialog
         open={showDialog}
+        setOpen={setShowDialog}
         title={dialogTitle}
         text={dialogText}
         actions={dialogActions}
       />
 
-      {/* TODO make the mentoring thing prettier */}
       <div className={styles.mentoringSessionContainer}>
-        <FormControl
-          component="fieldset"
-          error={showMentoringError}
-          required
-          className={styles.mentoringSessionContainer}>
-          <FormLabel>
-            This submission is part of a mentoring session:
-            {showMentoringError && ` (please choose an answer)`}
-          </FormLabel>
-          <RadioGroup
-            className={styles.mentoringSessionRadios}
-            aria-label="mentoring-session"
-            name="mentoring-session"
-            row>
-            <FormControlLabel
-              value="1"
-              control={
-                <Radio
-                  color="primary"
-                  onChange={() => setIsMentoringSession(true)}
-                />
-              }
-              label="Yes"
-            />
-            <FormControlLabel
-              value="0"
-              control={
-                <Radio
-                  color="primary"
-                  onChange={() => setIsMentoringSession(false)}
-                />
-              }
-              label="No"
-            />
-          </RadioGroup>
-        </FormControl>
+        <label htmlFor="mentoring-session">
+          Is this submission as part of a mentoring session?
+          {showMentoringError && ` (please choose an answer)`}
+        </label>
+        <Toggle
+          className={styles.mentoringToggle}
+          size="lg"
+          checkedChildren="Yes"
+          unCheckedChildren="No"
+          onChange={value => setIsMentoringSession(value)}
+        />
       </div>
 
       <div className={styles.selfAssessmentContainer}>
+        <p className={styles.mainQuestion}>
+          To what extent do you agree with the following statements regarding
+          your recent experience?
+        </p>
+
         {likertScaleQuestions.map((question, i) => (
           <LikertScaleQuestion
             key={i}
@@ -224,15 +187,14 @@ function selfAssessment() {
           />
         ))}
 
-        <Button
-          variant="contained"
-          color="primary"
+        <IconButton
           className={styles.submit}
+          appearance="primary"
           onClick={() => handleSubmit()}
-          // startIcon={<SaveIcon />}
-        >
+          placement="right"
+          icon={<Icon icon="send" />}>
           Submit
-        </Button>
+        </IconButton>
       </div>
     </div>
   );

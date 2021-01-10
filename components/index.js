@@ -1,39 +1,18 @@
-import Info from './Info/Info';
-import LikertScaleQuestion from './LikertScaleQuestion/LikertScaleQuestion';
-import LikertScale from './LikertScale/LikertScale';
-import AlertDialog from './AlertDialog/AlertDialog';
-import WordsQuestion from './WordsQuestion/WordsQuestion';
-import LineChart from './LineChart/LineChart';
-import Header from './Header/Header';
-import ProfileButton from './ProfileButton/ProfileButton';
-import Accordion from './Accordion/Accordion';
-import Circle from './Circle/Circle';
-import Filters from './Filters/Filters';
-import UrlTable from './UrlTable/UrlTable';
-import QuestionsTable from './QuestionsTable/QuestionsTable';
-import LoginMessage from './LoginMessage/LoginMessage';
-import WordCloud from './WordCloud/WordCloud';
-import DepartmentsTable from './DepartmentsTable/DepartmentsTable';
-import ClinicianJoinCode from './ClinicianJoinCode/ClinicianJoinCode';
-import LeaveDeptButton from './LeaveDeptButton/LeaveDeptButton';
-
-export {
-  Info,
-  LikertScaleQuestion,
-  LikertScale,
-  AlertDialog,
-  WordsQuestion,
-  LineChart,
-  Header,
-  ProfileButton,
-  Accordion,
-  Circle,
-  Filters,
-  UrlTable,
-  QuestionsTable,
-  LoginMessage,
-  WordCloud,
-  DepartmentsTable,
-  ClinicianJoinCode,
-  LeaveDeptButton,
-};
+export { default as Info } from './Info/Info';
+export { default as LikertScaleQuestion } from './LikertScaleQuestion/LikertScaleQuestion';
+export { default as LikertScale } from './LikertScale/LikertScale';
+export { default as AlertDialog } from './AlertDialog/AlertDialog';
+export { default as WordsQuestion } from './WordsQuestion/WordsQuestion';
+export { default as LineChart } from './LineChart/LineChart';
+export { default as Header } from './Header/Header';
+export { default as ProfileButton } from './ProfileButton/ProfileButton';
+export { default as CirclesAccordion } from './CirclesAccordion/CirclesAccordion';
+export { default as Circle } from './Circle/Circle';
+export { default as Filters } from './Filters/Filters';
+export { default as UrlTable } from './UrlTable/UrlTable';
+export { default as QuestionsTable } from './QuestionsTable/QuestionsTable';
+export { default as LoginMessage } from './LoginMessage/LoginMessage';
+export { default as WordCloud } from './WordCloud/WordCloud';
+export { default as DepartmentsTable } from './DepartmentsTable/DepartmentsTable';
+export { default as ClinicianJoinCode } from './ClinicianJoinCode/ClinicianJoinCode';
+export { default as LeaveDeptButton } from './LeaveDeptButton/LeaveDeptButton';

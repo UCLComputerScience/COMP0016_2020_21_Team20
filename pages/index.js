@@ -1,4 +1,4 @@
-import { Link } from '@material-ui/core';
+import Link from 'next/link';
 import Head from 'next/head';
 
 import { Header } from '../components';
@@ -28,17 +28,21 @@ export default function Home() {
         <div className="grid">
           <div className="card">
             <Link href="/self-assessment">
-              <h3>Self assessment &rarr;</h3>
-              <p>Do your self assessment!</p>
+              <div>
+                <h3>Self assessment &rarr;</h3>
+                <p>Do your self assessment!</p>
+              </div>
             </Link>
           </div>
           <div className="card">
             <Link href="/statistics">
-              <h3>Statistics &rarr;</h3>
-              <p>
-                Consult your personal statistics for the different Health and
-                Care Standards
-              </p>
+              <div>
+                <h3>Statistics &rarr;</h3>
+                <p>
+                  Consult your personal statistics for the different Health and
+                  Care Standards
+                </p>
+              </div>
             </Link>
           </div>
         </div>

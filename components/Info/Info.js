@@ -1,5 +1,4 @@
-import { Info as InfoIcon } from '@material-ui/icons';
-
+import { Icon } from 'rsuite';
 import styles from './Info.module.css';
 
 function Info(props) {
@@ -9,7 +8,7 @@ function Info(props) {
       href={props.url}
       target="_blank"
       rel="noopener noreferer">
-      <InfoIcon />
+      <Icon size="lg" icon="info" />
     </a>
   );
 }

@@ -1,21 +1,20 @@
 import { useState } from 'react';
-
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { Button, Input } from '@material-ui/core';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Button, Input, Icon } from 'rsuite';
+import { mutate } from 'swr';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@material-ui/core';
+
+import styles from './DepartmentsTable.module.css';
 
 import { AlertDialog } from '../';
-import styles from './DepartmentsTable.module.css';
 import useSWR from '../../lib/swr';
-import { mutate } from 'swr';
 import roles from '../../lib/roles';
 
 const columns = [
@@ -32,14 +31,8 @@ const columns = [
     render: row =>
       `https://${window.location.host}/join/department_manager/${row['department_join_code']}`,
   },
-  { id: 'actions', label: 'Actions', width: '15%' },
+  { id: 'actions', label: 'Actions', width: 'auto' },
 ];
-
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-  },
-});
 
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/departments', {
@@ -51,7 +44,6 @@ const useDatabaseData = () => {
 };
 
 export default function DepartmentsTable() {
-  const classes = useStyles();
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
@@ -113,14 +105,12 @@ export default function DepartmentsTable() {
     setShowDeleteDialog(true);
     //add which department about to delete in text of dialog
     setDeleteDialogActions([
-      <Button
-        key="alertdialog-edit"
-        color="secondary"
-        onClick={() => setShowDeleteDialog(false)}>
+      <Button key="alertdialog-edit" onClick={() => setShowDeleteDialog(false)}>
         Cancel
       </Button>,
       <Button
         key="alertdialog-confirm"
+        color="red"
         onClick={() => {
           /*deleteRow(name)*/
         }}>
@@ -152,19 +142,18 @@ export default function DepartmentsTable() {
         <Input
           className={styles.input}
           key={'new-department-name'}
-          variant="filled"
-          onChange={event => (newRow.name = event.target.value)}
+          onChange={value => (newRow.name = value)}
         />
       </div>,
     ]);
     setDialogActions([
-      <Button
-        key="alertdialog-edit"
-        color="secondary"
-        onClick={() => setShowDialog(false)}>
+      <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
         Cancel
       </Button>,
-      <Button key="alertdialog-confirm" onClick={() => addRow()}>
+      <Button
+        key="alertdialog-confirm"
+        onClick={() => addRow()}
+        appearance="primary">
         Add
       </Button>,
     ]);
@@ -180,6 +169,7 @@ export default function DepartmentsTable() {
       </div>
       <AlertDialog
         open={showDialog}
+        setOpen={setShowDialog}
         title={dialogTitle}
         text={dialogText}
         content={dialogContent}
@@ -187,6 +177,7 @@ export default function DepartmentsTable() {
       />
       <AlertDialog
         open={showDeleteDialog}
+        setOpen={setShowDeleteDialog}
         title={'Are you sure you want to delete this deprtment?'}
         text={
           'Deleting a department cannot be undone and all of the departments data will be deleted.'
@@ -195,78 +186,63 @@ export default function DepartmentsTable() {
       />
       <Button
         className={styles.buttons}
-        variant="contained"
-        color="primary"
+        appearance="primary"
         onClick={() => setDialog()}>
-        <div className={styles.buttonText}>Add new department</div>
+        Add new department
       </Button>
-      <Paper className={classes.root}>
-        <TableContainer>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map(column => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ width: column.width }}>
-                    <div className={styles.header}>{column.label}</div>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {localData !== undefined &&
-                localData.map(row => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}>
-                      {columns.map(column => {
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.id !== 'actions' ? (
-                              column.render(row)
-                            ) : (
-                              <div>
-                                <div className={styles.copyButton}>
-                                  <CopyToClipboard
-                                    text={`https://${window.location.host}/join/department_manager/${row['department_join_code']}`}>
-                                    <button>
-                                      <FileCopyIcon fontSize="inherit" />
-                                    </button>
-                                  </CopyToClipboard>
-                                </div>
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={() => regenerateCode(row['id'])}>
-                                  <div className={styles.buttonText}>
-                                    Re-generate URL
-                                  </div>
+      <TableContainer>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map(column => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ width: column.width }}>
+                  <div className={styles.header}>{column.label}</div>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {localData !== undefined &&
+              localData.map(row => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    {columns.map(column => {
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.id !== 'actions' ? (
+                            column.render(row)
+                          ) : (
+                            <div className={styles.actionButtons}>
+                              <CopyToClipboard
+                                text={`https://${window.location.host}/join/department_manager/${row['department_join_code']}`}>
+                                <Button appearance="primary">
+                                  <Icon icon="clone" />
                                 </Button>
-                                <Button
-                                  variant="contained"
-                                  color="secondary"
-                                  onClick={() => confirmDelete(row['name'])}>
-                                  <div className={styles.buttonText}>
-                                    Delete
-                                  </div>
-                                </Button>
-                              </div>
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
+                              </CopyToClipboard>
+                              <Button
+                                appearance="primary"
+                                onClick={() => regenerateCode(row['id'])}>
+                                Re-generate URL
+                              </Button>
+                              <Button
+                                color="red"
+                                onClick={() => confirmDelete(row['name'])}>
+                                Delete
+                              </Button>
+                            </div>
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

@@ -49,15 +49,19 @@ export default async function handler(req, res) {
       return res.end('You do not have permission to view departments');
     }
 
-    console.log("hospitalId: ", session.user.hospitalId);
     const departments = await prisma.departments.findMany({
       where: { hospital_id: session.user.hospitalId },
       include: { department_join_codes: true },
     });
 
     // Only return the name, join code and id of the department
-    console.log("departments: ", departments);
-    return res.json(departments.map(d => ({ name: d.name, department_join_code: d.department_join_codes.code, id: d.id })));
+    return res.json(
+      departments.map(d => ({
+        name: d.name,
+        department_join_code: d.department_join_codes.code,
+        id: d.id,
+      }))
+    );
   }
 
   res.statusCode = 405;

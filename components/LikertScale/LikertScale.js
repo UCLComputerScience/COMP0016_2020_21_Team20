@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-} from '@material-ui/core';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Radio, RadioGroup } from 'rsuite';
 
 import styles from './LikertScale.module.css';
 
@@ -18,7 +12,6 @@ const options = {
 };
 
 function LikertScale(props) {
-  const matches = useMediaQuery('(min-width:576px)');
   const [value, setValue] = useState(null);
 
   const updateValue = value => {
@@ -27,23 +20,25 @@ function LikertScale(props) {
   };
 
   return (
-    <FormControl className={styles.likertScaleWrapper}>
-      <RadioGroup name={`likert-${props.questionId}`} value={value} row>
-        {Object.entries(options).map(([text, score], i) => {
-          return (
-            <FormControlLabel
-              key={i}
-              className={styles.likertScale}
-              value={score}
-              label={text}
-              onChange={() => updateValue(score)}
-              labelPlacement={matches ? 'top' : 'start'}
-              control={<Radio color="primary" />}
-            />
-          );
-        })}
-      </RadioGroup>
-    </FormControl>
+    <RadioGroup
+      className={styles.likertScaleWrapper}
+      value={value}
+      inline
+      onChange={score => updateValue(score)}
+      appearance="picker">
+      {Object.entries(options).map(([text, score], i) => {
+        return (
+          <Radio
+            inline
+            key={i}
+            className={styles.likertScale}
+            value={score}
+            title={text}>
+            {value === score ? <strong>{text}</strong> : text}
+          </Radio>
+        );
+      })}
+    </RadioGroup>
   );
 }
 

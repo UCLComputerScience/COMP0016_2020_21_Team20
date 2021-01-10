@@ -1,24 +1,10 @@
 .content {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
-.button {
-  padding: 2px;
-}
-
-.buttonText {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  font-size: 10px;
-}
-
-.textPadding {
-  padding: 1ch;
-}
-
-.buttonPadding {
-  padding: 1ch;
+.actions {
   display: flex;
   flex-direction: row;
 }

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-import { Input } from '@material-ui/core';
+import { Input } from 'rsuite';
 
 import styles from './WordsQuestion.module.css';
 
@@ -25,9 +24,10 @@ function WordsQuestion(props) {
 
       inputs.push(
         <Input
+          size="lg"
           className={styles.input}
           key={i}
-          onChange={event => setWord(setter, event.target.value)}
+          onChange={value => setWord(setter, value)}
         />
       );
     }

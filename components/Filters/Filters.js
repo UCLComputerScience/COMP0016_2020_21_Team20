@@ -1,71 +1,58 @@
-import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { DateRange } from 'react-date-range';
-
-import styles from './filters.module.css';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
+import { SelectPicker, DateRangePicker } from 'rsuite';
 
 import { Visualisations } from '../../lib/constants';
 
+const subtractDays = days => {
+  const now = new Date().getTime();
+  return new Date(now - days * 24 * 60 * 60 * 1000);
+};
+
 export function Filters(props) {
   return (
-    <div className={styles.content}>
-      <DateRange
-        editableDateInputs={true}
-        onChange={item =>
-          props.setDateRange({
-            start: item.selection.startDate,
-            end: item.selection.endDate,
-          })
-        }
-        moveRangeOnFirstSelection={false}
+    <div>
+      <p>Date Range</p>
+      <DateRangePicker
+        showOneCalendar
+        onChange={([start, end]) => props.setDateRange({ start, end })}
+        value={[props.dateRange.start, props.dateRange.end]}
+        isoWeek={true}
+        cleanable={false}
+        block={true}
+        disabledDate={DateRangePicker.afterToday()}
         ranges={[
-          {
-            startDate: props.dateRange.start,
-            endDate: props.dateRange.end,
-            key: 'selection',
-          },
+          { label: 'Last 7 days', value: [subtractDays(7), new Date()] },
+          { label: 'Last 30 days', value: [subtractDays(30), new Date()] },
+          { label: 'Last year', value: [subtractDays(365), new Date()] },
         ]}
       />
 
-      <div className={styles.dropdownFilters}>
-        <FormControl>
-          <InputLabel shrink htmlFor="visualisation-type">
-            Visualisation
-          </InputLabel>
-          <NativeSelect
-            value={props.visualisationType}
-            onChange={event => props.setVisualisationType(event.target.value)}
-            inputProps={{ id: 'visualisation-type' }}>
-            <option value={Visualisations.LINE_CHART}>Line Chart</option>
-            <option value={Visualisations.WORD_CLOUD}>Word Cloud</option>
-          </NativeSelect>
-        </FormControl>
+      <p>Visualisation</p>
+      <SelectPicker
+        value={props.visualisationType}
+        onChange={value => props.setVisualisationType(value)}
+        searchable={false}
+        placeholder="Select"
+        cleanable={false}
+        block={true}
+        data={[
+          { label: 'Line Chart', value: Visualisations.LINE_CHART },
+          { label: 'Word Cloud', value: Visualisations.WORD_CLOUD },
+        ]}
+      />
 
-        <FormControl>
-          <InputLabel shrink htmlFor="is-mentoring-session">
-            Mentoring?
-          </InputLabel>
-          <NativeSelect
-            value={props.isMentoringSession ? '1' : '0'}
-            onChange={event =>
-              props.setIsMentoringSession(event.target.value === '1')
-            }
-            inputProps={{ id: 'is-mentoring-session' }}>
-            <option value={'0'}>No</option>
-            <option value={'1'}>Yes</option>
-          </NativeSelect>
-        </FormControl>
-      </div>
-
-      <div className={styles.button}>
-        <Button variant="contained" color="secondary">
-          Apply Filters
-        </Button>
-      </div>
+      <p>Mentoring?</p>
+      <SelectPicker
+        value={props.isMentoringSession ? '1' : '0'}
+        onChange={value => props.setIsMentoringSession(value === '1')}
+        searchable={false}
+        placeholder="Select"
+        cleanable={false}
+        block={true}
+        data={[
+          { label: 'No', value: '0' },
+          { label: 'Yes', value: '1' },
+        ]}
+      />
     </div>
   );
 }

@@ -7,5 +7,6 @@
   },
   "files.associations": {
     "*.js": "javascriptreact"
-  }
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

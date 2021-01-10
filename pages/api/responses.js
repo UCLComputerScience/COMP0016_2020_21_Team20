@@ -44,29 +44,38 @@ export default async function handler(req, res) {
       filters.push({ user_id: { equals: session.user.userId } });
     }
 
-    if (filters.length) {
-      return res.json(
-        await prisma.responses.findMany({
-          where: { AND: filters },
-          select: {
-            id: true,
-            timestamp: true,
-            is_mentoring_session: true,
-            departments: true,
-            words: true,
-            scores: {
-              select: {
-                standards: true,
-                score: true,
-                id: true,
-              },
-            },
-          },
-        })
-      );
-    } else {
-      return res.json(await prisma.responses.findMany());
-    }
+    const select = {
+      id: true,
+      timestamp: true,
+      is_mentoring_session: true,
+      departments: true,
+      words: true,
+      scores: { select: { standards: true, score: true, id: true } },
+    };
+
+    const responses = filters.length
+      ? await prisma.responses.findMany({ where: { AND: filters }, select })
+      : await prisma.responses.findMany({ select });
+
+    const scoresPerStandard = {};
+    responses.forEach(val =>
+      val.scores.forEach(score => {
+        if (scoresPerStandard[score.standards.name]) {
+          scoresPerStandard[score.standards.name].push(score.score);
+        } else {
+          scoresPerStandard[score.standards.name] = [score.score];
+        }
+      })
+    );
+
+    const responseData = { responses, averages: {} };
+    Object.entries(scoresPerStandard).map(
+      ([standard, scores]) =>
+        (responseData.averages[standard] =
+          scores.reduce((acc, val) => acc + val, 0) / scores.length)
+    );
+
+    return res.json(responseData);
   }
 
   if (req.method === 'POST') {

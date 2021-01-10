@@ -1,30 +1,21 @@
-import { useState } from 'react';
+import styles from './LikertScaleQuestion.module.css';
 
 import { LikertScale, Info } from '..';
 
-import styles from './LikertScaleQuestion.module.css';
-
 function LikertScaleQuestion(props) {
-  const [value, setValue] = useState(null);
-
-  const updateValue = value => {
-    setValue(value);
-    props.onChange(value);
-  };
-
   return (
     <div className={styles.question}>
       <div className={styles.questionText}>
         {props.questionNumber}. {props.question}
+        <Info url={props.questionUrl} />
       </div>
 
       {props.showError && (
         <div className={styles.unAnsweredAlert}>*please choose an answer</div>
       )}
 
-      <Info url={props.questionUrl} />
       <LikertScale
-        onChange={value => updateValue(value)}
+        onChange={value => props.onChange(value)}
         questionId={props.questionId}
       />
     </div>
