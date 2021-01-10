@@ -1,8 +1,8 @@
 import { signOut, useSession } from 'next-auth/client';
-
 import { Dropdown, Icon } from 'rsuite';
 
 import { LeaveDeptButton } from '../';
+
 import roles from '../../lib/roles';
 
 function ProfileButton() {

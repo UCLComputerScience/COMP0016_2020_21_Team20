@@ -1,10 +1,9 @@
-import styles from './Header.module.css';
-
+import { signIn, useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
+import { Nav } from 'rsuite';
 import Link from 'next/link';
 
-import { Nav } from 'rsuite';
-import { useRouter } from 'next/router';
-import { signIn, useSession } from 'next-auth/client';
+import styles from './Header.module.css';
 
 import { ProfileButton } from '..';
 import roles from '../../lib/roles';

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-
+import { Button, Input, Icon } from 'rsuite';
+import { mutate } from 'swr';
 import {
   Table,
   TableBody,
@@ -8,11 +9,10 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { Button, Input, Icon } from 'rsuite';
 
 import styles from './UrlTable.module.css';
+
 import useSWR from '../../lib/swr';
-import { mutate } from 'swr';
 import { ClinicianJoinCode } from '..';
 
 const columns = [
@@ -118,7 +118,7 @@ export default function UrlTable() {
     <div>
       <ClinicianJoinCode />
       <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               {columns.map(column => (

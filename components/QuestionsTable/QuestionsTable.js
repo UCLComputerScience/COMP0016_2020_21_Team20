@@ -1,5 +1,6 @@
 import { useState } from 'react';
-
+import { Button, Icon, Input, SelectPicker } from 'rsuite';
+import { mutate } from 'swr';
 import {
   Table,
   TableBody,
@@ -8,12 +9,11 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { Button, Icon, Input, SelectPicker } from 'rsuite';
+
+import styles from './QuestionsTable.module.css';
 
 import { AlertDialog } from '../';
-import styles from './QuestionsTable.module.css';
 import useSWR from '../../lib/swr';
-import { mutate } from 'swr';
 
 const columns = [
   {

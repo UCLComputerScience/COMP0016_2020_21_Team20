@@ -1,8 +1,8 @@
 import querystring from 'querystring';
-
 import { useState } from 'react';
-
 import { useSession } from 'next-auth/client';
+
+import styles from './statistics.module.css';
 
 import {
   LineChart,
@@ -12,8 +12,6 @@ import {
   LoginMessage,
   WordCloud,
 } from '../components';
-
-import styles from './statistics.module.css';
 
 import useSWR from '../lib/swr';
 import { StandardColors, Visualisations } from '../lib/constants';

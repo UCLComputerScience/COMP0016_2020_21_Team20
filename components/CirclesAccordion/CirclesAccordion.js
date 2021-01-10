@@ -1,5 +1,4 @@
 import { Panel } from 'rsuite';
-
 import styles from './CirclesAccordion.module.css';
 
 import { Circle } from '..';

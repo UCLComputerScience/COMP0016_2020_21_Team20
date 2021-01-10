@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { signOut } from 'next-auth/client';
-
 import { Button } from 'rsuite';
 
 import { AlertDialog } from '../';
@@ -36,10 +35,7 @@ function LeaveDeptButton() {
         title="Are you sure you want to leave your department?"
         text="To re-join/join a new department you will need a unique URL."
         actions={[
-          <Button
-            key="alertdialog-cancel"
-            color="secondary"
-            onClick={() => setShowDialog(false)}>
+          <Button key="alertdialog-cancel" onClick={() => setShowDialog(false)}>
             Cancel
           </Button>,
           <Button key="alertdialog-leave" onClick={() => handleLeave()}>
@@ -55,7 +51,6 @@ function LeaveDeptButton() {
         actions={[
           <Button
             key="alertdialog-continue"
-            color="secondary"
             onClick={() => setShowErrorDialog(false)}>
             Continue
           </Button>,

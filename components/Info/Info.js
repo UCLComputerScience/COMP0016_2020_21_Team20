@@ -1,5 +1,4 @@
 import { Icon } from 'rsuite';
-
 import styles from './Info.module.css';
 
 function Info(props) {

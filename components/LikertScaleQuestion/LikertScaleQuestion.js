@@ -1,6 +1,6 @@
-import { LikertScale, Info } from '..';
-
 import styles from './LikertScaleQuestion.module.css';
+
+import { LikertScale, Info } from '..';
 
 function LikertScaleQuestion(props) {
   return (

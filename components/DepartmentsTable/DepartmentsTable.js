@@ -1,5 +1,7 @@
 import { useState } from 'react';
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Button, Input, Icon } from 'rsuite';
+import { mutate } from 'swr';
 import {
   Table,
   TableBody,
@@ -8,14 +10,11 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import { Button, Input, Icon } from 'rsuite';
+import styles from './DepartmentsTable.module.css';
 
 import { AlertDialog } from '../';
-import styles from './DepartmentsTable.module.css';
 import useSWR from '../../lib/swr';
-import { mutate } from 'swr';
 import roles from '../../lib/roles';
 
 const columns = [

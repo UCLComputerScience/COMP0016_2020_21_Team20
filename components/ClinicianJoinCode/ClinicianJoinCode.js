@@ -1,11 +1,11 @@
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useSession } from 'next-auth/client';
 import { Button, Icon } from 'rsuite';
+import { mutate } from 'swr';
 
 import styles from './ClinicianJoinCode.module.css';
 
 import useSWR from '../../lib/swr';
-import { mutate } from 'swr';
-import { useSession } from 'next-auth/client';
 import roles from '../../lib/roles';
 
 const getCode = id => {

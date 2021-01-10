@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/client';
+import { Button, IconButton, Icon, Toggle } from 'rsuite';
+
+import styles from './self-assessment.module.css';
 
 import {
   LikertScaleQuestion,
@@ -8,12 +11,7 @@ import {
   Header,
   LoginMessage,
 } from '../components';
-
-import { Button, Radio, RadioGroup, IconButton, Icon, Toggle } from 'rsuite';
-
 import useSWR from '../lib/swr';
-
-import styles from './self-assessment.module.css';
 
 const useQuestions = () => {
   const { data, error } = useSWR('/api/questions', {

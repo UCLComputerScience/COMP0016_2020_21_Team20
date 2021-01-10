@@ -1,9 +1,14 @@
-import { UrlTable, Header, LoginMessage, QuestionsTable, DepartmentsTable } from '../components';
+import { useSession } from 'next-auth/client';
 
-import { signIn, useSession } from 'next-auth/client';
+import {
+  UrlTable,
+  Header,
+  LoginMessage,
+  QuestionsTable,
+  DepartmentsTable,
+} from '../components';
 
 import roles from '../lib/roles';
-import styles from './manage.module.css';
 
 function manage() {
   const [session, loading] = useSession(); // TODO use loading state better?
@@ -36,8 +41,8 @@ function manage() {
           <DepartmentsTable />
         </div>
       ) : (
-              'You do not have access to this page'
-            )}
+        'You do not have access to this page'
+      )}
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { Input } from 'rsuite';
 
 import styles from './WordsQuestion.module.css';
