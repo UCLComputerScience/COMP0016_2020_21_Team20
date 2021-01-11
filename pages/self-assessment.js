@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import { Button, IconButton, Icon, Toggle } from 'rsuite';
 
 import styles from './self-assessment.module.css';
@@ -11,6 +12,7 @@ import {
   Header,
   LoginMessage,
 } from '../components';
+
 import useSWR from '../lib/swr';
 
 const useQuestions = () => {
@@ -30,6 +32,7 @@ const useQuestions = () => {
 
 function selfAssessment() {
   const [session] = useSession();
+  const router = useRouter();
 
   // TODO improve loading/error UI, or use server-side rendering for this page
   const {
@@ -49,27 +52,29 @@ function selfAssessment() {
 
   const submitAnswers = async () => {
     const words = [];
-    wordsQuestions.map(q =>
-      q.words.forEach(w => words.push({ questionId: q.questionId, word: w }))
+    wordsQuestions.forEach(q =>
+      q.words.forEach(w => words.push({ questionId: q.id, word: w }))
     );
     const scores = likertScaleQuestions.map(q => ({
-      standardId: q.standardId,
+      standardId: q.standards.id,
       score: q.score,
     }));
 
-    const res = await fetch('/api/responses', {
+    const status = await fetch('/api/responses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        user_id: 1, // TODO this should probably just come from the session when we have a login system
-        dept_id: 1, // TODO same as above
         is_mentoring_session: isMentoringSession,
         scores,
         words,
       }),
-    });
+    }).then(res => res.status);
 
-    return await res.json();
+    if (status === 200) {
+      router.push('/statistics');
+    } else {
+      // TODO handle error
+    }
   };
 
   const handleSubmit = () => {
