@@ -40,7 +40,7 @@ function LineChart({ data } = {}) {
   }
 
   // TODO better UI for fetching data/no results found
-  return <p>Fetching...</p>;
+  return <p>No Results Found...</p>;
 }
 
 export default LineChart;

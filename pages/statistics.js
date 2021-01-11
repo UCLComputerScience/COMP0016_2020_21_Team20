@@ -116,22 +116,32 @@ function statistics(props) {
             setIsMentoringSession={setIsMentoringSession}
           />
         </div>
+
         <div className={styles.graph}>
-          <LineChart
-            data={
-              data
-                ? data.responses.map(d => ({
-                    timestamp: d.timestamp,
-                    scores: d.scores.map(s => ({
-                      score: s.score,
-                      standardName: s.standards.name,
-                      color: StandardColors[s.standards.name],
-                    })),
-                  }))
-                : []
-            }
-          />
-          {/* <WordCloud /> */}
+          {visualisationType === Visualisations.LINE_CHART ? (
+            <LineChart
+              data={
+                data
+                  ? data.responses.map(d => ({
+                      timestamp: d.timestamp,
+                      scores: d.scores.map(s => ({
+                        score: s.score,
+                        standardName: s.standards.name,
+                        color: StandardColors[s.standards.name],
+                      })),
+                    }))
+                  : []
+              }
+            />
+          ) : (
+            <WordCloud
+              words={
+                data
+                  ? data.responses.map(r => r.words.map(w => w.word)).flat()
+                  : []
+              }
+            />
+          )}
         </div>
       </div>
     </div>

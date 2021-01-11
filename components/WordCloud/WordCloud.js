@@ -4,27 +4,32 @@ import ReactWordcloud from 'react-wordcloud';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
-const words = [
-  {
-    text: 'told',
-    value: 64,
-  },
-  {
-    text: 'mistake',
-    value: 11,
-  },
-  {
-    text: 'thought',
-    value: 16,
-  },
-  {
-    text: 'bad',
-    value: 17,
-  },
-];
+function WordCloud(props) {
+  if (props.words.length) {
+    const words = {};
+    props.words.forEach(word => {
+      if (words[word]) {
+        words[word].value++;
+      } else {
+        words[word] = { text: word, value: 1 };
+      }
+    });
 
-function WordCloud() {
-  return <ReactWordcloud words={words} />;
+    // TODO play around with the options for best UI
+    return (
+      <ReactWordcloud
+        words={Object.values(words)}
+        options={{
+          fontSizes: [20, 50],
+          rotationAngles: [0, 50],
+          deterministic: true,
+        }}
+      />
+    );
+  }
+
+  // TODO better UI for fetching data/no results found
+  return <p>No Results Found...</p>;
 }
 
 export default WordCloud;

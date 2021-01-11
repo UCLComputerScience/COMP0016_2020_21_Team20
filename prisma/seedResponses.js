@@ -22,6 +22,16 @@ const seedResponses = async userId => {
             { score: 0, standards: { connect: { id: 7 } } },
           ],
         },
+        words: {
+          create: [
+            { word: 'Satisfying', questions: { connect: { id: 8 } } },
+            { word: 'Rewarding', questions: { connect: { id: 8 } } },
+            { word: 'Educational', questions: { connect: { id: 8 } } },
+            { word: 'Stressful', questions: { connect: { id: 9 } } },
+            { word: 'Tiring', questions: { connect: { id: 9 } } },
+            { word: 'Complex', questions: { connect: { id: 9 } } },
+          ],
+        },
       },
     }),
     prisma.responses.create({
@@ -39,6 +49,16 @@ const seedResponses = async userId => {
             { score: 3, standards: { connect: { id: 5 } } },
             { score: 4, standards: { connect: { id: 6 } } },
             { score: 2, standards: { connect: { id: 7 } } },
+          ],
+        },
+        words: {
+          create: [
+            { word: 'Rewarding', questions: { connect: { id: 8 } } },
+            { word: 'Honourable', questions: { connect: { id: 8 } } },
+            { word: 'Enjoyable', questions: { connect: { id: 8 } } },
+            { word: 'Stressful', questions: { connect: { id: 9 } } },
+            { word: 'Draining', questions: { connect: { id: 9 } } },
+            { word: 'Exhausting', questions: { connect: { id: 9 } } },
           ],
         },
       },
@@ -60,6 +80,16 @@ const seedResponses = async userId => {
             { score: 2, standards: { connect: { id: 7 } } },
           ],
         },
+        words: {
+          create: [
+            { word: 'Worthy', questions: { connect: { id: 8 } } },
+            { word: 'Quiet', questions: { connect: { id: 8 } } },
+            { word: 'Efficient', questions: { connect: { id: 8 } } },
+            { word: 'Painful', questions: { connect: { id: 9 } } },
+            { word: 'Tiring', questions: { connect: { id: 9 } } },
+            { word: 'Long', questions: { connect: { id: 9 } } },
+          ],
+        },
       },
     }),
     prisma.responses.create({
@@ -77,6 +107,16 @@ const seedResponses = async userId => {
             { score: 2, standards: { connect: { id: 5 } } },
             { score: 3, standards: { connect: { id: 6 } } },
             { score: 2, standards: { connect: { id: 7 } } },
+          ],
+        },
+        words: {
+          create: [
+            { word: 'Moving', questions: { connect: { id: 8 } } },
+            { word: 'Pleasing', questions: { connect: { id: 8 } } },
+            { word: 'Educational', questions: { connect: { id: 8 } } },
+            { word: 'Stressful', questions: { connect: { id: 9 } } },
+            { word: 'Exhausting', questions: { connect: { id: 9 } } },
+            { word: 'Draining', questions: { connect: { id: 9 } } },
           ],
         },
       },
