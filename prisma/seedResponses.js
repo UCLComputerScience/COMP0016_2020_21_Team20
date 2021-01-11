@@ -22,6 +22,16 @@ const seedResponses = async userId => {
             { score: 0, standards: { connect: { id: 7 } } },
           ],
         },
+        words: {
+          create: [
+            { word: 'Hello', standars: { connect: { id: 8 } } },
+            { word: 'Hola', standars: { connect: { id: 8 } } },
+            { word: 'Bonjour', standars: { connect: { id: 8 } } },
+            { word: 'Toto', standars: { connect: { id: 9 } } },
+            { word: 'Michele', standars: { connect: { id: 9 } } },
+            { word: 'Paul', standars: { connect: { id: 9 } } },
+          ],
+        },
       },
     }),
     prisma.responses.create({
@@ -39,6 +49,16 @@ const seedResponses = async userId => {
             { score: 3, standards: { connect: { id: 5 } } },
             { score: 4, standards: { connect: { id: 6 } } },
             { score: 2, standards: { connect: { id: 7 } } },
+          ],
+        },
+        words: {
+          create: [
+            { word: 'Hello', standars: { connect: { id: 8 } } },
+            { word: 'Hola', standars: { connect: { id: 8 } } },
+            { word: 'Bonjour', standars: { connect: { id: 8 } } },
+            { word: 'Toto', standars: { connect: { id: 9 } } },
+            { word: 'Michele', standars: { connect: { id: 9 } } },
+            { word: 'Paul', standars: { connect: { id: 9 } } },
           ],
         },
       },
@@ -60,6 +80,16 @@ const seedResponses = async userId => {
             { score: 2, standards: { connect: { id: 7 } } },
           ],
         },
+        words: {
+          create: [
+            { word: 'Hello', standars: { connect: { id: 8 } } },
+            { word: 'Hola', standars: { connect: { id: 8 } } },
+            { word: 'Bonjour', standars: { connect: { id: 8 } } },
+            { word: 'Toto', standars: { connect: { id: 9 } } },
+            { word: 'Michele', standars: { connect: { id: 9 } } },
+            { word: 'Paul', standars: { connect: { id: 9 } } },
+          ],
+        },
       },
     }),
     prisma.responses.create({
@@ -77,6 +107,16 @@ const seedResponses = async userId => {
             { score: 2, standards: { connect: { id: 5 } } },
             { score: 3, standards: { connect: { id: 6 } } },
             { score: 2, standards: { connect: { id: 7 } } },
+          ],
+        },
+        words: {
+          create: [
+            { word: 'Hello', standars: { connect: { id: 8 } } },
+            { word: 'Hola', standars: { connect: { id: 8 } } },
+            { word: 'Bonjour', standars: { connect: { id: 8 } } },
+            { word: 'Toto', standars: { connect: { id: 9 } } },
+            { word: 'Michele', standars: { connect: { id: 9 } } },
+            { word: 'Paul', standars: { connect: { id: 9 } } },
           ],
         },
       },

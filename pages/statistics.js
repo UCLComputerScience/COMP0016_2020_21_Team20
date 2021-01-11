@@ -34,7 +34,7 @@ function statistics(props) {
   const [session] = useSession();
   const [isMentoringSession, setIsMentoringSession] = useState(false);
   const [visualisationType, setVisualisationType] = useState(
-    Visualisations.LINE_CHART
+    Visualisations.WORD_CLOUD
   );
   const [dateRange, setDateRange] = useState({
     start: new Date(new Date().getTime() - DEFAULT_DATE_OFFSET),
@@ -118,20 +118,24 @@ function statistics(props) {
         </div>
 
         <div className={styles.graph}>
-          <LineChart
-            data={
-              data
-                ? data.responses.map(d => ({
-                    timestamp: d.timestamp,
-                    scores: d.scores.map(s => ({
-                      score: s.score,
-                      standardName: s.standards.name,
-                      color: StandardColors[s.standards.name],
-                    })),
-                  }))
-                : []
-            }
-          />
+          {visualisationType === Visualisations.LINE_CHART ? (
+            <LineChart
+              data={
+                data
+                  ? data.responses.map(d => ({
+                      timestamp: d.timestamp,
+                      scores: d.scores.map(s => ({
+                        score: s.score,
+                        standardName: s.standards.name,
+                        color: StandardColors[s.standards.name],
+                      })),
+                    }))
+                  : []
+              }
+            />
+          ) : (
+            <WordCloud data={data} />
+          )}
         </div>
       </div>
     </div>
