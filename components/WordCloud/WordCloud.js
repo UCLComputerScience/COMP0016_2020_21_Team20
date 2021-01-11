@@ -4,63 +4,28 @@ import ReactWordcloud from 'react-wordcloud';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
-function WordCloud(data) {
-  // Supprimer à partir de là
-  data = {
-    data: [
-      {
-        words: {
-          create: [
-            { word: 'Hello', standars: { connect: { id: 8 } } },
-            { word: 'Hola', standars: { connect: { id: 8 } } },
-            { word: 'Bonjour', standars: { connect: { id: 8 } } },
-            { word: 'Toto', standars: { connect: { id: 9 } } },
-            { word: 'Michele', standars: { connect: { id: 9 } } },
-            { word: 'Paul', standars: { connect: { id: 9 } } },
-          ],
-        },
-      },
-      {
-        words: {
-          create: [
-            { word: 'Hello', standars: { connect: { id: 8 } } },
-            { word: 'Hola', standars: { connect: { id: 8 } } },
-            { word: 'Bonjour', standars: { connect: { id: 8 } } },
-            { word: 'Toto', standars: { connect: { id: 9 } } },
-            { word: 'Michele', standars: { connect: { id: 9 } } },
-            { word: 'Paul', standars: { connect: { id: 9 } } },
-          ],
-        },
-      },
-      {
-        words: {
-          create: [
-            { word: 'Hello', standars: { connect: { id: 8 } } },
-            { word: 'Hola', standars: { connect: { id: 8 } } },
-            { word: 'Bonjour', standars: { connect: { id: 8 } } },
-            { word: 'Toto', standars: { connect: { id: 9 } } },
-            { word: 'Michele', standars: { connect: { id: 9 } } },
-            { word: 'Paul', standars: { connect: { id: 9 } } },
-          ],
-        },
-      },
-    ],
-  };
-  // console.log(data);
-  if (data.data) {
-    const words = [];
-    data.data.forEach(data1 => {
-      data1.words.create.forEach(word => {
-        // console.log(word.word);
-        words.push({
-          text: word.word,
-          value: 10000,
-        });
-      });
+function WordCloud(props) {
+  if (props.words.length) {
+    const words = {};
+    props.words.forEach(word => {
+      if (words[word]) {
+        words[word].value++;
+      } else {
+        words[word] = { text: word, value: 1 };
+      }
     });
-    console.log(words);
-    //return <p>{data.responses[0].words.state8[0]}</p>;
-    return <ReactWordcloud words={words} />;
+
+    // TODO play around with the options for best UI
+    return (
+      <ReactWordcloud
+        words={Object.values(words)}
+        options={{
+          fontSizes: [20, 50],
+          rotationAngles: [0, 50],
+          deterministic: true,
+        }}
+      />
+    );
   }
 
   // TODO better UI for fetching data/no results found

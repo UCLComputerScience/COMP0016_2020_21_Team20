@@ -134,7 +134,13 @@ function statistics(props) {
               }
             />
           ) : (
-            <WordCloud data={data} />
+            <WordCloud
+              words={
+                data
+                  ? data.responses.map(r => r.words.map(w => w.word)).flat()
+                  : []
+              }
+            />
           )}
         </div>
       </div>
