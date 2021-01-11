@@ -34,7 +34,7 @@ function statistics(props) {
   const [session] = useSession();
   const [isMentoringSession, setIsMentoringSession] = useState(false);
   const [visualisationType, setVisualisationType] = useState(
-    Visualisations.WORD_CLOUD
+    Visualisations.LINE_CHART
   );
   const [dateRange, setDateRange] = useState({
     start: new Date(new Date().getTime() - DEFAULT_DATE_OFFSET),
