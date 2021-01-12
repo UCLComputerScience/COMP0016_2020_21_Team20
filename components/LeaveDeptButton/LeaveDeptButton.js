@@ -1,13 +1,8 @@
 import { useState } from 'react';
 import { signOut } from 'next-auth/client';
-import { Button } from 'rsuite';
-
-import { AlertDialog } from '../';
+import { Notification, Button, ButtonToolbar } from 'rsuite';
 
 function LeaveDeptButton() {
-  const [showDialog, setShowDialog] = useState(false);
-  const [showErrorDialog, setShowErrorDialog] = useState(false);
-
   const leaveInDatabase = async () => {
     const res = await fetch('/api/departments/leave', {
       method: 'POST',
@@ -21,43 +16,62 @@ function LeaveDeptButton() {
     if (success.success === true) {
       signOut();
     } else {
-      setShowDialog(false);
-      setShowErrorDialog(true);
+      showErrorDialog();
     }
   };
 
-  // TODO this dialog opening logic is broken for some reason?? it just doesn't open!
-  return (
-    <div>
-      <AlertDialog
-        open={showDialog}
-        setOpen={setShowDialog}
-        title="Are you sure you want to leave your department?"
-        text="To re-join/join a new department you will need a unique URL."
-        actions={[
-          <Button key="alertdialog-cancel" onClick={() => setShowDialog(false)}>
-            Cancel
-          </Button>,
-          <Button key="alertdialog-leave" onClick={() => handleLeave()}>
-            Leave
-          </Button>,
-        ]}
-      />
-      <AlertDialog
-        open={showErrorDialog}
-        setOpen={setShowErrorDialog}
-        title="Error"
-        text="Leaving department failed, please try again or contact system administrator."
-        actions={[
+  const showDialog = () => {
+    Notification.open({
+    title: "Are you sure you want to leave your department?",
+    duration: 0,
+    description: (
+      <div>
+        <p>{"To join a new department you will need a unique URL."}</p>
+        <ButtonToolbar>
           <Button
-            key="alertdialog-continue"
-            onClick={() => setShowErrorDialog(false)}>
+            onClick={() => {
+              Notification.close();
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              Notification.close();
+              handleLeave();
+            }}
+          >
+            Leave
+          </Button>
+        </ButtonToolbar>
+      </div>
+    )
+  });
+  }
+
+  const showErrorDialog = () => {
+    Notification.open({
+    title: "Error",
+    duration: 0,
+    description: (
+      <div>
+        <p>{"Leaving department failed, please try again or contact system administrator."}</p>
+        <ButtonToolbar>
+          <Button
+            onClick={() => {
+              Notification.close();
+            }}
+          >
             Continue
-          </Button>,
-        ]}
-      />
-      <div onClick={() => setShowDialog(true)}>Leave Department</div>
-    </div>
+          </Button>
+        </ButtonToolbar>
+      </div>
+    )
+  });
+  }
+
+  return (
+    <div onClick={() => showDialog()}>Leave Department</div>
   );
 }
 
