@@ -37,6 +37,15 @@ export default async function handler(req, res) {
       );
     }
 
+    if (
+      type === roles.USER_TYPE_DEPARTMENT &&
+      +departmentId !== session.user.departmentId
+    ) {
+      return res.end(
+        'You do not have permission to modify join codes for a department you do not belong to'
+      );
+    }
+
     const code = await createJoinCode();
     const dbTable =
       type === roles.USER_TYPE_HOSPITAL
