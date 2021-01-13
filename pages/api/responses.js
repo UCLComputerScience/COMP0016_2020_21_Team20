@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       is_mentoring_session: true,
       departments: true,
       words: true,
-      scores: { select: { standards: true, score: true, id: true } },
+      scores: { select: { standards: true, score: true } },
     };
 
     const responses = filters.length
