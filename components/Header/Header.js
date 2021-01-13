@@ -23,7 +23,7 @@ function Header() {
   const renderLinks = () => {
     const role = session.roles[0]; // TODO do we want to support multiple roles?
     const pathsForRole = paths[role];
-    if (!pathsForRole) return <div />;
+    if (!pathsForRole) return <span />;
 
     return pathsForRole.map((path, i) => (
       <Link key={i} href={'/'.concat(path)}>
