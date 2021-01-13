@@ -27,10 +27,10 @@ CREATE TABLE responses (
 );
 
 CREATE TABLE scores (
-    id SERIAL PRIMARY KEY,
     response_id INTEGER NOT NULL,
     standard_id INTEGER NOT NULL,
-    score INTEGER NOT NULL
+    score INTEGER NOT NULL,
+    PRIMARY KEY (response_id, standard_id)
 );
 
 CREATE TABLE words (

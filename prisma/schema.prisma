@@ -52,12 +52,13 @@ model responses {
 }
 
 model scores {
-  id          Int       @id @default(autoincrement())
   response_id Int
   standard_id Int
   score       Int
   responses   responses @relation(fields: [response_id], references: [id])
   standards   standards @relation(fields: [standard_id], references: [id])
+
+  @@id([response_id, standard_id])
 }
 
 model standards {
