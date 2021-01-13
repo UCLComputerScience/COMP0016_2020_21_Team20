@@ -8,6 +8,12 @@ const subtractDays = days => {
 };
 
 export function Filters(props) {
+  const getMentoringValue = () => {
+    if (props.isMentoringSession === true) return 'yes';
+    else if (props.isMentoringSession === false) return 'no';
+    else return 'both';
+  };
+
   return (
     <div>
       <p>Date Range</p>
@@ -42,15 +48,20 @@ export function Filters(props) {
 
       <p>Mentoring?</p>
       <SelectPicker
-        value={props.isMentoringSession ? '1' : '0'}
-        onChange={value => props.setIsMentoringSession(value === '1')}
+        value={getMentoringValue()}
+        onChange={value => {
+          if (value === 'yes') props.setIsMentoringSession(true);
+          else if (value === 'no') props.setIsMentoringSession(false);
+          else props.setIsMentoringSession(null);
+        }}
         searchable={false}
         placeholder="Select"
         cleanable={false}
         block={true}
         data={[
-          { label: 'No', value: '0' },
-          { label: 'Yes', value: '1' },
+          { label: 'Both', value: 'both' },
+          { label: 'Yes', value: 'yes' },
+          { label: 'No', value: 'no' },
         ]}
       />
     </div>

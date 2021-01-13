@@ -12,15 +12,24 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const { from, to, is_mentoring_session: isMentoringSession } = req.query;
+    const {
+      from,
+      to,
+      only_is_mentoring_session: onlyIsMentoringSession,
+      only_not_mentoring_session: onlyNotMentoringSession,
+    } = req.query;
+
     const filters = [];
 
     if (from) filters.push({ timestamp: { gte: new Date(+from) } });
     if (to) filters.push({ timestamp: { lte: new Date(+to) } });
 
-    // TODO should this be ONLY mentoring, or WITH mentoring? at the moment it is ONLY
-    if (isMentoringSession === '1')
+    // Default will be with BOTH included
+    if (onlyIsMentoringSession === '1') {
       filters.push({ is_mentoring_session: true });
+    } else if (onlyNotMentoringSession === '1') {
+      filters.push({ is_mentoring_session: false });
+    }
 
     if (session.user.departmentId) {
       filters.push({ department_id: { equals: session.user.departmentId } });

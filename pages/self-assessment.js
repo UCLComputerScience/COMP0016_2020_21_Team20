@@ -60,14 +60,17 @@ function selfAssessment() {
       score: q.score,
     }));
 
+    const requestBody = { scores, words };
+    if (isMentoringSession === true) {
+      requestBody.only_is_mentoring_session = '1';
+    } else if (isMentoringSession === false) {
+      requestBody.only_not_mentoring_session = '1';
+    }
+
     const status = await fetch('/api/responses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        is_mentoring_session: isMentoringSession,
-        scores,
-        words,
-      }),
+      body: JSON.stringify(requestBody),
     }).then(res => res.status);
 
     if (status === 200) {

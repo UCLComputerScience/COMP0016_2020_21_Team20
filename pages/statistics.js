@@ -22,17 +22,22 @@ const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 30 * 1000; // 30 days ago;
 const generateQueryParams = ({
   start = new Date().getTime() - DEFAULT_DATE_OFFSET,
   end = new Date().getTime(),
-  isMentoringSession = false,
-} = {}) =>
-  querystring.stringify({
-    from: start,
-    to: end,
-    is_mentoring_session: isMentoringSession ? '1' : '0',
-  });
+  isMentoringSession = null,
+} = {}) => {
+  const query = { from: start, to: end };
 
-function statistics(props) {
+  if (isMentoringSession === true) {
+    query.only_is_mentoring_session = '1';
+  } else if (isMentoringSession === false) {
+    query.only_not_mentoring_session = '1';
+  }
+
+  return querystring.stringify(query);
+};
+
+function statistics() {
   const [session] = useSession();
-  const [isMentoringSession, setIsMentoringSession] = useState(false);
+  const [isMentoringSession, setIsMentoringSession] = useState(null);
   const [visualisationType, setVisualisationType] = useState(
     Visualisations.LINE_CHART
   );

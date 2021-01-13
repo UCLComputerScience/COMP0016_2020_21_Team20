@@ -10,7 +10,7 @@ const seedResponses = async userId => {
         users: { connect: { id: userId } },
         departments: { connect: { id: 1 } },
         timestamp: new Date('2020-12-01 13:00:00'),
-        is_mentoring_session: false,
+        is_mentoring_session: true,
         scores: {
           create: [
             { score: 3, standards: { connect: { id: 1 } } },
@@ -39,7 +39,7 @@ const seedResponses = async userId => {
         users: { connect: { id: userId } },
         departments: { connect: { id: 1 } },
         timestamp: new Date('2020-12-07 13:00:00'),
-        is_mentoring_session: true,
+        is_mentoring_session: false,
         scores: {
           create: [
             { score: 4, standards: { connect: { id: 1 } } },
@@ -68,7 +68,7 @@ const seedResponses = async userId => {
         users: { connect: { id: userId } },
         departments: { connect: { id: 1 } },
         timestamp: new Date('2020-12-14 13:00:00'),
-        is_mentoring_session: false,
+        is_mentoring_session: true,
         scores: {
           create: [
             { score: 4, standards: { connect: { id: 1 } } },
