@@ -29,7 +29,7 @@ const columns = [
     label: 'Join URL',
     width: 'auto',
     render: row =>
-      `https://${window.location.host}/join/department_manager/${row['department_join_code']}`,
+      `https://${window.location.host}/join/${roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`,
   },
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
@@ -217,7 +217,7 @@ export default function DepartmentsTable() {
                           ) : (
                             <div className={styles.actionButtons}>
                               <CopyToClipboard
-                                text={`https://${window.location.host}/join/department_manager/${row['department_join_code']}`}>
+                                text={`https://${window.location.host}/join/${roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
                                 <Button appearance="primary">
                                   <Icon icon="clone" />
                                 </Button>
