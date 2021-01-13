@@ -64,13 +64,13 @@ CREATE table question_urls (
 );
 
 CREATE TABLE hospitals (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     health_board_id INTEGER NOT NULL
 );
 
 CREATE TABLE health_boards (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL
 );
 

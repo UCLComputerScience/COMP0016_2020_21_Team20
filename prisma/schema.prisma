@@ -20,7 +20,7 @@ model feedback {
 }
 
 model hospitals {
-  id              Int           @id
+  id              Int           @id @default(autoincrement())
   name            String
   health_board_id Int
   health_boards   health_boards @relation(fields: [health_board_id], references: [id])
@@ -85,7 +85,7 @@ model words {
 }
 
 model health_boards {
-  id        Int         @id
+  id        Int         @id @default(autoincrement())
   name      String
   hospitals hospitals[]
 }
