@@ -210,7 +210,7 @@ export default function QuestionsTable() {
   };
 
   const addRow = async () => {
-    if (newRow.body === null || newRow.standard === -1 || newRow.url === null) {
+    if (!newRow.body || newRow.standard === -1 || !newRow.url) {
       setDialogText(
         <div className={styles.alertText}>*Please fill in each field</div>
       );
@@ -233,6 +233,7 @@ export default function QuestionsTable() {
           onChange={value => (newRow.body = value)}
         />
         <label>Standard:</label>
+        <br />
         <SelectPicker
           defaultValue={newRow.standard}
           onChange={value => (newRow.standard = value)}
@@ -242,7 +243,9 @@ export default function QuestionsTable() {
             value: standard.id,
           }))}
         />
+        <br />
         <label>Url:</label>
+        <br />
         <Input
           className={styles.input}
           onChange={value => (newRow.url = value)}
