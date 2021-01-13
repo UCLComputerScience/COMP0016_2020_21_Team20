@@ -87,7 +87,7 @@ function statistics() {
     {
       name: 'Healthy',
       color: colors.STANDARD_HEALTHY,
-      percentage: getAverage('Staying Healthly'),
+      percentage: getAverage('Staying Healthy'),
     },
     {
       name: 'Staff',
