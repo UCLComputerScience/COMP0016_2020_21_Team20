@@ -20,6 +20,7 @@ services:
     volumes:
       - ./keycloak:/tmp/keycloak
       - ./keycloak/register.ftl:/opt/jboss/keycloak/themes/base/login/register.ftl
+      - ./keycloak/account.ftl:/opt/jboss/keycloak/themes/base/account/template.ftl
   # Note: no need to publish postgres port; all containers running on same network!
   database:
     image: 'postgres:13.1-alpine'
