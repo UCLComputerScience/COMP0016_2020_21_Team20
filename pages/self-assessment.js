@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Button, IconButton, Icon, Toggle } from 'rsuite';
+import { Button, IconButton, Icon, Toggle, Alert } from 'rsuite';
+import Head from 'next/head';
 
 import styles from './self-assessment.module.css';
 
@@ -74,6 +75,7 @@ function selfAssessment() {
     }).then(res => res.status);
 
     if (status === 200) {
+      Alert.success('Successfully submitted', 3000);
       router.push('/statistics');
     } else {
       // TODO handle error
@@ -144,6 +146,10 @@ function selfAssessment() {
 
   return (
     <div>
+      <Head>
+        <title>Self-assessment</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       <AlertDialog
         open={showDialog}

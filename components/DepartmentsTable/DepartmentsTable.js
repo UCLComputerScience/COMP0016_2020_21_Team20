@@ -134,7 +134,7 @@ export default function DepartmentsTable() {
       resetNewRow();
       //to ensure no stale data, so refetch
       mutate('/api/departments');
-      Alert.success('New department added', 3000);
+      Alert.success('New department successfully added', 3000);
     }
   };
 
