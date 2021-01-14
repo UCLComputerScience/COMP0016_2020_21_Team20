@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Icon, Input, SelectPicker } from 'rsuite';
+import { Button, Icon, Input, SelectPicker, Alert } from 'rsuite';
 import { mutate } from 'swr';
 import {
   Table,
@@ -185,6 +185,7 @@ export default function QuestionsTable() {
     setEditing(null);
     //to ensure no stale data, so refetch
     mutate('/api/questions?default_urls=1');
+    Alert.success('Question successfully updated', 3000);
   };
 
   const deleteRow = async id => {
@@ -192,6 +193,7 @@ export default function QuestionsTable() {
     //to ensure no stale data, so refetch
     mutate('/api/questions?default_urls=1');
     setShowDeleteDialog(false);
+    Alert.success('Question successfully deleted', 3000);
   };
 
   const confirmDelete = id => {
@@ -220,6 +222,7 @@ export default function QuestionsTable() {
       resetNewRow();
       //to ensure no stale data, so refetch
       mutate('/api/questions?default_urls=1');
+      Alert.success('New question successfully added', 3000);
     }
   };
 

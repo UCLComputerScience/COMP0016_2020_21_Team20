@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/client';
+import Head from 'next/head';
 
 import {
   UrlTable,
@@ -24,6 +25,10 @@ function manage() {
 
   return (
     <div>
+      <Head>
+        <title>Manage</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       {role === roles.USER_TYPE_DEPARTMENT ? (
         <div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Input, Icon } from 'rsuite';
+import { Button, Input, Icon, Alert } from 'rsuite';
 import { mutate } from 'swr';
 import {
   Table,
@@ -106,12 +106,14 @@ export default function UrlTable() {
     setEditing(null);
     //to ensure no stale data, so refetch
     mutate('/api/questions');
+    Alert.success('URL updated', 3000);
   };
 
   const setToDefaultUrl = async id => {
     await setToDefaultInDatabase(id);
     //to ensure no stale data, so refetch
     mutate('/api/questions');
+    Alert.success('URL set to default suggested URL', 3000);
   };
 
   return (

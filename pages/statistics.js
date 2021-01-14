@@ -1,6 +1,7 @@
 import querystring from 'querystring';
 import { useState } from 'react';
 import { useSession } from 'next-auth/client';
+import Head from 'next/head';
 
 import styles from './statistics.module.css';
 
@@ -108,6 +109,10 @@ function statistics() {
 
   return (
     <div>
+      <Head>
+        <title>Statistics</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
       <CirclesAccordion circles={circles} />
       <div className={styles.content}>
