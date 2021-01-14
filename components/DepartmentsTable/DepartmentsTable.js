@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, Input, Icon } from 'rsuite';
+import { Button, Input, Icon, Alert } from 'rsuite';
 import { mutate } from 'swr';
 import {
   Table,
@@ -68,6 +68,7 @@ export default function DepartmentsTable() {
   const regenerateCode = async id => {
     await regenerateInDatabase(id);
     mutate('/api/departments');
+    Alert.success('Join URL updated', 3000);
   };
 
   const resetNewRow = () => {
@@ -99,6 +100,7 @@ export default function DepartmentsTable() {
     //to ensure no stale data, so refetch
     mutate('/api/departments');
     setShowDeleteDialog(false);
+    Alert.success(name + ' department deleted', 3000);
   };
 
   const confirmDelete = name => {
@@ -132,6 +134,7 @@ export default function DepartmentsTable() {
       resetNewRow();
       //to ensure no stale data, so refetch
       mutate('/api/departments');
+      Alert.success('New department added', 3000);
     }
   };
 
@@ -159,6 +162,10 @@ export default function DepartmentsTable() {
     ]);
     setDialogText(null);
     setShowDialog(true);
+  };
+
+  const showCopyAlert = () => {
+    Alert.info('Copied', 3000);
   };
 
   return (
@@ -218,7 +225,7 @@ export default function DepartmentsTable() {
                             <div className={styles.actionButtons}>
                               <CopyToClipboard
                                 text={`https://${window.location.host}/join/${roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
-                                <Button appearance="primary">
+                                <Button appearance="primary" onClick={() => showCopyAlert()}>
                                   <Icon icon="clone" />
                                 </Button>
                               </CopyToClipboard>

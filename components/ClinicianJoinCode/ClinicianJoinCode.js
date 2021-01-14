@@ -38,7 +38,7 @@ function ClinicianJoinCode() {
     Alert.success('Join URL updated', 3000);
   };
 
-  const showInfoAlert = () => {
+  const showCopyAlert = () => {
     Alert.info('Copied', 3000);
   };
 
@@ -63,7 +63,7 @@ function ClinicianJoinCode() {
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
         }`}>
-        <Button appearance="primary" onClick={() => showInfoAlert()}>
+        <Button appearance="primary" onClick={() => showCopyAlert()}>
           <Icon icon="clone" /> Copy to clipboard
         </Button>
       </CopyToClipboard>
