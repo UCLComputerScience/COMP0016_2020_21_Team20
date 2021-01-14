@@ -1,6 +1,6 @@
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSession } from 'next-auth/client';
-import { Button, Icon } from 'rsuite';
+import { Button, Icon, Alert } from 'rsuite';
 import { mutate } from 'swr';
 
 import styles from './ClinicianJoinCode.module.css';
@@ -35,6 +35,11 @@ function ClinicianJoinCode() {
   const regenerateCode = async id => {
     await regenerateInDatabase(id);
     mutate('/api/departments/' + id);
+    Alert.success('Join URL updated', 3000);
+  };
+
+  const showInfoAlert = () => {
+    Alert.info('Copied', 3000);
   };
 
   return (
@@ -58,7 +63,7 @@ function ClinicianJoinCode() {
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
         }`}>
-        <Button appearance="primary">
+        <Button appearance="primary" onClick={() => showInfoAlert()}>
           <Icon icon="clone" /> Copy to clipboard
         </Button>
       </CopyToClipboard>
