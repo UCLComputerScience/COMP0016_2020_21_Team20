@@ -84,10 +84,8 @@ const seedEntities = async () => {
   await prisma.health_boards.create({
     data: {
       name: 'Demo Health Board',
-      id: 1,
       hospitals: {
         create: {
-          id: 1,
           name: 'Demo Hospital',
           departments: {
             create: {

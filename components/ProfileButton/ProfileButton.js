@@ -1,5 +1,6 @@
 import { signOut, useSession } from 'next-auth/client';
 import { Dropdown, Icon } from 'rsuite';
+import styles from './ProfileButton.module.css';
 
 import { LeaveDeptButton } from '../';
 
@@ -19,8 +20,15 @@ function ProfileButton() {
         </Dropdown.Item>
       )}
       <Dropdown.Item>
-        <div onClick={signOut}>Sign out</div>
+        <a
+          className={styles.link}
+          href={process.env.NEXT_PUBLIC_USER_ACCOUNT_URL}
+          target="_blank"
+          rel="noopener">
+          Account settings
+        </a>
       </Dropdown.Item>
+      <Dropdown.Item onSelect={signOut}>Sign out</Dropdown.Item>
     </Dropdown>
   );
 }

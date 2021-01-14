@@ -1,0 +1,16 @@
+.link {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.link:hover {
+  color: inherit;
+}
+
+.link:active {
+  color: inherit;
+}
+
+.link:visited {
+  color: inherit;
+}

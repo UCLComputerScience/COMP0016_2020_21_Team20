@@ -27,10 +27,10 @@ CREATE TABLE responses (
 );
 
 CREATE TABLE scores (
-    id SERIAL PRIMARY KEY,
     response_id INTEGER NOT NULL,
     standard_id INTEGER NOT NULL,
-    score INTEGER NOT NULL
+    score INTEGER NOT NULL,
+    PRIMARY KEY (response_id, standard_id)
 );
 
 CREATE TABLE words (
@@ -64,13 +64,13 @@ CREATE table question_urls (
 );
 
 CREATE TABLE hospitals (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     health_board_id INTEGER NOT NULL
 );
 
 CREATE TABLE health_boards (
-    id INTEGER PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL
 );
 

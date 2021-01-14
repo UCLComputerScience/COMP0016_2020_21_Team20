@@ -43,7 +43,7 @@ function ClinicianJoinCode() {
         {'Please send this unique URL to clinicians so they can join your ' +
           (code !== undefined ? code['0']['name'] : 'loading...') +
           ' department:'}{' '}
-        {`https://${window.location.host}/join/clincian/${
+        {`https://${window.location.host}/join/${roles.USER_TYPE_CLINICIAN}/${
           code !== undefined
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
@@ -51,7 +51,9 @@ function ClinicianJoinCode() {
       </div>
 
       <CopyToClipboard
-        text={`https://${window.location.host}/join/clincian/${
+        text={`https://${window.location.host}/join/${
+          roles.USER_TYPE_CLINICIAN
+        }/${
           code !== undefined
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
