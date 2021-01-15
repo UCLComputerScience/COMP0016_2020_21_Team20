@@ -12,9 +12,11 @@ import {
   WordsQuestion,
   Header,
   LoginMessage,
+  NoAccess,
 } from '../components';
 
 import useSWR from '../lib/swr';
+import roles from '../lib/roles';
 
 const useQuestions = () => {
   const { data, error } = useSWR('/api/questions', {
@@ -137,6 +139,16 @@ function selfAssessment() {
       <div>
         <Header />
         <LoginMessage />
+      </div>
+    );
+  }
+
+  const role = session.roles[0]; // TODO do we want to support multiple roles?
+  if(role !== roles.USER_TYPE_DEPARTMENT || role !== roles.USER_TYPE_CLINICIAN) {
+    return (
+      <div>
+        <Header />
+        <NoAccess />
       </div>
     );
   }

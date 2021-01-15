@@ -12,11 +12,13 @@ import {
   Filters,
   LoginMessage,
   WordCloud,
+  NoAccess,
 } from '../components';
 
 import useSWR from '../lib/swr';
 import { StandardColors, Visualisations } from '../lib/constants';
 import colors from '../lib/colors';
+import roles from '../lib/roles';
 
 const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 30 * 1000; // 30 days ago;
 
@@ -60,6 +62,16 @@ function statistics() {
       <div>
         <Header />
         <LoginMessage />
+      </div>
+    );
+  }
+
+  const role = session.roles[0]; // TODO do we want to support multiple roles?
+  if(role === roles.USER_TYPE_UNKNOWN || role === roles.USER_TYPE_ADMIN) {
+    return (
+      <div>
+        <Header />
+        <NoAccess />
       </div>
     );
   }

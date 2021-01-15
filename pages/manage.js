@@ -7,6 +7,7 @@ import {
   LoginMessage,
   QuestionsTable,
   DepartmentsTable,
+  NoAccess,
 } from '../components';
 
 import roles from '../lib/roles';
@@ -46,7 +47,7 @@ function manage() {
           <DepartmentsTable />
         </div>
       ) : (
-        'You do not have access to this page'
+        <NoAccess />
       )}
     </div>
   );
