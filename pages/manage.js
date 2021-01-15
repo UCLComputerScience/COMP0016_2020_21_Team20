@@ -30,7 +30,9 @@ function manage() {
         <title>Manage</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <div style={{ zIndex: 1000, position: 'relative'}}>
+        <Header />
+      </div>
       {role === roles.USER_TYPE_DEPARTMENT ? (
         <div>
           <h3>Manage the URLs of each question</h3>
