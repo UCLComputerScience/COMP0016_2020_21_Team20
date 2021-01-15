@@ -144,7 +144,7 @@ function selfAssessment() {
   }
 
   const role = session.roles[0]; // TODO do we want to support multiple roles?
-  if(role !== roles.USER_TYPE_DEPARTMENT || role !== roles.USER_TYPE_CLINICIAN) {
+  if(role !== roles.USER_TYPE_DEPARTMENT && role !== roles.USER_TYPE_CLINICIAN) {
     return (
       <div>
         <Header />
