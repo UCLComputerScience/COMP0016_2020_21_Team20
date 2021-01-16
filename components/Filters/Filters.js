@@ -1,6 +1,8 @@
 import { SelectPicker, DateRangePicker } from 'rsuite';
+import { useSession } from 'next-auth/client';
 
-import { Visualisations } from '../../lib/constants';
+import { Visualisations, UserGroups } from '../../lib/constants';
+import roles from '../../lib/roles';
 
 const subtractDays = days => {
   const now = new Date().getTime();
@@ -8,10 +10,38 @@ const subtractDays = days => {
 };
 
 export function Filters(props) {
+  const [session] = useSession();
+
   const getMentoringValue = () => {
     if (props.isMentoringSession === true) return 'yes';
     else if (props.isMentoringSession === false) return 'no';
     else return 'any';
+  };
+
+  const renderExtraFilters = () => {
+    if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
+    } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+    } else if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+      return (
+        <>
+          <p>Group</p>
+          <SelectPicker
+            value={props.userGroup}
+            onChange={value => props.setUserGroup(value)}
+            searchable={false}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
+            data={[
+              { label: 'Myself', value: UserGroups.MYSELF },
+              { label: 'My Department', value: UserGroups.DEPARTMENT },
+            ]}
+          />
+        </>
+      );
+    } else {
+      return <span />;
+    }
   };
 
   return (
@@ -64,6 +94,8 @@ export function Filters(props) {
           { label: 'No', value: 'no' },
         ]}
       />
+
+      {renderExtraFilters()}
     </div>
   );
 }

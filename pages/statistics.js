@@ -16,7 +16,7 @@ import {
 } from '../components';
 
 import useSWR from '../lib/swr';
-import { StandardColors, Visualisations } from '../lib/constants';
+import { StandardColors, UserGroups, Visualisations } from '../lib/constants';
 import colors from '../lib/colors';
 import roles from '../lib/roles';
 
@@ -41,6 +41,7 @@ const generateQueryParams = ({
 function statistics() {
   const [session] = useSession();
   const [isMentoringSession, setIsMentoringSession] = useState(null);
+  const [userGroup, setUserGroup] = useState(UserGroups.MYSELF);
   const [visualisationType, setVisualisationType] = useState(
     Visualisations.LINE_CHART
   );
@@ -67,7 +68,7 @@ function statistics() {
   }
 
   const role = session.roles[0]; // TODO do we want to support multiple roles?
-  if(role === roles.USER_TYPE_UNKNOWN || role === roles.USER_TYPE_ADMIN) {
+  if (role === roles.USER_TYPE_UNKNOWN || role === roles.USER_TYPE_ADMIN) {
     return (
       <div>
         <Header />
@@ -136,6 +137,8 @@ function statistics() {
             setVisualisationType={setVisualisationType}
             isMentoringSession={isMentoringSession}
             setIsMentoringSession={setIsMentoringSession}
+            userGroup={userGroup}
+            setUserGroup={setUserGroup}
           />
         </div>
 
