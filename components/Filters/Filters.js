@@ -13,6 +13,7 @@ const subtractDays = days => {
 export function Filters(props) {
   const [session] = useSession();
   const [departments, setDepartments] = useState([]);
+  const [hospitals, setHospitals] = useState([]);
 
   const getMentoringValue = () => {
     if (props.isMentoringSession === true) return 'yes';
@@ -22,6 +23,67 @@ export function Filters(props) {
 
   const renderExtraFilters = () => {
     if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
+      return (
+        <>
+          <p>Group</p>
+          <SelectPicker
+            value={
+              props.dataToDisplayOverride === null
+                ? 'health_board'
+                : `${props.dataToDisplayOverride.key}-${props.dataToDisplayOverride.value}`
+            }
+            onOpen={() => {
+              fetch('/api/departments')
+                .then(res => res.json())
+                .then(res => setDepartments(res));
+
+              fetch('/api/hospitals')
+                .then(res => res.json())
+                .then(res => setHospitals(res));
+            }}
+            onChange={value => {
+              if (value === 'health_board') {
+                props.setDataToDisplayOverride(null);
+              } else {
+                const split = value.split('-');
+                props.setDataToDisplayOverride({
+                  key: split[0],
+                  value: split[1],
+                });
+              }
+            }}
+            searchable={true}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
+            data={[
+              {
+                label: 'My Health Board',
+                value: 'health_board',
+                type: 'Health Board',
+              },
+              ...departments.map(d => ({
+                label: d.name,
+                value: `department_id-${d.id}`,
+                type: 'Department',
+              })),
+              ...hospitals.map(h => ({
+                label: h.name,
+                value: `hospital_id-${h.id}`,
+                type: 'Hospital',
+              })),
+            ]}
+            groupBy="type"
+            renderMenu={menu =>
+              hospitals.length || departments.length ? (
+                menu
+              ) : (
+                <Icon icon="spinner" spin />
+              )
+            }
+          />
+        </>
+      );
     } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
       return (
         <>
@@ -30,18 +92,24 @@ export function Filters(props) {
             value={
               props.dataToDisplayOverride === null
                 ? 'hospital'
-                : props.dataToDisplayOverride.value
+                : `${props.dataToDisplayOverride.key}-${props.dataToDisplayOverride.value}`
             }
             onOpen={() =>
               fetch('/api/departments')
                 .then(res => res.json())
                 .then(res => setDepartments(res))
             }
-            onChange={value =>
-              props.setDataToDisplayOverride(
-                value === 'hospital' ? null : { key: 'department_id', value }
-              )
-            }
+            onChange={value => {
+              if (value === 'hospital') {
+                props.setDataToDisplayOverride(null);
+              } else {
+                const split = value.split('-');
+                props.setDataToDisplayOverride({
+                  key: split[0],
+                  value: split[1],
+                });
+              }
+            }}
             searchable={true}
             placeholder="Select"
             cleanable={false}
@@ -54,7 +122,7 @@ export function Filters(props) {
               },
               ...departments.map(d => ({
                 label: d.name,
-                value: d.id,
+                value: `department_id-${d.id}`,
                 type: 'Department',
               })),
             ]}

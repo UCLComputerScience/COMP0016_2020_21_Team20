@@ -38,27 +38,24 @@ export default async function handler(req, res) {
     }
 
     if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
-      if (userIdOverride && userIdOverride === session.user.userid) {
+      filters.push({
+        departments: { id: { equals: session.user.departmentId } },
+      });
+
+      if (userIdOverride && +userIdOverride === session.user.userid) {
         filters.push({ user_id: { equals: session.user.userId } });
-      } else {
-        filters.push({
-          departments: { id: { equals: session.user.departmentId } },
-        });
       }
     } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+      filters.push({
+        departments: { hospital_id: { equals: session.user.hospitalId } },
+      });
+
       if (departmentIdOverride) {
-        filters.push(
-          { departments: { hospital_id: { equals: session.user.hospitalId } } },
-          { departments: { id: { equals: +departmentIdOverride } } }
-        );
-      } else {
         filters.push({
-          departments: { hospital_id: { equals: session.user.hospitalId } },
+          departments: { id: { equals: +departmentIdOverride } },
         });
       }
     } else if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
-      // TODO do we want health boards to also see hospital-level/department-level data?
-      // If so, pass in a department_id/hospital_id parameter to override this
       filters.push({
         departments: {
           hospitals: {
@@ -66,6 +63,12 @@ export default async function handler(req, res) {
           },
         },
       });
+
+      if (hospitalIdOverride) {
+        filters.push({
+          departments: { hospitals: { id: { equals: +hospitalIdOverride } } },
+        });
+      }
     } else {
       // Default to lowest-level i.e. logged in user's data
       filters.push({ user_id: { equals: session.user.userId } });
