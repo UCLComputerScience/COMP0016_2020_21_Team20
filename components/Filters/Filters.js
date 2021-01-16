@@ -1,9 +1,9 @@
 import { SelectPicker, DateRangePicker, Icon } from 'rsuite';
 import { useSession } from 'next-auth/client';
-
-import { Visualisations, UserGroups } from '../../lib/constants';
-import roles from '../../lib/roles';
 import { useState } from 'react';
+
+import { Visualisations } from '../../lib/constants';
+import roles from '../../lib/roles';
 
 const subtractDays = days => {
   const now = new Date().getTime();
@@ -27,12 +27,29 @@ export function Filters(props) {
         <>
           <p>Group</p>
           <SelectPicker
-            value={props.userGroup}
-            groupBy="type"
+            value={
+              props.dataToDisplayOverride === null
+                ? 'hospital'
+                : props.dataToDisplayOverride.value
+            }
+            onOpen={() =>
+              fetch('/api/departments')
+                .then(res => res.json())
+                .then(res => setDepartments(res))
+            }
+            onChange={value =>
+              props.setDataToDisplayOverride(
+                value === 'hospital' ? null : { key: 'department_id', value }
+              )
+            }
+            searchable={true}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
             data={[
               {
                 label: 'My Hospital',
-                value: 'HOSPITAL TODO',
+                value: 'hospital',
                 type: 'Hospital',
               },
               ...departments.map(d => ({
@@ -41,16 +58,7 @@ export function Filters(props) {
                 type: 'Department',
               })),
             ]}
-            onOpen={() =>
-              fetch('/api/departments')
-                .then(res => res.json())
-                .then(res => setDepartments(res))
-            }
-            onChange={value => props.setUserGroup(value)}
-            searchable={true}
-            placeholder="Select"
-            cleanable={false}
-            block={true}
+            groupBy="type"
             renderMenu={menu =>
               departments.length ? menu : <Icon icon="spinner" spin />
             }
@@ -62,15 +70,21 @@ export function Filters(props) {
         <>
           <p>Group</p>
           <SelectPicker
-            value={props.userGroup}
-            onChange={value => props.setUserGroup(value)}
+            value={props.dataToDisplayOverride ? 'myself' : 'department'}
+            onChange={value =>
+              props.setDataToDisplayOverride(
+                value === 'myself'
+                  ? { key: 'user_id', value: session.user.id }
+                  : null
+              )
+            }
             searchable={false}
             placeholder="Select"
             cleanable={false}
             block={true}
             data={[
-              { label: 'Myself', value: UserGroups.MYSELF },
-              { label: 'My Department', value: UserGroups.DEPARTMENT },
+              { label: 'Myself', value: 'myself' },
+              { label: 'My Department', value: 'department' },
             ]}
           />
         </>

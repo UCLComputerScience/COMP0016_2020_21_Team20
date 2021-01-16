@@ -2,7 +2,6 @@ import prisma from '../../lib/prisma';
 
 import { getSession } from 'next-auth/client';
 
-import { UserGroups } from '../../lib/constants';
 import roles from '../../lib/roles';
 
 export default async function handler(req, res) {
@@ -20,7 +19,10 @@ export default async function handler(req, res) {
       to,
       only_is_mentoring_session: onlyIsMentoringSession,
       only_not_mentoring_session: onlyNotMentoringSession,
-      user_group: userGroup,
+
+      user_id: userIdOverride,
+      department_id: departmentIdOverride,
+      hospital_id: hospitalIdOverride,
     } = req.query;
 
     const filters = [];
@@ -36,16 +38,24 @@ export default async function handler(req, res) {
     }
 
     if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
-      if (userGroup === UserGroups.MYSELF) {
+      if (userIdOverride && userIdOverride === session.user.userid) {
         filters.push({ user_id: { equals: session.user.userId } });
       } else {
-        filters.push({ department_id: { equals: session.user.departmentId } });
+        filters.push({
+          departments: { id: { equals: session.user.departmentId } },
+        });
       }
     } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
-      // TODO as below
-      filters.push({
-        departments: { hospital_id: { equals: session.user.hospitalId } },
-      });
+      if (departmentIdOverride) {
+        filters.push(
+          { departments: { hospital_id: { equals: session.user.hospitalId } } },
+          { departments: { id: { equals: +departmentIdOverride } } }
+        );
+      } else {
+        filters.push({
+          departments: { hospital_id: { equals: session.user.hospitalId } },
+        });
+      }
     } else if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
       // TODO do we want health boards to also see hospital-level/department-level data?
       // If so, pass in a department_id/hospital_id parameter to override this

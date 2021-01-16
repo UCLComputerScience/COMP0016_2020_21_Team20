@@ -26,14 +26,18 @@ const generateQueryParams = ({
   start = new Date().getTime() - DEFAULT_DATE_OFFSET,
   end = new Date().getTime(),
   isMentoringSession = null,
-  userGroup,
+  dataToDisplayOverride,
 } = {}) => {
-  const query = { from: start, to: end, user_group: userGroup };
+  const query = { from: start, to: end };
 
   if (isMentoringSession === true) {
     query.only_is_mentoring_session = '1';
   } else if (isMentoringSession === false) {
     query.only_not_mentoring_session = '1';
+  }
+
+  if (dataToDisplayOverride) {
+    query[dataToDisplayOverride.key] = dataToDisplayOverride.value;
   }
 
   return querystring.stringify(query);
@@ -42,7 +46,7 @@ const generateQueryParams = ({
 function statistics() {
   const [session] = useSession();
   const [isMentoringSession, setIsMentoringSession] = useState(null);
-  const [userGroup, setUserGroup] = useState(UserGroups.MYSELF);
+  const [dataToDisplayOverride, setDataToDisplayOverride] = useState(null);
   const [visualisationType, setVisualisationType] = useState(
     Visualisations.LINE_CHART
   );
@@ -56,7 +60,7 @@ function statistics() {
       start: dateRange.start.getTime(),
       end: dateRange.end.getTime(),
       isMentoringSession,
-      userGroup: userGroup,
+      dataToDisplayOverride,
     })}`
   );
 
@@ -139,8 +143,8 @@ function statistics() {
             setVisualisationType={setVisualisationType}
             isMentoringSession={isMentoringSession}
             setIsMentoringSession={setIsMentoringSession}
-            userGroup={userGroup}
-            setUserGroup={setUserGroup}
+            dataToDisplayOverride={dataToDisplayOverride}
+            setDataToDisplayOverride={setDataToDisplayOverride}
           />
         </div>
 
