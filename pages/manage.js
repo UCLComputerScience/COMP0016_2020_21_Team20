@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/client';
 import Head from 'next/head';
 
 import {
-  UrlTable,
+  UrlsTable,
   Header,
   LoginMessage,
   QuestionsTable,
@@ -36,7 +36,7 @@ function manage() {
       {role === roles.USER_TYPE_DEPARTMENT ? (
         <div>
           <h3>Manage the URLs of each question</h3>
-          <UrlTable />
+          <UrlsTable />
         </div>
       ) : role === roles.USER_TYPE_ADMIN ? (
         <div>

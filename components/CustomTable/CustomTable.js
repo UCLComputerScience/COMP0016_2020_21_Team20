@@ -6,15 +6,21 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { Button, Input, Icon } from 'rsuite';
+import { Button, Icon } from 'rsuite';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import styles from './CustomTable.module.css';
 import roles from '../../lib/roles';
 
-const renderDepartments = [
+const typeOfTable = {
+    DEPARTMENTS: 0,
+    URLS : 1,
+    QUESTIONS : 2
+}
+
+const renderCells = [
     {
-        id: 0,
+        id: typeOfTable.DEPARTMENTS,
         render:  (editing, row, showCopyAlert, regenerateCode, confirmDelete) => {
             return(
                 <div className={styles.actionButtons}>
@@ -36,6 +42,74 @@ const renderDepartments = [
                     </Button>
                 </div>
             );
+            },
+    },
+    {
+        id: typeOfTable.URLS,
+        render:  (editing, row, sendData, cancelEditing, setEditing, setToDefaultUrl, i) => {
+            if(editing === i) {
+                return (
+                    <div className={styles.actionButtons}>
+                        <Button
+                            appearance="primary"
+                            onClick={() => sendData()}>
+                            <Icon icon="save" />
+                        </Button>
+                        <Button color="red" onClick={() => cancelEditing()}>
+                            <Icon icon="close" />
+                        </Button>
+                    </div>
+                );
+            } else {
+                return(
+                    <div className={styles.actionButtons}>
+                        <Button
+                            appearance="primary"
+                            onClick={() => setEditing(i)}>
+                            <Icon icon="pencil" />
+                        </Button>
+                        <Button
+                            color="red"
+                            onClick={() => setToDefaultUrl(row['id'])}>
+                            Set to Default
+                        </Button>
+                    </div>
+                );
+            }
+            },
+    },
+    {
+        id: typeOfTable.QUESTIONS,
+        render:  (editing, row, sendUpdated, cancelEditing, setEditing, confirmDelete, i) => {
+            if(editing === i) {
+                return (
+                    <div className={styles.actionButtons}>
+                        <Button
+                            appearance="primary"
+                            onClick={() => sendUpdated()}>
+                            <Icon icon="save" />
+                        </Button>
+                        <Button color="red" onClick={() => cancelEditing()}>
+                            <Icon icon="close" />
+                        </Button>
+                    </div>
+                );
+            } else {
+                return(
+                    <div className={styles.actionButtons}>
+                        <Button
+                            appearance="primary"
+                            onClick={() => setEditing(i)}>
+                            <Icon icon="pencil" />
+                        </Button>
+                        <Button
+                            color="red"
+                            onClick={() => confirmDelete(row['id'])}>
+                            Delete
+                        </Button>
+                    </div>
+                );
+            }
             },
     },
 ];
@@ -68,14 +142,26 @@ function CustomTable(props) {
                         <TableCell key={column.id} align={column.align}>
                         {column.id !== 'actions' ? (
                           column.render(props.editing === i, row)
-                        ) : props.editing === i ? (
-                          'not done'
-                        ) : (
-                            renderDepartments[0].render(false, row, 
+                        ) : props.tableType === 'departments' ? (
+                            renderCells[typeOfTable.DEPARTMENTS].render(props.editing, row, 
                                 () => props.showCopyAlert(),
                                 (id) => props.regenerateCode(id),
                                 (name) => props.confirmDelete(name))
-                        )}
+                        ) : props.tableType === 'urls' ? (
+                            renderCells[typeOfTable.URLS].render(props.editing, row, 
+                                () => props.sendData(),
+                                () => props.cancelEditing(),
+                                (i) => props.setEditing(i),
+                                (id) => props.setToDefaultUrl(id),
+                                i)
+                        ) : props.tableType === 'questions' ? (
+                            renderCells[typeOfTable.QUESTIONS].render(props.editing, row, 
+                                () => props.sendUpdated(),
+                                () => props.cancelEditing(),
+                                (i) => props.setEditing(i),
+                                (id) => props.confirmDelete(id),
+                                i)
+                        ) : (null)}
                       </TableCell>
                       );
                     })}

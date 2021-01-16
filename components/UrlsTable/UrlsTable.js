@@ -1,19 +1,11 @@
 import { useState } from 'react';
-import { Button, Input, Icon, Alert } from 'rsuite';
+import { Input, Alert } from 'rsuite';
 import { mutate } from 'swr';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@material-ui/core';
 
-import styles from './UrlTable.module.css';
+import styles from './UrlsTable.module.css';
 
 import useSWR from '../../lib/swr';
-import { ClinicianJoinCode } from '..';
+import { ClinicianJoinCode, CustomTable } from '..';
 
 const columns = [
   {
@@ -70,7 +62,7 @@ const useDatabaseData = () => {
 
 var editedRow = null;
 
-export default function UrlTable() {
+export default function UrlsTable() {
   const [editing, setEditing] = useState(null);
   let localData = useDatabaseData();
 
@@ -119,63 +111,16 @@ export default function UrlTable() {
   return (
     <div>
       <ClinicianJoinCode />
-      <TableContainer>
-        <Table stickyHeader>
-          <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ width: column.width }}>
-                  <div className={styles.header}>{column.label}</div>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {localData.map((row, i) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columns.map(column => {
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.id !== 'actions' ? (
-                          column.render(editing === i, row)
-                        ) : editing === i ? (
-                          <div className={styles.actionButtons}>
-                            <Button
-                              appearance="primary"
-                              onClick={() => sendData()}>
-                              <Icon icon="save" />
-                            </Button>
-                            <Button color="red" onClick={() => cancelEditing()}>
-                              <Icon icon="close" />
-                            </Button>
-                          </div>
-                        ) : (
-                          <div className={styles.actionButtons}>
-                            <Button
-                              appearance="primary"
-                              onClick={() => setEditing(i)}>
-                              <Icon icon="pencil" />
-                            </Button>
-                            <Button
-                              color="red"
-                              onClick={() => setToDefaultUrl(row['id'])}>
-                              Set to Default
-                            </Button>
-                          </div>
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <CustomTable
+        tableType='urls'
+        data={localData}
+        columns={columns}
+        editing={editing}
+        sendData={() => sendData()}
+        cancelEditing={() => cancelEditing()}
+        setEditing={(i) => setEditing(i)}
+        setToDefaultUrl={(id) => setToDefaultUrl(id)}
+        />
     </div>
   );
 }

@@ -1,15 +1,6 @@
 import { useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Button, Input, Icon, Alert } from 'rsuite';
+import { Button, Input, Alert } from 'rsuite';
 import { mutate } from 'swr';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@material-ui/core';
 
 import styles from './DepartmentsTable.module.css';
 
