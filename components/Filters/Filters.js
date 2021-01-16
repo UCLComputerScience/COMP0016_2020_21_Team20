@@ -11,7 +11,7 @@ export function Filters(props) {
   const getMentoringValue = () => {
     if (props.isMentoringSession === true) return 'yes';
     else if (props.isMentoringSession === false) return 'no';
-    else return 'both';
+    else return 'any';
   };
 
   return (
@@ -59,7 +59,7 @@ export function Filters(props) {
         cleanable={false}
         block={true}
         data={[
-          { label: 'Both', value: 'both' },
+          { label: 'Any', value: 'any' },
           { label: 'Yes', value: 'yes' },
           { label: 'No', value: 'no' },
         ]}
