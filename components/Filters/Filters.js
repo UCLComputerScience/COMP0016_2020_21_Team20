@@ -1,8 +1,9 @@
-import { SelectPicker, DateRangePicker } from 'rsuite';
+import { SelectPicker, DateRangePicker, Icon } from 'rsuite';
 import { useSession } from 'next-auth/client';
 
 import { Visualisations, UserGroups } from '../../lib/constants';
 import roles from '../../lib/roles';
+import { useState } from 'react';
 
 const subtractDays = days => {
   const now = new Date().getTime();
@@ -11,6 +12,7 @@ const subtractDays = days => {
 
 export function Filters(props) {
   const [session] = useSession();
+  const [departments, setDepartments] = useState([]);
 
   const getMentoringValue = () => {
     if (props.isMentoringSession === true) return 'yes';
@@ -21,6 +23,40 @@ export function Filters(props) {
   const renderExtraFilters = () => {
     if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
     } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+      return (
+        <>
+          <p>Group</p>
+          <SelectPicker
+            value={props.userGroup}
+            groupBy="type"
+            data={[
+              {
+                label: 'My Hospital',
+                value: 'HOSPITAL TODO',
+                type: 'Hospital',
+              },
+              ...departments.map(d => ({
+                label: d.name,
+                value: d.id,
+                type: 'Department',
+              })),
+            ]}
+            onOpen={() =>
+              fetch('/api/departments')
+                .then(res => res.json())
+                .then(res => setDepartments(res))
+            }
+            onChange={value => props.setUserGroup(value)}
+            searchable={true}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
+            renderMenu={menu =>
+              departments.length ? menu : <Icon icon="spinner" spin />
+            }
+          />
+        </>
+      );
     } else if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
       return (
         <>
