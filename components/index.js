@@ -17,3 +17,4 @@ export { default as DepartmentsTable } from './DepartmentsTable/DepartmentsTable
 export { default as ClinicianJoinCode } from './ClinicianJoinCode/ClinicianJoinCode';
 export { default as LeaveDeptButton } from './LeaveDeptButton/LeaveDeptButton';
 export { default as NoAccess } from './NoAccess/NoAccess';
+export { default as CustomTable } from './CustomTable/CustomTable';

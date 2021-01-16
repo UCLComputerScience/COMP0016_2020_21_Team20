@@ -13,7 +13,7 @@ import {
 
 import styles from './DepartmentsTable.module.css';
 
-import { AlertDialog } from '../';
+import { AlertDialog, CustomTable } from '../';
 import useSWR from '../../lib/swr';
 import roles from '../../lib/roles';
 
@@ -22,13 +22,13 @@ const columns = [
     id: 'department',
     label: 'Department Name',
     width: 'auto',
-    render: row => row['name'],
+    render: (editing, row) => row['name'],
   },
   {
     id: 'url',
     label: 'Join URL',
     width: 'auto',
-    render: row =>
+    render: (editing, row) =>
       `https://${window.location.host}/join/${roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`,
   },
   { id: 'actions', label: 'Actions', width: 'auto' },
@@ -197,59 +197,15 @@ export default function DepartmentsTable() {
         onClick={() => setDialog()}>
         Add new department
       </Button>
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ width: column.width }}>
-                  <div className={styles.header}>{column.label}</div>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {localData !== undefined &&
-              localData.map(row => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map(column => {
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.id !== 'actions' ? (
-                            column.render(row)
-                          ) : (
-                            <div className={styles.actionButtons}>
-                              <CopyToClipboard
-                                text={`https://${window.location.host}/join/${roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
-                                <Button appearance="primary" onClick={() => showCopyAlert()}>
-                                  <Icon icon="clone" />
-                                </Button>
-                              </CopyToClipboard>
-                              <Button
-                                appearance="primary"
-                                onClick={() => regenerateCode(row['id'])}>
-                                Re-generate URL
-                              </Button>
-                              <Button
-                                color="red"
-                                onClick={() => confirmDelete(row['name'])}>
-                                Delete
-                              </Button>
-                            </div>
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <CustomTable
+        tableType='departments'
+        data={localData}
+        columns={columns}
+        editing={false} //cannot edit departments
+        showCopyAlert={() => showCopyAlert()}
+        regenerateCode={(id) => regenerateCode(id)}
+        confirmDelete={(name) => confirmDelete(name)}
+        />
     </div>
   );
 }
