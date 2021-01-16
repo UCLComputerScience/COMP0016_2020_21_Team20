@@ -9,7 +9,7 @@ export { default as ProfileButton } from './ProfileButton/ProfileButton';
 export { default as CirclesAccordion } from './CirclesAccordion/CirclesAccordion';
 export { default as Circle } from './Circle/Circle';
 export { default as Filters } from './Filters/Filters';
-export { default as UrlTable } from './UrlTable/UrlTable';
+export { default as UrlsTable } from './UrlsTable/UrlsTable';
 export { default as QuestionsTable } from './QuestionsTable/QuestionsTable';
 export { default as LoginMessage } from './LoginMessage/LoginMessage';
 export { default as WordCloud } from './WordCloud/WordCloud';
@@ -17,3 +17,4 @@ export { default as DepartmentsTable } from './DepartmentsTable/DepartmentsTable
 export { default as ClinicianJoinCode } from './ClinicianJoinCode/ClinicianJoinCode';
 export { default as LeaveDeptButton } from './LeaveDeptButton/LeaveDeptButton';
 export { default as NoAccess } from './NoAccess/NoAccess';
+export { default as CustomTable } from './CustomTable/CustomTable';
