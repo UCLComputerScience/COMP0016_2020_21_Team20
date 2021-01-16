@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       return res.end('You do not have permission to view departments');
     }
 
-    const where = {};
+    const where = { archived: { equals: false } };
     if (isHospital) {
       where.hospital_id = session.user.hospitalId;
     } else {

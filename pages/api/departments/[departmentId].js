@@ -41,7 +41,16 @@ export default async function handler(req, res) {
       return res.end('You do not have permission to delete departments');
     }
 
-    if (session.user.departmentId !== +req.query.departmentId) {
+    const isDepartmentInHospital = await prisma.departments.count({
+      where: {
+        AND: [
+          { id: { equals: +req.query.departmentId } },
+          { hospital_id: { equals: session.user.hospitalId } },
+        ],
+      },
+    });
+
+    if (!isDepartmentInHospital) {
       res.statusCode = 403;
       return res.end('You do not have permission to delete this department');
     }
