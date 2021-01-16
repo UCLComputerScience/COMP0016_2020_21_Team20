@@ -34,8 +34,8 @@ export const getServerSideProps = async ctx => {
 
   const success = await setUserDepartmentAndRole({
     departmentId: department.department_id,
+    userId: session.user.userId,
     newUserType: type,
-    session,
   });
 
   return { props: { success } };

@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     }
 
     const result = await setUserDepartmentAndRole({
-      session,
+      userId: session.user.userId,
       newUserType: roles.USER_TYPE_UNKNOWN,
     });
     return res.json({ success: result });
