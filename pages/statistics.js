@@ -26,8 +26,9 @@ const generateQueryParams = ({
   start = new Date().getTime() - DEFAULT_DATE_OFFSET,
   end = new Date().getTime(),
   isMentoringSession = null,
+  userGroup,
 } = {}) => {
-  const query = { from: start, to: end };
+  const query = { from: start, to: end, user_group: userGroup };
 
   if (isMentoringSession === true) {
     query.only_is_mentoring_session = '1';
@@ -55,6 +56,7 @@ function statistics() {
       start: dateRange.start.getTime(),
       end: dateRange.end.getTime(),
       isMentoringSession,
+      userGroup: userGroup,
     })}`
   );
 

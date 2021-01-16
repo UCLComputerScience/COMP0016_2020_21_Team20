@@ -2,6 +2,9 @@ import prisma from '../../lib/prisma';
 
 import { getSession } from 'next-auth/client';
 
+import { UserGroups } from '../../lib/constants';
+import roles from '../../lib/roles';
+
 export default async function handler(req, res) {
   const session = await getSession({ req });
 
@@ -17,6 +20,7 @@ export default async function handler(req, res) {
       to,
       only_is_mentoring_session: onlyIsMentoringSession,
       only_not_mentoring_session: onlyNotMentoringSession,
+      user_group: userGroup,
     } = req.query;
 
     const filters = [];
@@ -31,14 +35,18 @@ export default async function handler(req, res) {
       filters.push({ is_mentoring_session: false });
     }
 
-    if (session.user.departmentId) {
-      filters.push({ department_id: { equals: session.user.departmentId } });
-    } else if (session.user.hospitalId) {
+    if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+      if (userGroup === UserGroups.MYSELF) {
+        filters.push({ user_id: { equals: session.user.userId } });
+      } else {
+        filters.push({ department_id: { equals: session.user.departmentId } });
+      }
+    } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
       // TODO as below
       filters.push({
         departments: { hospital_id: { equals: session.user.hospitalId } },
       });
-    } else if (session.user.healthBoardId) {
+    } else if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
       // TODO do we want health boards to also see hospital-level/department-level data?
       // If so, pass in a department_id/hospital_id parameter to override this
       filters.push({
