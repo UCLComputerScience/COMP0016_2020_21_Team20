@@ -21,62 +21,45 @@ export function Filters(props) {
     else return 'any';
   };
 
-  const SelectPickerGroups = ({ isLoading, fetches, ...componentProps }) => {
-    return (
-      <SelectPicker
-        {...componentProps}
-        value={
-          props.dataToDisplayOverride === null
-            ? 'default'
-            : `${props.dataToDisplayOverride.key}-${props.dataToDisplayOverride.value}`
-        }
-        onOpen={() => {
-          if (!departments.length && fetches.includes('departments')) {
-            fetch('/api/departments')
-              .then(res => res.json())
-              .then(res => setDepartments(res));
-          }
-
-          if (!hospitals.length && fetches.includes('hospitals')) {
-            fetch('/api/hospitals')
-              .then(res => res.json())
-              .then(res => setHospitals(res));
-          }
-        }}
-        onChange={value => {
-          if (value === 'default') {
-            props.setDataToDisplayOverride(null);
-          } else {
-            const split = value.split('-');
-            props.setDataToDisplayOverride({
-              key: split[0],
-              value: split[1],
-            });
-          }
-        }}
-        renderMenu={menu =>
-          !departments.length ? <Icon icon="spinner" spin /> : menu
-        }
-        groupBy="type"
-        searchable={true}
-        placeholder="Select"
-        cleanable={false}
-        block={true}
-      />
-    );
-  };
-
   const renderExtraFilters = () => {
     if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
       return (
         <>
           <p>Group</p>
-          <SelectPickerGroups
-            fetches={['departments', 'hospitals']}
+          <SelectPicker
+            value={
+              props.dataToDisplayOverride === null
+                ? 'health_board'
+                : `${props.dataToDisplayOverride.key}-${props.dataToDisplayOverride.value}`
+            }
+            onOpen={() => {
+              fetch('/api/departments')
+                .then(res => res.json())
+                .then(res => setDepartments(res));
+
+              fetch('/api/hospitals')
+                .then(res => res.json())
+                .then(res => setHospitals(res));
+            }}
+            onChange={value => {
+              if (value === 'health_board') {
+                props.setDataToDisplayOverride(null);
+              } else {
+                const split = value.split('-');
+                props.setDataToDisplayOverride({
+                  key: split[0],
+                  value: split[1],
+                });
+              }
+            }}
+            searchable={true}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
             data={[
               {
                 label: 'My Health Board',
-                value: 'default',
+                value: 'health_board',
                 type: 'Health Board',
               },
               ...departments.map(d => ({
@@ -90,7 +73,14 @@ export function Filters(props) {
                 type: 'Hospital',
               })),
             ]}
-            isLoading={!hospitals.length && !departments.length}
+            groupBy="type"
+            renderMenu={menu =>
+              hospitals.length || departments.length ? (
+                menu
+              ) : (
+                <Icon icon="spinner" spin />
+              )
+            }
           />
         </>
       );
@@ -98,12 +88,36 @@ export function Filters(props) {
       return (
         <>
           <p>Group</p>
-          <SelectPickerGroups
-            fetches={['departments']}
+          <SelectPicker
+            value={
+              props.dataToDisplayOverride === null
+                ? 'hospital'
+                : `${props.dataToDisplayOverride.key}-${props.dataToDisplayOverride.value}`
+            }
+            onOpen={() =>
+              fetch('/api/departments')
+                .then(res => res.json())
+                .then(res => setDepartments(res))
+            }
+            onChange={value => {
+              if (value === 'hospital') {
+                props.setDataToDisplayOverride(null);
+              } else {
+                const split = value.split('-');
+                props.setDataToDisplayOverride({
+                  key: split[0],
+                  value: split[1],
+                });
+              }
+            }}
+            searchable={true}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
             data={[
               {
                 label: 'My Hospital',
-                value: 'default',
+                value: 'hospital',
                 type: 'Hospital',
               },
               ...departments.map(d => ({
@@ -112,7 +126,10 @@ export function Filters(props) {
                 type: 'Department',
               })),
             ]}
-            isLoading={!departments.length}
+            groupBy="type"
+            renderMenu={menu =>
+              departments.length ? menu : <Icon icon="spinner" spin />
+            }
           />
         </>
       );
@@ -120,12 +137,23 @@ export function Filters(props) {
       return (
         <>
           <p>Group</p>
-          <SelectPickerGroups
+          <SelectPicker
+            value={props.dataToDisplayOverride ? 'myself' : 'department'}
+            onChange={value =>
+              props.setDataToDisplayOverride(
+                value === 'myself'
+                  ? { key: 'user_id', value: session.user.id }
+                  : null
+              )
+            }
+            searchable={false}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
             data={[
-              { label: 'My Department', value: 'default' },
-              { label: 'Myself', value: `user_id-${session.user.id}` },
+              { label: 'Myself', value: 'myself' },
+              { label: 'My Department', value: 'department' },
             ]}
-            isLoading={false}
           />
         </>
       );
