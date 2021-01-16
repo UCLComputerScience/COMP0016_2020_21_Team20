@@ -16,7 +16,7 @@ import {
 } from '../components';
 
 import useSWR from '../lib/swr';
-import { StandardColors, Visualisations } from '../lib/constants';
+import { StandardColors, UserGroups, Visualisations } from '../lib/constants';
 import colors from '../lib/colors';
 import roles from '../lib/roles';
 
@@ -26,6 +26,7 @@ const generateQueryParams = ({
   start = new Date().getTime() - DEFAULT_DATE_OFFSET,
   end = new Date().getTime(),
   isMentoringSession = null,
+  dataToDisplayOverride,
 } = {}) => {
   const query = { from: start, to: end };
 
@@ -35,12 +36,17 @@ const generateQueryParams = ({
     query.only_not_mentoring_session = '1';
   }
 
+  if (dataToDisplayOverride) {
+    query[dataToDisplayOverride.key] = dataToDisplayOverride.value;
+  }
+
   return querystring.stringify(query);
 };
 
 function statistics() {
   const [session] = useSession();
   const [isMentoringSession, setIsMentoringSession] = useState(null);
+  const [dataToDisplayOverride, setDataToDisplayOverride] = useState(null);
   const [visualisationType, setVisualisationType] = useState(
     Visualisations.LINE_CHART
   );
@@ -54,6 +60,7 @@ function statistics() {
       start: dateRange.start.getTime(),
       end: dateRange.end.getTime(),
       isMentoringSession,
+      dataToDisplayOverride,
     })}`
   );
 
@@ -67,7 +74,7 @@ function statistics() {
   }
 
   const role = session.roles[0]; // TODO do we want to support multiple roles?
-  if(role === roles.USER_TYPE_UNKNOWN || role === roles.USER_TYPE_ADMIN) {
+  if (role === roles.USER_TYPE_UNKNOWN || role === roles.USER_TYPE_ADMIN) {
     return (
       <div>
         <Header />
@@ -136,6 +143,8 @@ function statistics() {
             setVisualisationType={setVisualisationType}
             isMentoringSession={isMentoringSession}
             setIsMentoringSession={setIsMentoringSession}
+            dataToDisplayOverride={dataToDisplayOverride}
+            setDataToDisplayOverride={setDataToDisplayOverride}
           />
         </div>
 

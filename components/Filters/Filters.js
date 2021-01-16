@@ -1,6 +1,9 @@
-import { SelectPicker, DateRangePicker } from 'rsuite';
+import { SelectPicker, DateRangePicker, Icon } from 'rsuite';
+import { useSession } from 'next-auth/client';
+import { useState } from 'react';
 
 import { Visualisations } from '../../lib/constants';
+import roles from '../../lib/roles';
 
 const subtractDays = days => {
   const now = new Date().getTime();
@@ -8,10 +11,155 @@ const subtractDays = days => {
 };
 
 export function Filters(props) {
+  const [session] = useSession();
+  const [departments, setDepartments] = useState([]);
+  const [hospitals, setHospitals] = useState([]);
+
   const getMentoringValue = () => {
     if (props.isMentoringSession === true) return 'yes';
     else if (props.isMentoringSession === false) return 'no';
-    else return 'both';
+    else return 'any';
+  };
+
+  const renderExtraFilters = () => {
+    if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
+      return (
+        <>
+          <p>Group</p>
+          <SelectPicker
+            value={
+              props.dataToDisplayOverride === null
+                ? 'health_board'
+                : `${props.dataToDisplayOverride.key}-${props.dataToDisplayOverride.value}`
+            }
+            onOpen={() => {
+              fetch('/api/departments')
+                .then(res => res.json())
+                .then(res => setDepartments(res));
+
+              fetch('/api/hospitals')
+                .then(res => res.json())
+                .then(res => setHospitals(res));
+            }}
+            onChange={value => {
+              if (value === 'health_board') {
+                props.setDataToDisplayOverride(null);
+              } else {
+                const split = value.split('-');
+                props.setDataToDisplayOverride({
+                  key: split[0],
+                  value: split[1],
+                });
+              }
+            }}
+            searchable={true}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
+            data={[
+              {
+                label: 'My Health Board',
+                value: 'health_board',
+                type: 'Health Board',
+              },
+              ...departments.map(d => ({
+                label: d.name,
+                value: `department_id-${d.id}`,
+                type: 'Department',
+              })),
+              ...hospitals.map(h => ({
+                label: h.name,
+                value: `hospital_id-${h.id}`,
+                type: 'Hospital',
+              })),
+            ]}
+            groupBy="type"
+            renderMenu={menu =>
+              hospitals.length || departments.length ? (
+                menu
+              ) : (
+                <Icon icon="spinner" spin />
+              )
+            }
+          />
+        </>
+      );
+    } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+      return (
+        <>
+          <p>Group</p>
+          <SelectPicker
+            value={
+              props.dataToDisplayOverride === null
+                ? 'hospital'
+                : `${props.dataToDisplayOverride.key}-${props.dataToDisplayOverride.value}`
+            }
+            onOpen={() =>
+              fetch('/api/departments')
+                .then(res => res.json())
+                .then(res => setDepartments(res))
+            }
+            onChange={value => {
+              if (value === 'hospital') {
+                props.setDataToDisplayOverride(null);
+              } else {
+                const split = value.split('-');
+                props.setDataToDisplayOverride({
+                  key: split[0],
+                  value: split[1],
+                });
+              }
+            }}
+            searchable={true}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
+            data={[
+              {
+                label: 'My Hospital',
+                value: 'hospital',
+                type: 'Hospital',
+              },
+              ...departments.map(d => ({
+                label: d.name,
+                value: `department_id-${d.id}`,
+                type: 'Department',
+              })),
+            ]}
+            groupBy="type"
+            renderMenu={menu =>
+              departments.length ? menu : <Icon icon="spinner" spin />
+            }
+          />
+        </>
+      );
+    } else if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+      return (
+        <>
+          <p>Group</p>
+          <SelectPicker
+            value={props.dataToDisplayOverride ? 'myself' : 'department'}
+            onChange={value =>
+              props.setDataToDisplayOverride(
+                value === 'myself'
+                  ? { key: 'user_id', value: session.user.id }
+                  : null
+              )
+            }
+            searchable={false}
+            placeholder="Select"
+            cleanable={false}
+            block={true}
+            data={[
+              { label: 'Myself', value: 'myself' },
+              { label: 'My Department', value: 'department' },
+            ]}
+          />
+        </>
+      );
+    } else {
+      return <span />;
+    }
   };
 
   return (
@@ -59,11 +207,13 @@ export function Filters(props) {
         cleanable={false}
         block={true}
         data={[
-          { label: 'Both', value: 'both' },
+          { label: 'Any', value: 'any' },
           { label: 'Yes', value: 'yes' },
           { label: 'No', value: 'no' },
         ]}
       />
+
+      {renderExtraFilters()}
     </div>
   );
 }

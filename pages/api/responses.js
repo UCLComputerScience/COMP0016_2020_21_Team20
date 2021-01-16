@@ -2,6 +2,8 @@ import prisma from '../../lib/prisma';
 
 import { getSession } from 'next-auth/client';
 
+import roles from '../../lib/roles';
+
 export default async function handler(req, res) {
   const session = await getSession({ req });
 
@@ -17,6 +19,10 @@ export default async function handler(req, res) {
       to,
       only_is_mentoring_session: onlyIsMentoringSession,
       only_not_mentoring_session: onlyNotMentoringSession,
+
+      user_id: userIdOverride,
+      department_id: departmentIdOverride,
+      hospital_id: hospitalIdOverride,
     } = req.query;
 
     const filters = [];
@@ -31,16 +37,25 @@ export default async function handler(req, res) {
       filters.push({ is_mentoring_session: false });
     }
 
-    if (session.user.departmentId) {
-      filters.push({ department_id: { equals: session.user.departmentId } });
-    } else if (session.user.hospitalId) {
-      // TODO as below
+    if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+      filters.push({
+        departments: { id: { equals: session.user.departmentId } },
+      });
+
+      if (userIdOverride && +userIdOverride === session.user.userid) {
+        filters.push({ user_id: { equals: session.user.userId } });
+      }
+    } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
       filters.push({
         departments: { hospital_id: { equals: session.user.hospitalId } },
       });
-    } else if (session.user.healthBoardId) {
-      // TODO do we want health boards to also see hospital-level/department-level data?
-      // If so, pass in a department_id/hospital_id parameter to override this
+
+      if (departmentIdOverride) {
+        filters.push({
+          departments: { id: { equals: +departmentIdOverride } },
+        });
+      }
+    } else if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
       filters.push({
         departments: {
           hospitals: {
@@ -48,6 +63,12 @@ export default async function handler(req, res) {
           },
         },
       });
+
+      if (hospitalIdOverride) {
+        filters.push({
+          departments: { hospitals: { id: { equals: +hospitalIdOverride } } },
+        });
+      }
     } else {
       // Default to lowest-level i.e. logged in user's data
       filters.push({ user_id: { equals: session.user.userId } });

@@ -44,14 +44,26 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    if (!session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+    const isHospital = session.roles.includes(roles.USER_TYPE_HOSPITAL);
+    const isHealthBoard = session.roles.includes(roles.USER_TYPE_HEALTH_BOARD);
+
+    if (!isHospital && !isHealthBoard) {
       res.statusCode = 403;
       return res.end('You do not have permission to view departments');
     }
 
+    const where = {};
+    if (isHospital) {
+      where.hospital_id = session.user.hospitalId;
+    } else {
+      where.hospitals = {
+        health_board_id: { equals: session.user.healthBoardId },
+      };
+    }
+
     const departments = await prisma.departments.findMany({
-      where: { hospital_id: session.user.hospitalId },
       include: { department_join_codes: true },
+      where,
     });
 
     // Only return the name, join code and id of the department
