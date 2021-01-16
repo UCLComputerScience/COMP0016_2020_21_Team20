@@ -57,6 +57,9 @@ const options = {
   events: {
     signIn: async message => handleUserSuccessfulLogin(message),
   },
+  pages: {
+    error: '/',
+  },
 };
 
 export default (req, res) => NextAuth(req, res, options);

@@ -1,9 +1,97 @@
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
 
 import { Header } from '../components';
+import { Button, Message } from 'rsuite';
+import { signIn } from 'next-auth/client';
+
+const errors = {
+  configuration: {
+    heading: 'Server error',
+    message: (
+      <div>
+        <p>There is a problem with the server configuration.</p>
+        <p>Check the server logs for more information.</p>
+      </div>
+    ),
+  },
+  accessdenied: {
+    heading: 'Access Denied',
+    message: (
+      <div>
+        <p>You do not have permission to sign in.</p>
+        <p>
+          <Button
+            appearance="primary"
+            onClick={() => signIn('keycloak', { callbackUrl: '/' })}>
+            Sign in
+          </Button>
+        </p>
+      </div>
+    ),
+  },
+  verification: {
+    heading: 'Unable to sign in',
+    message: (
+      <div>
+        <p>The sign in link is no longer valid.</p>
+        <p>It may have be used already or it may have expired.</p>
+        <p>
+          <Button
+            appearance="primary"
+            onClick={() => signIn('keycloak', { callbackUrl: '/' })}>
+            Sign in
+          </Button>
+        </p>
+      </div>
+    ),
+  },
+  departmentdeleted: {
+    heading: 'Department deleted',
+    message: (
+      <div>
+        <p>Your department was deleted by your hospital.</p>
+        <p>
+          Please log in again, and request a new join URL to join another
+          department.
+        </p>
+        <p>
+          <Button
+            appearance="primary"
+            onClick={() => signIn('keycloak', { callbackUrl: '/' })}>
+            Sign in
+          </Button>
+        </p>
+      </div>
+    ),
+  },
+};
 
 export default function Home() {
+  const router = useRouter();
+
+  const showError = error => {
+    // Don't do exact match
+    error = error.toLowerCase();
+    const key = Object.keys(errors).find(e => error.indexOf(e) > -1);
+
+    if (key) {
+      const details = errors[key];
+      return (
+        <Message
+          type="error"
+          closable
+          title={details.heading}
+          description={details.message}
+        />
+      );
+    }
+
+    console.error('Unknown error');
+    return null;
+  };
+
   return (
     <div className="container">
       <Head>
@@ -12,6 +100,7 @@ export default function Home() {
       </Head>
       <Header />
 
+      {router.query && router.query.error && showError(router.query.error)}
       <main>
         <h1 className="title">Welcome to Care Quality Dashboard</h1>
         <p>
