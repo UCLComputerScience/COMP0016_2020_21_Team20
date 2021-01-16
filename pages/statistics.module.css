@@ -5,8 +5,8 @@
 }
 
 .filters {
-  text-align: left;
   width: 20%;
+  margin-top: 10px;
 }
 
 .graph {
