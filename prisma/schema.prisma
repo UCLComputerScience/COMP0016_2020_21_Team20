@@ -94,6 +94,7 @@ model departments {
   id                    Int                    @id @default(autoincrement())
   name                  String
   hospital_id           Int
+  archived              Boolean?               @default(false)
   hospitals             hospitals              @relation(fields: [hospital_id], references: [id])
   clinician_join_codes  clinician_join_codes?
   department_join_codes department_join_codes?
