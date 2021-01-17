@@ -116,10 +116,10 @@ export default function Home() {
 
         <div className="grid">
           <div className="card">
-            <Link href="/self-assessment">
+            <Link href="/self-reporting">
               <div>
-                <h3>Self assessment &rarr;</h3>
-                <p>Do your self assessment!</p>
+                <h3>Self reporting &rarr;</h3>
+                <p>Do your self reporting!</p>
               </div>
             </Link>
           </div>

@@ -12,8 +12,8 @@ const paths = {
   [roles.USER_TYPE_ADMIN]: ['manage'],
   [roles.USER_TYPE_HEALTH_BOARD]: ['statistics'],
   [roles.USER_TYPE_HOSPITAL]: ['statistics', 'manage'],
-  [roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-assessment', 'manage'],
-  [roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-assessment'],
+  [roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-reporting', 'manage'],
+  [roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
 };
 
 function Header() {
