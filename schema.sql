@@ -77,7 +77,8 @@ CREATE TABLE health_boards (
 CREATE TABLE departments (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    hospital_id INTEGER NOT NULL
+    hospital_id INTEGER NOT NULL,
+    archived BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE feedback (

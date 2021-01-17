@@ -77,24 +77,23 @@ export default function DepartmentsTable() {
     return await res.json();
   };
 
-  // const deleteInDatabase = async name => {
-  //   //TODO
-  //   const res = await fetch('/api/departments/' + name, {
-  //     method: 'DELETE',
-  //     headers: { 'Content-Type': 'application/json' },
-  //   });
-  //   return await res.json();
-  // };
+  const deleteInDatabase = async name => {
+    const res = await fetch('/api/departments/' + name, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return await res.json();
+  };
 
-  const deleteRow = async name => {
-    await deleteInDatabase(name);
+  const deleteRow = async id => {
+    await deleteInDatabase(id);
     //to ensure no stale data, so refetch
     mutate('/api/departments');
     setShowDeleteDialog(false);
-    Alert.success(name + ' department deleted', 3000);
+    Alert.success('Department successfully deleted', 3000);
   };
 
-  const confirmDelete = name => {
+  const confirmDelete = id => {
     setShowDeleteDialog(true);
     //add which department about to delete in text of dialog
     setDeleteDialogActions([
@@ -104,10 +103,8 @@ export default function DepartmentsTable() {
       <Button
         key="alertdialog-confirm"
         color="red"
-        onClick={() => {
-          /*deleteRow(name)*/
-        }}>
-        Yes (deleting not supported yet)
+        onClick={() => deleteRow(id)}>
+        Yes, delete
       </Button>,
     ]);
   };
@@ -189,14 +186,14 @@ export default function DepartmentsTable() {
         Add new department
       </Button>
       <CustomTable
-        tableType='departments'
+        tableType="departments"
         data={localData}
         columns={columns}
         editing={false} //cannot edit departments
         showCopyAlert={() => showCopyAlert()}
-        regenerateCode={(id) => regenerateCode(id)}
-        confirmDelete={(name) => confirmDelete(name)}
-        />
+        regenerateCode={id => regenerateCode(id)}
+        confirmDelete={id => confirmDelete(id)}
+      />
     </div>
   );
 }

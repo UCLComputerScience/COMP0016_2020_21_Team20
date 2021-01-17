@@ -1,5 +1,8 @@
 import NextAuth from 'next-auth';
-import handleUserLogin from '../../../lib/handleUserLogin';
+import {
+  handleUserAttemptLogin,
+  handleUserSuccessfulLogin,
+} from '../../../lib/handleUserLogin';
 
 import roles from '../../../lib/roles';
 
@@ -48,9 +51,14 @@ const options = {
       session.user.healthBoardId = user.health_board_id;
       return session;
     },
+    signIn: async (user, account, profile) =>
+      handleUserAttemptLogin(user, account, profile),
   },
   events: {
-    signIn: async message => handleUserLogin(message),
+    signIn: async message => handleUserSuccessfulLogin(message),
+  },
+  pages: {
+    error: '/',
   },
 };
 
