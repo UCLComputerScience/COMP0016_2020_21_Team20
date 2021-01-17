@@ -1,8 +1,8 @@
 import { getSession } from 'next-auth/client';
 
 import prisma from '../../../lib/prisma';
-import Roles from '../../../lib/constants';
 import createJoinCode from '../../../lib/createJoinCode';
+import { Roles } from '../../../lib/constants';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });

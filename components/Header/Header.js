@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 import styles from './Header.module.css';
 
+import { Roles } from '../../lib/constants';
 import { ProfileButton } from '..';
-import Roles from '../../lib/constants';
 
 const paths = {
   [Roles.USER_TYPE_ADMIN]: ['manage'],

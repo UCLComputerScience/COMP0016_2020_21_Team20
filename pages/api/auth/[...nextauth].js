@@ -1,10 +1,11 @@
 import NextAuth from 'next-auth';
+
 import {
   handleUserAttemptLogin,
   handleUserSuccessfulLogin,
 } from '../../../lib/handleUserLogin';
 
-import Roles from '../../../lib/constants';
+import { Roles } from '../../../lib/constants';
 
 const options = {
   providers: [

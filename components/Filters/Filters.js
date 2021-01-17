@@ -2,8 +2,7 @@ import { SelectPicker, DateRangePicker, Icon } from 'rsuite';
 import { useSession } from 'next-auth/client';
 import { useState } from 'react';
 
-import { Visualisations } from '../../lib/constants';
-import Roles from '../../lib/constants';
+import { Roles, Visualisations } from '../../lib/constants';
 
 const subtractDays = days => {
   const now = new Date().getTime();

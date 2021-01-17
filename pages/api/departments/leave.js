@@ -1,7 +1,7 @@
-import Roles from '../../../lib/constants';
-import setUserDepartmentAndRole from '../../../lib/setUserDepartmentAndRole';
-
 import { getSession } from 'next-auth/client';
+
+import setUserDepartmentAndRole from '../../../lib/setUserDepartmentAndRole';
+import { Roles } from '../../../lib/constants';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Button, IconButton, Icon, Toggle, Alert } from 'rsuite';
 import Head from 'next/head';
+import { Button, IconButton, Icon, Toggle, Alert } from 'rsuite';
 
 import styles from './self-reporting.module.css';
 
@@ -16,7 +16,7 @@ import {
 } from '../components';
 
 import useSWR from '../lib/swr';
-import Roles from '../lib/constants';
+import { Roles } from '../lib/constants';
 
 const useQuestions = () => {
   const { data, error } = useSWR('/api/questions', {

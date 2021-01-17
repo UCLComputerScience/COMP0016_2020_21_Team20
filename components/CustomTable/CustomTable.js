@@ -10,7 +10,7 @@ import { Button, Icon } from 'rsuite';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import styles from './CustomTable.module.css';
-import Roles from '../../lib/constants';
+import { Roles } from '../../lib/constants';
 
 const typeOfTable = {
   DEPARTMENTS: 0,

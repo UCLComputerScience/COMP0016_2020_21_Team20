@@ -4,7 +4,7 @@ import styles from './ProfileButton.module.css';
 
 import { LeaveDeptButton } from '../';
 
-import Roles from '../../lib/constants';
+import { Roles } from '../../lib/constants';
 
 function ProfileButton() {
   const [session] = useSession();

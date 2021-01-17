@@ -10,7 +10,7 @@ import {
   NoAccess,
 } from '../components';
 
-import Roles from '../lib/constants';
+import { Roles } from '../lib/constants';
 
 function manage() {
   const [session, loading] = useSession(); // TODO use loading state better?

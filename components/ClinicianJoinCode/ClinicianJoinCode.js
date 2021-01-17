@@ -6,7 +6,7 @@ import { mutate } from 'swr';
 import styles from './ClinicianJoinCode.module.css';
 
 import useSWR from '../../lib/swr';
-import Roles from '../../lib/constants';
+import { Roles } from '../../lib/constants';
 
 const getCode = id => {
   const { data, error } = useSWR('/api/departments/' + id, {

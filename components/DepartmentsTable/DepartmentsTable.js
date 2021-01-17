@@ -5,8 +5,8 @@ import { mutate } from 'swr';
 import styles from './DepartmentsTable.module.css';
 
 import { AlertDialog, CustomTable } from '../';
+import { Roles } from '../../lib/constants';
 import useSWR from '../../lib/swr';
-import Roles from '../../lib/constants';
 
 const columns = [
   {

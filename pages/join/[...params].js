@@ -4,7 +4,7 @@ import { useSession, getSession, signOut } from 'next-auth/client';
 
 import setUserDepartmentAndRole from '../../lib/setUserDepartmentAndRole';
 import prisma from '../../lib/prisma';
-import Roles from '../../lib/constants';
+import { Roles } from '../../lib/constants';
 
 export const getServerSideProps = async ctx => {
   const { params } = ctx.query;
