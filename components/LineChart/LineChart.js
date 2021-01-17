@@ -33,7 +33,7 @@ function LineChart({ data } = {}) {
   if (data.length) {
     return (
       <div>
-        <h2 className={styles.title}>Compliance over time</h2>
+        <h2 className={styles.title}>Self-reporting over time</h2>
         <Line data={formatData(data)} />
       </div>
     );

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Button, IconButton, Icon, Toggle, Alert } from 'rsuite';
 import Head from 'next/head';
 
-import styles from './self-assessment.module.css';
+import styles from './self-reporting.module.css';
 
 import {
   LikertScaleQuestion,
@@ -33,7 +33,7 @@ const useQuestions = () => {
   };
 };
 
-function selfAssessment() {
+function selfReporting() {
   const [session] = useSession();
   const router = useRouter();
 
@@ -156,7 +156,7 @@ function selfAssessment() {
   return (
     <div>
       <Head>
-        <title>Self-assessment</title>
+        <title>Self-reporting</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
@@ -182,7 +182,7 @@ function selfAssessment() {
         />
       </div>
 
-      <div className={styles.selfAssessmentContainer}>
+      <div className={styles.selfReportingContainer}>
         <p className={styles.mainQuestion}>
           To what extent do you agree with the following statements regarding
           your recent experience?
@@ -223,4 +223,4 @@ function selfAssessment() {
   );
 }
 
-export default selfAssessment;
+export default selfReporting;
