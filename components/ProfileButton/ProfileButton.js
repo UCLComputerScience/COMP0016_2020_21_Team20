@@ -4,6 +4,7 @@ import styles from './ProfileButton.module.css';
 
 import { LeaveDeptButton } from '../';
 
+import config from '../../lib/config';
 import { Roles } from '../../lib/constants';
 
 function ProfileButton() {
@@ -22,7 +23,7 @@ function ProfileButton() {
       <Dropdown.Item>
         <a
           className={styles.link}
-          href={process.env.NEXT_PUBLIC_USER_ACCOUNT_URL}
+          href={config.KEYCLOAK_USER_ACCOUNT_MANAGE_URL}
           target="_blank"
           rel="noopener">
           Account settings

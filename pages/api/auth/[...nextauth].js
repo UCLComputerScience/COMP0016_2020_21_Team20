@@ -5,6 +5,7 @@ import {
   handleUserSuccessfulLogin,
 } from '../../../lib/handleUserLogin';
 
+import config from '../../../lib/config';
 import { Roles } from '../../../lib/constants';
 
 const options = {
@@ -16,10 +17,10 @@ const options = {
       scope: 'openid roles',
       type: 'oauth',
       version: '2.0',
-      accessTokenUrl: `${process.env.BASE_AUTH_URL}/token`,
-      authorizationUrl: `${process.env.BASE_AUTH_URL}/auth?response_type=code`,
+      accessTokenUrl: `${config.KEYCLOAK_BASE_AUTH_URL}/token`,
+      authorizationUrl: `${config.KEYCLOAK_BASE_AUTH_URL}/auth?response_type=code`,
       clientId: process.env.CLIENT_ID,
-      profileUrl: `${process.env.BASE_AUTH_URL}/userinfo`,
+      profileUrl: `${config.KEYCLOAK_BASE_AUTH_URL}/userinfo`,
       profile: profile => {
         return {
           id: profile.sub,
