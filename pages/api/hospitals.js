@@ -1,5 +1,5 @@
 import prisma from '../../lib/prisma';
-import roles from '../../lib/roles';
+import Roles from '../../lib/constants';
 
 import { getSession } from 'next-auth/client';
 
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    if (!session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
+    if (!session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
       res.statusCode = 403;
       return res.end('You do not have permission to view hospitals');
     }

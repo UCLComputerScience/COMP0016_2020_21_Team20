@@ -18,7 +18,7 @@ import {
 import useSWR from '../lib/swr';
 import { StandardColors, UserGroups, Visualisations } from '../lib/constants';
 import colors from '../lib/colors';
-import roles from '../lib/roles';
+import Roles from '../lib/constants';
 
 const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 30 * 1000; // 30 days ago;
 
@@ -74,7 +74,7 @@ function statistics() {
   }
 
   const role = session.roles[0]; // TODO do we want to support multiple roles?
-  if (role === roles.USER_TYPE_UNKNOWN || role === roles.USER_TYPE_ADMIN) {
+  if (role === Roles.USER_TYPE_UNKNOWN || role === Roles.USER_TYPE_ADMIN) {
     return (
       <div>
         <Header />

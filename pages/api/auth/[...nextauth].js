@@ -4,7 +4,7 @@ import {
   handleUserSuccessfulLogin,
 } from '../../../lib/handleUserLogin';
 
-import roles from '../../../lib/roles';
+import Roles from '../../../lib/constants';
 
 const options = {
   providers: [
@@ -35,10 +35,10 @@ const options = {
         token.hospital_id = profile.hospital_id;
         token.health_board_id = profile.health_board_id;
         token.roles = profile.roles.filter(r =>
-          Object.values(roles).includes(r)
+          Object.values(Roles).includes(r)
         );
 
-        if (!token.roles.length) token.roles = [roles.USER_TYPE_UNKNOWN];
+        if (!token.roles.length) token.roles = [Roles.USER_TYPE_UNKNOWN];
       }
       return token;
     },

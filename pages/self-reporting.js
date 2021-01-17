@@ -16,7 +16,7 @@ import {
 } from '../components';
 
 import useSWR from '../lib/swr';
-import roles from '../lib/roles';
+import Roles from '../lib/constants';
 
 const useQuestions = () => {
   const { data, error } = useSWR('/api/questions', {
@@ -144,7 +144,10 @@ function selfReporting() {
   }
 
   const role = session.roles[0]; // TODO do we want to support multiple roles?
-  if(role !== roles.USER_TYPE_DEPARTMENT && role !== roles.USER_TYPE_CLINICIAN) {
+  if (
+    role !== Roles.USER_TYPE_DEPARTMENT &&
+    role !== Roles.USER_TYPE_CLINICIAN
+  ) {
     return (
       <div>
         <Header />

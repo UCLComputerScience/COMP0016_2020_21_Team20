@@ -4,14 +4,14 @@ import { useSession, getSession, signOut } from 'next-auth/client';
 
 import setUserDepartmentAndRole from '../../lib/setUserDepartmentAndRole';
 import prisma from '../../lib/prisma';
-import roles from '../../lib/roles';
+import Roles from '../../lib/constants';
 
 export const getServerSideProps = async ctx => {
   const { params } = ctx.query;
   const [type, joinCode] = params;
 
   if (
-    ![roles.USER_TYPE_CLINICIAN, roles.USER_TYPE_DEPARTMENT].includes(type) ||
+    ![Roles.USER_TYPE_CLINICIAN, Roles.USER_TYPE_DEPARTMENT].includes(type) ||
     !joinCode
   ) {
     return { notFound: true };
@@ -19,12 +19,12 @@ export const getServerSideProps = async ctx => {
 
   // User must have no role to be able to join a department
   const session = await getSession(ctx);
-  if (!session || session.roles[0] !== roles.USER_TYPE_UNKNOWN) {
+  if (!session || session.roles[0] !== Roles.USER_TYPE_UNKNOWN) {
     return { props: {} };
   }
 
   const dbTable =
-    type === roles.USER_TYPE_DEPARTMENT
+    type === Roles.USER_TYPE_DEPARTMENT
       ? prisma.department_join_codes
       : prisma.clinician_join_codes;
 
@@ -60,7 +60,7 @@ function Join(props) {
   return (
     <div>
       <Header />
-      {session.roles[0] !== roles.USER_TYPE_UNKNOWN &&
+      {session.roles[0] !== Roles.USER_TYPE_UNKNOWN &&
         'You are not eligible to join a department at this time.'}
       {props.invalidCode &&
         'Your join code is invalid. Please ensure your code has not expired and is exactly as you were provided.'}

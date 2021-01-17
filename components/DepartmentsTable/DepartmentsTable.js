@@ -6,7 +6,7 @@ import styles from './DepartmentsTable.module.css';
 
 import { AlertDialog, CustomTable } from '../';
 import useSWR from '../../lib/swr';
-import roles from '../../lib/roles';
+import Roles from '../../lib/constants';
 
 const columns = [
   {
@@ -20,7 +20,7 @@ const columns = [
     label: 'Join URL',
     width: 'auto',
     render: (editing, row) =>
-      `https://${window.location.host}/join/${roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`,
+      `https://${window.location.host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`,
   },
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
@@ -47,7 +47,7 @@ export default function DepartmentsTable() {
 
   const regenerateInDatabase = async id => {
     const res = await fetch(
-      '/api/join_codes/' + roles.USER_TYPE_HOSPITAL + '/' + id,
+      '/api/join_codes/' + Roles.USER_TYPE_HOSPITAL + '/' + id,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

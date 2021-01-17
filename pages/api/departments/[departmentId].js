@@ -1,8 +1,7 @@
 import prisma from '../../../lib/prisma';
-import roles from '../../../lib/roles';
+import Roles from '../../../lib/constants';
 
 import { getSession } from 'next-auth/client';
-import { user_type } from '@prisma/client';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
@@ -14,7 +13,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    if (!session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+    if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       res.statusCode = 403;
       return res.end(
         'You do not have permission to view individual departments'
@@ -23,7 +22,7 @@ export default async function handler(req, res) {
 
     const includes = {};
 
-    if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+    if (session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       includes.clinician_join_codes = { select: { code: true } };
     }
 
@@ -36,7 +35,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'DELETE') {
-    if (!session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+    if (!session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
       res.statusCode = 403;
       return res.end('You do not have permission to delete departments');
     }

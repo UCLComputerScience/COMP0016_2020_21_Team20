@@ -6,7 +6,7 @@ import { mutate } from 'swr';
 import styles from './ClinicianJoinCode.module.css';
 
 import useSWR from '../../lib/swr';
-import roles from '../../lib/roles';
+import Roles from '../../lib/constants';
 
 const getCode = id => {
   const { data, error } = useSWR('/api/departments/' + id, {
@@ -23,7 +23,7 @@ function ClinicianJoinCode() {
 
   const regenerateInDatabase = async id => {
     const res = await fetch(
-      '/api/join_codes/' + roles.USER_TYPE_DEPARTMENT + '/' + id,
+      '/api/join_codes/' + Roles.USER_TYPE_DEPARTMENT + '/' + id,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ function ClinicianJoinCode() {
         {'Please send this unique URL to clinicians so they can join your ' +
           (code !== undefined ? code['0']['name'] : 'loading...') +
           ' department:'}{' '}
-        {`https://${window.location.host}/join/${roles.USER_TYPE_CLINICIAN}/${
+        {`https://${window.location.host}/join/${Roles.USER_TYPE_CLINICIAN}/${
           code !== undefined
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
@@ -57,7 +57,7 @@ function ClinicianJoinCode() {
 
       <CopyToClipboard
         text={`https://${window.location.host}/join/${
-          roles.USER_TYPE_CLINICIAN
+          Roles.USER_TYPE_CLINICIAN
         }/${
           code !== undefined
             ? code['0']['clinician_join_codes']['code']

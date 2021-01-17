@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/client';
 import { useState } from 'react';
 
 import { Visualisations } from '../../lib/constants';
-import roles from '../../lib/roles';
+import Roles from '../../lib/constants';
 
 const subtractDays = days => {
   const now = new Date().getTime();
@@ -22,7 +22,7 @@ export function Filters(props) {
   };
 
   const renderExtraFilters = () => {
-    if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
+    if (session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
       return (
         <>
           <p>Group</p>
@@ -84,7 +84,7 @@ export function Filters(props) {
           />
         </>
       );
-    } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+    } else if (session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
       return (
         <>
           <p>Group</p>
@@ -133,7 +133,7 @@ export function Filters(props) {
           />
         </>
       );
-    } else if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+    } else if (session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       return (
         <>
           <p>Group</p>

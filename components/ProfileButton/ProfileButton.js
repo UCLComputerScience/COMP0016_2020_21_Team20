@@ -4,7 +4,7 @@ import styles from './ProfileButton.module.css';
 
 import { LeaveDeptButton } from '../';
 
-import roles from '../../lib/roles';
+import Roles from '../../lib/constants';
 
 function ProfileButton() {
   const [session] = useSession();
@@ -13,8 +13,8 @@ function ProfileButton() {
   return (
     <Dropdown title="Your account" icon={<Icon icon="user" />}>
       {/*only show leave option if clinician or department*/}
-      {(role === roles.USER_TYPE_CLINICIAN ||
-        role === roles.USER_TYPE_DEPARTMENT) && (
+      {(role === Roles.USER_TYPE_CLINICIAN ||
+        role === Roles.USER_TYPE_DEPARTMENT) && (
         <Dropdown.Item>
           <LeaveDeptButton />
         </Dropdown.Item>
