@@ -16,9 +16,7 @@ import {
 } from '../components';
 
 import useSWR from '../lib/swr';
-import { StandardColors, UserGroups, Visualisations } from '../lib/constants';
-import colors from '../lib/colors';
-import Roles from '../lib/constants';
+import { Roles, StandardColors, Visualisations } from '../lib/constants';
 
 const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 30 * 1000; // 30 days ago;
 
@@ -91,37 +89,37 @@ function statistics() {
   const circles = [
     {
       name: 'Safety',
-      color: colors.STANDARD_SAFE,
+      color: StandardColors['Safe Care'],
       percentage: getAverage('Safe Care'),
     },
     {
       name: 'Timely',
-      color: colors.STANDARD_TIMELY,
+      color: StandardColors['Timely Care'],
       percentage: getAverage('Timely Care'),
     },
     {
       name: 'Individualised',
-      color: colors.STANDARD_INDIVIDUALISED,
+      color: StandardColors['Individual Care'],
       percentage: getAverage('Individual Care'),
     },
     {
       name: 'Healthy',
-      color: colors.STANDARD_HEALTHY,
+      color: StandardColors['Staying Healthy'],
       percentage: getAverage('Staying Healthy'),
     },
     {
       name: 'Staff',
-      color: colors.STANDARD_STAFF,
+      color: StandardColors['Staff and Resources'],
       percentage: getAverage('Staff and Resources'),
     },
     {
       name: 'Dignified',
-      color: colors.STANDARD_DIGNIFIED,
+      color: StandardColors['Dignified Care'],
       percentage: getAverage('Dignified Care'),
     },
     {
       name: 'Effective',
-      color: colors.STANDARD_EFFECTIVE,
+      color: StandardColors['Effective Care'],
       percentage: getAverage('Effective Care'),
     },
   ];
