@@ -36,29 +36,7 @@ const columns = [
     id: 'standard',
     label: 'Standard',
     width: 'auto',
-    render: (edited, row) => {
-      if (edited) {
-        //if this url is being edited then it needs to be an input box
-        //copy all the info about the row being currently edited
-        let buffer = {};
-        editedRow = Object.assign(buffer, row);
-        return (
-          <SelectPicker
-            searchable={false}
-            cleanable={false}
-            defaultValue={editedRow.standards.id}
-            onChange={value => (editedRow.standards.id = value)}
-            data={standards.map(standard => ({
-              label: standard.name,
-              value: standard.id,
-            }))}
-          />
-        );
-      } else {
-        //else just display standards name
-        return <div>{row['standards']['name']}</div>;
-      }
-    },
+    render: (edited, row) => <div>{row['standards']['name']}</div>,
   },
   {
     id: 'url',
@@ -136,7 +114,6 @@ export default function QuestionsTable() {
       body: JSON.stringify({
         body: editedRow['body'],
         url: editedRow['url'],
-        standard: editedRow['standards']['id'],
       }),
     });
     return await res.json();
@@ -286,15 +263,15 @@ export default function QuestionsTable() {
         <div>Add new question</div>
       </Button>
       <CustomTable
-        tableType='questions'
+        tableType="questions"
         data={localData}
         columns={columns}
         editing={editing}
         sendUpdated={() => sendUpdated()}
         cancelEditing={() => cancelEditing()}
-        setEditing={(i) => setEditing(i)}
-        confirmDelete={(id) => confirmDelete(id)}
-        />
+        setEditing={i => setEditing(i)}
+        confirmDelete={id => confirmDelete(id)}
+      />
     </div>
   );
 }
