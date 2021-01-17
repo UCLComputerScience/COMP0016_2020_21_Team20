@@ -16,7 +16,12 @@ import {
 } from '../components';
 
 import useSWR from '../lib/swr';
-import { Roles, StandardColors, Visualisations } from '../lib/constants';
+import {
+  Roles,
+  StandardColors,
+  Standards,
+  Visualisations,
+} from '../lib/constants';
 
 const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 30 * 1000; // 30 days ago;
 
@@ -86,43 +91,13 @@ function statistics() {
     return average ? Math.ceil(average * 25) : 0;
   };
 
-  const circles = [
-    {
-      name: 'Safety',
-      color: StandardColors['Safe Care'],
-      percentage: getAverage('Safe Care'),
-    },
-    {
-      name: 'Timely',
-      color: StandardColors['Timely Care'],
-      percentage: getAverage('Timely Care'),
-    },
-    {
-      name: 'Individualised',
-      color: StandardColors['Individual Care'],
-      percentage: getAverage('Individual Care'),
-    },
-    {
-      name: 'Healthy',
-      color: StandardColors['Staying Healthy'],
-      percentage: getAverage('Staying Healthy'),
-    },
-    {
-      name: 'Staff',
-      color: StandardColors['Staff and Resources'],
-      percentage: getAverage('Staff and Resources'),
-    },
-    {
-      name: 'Dignified',
-      color: StandardColors['Dignified Care'],
-      percentage: getAverage('Dignified Care'),
-    },
-    {
-      name: 'Effective',
-      color: StandardColors['Effective Care'],
-      percentage: getAverage('Effective Care'),
-    },
-  ];
+  const circles = Object.entries(Standards).map(([shortName, longName]) => {
+    return {
+      name: shortName[0].toUpperCase() + shortName.substr(1).toLowerCase(),
+      color: StandardColors[longName],
+      percentage: getAverage(longName),
+    };
+  });
 
   return (
     <div>
