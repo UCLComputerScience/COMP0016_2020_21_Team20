@@ -49,7 +49,7 @@ function selfReporting() {
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
   const [dialogActions, setDialogActions] = useState([]);
-  const [isMentoringSession, setIsMentoringSession] = useState(null);
+  const [isMentoringSession, setIsMentoringSession] = useState(false);
   const [showMentoringError, setShowMentoringError] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 
