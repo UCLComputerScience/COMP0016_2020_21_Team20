@@ -10,7 +10,7 @@ import {
   NoAccess,
 } from '../components';
 
-import roles from '../lib/roles';
+import { Roles } from '../lib/constants';
 
 function manage() {
   const [session, loading] = useSession(); // TODO use loading state better?
@@ -30,20 +30,20 @@ function manage() {
         <title>Manage</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div style={{ zIndex: 1000, position: 'relative'}}>
+      <div style={{ zIndex: 1000, position: 'relative' }}>
         <Header />
       </div>
-      {role === roles.USER_TYPE_DEPARTMENT ? (
+      {role === Roles.USER_TYPE_DEPARTMENT ? (
         <div>
           <h3>Manage the URLs of each question</h3>
           <UrlsTable />
         </div>
-      ) : role === roles.USER_TYPE_ADMIN ? (
+      ) : role === Roles.USER_TYPE_ADMIN ? (
         <div>
           <h3>Manage and add new questions</h3>
           <QuestionsTable />
         </div>
-      ) : role === roles.USER_TYPE_HOSPITAL ? (
+      ) : role === Roles.USER_TYPE_HOSPITAL ? (
         <div>
           <h3>Manage and add new departments</h3>
           <DepartmentsTable />

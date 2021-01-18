@@ -1,8 +1,8 @@
-import prisma from '../../../lib/prisma';
-import roles from '../../../lib/roles';
-import createJoinCode from '../../../lib/createJoinCode';
-
 import { getSession } from 'next-auth/client';
+
+import prisma from '../../../lib/prisma';
+import createJoinCode from '../../../lib/createJoinCode';
+import { Roles } from '../../../lib/constants';
 
 // TODO do we want to add an override to these methods to allow a health board/admin user to specify which hospital?
 // Or should it be tied to the session.user.hospitalId (as currently implemented)
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    if (!session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+    if (!session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
       res.statusCode = 403;
       return res.end('You do not have permission to add new departments');
     }
@@ -44,8 +44,8 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'GET') {
-    const isHospital = session.roles.includes(roles.USER_TYPE_HOSPITAL);
-    const isHealthBoard = session.roles.includes(roles.USER_TYPE_HEALTH_BOARD);
+    const isHospital = session.roles.includes(Roles.USER_TYPE_HOSPITAL);
+    const isHealthBoard = session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD);
 
     if (!isHospital && !isHealthBoard) {
       res.statusCode = 403;

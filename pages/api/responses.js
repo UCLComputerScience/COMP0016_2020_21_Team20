@@ -1,8 +1,7 @@
-import prisma from '../../lib/prisma';
-
 import { getSession } from 'next-auth/client';
 
-import roles from '../../lib/roles';
+import prisma from '../../lib/prisma';
+import { Roles } from '../../lib/constants';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
@@ -37,7 +36,7 @@ export default async function handler(req, res) {
       filters.push({ is_mentoring_session: false });
     }
 
-    if (session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+    if (session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       filters.push({
         departments: { id: { equals: session.user.departmentId } },
       });
@@ -45,7 +44,7 @@ export default async function handler(req, res) {
       if (userIdOverride && +userIdOverride === session.user.userid) {
         filters.push({ user_id: { equals: session.user.userId } });
       }
-    } else if (session.roles.includes(roles.USER_TYPE_HOSPITAL)) {
+    } else if (session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
       filters.push({
         departments: { hospital_id: { equals: session.user.hospitalId } },
       });
@@ -55,7 +54,7 @@ export default async function handler(req, res) {
           departments: { id: { equals: +departmentIdOverride } },
         });
       }
-    } else if (session.roles.includes(roles.USER_TYPE_HEALTH_BOARD)) {
+    } else if (session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
       filters.push({
         departments: {
           hospitals: {

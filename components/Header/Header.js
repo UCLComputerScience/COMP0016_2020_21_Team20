@@ -5,15 +5,15 @@ import Link from 'next/link';
 
 import styles from './Header.module.css';
 
+import { Roles } from '../../lib/constants';
 import { ProfileButton } from '..';
-import roles from '../../lib/roles';
 
 const paths = {
-  [roles.USER_TYPE_ADMIN]: ['manage'],
-  [roles.USER_TYPE_HEALTH_BOARD]: ['statistics'],
-  [roles.USER_TYPE_HOSPITAL]: ['statistics', 'manage'],
-  [roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-reporting', 'manage'],
-  [roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
+  [Roles.USER_TYPE_ADMIN]: ['manage'],
+  [Roles.USER_TYPE_HEALTH_BOARD]: ['statistics'],
+  [Roles.USER_TYPE_HOSPITAL]: ['statistics', 'manage'],
+  [Roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-reporting', 'manage'],
+  [Roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
 };
 
 function Header() {

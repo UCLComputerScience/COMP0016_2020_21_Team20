@@ -1,8 +1,8 @@
 import { getSession } from 'next-auth/client';
 
 import prisma from '../../../lib/prisma';
-import roles from '../../../lib/roles';
 import createJoinCode from '../../../lib/createJoinCode';
+import { Roles } from '../../../lib/constants';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
   const [type, departmentId] = params;
 
   if (
-    ![roles.USER_TYPE_DEPARTMENT, roles.USER_TYPE_HOSPITAL].includes(type) ||
+    ![Roles.USER_TYPE_DEPARTMENT, Roles.USER_TYPE_HOSPITAL].includes(type) ||
     !departmentId
   ) {
     res.statusCode = 404;
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       return res.end(
         `You do not have permission to modify
          ${
-           type === roles.USER_TYPE_DEPARTMENT
+           type === Roles.USER_TYPE_DEPARTMENT
              ? 'department-level'
              : 'clinician-level'
          } join codes`
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     }
 
     if (
-      type === roles.USER_TYPE_DEPARTMENT &&
+      type === Roles.USER_TYPE_DEPARTMENT &&
       +departmentId !== session.user.departmentId
     ) {
       return res.end(
@@ -48,7 +48,7 @@ export default async function handler(req, res) {
 
     const code = await createJoinCode();
     const dbTable =
-      type === roles.USER_TYPE_HOSPITAL
+      type === Roles.USER_TYPE_HOSPITAL
         ? prisma.department_join_codes
         : prisma.clinician_join_codes;
 

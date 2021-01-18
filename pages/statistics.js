@@ -16,9 +16,12 @@ import {
 } from '../components';
 
 import useSWR from '../lib/swr';
-import { StandardColors, UserGroups, Visualisations } from '../lib/constants';
-import colors from '../lib/colors';
-import roles from '../lib/roles';
+import {
+  Roles,
+  StandardColors,
+  Standards,
+  Visualisations,
+} from '../lib/constants';
 
 const DEFAULT_DATE_OFFSET = 60 * 60 * 24 * 30 * 1000; // 30 days ago;
 
@@ -74,7 +77,7 @@ function statistics() {
   }
 
   const role = session.roles[0]; // TODO do we want to support multiple roles?
-  if (role === roles.USER_TYPE_UNKNOWN || role === roles.USER_TYPE_ADMIN) {
+  if (role === Roles.USER_TYPE_UNKNOWN || role === Roles.USER_TYPE_ADMIN) {
     return (
       <div>
         <Header />
@@ -88,43 +91,13 @@ function statistics() {
     return average ? Math.ceil(average * 25) : 0;
   };
 
-  const circles = [
-    {
-      name: 'Safety',
-      color: colors.STANDARD_SAFE,
-      percentage: getAverage('Safe Care'),
-    },
-    {
-      name: 'Timely',
-      color: colors.STANDARD_TIMELY,
-      percentage: getAverage('Timely Care'),
-    },
-    {
-      name: 'Individualised',
-      color: colors.STANDARD_INDIVIDUALISED,
-      percentage: getAverage('Individual Care'),
-    },
-    {
-      name: 'Healthy',
-      color: colors.STANDARD_HEALTHY,
-      percentage: getAverage('Staying Healthy'),
-    },
-    {
-      name: 'Staff',
-      color: colors.STANDARD_STAFF,
-      percentage: getAverage('Staff and Resources'),
-    },
-    {
-      name: 'Dignified',
-      color: colors.STANDARD_DIGNIFIED,
-      percentage: getAverage('Dignified Care'),
-    },
-    {
-      name: 'Effective',
-      color: colors.STANDARD_EFFECTIVE,
-      percentage: getAverage('Effective Care'),
-    },
-  ];
+  const circles = Object.entries(Standards).map(([shortName, longName]) => {
+    return {
+      name: shortName[0].toUpperCase() + shortName.substr(1).toLowerCase(),
+      color: StandardColors[longName],
+      percentage: getAverage(longName),
+    };
+  });
 
   return (
     <div>

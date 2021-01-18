@@ -1,7 +1,7 @@
-import prisma from '../../../lib/prisma';
-import roles from '../../../lib/roles';
-
 import { getSession } from 'next-auth/client';
+
+import prisma from '../../../lib/prisma';
+import { Roles } from '../../../lib/constants';
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'PUT') {
-    if (!session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+    if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       res.statusCode = 403;
       return res.end('You do not have permission to modify question URLs');
     }
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'DELETE') {
-    if (!session.roles.includes(roles.USER_TYPE_DEPARTMENT)) {
+    if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       res.statusCode = 403;
       return res.end('You do not have permission to delete question URLs');
     }

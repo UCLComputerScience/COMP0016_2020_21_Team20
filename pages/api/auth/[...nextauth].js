@@ -1,10 +1,12 @@
 import NextAuth from 'next-auth';
+
 import {
   handleUserAttemptLogin,
   handleUserSuccessfulLogin,
 } from '../../../lib/handleUserLogin';
 
-import roles from '../../../lib/roles';
+import config from '../../../lib/config';
+import { Roles } from '../../../lib/constants';
 
 const options = {
   providers: [
@@ -15,10 +17,10 @@ const options = {
       scope: 'openid roles',
       type: 'oauth',
       version: '2.0',
-      accessTokenUrl: `${process.env.BASE_AUTH_URL}/token`,
-      authorizationUrl: `${process.env.BASE_AUTH_URL}/auth?response_type=code`,
+      accessTokenUrl: `${config.KEYCLOAK_BASE_AUTH_URL}/token`,
+      authorizationUrl: `${config.KEYCLOAK_BASE_AUTH_URL}/auth?response_type=code`,
       clientId: process.env.CLIENT_ID,
-      profileUrl: `${process.env.BASE_AUTH_URL}/userinfo`,
+      profileUrl: `${config.KEYCLOAK_BASE_AUTH_URL}/userinfo`,
       profile: profile => {
         return {
           id: profile.sub,
@@ -35,10 +37,10 @@ const options = {
         token.hospital_id = profile.hospital_id;
         token.health_board_id = profile.health_board_id;
         token.roles = profile.roles.filter(r =>
-          Object.values(roles).includes(r)
+          Object.values(Roles).includes(r)
         );
 
-        if (!token.roles.length) token.roles = [roles.USER_TYPE_UNKNOWN];
+        if (!token.roles.length) token.roles = [Roles.USER_TYPE_UNKNOWN];
       }
       return token;
     },

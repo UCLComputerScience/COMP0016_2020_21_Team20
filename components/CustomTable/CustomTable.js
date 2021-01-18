@@ -10,7 +10,7 @@ import { Button, Icon } from 'rsuite';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import styles from './CustomTable.module.css';
-import roles from '../../lib/roles';
+import { Roles } from '../../lib/constants';
 
 const typeOfTable = {
   DEPARTMENTS: 0,
@@ -25,7 +25,7 @@ const renderCells = [
       return (
         <div className={styles.actionButtons}>
           <CopyToClipboard
-            text={`https://${window.location.host}/join/${roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
+            text={`https://${window.location.host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
             <Button appearance="primary" onClick={() => showCopyAlert()}>
               <Icon icon="clone" />
             </Button>
