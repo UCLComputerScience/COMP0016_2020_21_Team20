@@ -33,10 +33,12 @@ export default async function handler(req, res) {
       return res.end('The required question details are missing');
     }
 
+    // Note: we don't support changing the standard of a question (otherwise users will
+    // answer the same question but scores will be recorded against different standards,
+    // skewing the results)
     const fields = {};
     if (url) fields.default_url = url;
     if (body) fields.body = body;
-    if (standard) fields.standards = { connect: { id: standard } };
 
     const response = await prisma.questions.update({
       where: { id: +questionId },
