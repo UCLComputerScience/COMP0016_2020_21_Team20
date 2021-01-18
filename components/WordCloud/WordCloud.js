@@ -15,16 +15,34 @@ function WordCloud(props) {
       }
     });
 
+    const options = {
+      colors: [
+        '#1f77b4',
+        '#ff7f0e',
+        '#2ca02c',
+        '#d62728',
+        '#9467bd',
+        '#8c564b',
+      ],
+      enableTooltip: true,
+      deterministic: false,
+      fontFamily: 'impact',
+      fontSizes: [60, 200],
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      padding: 1,
+      rotations: 3,
+      rotationAngles: [0, 0],
+      scale: 'sqrt',
+      spiral: 'archimedean',
+      transitionDuration: 1000,
+    };
+
     // TODO play around with the options for best UI
     return (
-      <ReactWordcloud
-        words={Object.values(words)}
-        options={{
-          fontSizes: [20, 50],
-          rotationAngles: [0, 50],
-          deterministic: true,
-        }}
-      />
+      <div style={{ height: 400, width: 600 }}>
+        <ReactWordcloud words={Object.values(words)} options={options} />
+      </div>
     );
   }
 
