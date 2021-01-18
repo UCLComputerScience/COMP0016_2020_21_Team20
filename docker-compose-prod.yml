@@ -29,7 +29,7 @@ services:
     volumes:
       - ./keycloak:/tmp/keycloak
       - ./keycloak/register.ftl:/opt/jboss/keycloak/themes/base/login/register.ftl
-      - ./keycloak/account.ftl:/opt/jboss/keycloak/themes/base/account/template.ftl
+      - ./keycloak/account.ftl:/opt/jboss/keycloak/themes/keycloak.v2/account/index.ftl
   # Note: no need to publish postgres port; all containers running on same network!
   database:
     user: '1001:1001'
