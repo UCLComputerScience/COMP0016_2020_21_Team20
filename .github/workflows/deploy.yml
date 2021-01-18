@@ -12,7 +12,7 @@ jobs:
       - name: Create Prisma env file
         run: |
           touch .env
-          echo NEXT_PUBLIC_BASE_KEYCLOAK_URL=${{ secrets.NEXT_PUBLIC_BASE_KEYCLOAK_URL }} >> .env
+          echo NEXT_PUBLIC_KEYCLOAK_USER_ACCOUNT_MANAGE_URL=${{ secrets.NEXT_PUBLIC_KEYCLOAK_USER_ACCOUNT_MANAGE_URL }} >> .env
       - name: Build & Push to GitHub Packages
         uses: docker/build-push-action@v1
         with:
