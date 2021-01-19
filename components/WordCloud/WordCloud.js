@@ -12,7 +12,7 @@ function WordCloud(props) {
     return (
       <Loader className={styles.loading} size="lg" content="Loading data..." />
     );
-  } else if (data.length) {
+  } else if (props.words.length) {
     if (props.words.length) {
       const words = {};
       props.words.forEach(word => {
