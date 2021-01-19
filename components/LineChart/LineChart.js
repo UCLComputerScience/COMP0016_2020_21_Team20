@@ -8,6 +8,8 @@ const baseProperties = {
   fill: false,
   lineTension: 0.1,
   pointBackgroundColor: '#fff',
+  pointBorderWidth: 5,
+  label: '',
   // data, label, borderColor remaining
 };
 
@@ -17,6 +19,17 @@ const formatData = data => {
     labels: data.map(d => d.timestamp),
     datasets: [],
   };
+
+  console.log('test', data[0]);
+  if (data[0].is_mentoring_session === true) {
+    baseProperties.pointBackgroundColor = 'red';
+    baseProperties.pointBorderWidth = 10;
+    baseProperties.pointBorderWidth = 'Mentoring Session';
+  } else {
+    baseProperties.pointBackgroundColor = '#fff';
+    baseProperties.pointBorderWidth = 5;
+    baseProperties.pointBorderWidth = ' ';
+  }
 
   const numberOfStandards = data[0].scores.length;
   for (let i = 0; i < numberOfStandards; i++) {
