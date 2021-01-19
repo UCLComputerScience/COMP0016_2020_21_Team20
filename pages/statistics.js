@@ -134,7 +134,7 @@ function statistics() {
                         color: StandardColors[s.standards.name],
                       })),
                     }))
-                  : []
+                  : null
               }
             />
           ) : (
@@ -142,7 +142,7 @@ function statistics() {
               words={
                 data
                   ? data.responses.map(r => r.words.map(w => w.word)).flat()
-                  : []
+                  : null
               }
             />
           )}
