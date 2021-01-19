@@ -1,5 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import { Loader, Message } from 'rsuite';
+
 import styles from './linechart.module.css';
 
 const baseProperties = {
@@ -30,7 +32,11 @@ const formatData = data => {
 };
 
 function LineChart({ data } = {}) {
-  if (data.length) {
+  if (data === null) {
+    return (
+      <Loader className={styles.loading} size="lg" content="Loading data..." />
+    );
+  } else if (data.length) {
     return (
       <div>
         <h2 className={styles.title}>Self-reporting over time</h2>
@@ -39,8 +45,16 @@ function LineChart({ data } = {}) {
     );
   }
 
-  // TODO better UI for fetching data/no results found
-  return <p>No Results Found...</p>;
+  return (
+    <Message
+      className={styles.message}
+      type="info"
+      title="No results found"
+      description={
+        <p>Please try setting a broader date range and/or filter.</p>
+      }
+    />
+  );
 }
 
 export default LineChart;
