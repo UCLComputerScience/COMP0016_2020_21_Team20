@@ -24,20 +24,23 @@ const formatData = data => {
   if (data[0].is_mentoring_session === true) {
     baseProperties.pointBackgroundColor = 'red';
     baseProperties.pointBorderWidth = 10;
-    baseProperties.pointBorderWidth = 'Mentoring Session';
   } else {
     baseProperties.pointBackgroundColor = '#fff';
     baseProperties.pointBorderWidth = 5;
-    baseProperties.pointBorderWidth = ' ';
+    baseProperties.label = ' ';
   }
+
+  baseProperties.pointBackgroundColor = ['red', 'green', 'blue', 'purple'];
+  baseProperties.label = 'Mentoring';
 
   const numberOfStandards = data[0].scores.length;
   for (let i = 0; i < numberOfStandards; i++) {
     const thisStandardData = data.map(d => d.scores[i]);
     const standardData = Object.assign({}, baseProperties);
     standardData.borderColor = thisStandardData[0].color;
-    standardData.label = thisStandardData[0].standardName;
+    // standardData.label = thisStandardData[0].standardName;
     standardData.data = thisStandardData.map(s => (s.score / 4) * 100);
+    standardData.pointBackgroundColor = [];
     formattedData.datasets.push(standardData);
   }
 
