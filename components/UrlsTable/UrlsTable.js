@@ -17,7 +17,7 @@ const columns = [
   {
     id: 'standard',
     label: 'Standard',
-    width: '10%',
+    width: 'auto',
     render: (edited, row) => row['standards']['name'],
   },
   {
@@ -48,7 +48,7 @@ const columns = [
       }
     },
   },
-  { id: 'actions', label: 'Actions', width: '15%' },
+  { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
 const useDatabaseData = () => {

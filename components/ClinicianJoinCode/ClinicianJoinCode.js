@@ -42,7 +42,7 @@ function ClinicianJoinCode({ session }) {
 
   return (
     <div className={styles.content}>
-      <div style={{ width: '70%' }}>
+      <div className={styles.url}>
         {'Please send this unique URL to clinicians so they can join your ' +
           (code !== undefined ? code['0']['name'] : 'loading...') +
           ' department:'}{' '}
@@ -52,25 +52,26 @@ function ClinicianJoinCode({ session }) {
             : 'loading...'
         }`}
       </div>
+      <div className={styles.actions}>
+        <CopyToClipboard
+          text={`https://${window.location.host}/join/${
+            Roles.USER_TYPE_CLINICIAN
+          }/${
+            code !== undefined
+              ? code['0']['clinician_join_codes']['code']
+              : 'loading...'
+          }`}>
+          <Button appearance="primary" onClick={() => showCopyAlert()}>
+            <Icon icon="clone" /> Copy to clipboard
+          </Button>
+        </CopyToClipboard>
 
-      <CopyToClipboard
-        text={`https://${window.location.host}/join/${
-          Roles.USER_TYPE_CLINICIAN
-        }/${
-          code !== undefined
-            ? code['0']['clinician_join_codes']['code']
-            : 'loading...'
-        }`}>
-        <Button appearance="primary" onClick={() => showCopyAlert()}>
-          <Icon icon="clone" /> Copy to clipboard
+        <Button
+          appearance="primary"
+          onClick={() => regenerateCode(session.user.departmentId)}>
+          <div>Re-generate URL</div>
         </Button>
-      </CopyToClipboard>
-
-      <Button
-        appearance="primary"
-        onClick={() => regenerateCode(session.user.departmentId)}>
-        <div>Re-generate URL</div>
-      </Button>
+      </div>
     </div>
   );
 }
