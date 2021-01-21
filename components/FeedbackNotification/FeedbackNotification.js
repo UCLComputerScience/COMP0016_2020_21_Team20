@@ -9,7 +9,7 @@ function FeedbackNotification() {
                 type="info"
                 description={
                     <a
-                        href="https://trello.com/b/fi4gSTRu/cq-dashboard-feedback"
+                        href="https://forms.office.com/Pages/ResponsePage.aspx?id=_oivH5ipW0yTySEKEdmlwqQsVN_qV_tIhIq5N2SskKtUNU1XTkZUVlFPUVhJQ0o2UEFQNTM1NVg5Ti4u"
                         target="_blank"
                         rel="noopener noreferer">
                         We'd love your feedback!
