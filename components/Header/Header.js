@@ -1,4 +1,4 @@
-import { signIn, useSession } from 'next-auth/client';
+import { signIn } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { Nav } from 'rsuite';
 import Link from 'next/link';
@@ -16,9 +16,9 @@ const paths = {
   [Roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
 };
 
-function Header() {
+function Header(props) {
   const router = useRouter();
-  const [session, loading] = useSession(); // TODO use loading state better?
+  const session = props.session;
 
   const renderLinks = () => {
     const role = session.roles[0]; // TODO do we want to support multiple roles?
@@ -42,7 +42,7 @@ function Header() {
       {session && renderLinks()}
       <div className={styles.profile}>
         {session ? (
-          <ProfileButton />
+          <ProfileButton session={session} />
         ) : (
           <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
         )}

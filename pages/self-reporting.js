@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSession } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Button, IconButton, Icon, Toggle, Alert } from 'rsuite';
@@ -34,8 +34,11 @@ const useQuestions = () => {
   };
 };
 
-function selfReporting() {
-  const [session] = useSession();
+export async function getServerSideProps(context) {
+  return { props: { session: await getSession(context) } };
+}
+
+function selfReporting({ session }) {
   const router = useRouter();
 
   // TODO improve loading/error UI, or use server-side rendering for this page
@@ -138,7 +141,7 @@ function selfReporting() {
   if (!session) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <LoginMessage />
       </div>
     );
@@ -151,7 +154,7 @@ function selfReporting() {
   ) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <NoAccess />
       </div>
     );
@@ -163,7 +166,7 @@ function selfReporting() {
         <title>Self-reporting</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header session={session} />
       <AlertDialog
         open={showDialog}
         setOpen={setShowDialog}

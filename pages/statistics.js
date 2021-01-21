@@ -71,7 +71,7 @@ function statistics() {
   if (!session) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <LoginMessage />
       </div>
     );
@@ -81,7 +81,7 @@ function statistics() {
   if (role === Roles.USER_TYPE_UNKNOWN || role === Roles.USER_TYPE_ADMIN) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <NoAccess />
       </div>
     );
@@ -106,11 +106,12 @@ function statistics() {
         <title>Statistics</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header session={session} />
       <CirclesAccordion circles={circles} />
       <div className={styles.content}>
         <div className={styles.filters}>
           <Filters
+            session={session}
             dateRange={dateRange}
             setDateRange={setDateRange}
             visualisationType={visualisationType}

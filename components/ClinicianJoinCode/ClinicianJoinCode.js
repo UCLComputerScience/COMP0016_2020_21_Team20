@@ -1,5 +1,4 @@
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useSession } from 'next-auth/client';
 import { Button, Icon, Alert } from 'rsuite';
 import { mutate } from 'swr';
 
@@ -17,8 +16,7 @@ const getCode = id => {
   return data;
 };
 
-function ClinicianJoinCode() {
-  const [session] = useSession();
+function ClinicianJoinCode({ session }) {
   const code = getCode(session.user.departmentId);
 
   const regenerateInDatabase = async id => {

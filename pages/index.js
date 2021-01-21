@@ -6,7 +6,7 @@ import { useRef } from 'react';
 
 import { Header } from '../components';
 import { Button, Message } from 'rsuite';
-import { signIn, useSession} from 'next-auth/client';
+import { signIn, getSession } from 'next-auth/client';
 
 const errors = {
   configuration: {
@@ -70,9 +70,13 @@ const errors = {
   },
 };
 
-export default function Home() {
+
+export async function getServerSideProps(context) {
+  return { props: { session: await getSession(context) } };
+}
+
+export default function Home({ session }) {
   const router = useRouter();
-  const [session, loading] = useSession(); // TODO use loading state better?
   const featuresRef = useRef(null);
 
   const showError = error => {
@@ -104,7 +108,7 @@ export default function Home() {
             <title>Care Quality Dashboard</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <Header />
+          <Header session={session} />
 
           {router.query && router.query.error && showError(router.query.error)}
           <main>
