@@ -18,3 +18,4 @@ export { default as ClinicianJoinCode } from './ClinicianJoinCode/ClinicianJoinC
 export { default as LeaveDeptButton } from './LeaveDeptButton/LeaveDeptButton';
 export { default as NoAccess } from './NoAccess/NoAccess';
 export { default as CustomTable } from './CustomTable/CustomTable';
+export { default as FeedbackNotification } from './FeedbackNotification/FeedbackNotification';
