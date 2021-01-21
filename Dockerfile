@@ -17,6 +17,7 @@ RUN npm prune --production
 FROM node:15-alpine
 WORKDIR /app
 
+COPY --from=build /app/public ./public
 COPY --from=build /app/.env ./.env
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package* ./
