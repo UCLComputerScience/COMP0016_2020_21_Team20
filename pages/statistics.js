@@ -1,6 +1,6 @@
 import querystring from 'querystring';
 import { useState } from 'react';
-import { useSession } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 
 import styles from './statistics.module.css';
@@ -47,8 +47,11 @@ const generateQueryParams = ({
   return querystring.stringify(query);
 };
 
-function statistics() {
-  const [session] = useSession();
+export async function getServerSideProps(context) {
+  return { props: { session: await getSession(context) } };
+}
+
+function statistics({ session }) {
   const [isMentoringSession, setIsMentoringSession] = useState(null);
   const [dataToDisplayOverride, setDataToDisplayOverride] = useState(null);
   const [visualisationType, setVisualisationType] = useState(
