@@ -158,10 +158,19 @@ export default function DepartmentsTable() {
 
   return (
     <div>
-      <div>
-        Please send these unique URLs to department managers to join the
-        respective departments
+      <div className={styles.intro}>
+        <p className={styles.url}>
+          Please send these unique URLs to department managers to join the
+          respective departments
+        </p>
+        <Button
+          className={styles.button}
+          appearance="primary"
+          onClick={() => setDialog()}>
+          Add new department
+        </Button>
       </div>
+
       <AlertDialog
         open={showDialog}
         setOpen={setShowDialog}
@@ -179,12 +188,6 @@ export default function DepartmentsTable() {
         }
         actions={deleteDialogActions}
       />
-      <Button
-        className={styles.buttons}
-        appearance="primary"
-        onClick={() => setDialog()}>
-        Add new department
-      </Button>
       <CustomTable
         tableType="departments"
         data={localData}
