@@ -7,52 +7,79 @@ import styles from './WordCloud.module.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
+/*
+function getCallback(callback) {
+  return function (word, event) {
+    const isActive = callback !== 'onWordMouseOut';
+    const element = event.target;
+    const text = select(element);
+    text
+      .on('click', () => {
+        if (isActive) {
+          window.open(`https://dictionary.com/?q=${word.text}`, '_blank');
+        }
+      })
+      .transition()
+      .attr('background', 'white')
+      .attr('font-size', isActive ? '300%' : '100%')
+      .attr('text-decoration', isActive ? 'underline' : 'none');
+  };
+}
+
+const callbacks = {
+  getWordColor: word => (word.value > 50 ? 'orange' : 'purple'),
+  getWordTooltip: word =>
+    `The word "${word.text}" appears ${word.value} times.`,
+  onWordClick: getCallback('onWordClick'),
+  onWordMouseOut: getCallback('onWordMouseOut'),
+  onWordMouseOver: getCallback('onWordMouseOver'),
+};
+*/
+
 function WordCloud(props) {
   if (props.words === null) {
     return (
       <Loader className={styles.loading} size="lg" content="Loading data..." />
     );
   } else if (props.words.length) {
-    if (props.words.length) {
-      const words = {};
-      props.words.forEach(word => {
-        if (words[word]) {
-          words[word].value++;
-        } else {
-          words[word] = { text: word, value: 1 };
-        }
-      });
+    const words = {};
+    props.words.forEach(word => {
+      if (words[word]) {
+        words[word].value++;
+      } else {
+        words[word] = { text: word, value: 1 };
+      }
+    });
 
-      const options = {
-        colors: [
-          '#1f77b4',
-          '#ff7f0e',
-          '#2ca02c',
-          '#d62728',
-          '#9467bd',
-          '#8c564b',
-        ],
-        enableTooltip: true,
-        deterministic: false,
-        fontFamily: 'impact',
-        fontSizes: [60, 200],
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        padding: 1,
-        rotations: 3,
-        rotationAngles: [0, 0],
-        scale: 'sqrt',
-        spiral: 'archimedean',
-        transitionDuration: 1000,
-      };
+    const options = {
+      colors: [
+        '#1f77b4',
+        '#ff7f0e',
+        '#2ca02c',
+        '#d62728',
+        '#9467bd',
+        '#8c564b',
+      ],
+      enableTooltip: true,
+      deterministic: true,
+      fontFamily: 'impact',
+      fontSizes: [30, 100],
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      padding: 1,
+      rotations: 0,
+      rotationAngles: [0, 0],
+      scale: 'log',
+      spiral: 'archimedean',
+      transitionDuration: 100,
+    };
 
-      // TODO play around with the options for best UI
-      return (
-        <div style={{ height: 400, width: 600 }}>
-          <ReactWordcloud words={Object.values(words)} options={options} />
-        </div>
-      );
-    }
+    // TODO play around with the options for best UI
+    return (
+      <div style={{ height: 400, width: 600, margin: 'auto' }}>
+        <ReactWordcloud words={Object.values(words)} options={options} />
+      </div>
+    );
   }
 
   return (

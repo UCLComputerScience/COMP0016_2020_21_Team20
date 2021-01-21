@@ -128,6 +128,7 @@ function statistics() {
               data={
                 data
                   ? data.responses.map(d => ({
+                      is_mentoring_session: d.is_mentoring_session,
                       timestamp: d.timestamp,
                       scores: d.scores.map(s => ({
                         score: s.score,

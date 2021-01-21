@@ -4,6 +4,8 @@ import { Loader, Message } from 'rsuite';
 
 import styles from './linechart.module.css';
 
+const MENTORING_SESSSION_POINT_COLOR = 'grey';
+
 const baseProperties = {
   fill: false,
   lineTension: 0.1,
@@ -24,6 +26,23 @@ const formatData = data => {
     const standardData = Object.assign({}, baseProperties);
     standardData.borderColor = thisStandardData[0].color;
     standardData.label = thisStandardData[0].standardName;
+
+    // Change color with mentoring session
+    const isMentoringSessions = data.map(d => d.is_mentoring_session);
+    standardData.pointBackgroundColor = [];
+    standardData.pointBorderColor = [];
+    standardData.pointBorderWidth = [];
+    isMentoringSessions.forEach(isMentoringSession => {
+      if (isMentoringSession) {
+        standardData.pointBackgroundColor.push(MENTORING_SESSSION_POINT_COLOR);
+        standardData.pointBorderColor.push(MENTORING_SESSSION_POINT_COLOR);
+        standardData.pointBorderWidth.push(6);
+      } else {
+        standardData.pointBackgroundColor.push('white');
+        standardData.pointBorderColor.push(thisStandardData[0].color);
+        standardData.pointBorderWidth.push(2);
+      }
+    });
     standardData.data = thisStandardData.map(s => (s.score / 4) * 100);
     formattedData.datasets.push(standardData);
   }
@@ -40,7 +59,28 @@ function LineChart({ data } = {}) {
     return (
       <div>
         <h2 className={styles.title}>Self-reporting over time</h2>
-        <Line data={formatData(data)} />
+        <Line
+          data={formatData(data)}
+          options={{
+            tooltips: {
+              callbacks: {
+                title: tooltip => new Date(tooltip[0].label).toDateString(),
+                afterTitle: (tooltip, data) =>
+                  data.datasets[tooltip[0].datasetIndex].pointBackgroundColor[
+                    tooltip[0].index
+                  ] === MENTORING_SESSSION_POINT_COLOR && 'Mentoring session',
+                labelColor: (tooltip, data) => {
+                  return {
+                    borderColor:
+                      data.legend.legendItems[tooltip.datasetIndex].fillStyle,
+                    backgroundColor:
+                      data.legend.legendItems[tooltip.datasetIndex].fillStyle,
+                  };
+                },
+              },
+            },
+          }}
+        />
       </div>
     );
   }
@@ -56,5 +96,4 @@ function LineChart({ data } = {}) {
     />
   );
 }
-
 export default LineChart;
