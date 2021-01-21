@@ -145,8 +145,8 @@ const seedQuestions = async () => {
 
 const seedData = async () => {
   await seedStandards();
-  //await seedEntities();
-  // await seedQuestions();
+  await seedEntities();
+  await seedQuestions();
 };
 
 seedData()
