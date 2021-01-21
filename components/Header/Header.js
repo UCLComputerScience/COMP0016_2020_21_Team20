@@ -1,6 +1,7 @@
+import { useRef, useState, useEffect } from 'react';
 import { signIn } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Nav } from 'rsuite';
+import { Icon, Nav } from 'rsuite';
 import Link from 'next/link';
 
 import styles from './Header.module.css';
@@ -16,9 +17,10 @@ const paths = {
   [Roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
 };
 
-function Header(props) {
+function Header({ session }) {
   const router = useRouter();
-  const session = props.session;
+  const [isOpen, setIsOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
 
   const renderLinks = () => {
     const role = session.roles[0]; // TODO do we want to support multiple roles?
@@ -32,6 +34,16 @@ function Header(props) {
     ));
   };
 
+  useEffect(() => {
+    const handleClickOutside = event =>
+      mobileMenuRef.current &&
+      !mobileMenuRef.current.contains(event.target) &&
+      setIsOpen(false);
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [mobileMenuRef]);
+
   return (
     <Nav className={styles.header}>
       <Link href="/">
@@ -39,13 +51,22 @@ function Header(props) {
           <span className={styles.logo}>CQ Dashboard</span>
         </Nav.Item>
       </Link>
-      {session && renderLinks()}
-      <div className={styles.profile}>
-        {session ? (
-          <ProfileButton session={session} />
-        ) : (
-          <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
-        )}
+      {session && (
+        <div className={styles.navbarExpandIcon}>
+          <Icon icon="bars" onClick={() => setIsOpen(!isOpen)} />
+        </div>
+      )}
+      <div
+        ref={mobileMenuRef}
+        className={`${styles.links} ${isOpen ? styles.open : ''}`}>
+        {session && renderLinks()}
+        <div className={styles.profile}>
+          {session ? (
+            <ProfileButton session={session} />
+          ) : (
+            <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
+          )}
+        </div>
       </div>
     </Nav>
   );
