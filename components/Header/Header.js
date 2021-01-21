@@ -35,14 +35,23 @@ function Header({ session }) {
   };
 
   useEffect(() => {
-    const handleClickOutside = event =>
-      mobileMenuRef.current &&
-      !mobileMenuRef.current.contains(event.target) &&
-      setIsOpen(false);
+    const handleClickOutside = event => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        isOpen
+      ) {
+        setIsOpen(false);
+      } else if (event.target.id === 'navbar-expand-icon') {
+        setIsOpen(isOpen => !isOpen);
+      }
+
+      event.stopPropagation();
+    };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [mobileMenuRef]);
+  }, [mobileMenuRef, isOpen]);
 
   return (
     <Nav className={styles.header}>
@@ -52,9 +61,11 @@ function Header({ session }) {
         </Nav.Item>
       </Link>
       {session && (
-        <div className={styles.navbarExpandIcon}>
-          <Icon icon="bars" onClick={() => setIsOpen(!isOpen)} />
-        </div>
+        <Icon
+          id="navbar-expand-icon"
+          className={styles.navbarExpandIcon}
+          icon="bars"
+        />
       )}
       <div
         ref={mobileMenuRef}
