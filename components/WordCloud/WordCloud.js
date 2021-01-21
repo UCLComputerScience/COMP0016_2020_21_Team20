@@ -61,22 +61,22 @@ function WordCloud(props) {
         '#8c564b',
       ],
       enableTooltip: true,
-      deterministic: false,
+      deterministic: true,
       fontFamily: 'impact',
-      fontSizes: [60, 200],
+      fontSizes: [30, 100],
       fontStyle: 'normal',
       fontWeight: 'normal',
       padding: 1,
-      rotations: 3,
+      rotations: 0,
       rotationAngles: [0, 0],
-      scale: 'sqrt',
+      scale: 'log',
       spiral: 'archimedean',
-      transitionDuration: 1000,
+      transitionDuration: 100,
     };
 
     // TODO play around with the options for best UI
     return (
-      <div style={{ height: 400, width: 600 }}>
+      <div style={{ height: 400, width: 600, margin: 'auto' }}>
         <ReactWordcloud words={Object.values(words)} options={options} />
       </div>
     );
