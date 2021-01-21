@@ -11,7 +11,7 @@ const columns = [
   {
     id: 'question',
     label: 'Question body',
-    width: '50%',
+    width: '40%',
     render: (edited, row) => {
       if (edited) {
         //if this url is being edited then it needs to be an input box
