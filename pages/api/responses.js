@@ -118,7 +118,7 @@ export default async function handler(req, res) {
     const words = req.body.words.map(word => {
       return {
         questions: { connect: { id: word.questionId } },
-        word: word.word,
+        word: word.word.toLowerCase(),
       };
     });
 
