@@ -19,8 +19,8 @@ const columns = [
     id: 'url',
     label: 'Join URL',
     width: 'auto',
-    render: (editing, row) =>
-      `https://${window.location.host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`,
+    render: (editing, row, host) =>
+      `https://${host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`,
   },
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
@@ -34,7 +34,7 @@ const useDatabaseData = () => {
   return data;
 };
 
-export default function DepartmentsTable() {
+export default function DepartmentsTable({ host }) {
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
   const [dialogText, setDialogText] = useState(null);
@@ -190,6 +190,7 @@ export default function DepartmentsTable() {
       />
       <CustomTable
         tableType="departments"
+        host={host}
         data={localData}
         columns={columns}
         editing={false} //cannot edit departments

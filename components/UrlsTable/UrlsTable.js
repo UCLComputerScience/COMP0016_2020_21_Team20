@@ -60,7 +60,7 @@ const useDatabaseData = () => {
 
 var editedRow = null;
 
-export default function UrlsTable({ session }) {
+export default function UrlsTable({ session, host }) {
   const [editing, setEditing] = useState(null);
   let localData = useDatabaseData();
 
@@ -108,7 +108,7 @@ export default function UrlsTable({ session }) {
 
   return (
     <div>
-      <ClinicianJoinCode session={session} />
+      <ClinicianJoinCode session={session} host={host} />
       <CustomTable
         tableType="urls"
         data={localData}

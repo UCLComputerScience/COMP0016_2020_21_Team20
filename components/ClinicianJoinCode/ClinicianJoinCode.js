@@ -16,7 +16,7 @@ const getCode = id => {
   return data;
 };
 
-function ClinicianJoinCode({ session }) {
+function ClinicianJoinCode({ session, host }) {
   const code = getCode(session.user.departmentId);
 
   const regenerateInDatabase = async id => {
@@ -46,7 +46,7 @@ function ClinicianJoinCode({ session }) {
         {'Please send this unique URL to clinicians so they can join your ' +
           (code !== undefined ? code['0']['name'] : 'loading...') +
           ' department:'}{' '}
-        {`https://${window.location.host}/join/${Roles.USER_TYPE_CLINICIAN}/${
+        {`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
           code !== undefined
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
@@ -54,9 +54,7 @@ function ClinicianJoinCode({ session }) {
       </div>
       <div className={styles.actions}>
         <CopyToClipboard
-          text={`https://${window.location.host}/join/${
-            Roles.USER_TYPE_CLINICIAN
-          }/${
+          text={`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
             code !== undefined
               ? code['0']['clinician_join_codes']['code']
               : 'loading...'

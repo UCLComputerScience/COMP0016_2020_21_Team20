@@ -14,10 +14,15 @@ import {
 import { Roles } from '../lib/constants';
 
 export async function getServerSideProps(context) {
-  return { props: { session: await getSession(context) } };
+  return {
+    props: {
+      session: await getSession(context),
+      host: context.req.headers.host,
+    },
+  };
 }
 
-function manage({ session }) {
+function manage({ session, host }) {
   if (!session) {
     return (
       <div>
@@ -40,7 +45,7 @@ function manage({ session }) {
       {role === Roles.USER_TYPE_DEPARTMENT ? (
         <div>
           <h3>Manage the URLs of each question</h3>
-          <UrlsTable session={session} />
+          <UrlsTable session={session} host={host} />
         </div>
       ) : role === Roles.USER_TYPE_ADMIN ? (
         <div>
@@ -50,7 +55,7 @@ function manage({ session }) {
       ) : role === Roles.USER_TYPE_HOSPITAL ? (
         <div>
           <h3>Manage and add new departments</h3>
-          <DepartmentsTable />
+          <DepartmentsTable host={host} />
         </div>
       ) : (
         <NoAccess />
