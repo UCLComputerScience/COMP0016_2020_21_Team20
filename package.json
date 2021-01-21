@@ -23,6 +23,7 @@
     "react-dom": "16.13.1",
     "react-wordcloud": "^1.2.7",
     "rsuite": "^4.8.6",
+    "sharp": "^0.26.2",
     "swr": "^0.3.9"
   },
   "devDependencies": {

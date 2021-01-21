@@ -13,6 +13,7 @@ import {
   LoginMessage,
   WordCloud,
   NoAccess,
+  FeedbackNotification,
 } from '../components';
 
 import useSWR from '../lib/swr';
@@ -148,6 +149,7 @@ function statistics() {
           )}
         </div>
       </div>
+      <FeedbackNotification />
     </div>
   );
 }

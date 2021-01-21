@@ -13,6 +13,7 @@ import {
   Header,
   LoginMessage,
   NoAccess,
+  FeedbackNotification,
 } from '../components';
 
 import useSWR from '../lib/swr';
@@ -222,6 +223,7 @@ function selfReporting() {
           Submit
         </IconButton>
       </div>
+      <FeedbackNotification />
     </div>
   );
 }
