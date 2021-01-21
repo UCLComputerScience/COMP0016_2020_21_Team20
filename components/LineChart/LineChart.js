@@ -16,7 +16,7 @@ const baseProperties = {
 // TODO clean up this logic
 const formatData = data => {
   const formattedData = {
-    labels: data.map(d => d.timestamp),
+    labels: data.map(d => new Date(d.timestamp).toDateString()),
     datasets: [],
   };
 
