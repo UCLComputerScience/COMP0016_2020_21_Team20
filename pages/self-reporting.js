@@ -40,6 +40,10 @@ export async function getServerSideProps(context) {
 
 function selfReporting({ session }) {
   const router = useRouter();
+  const { data: words } = useSWR('/api/recent_words', {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   // TODO improve loading/error UI, or use server-side rendering for this page
   const {
@@ -210,6 +214,7 @@ function selfReporting({ session }) {
         {wordsQuestions.map((question, i) => (
           <WordsQuestion
             key={i}
+            suggestedWords={words ? words.words : []}
             question={question.body}
             questionId={question.id}
             questionNumber={i + likertScaleQuestions.length + 1}
