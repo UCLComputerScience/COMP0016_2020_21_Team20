@@ -63,8 +63,10 @@ function selfReporting({ session }) {
 
   const submitAnswers = async () => {
     const words = [];
-    wordsQuestions.forEach(q =>
-      q.words.forEach(w => words.push({ questionId: q.id, word: w }))
+    wordsQuestions.forEach(
+      q =>
+        q.words &&
+        q.words.forEach(w => words.push({ questionId: q.id, word: w }))
     );
     const scores = likertScaleQuestions.map(q => ({
       standardId: q.standards.id,
