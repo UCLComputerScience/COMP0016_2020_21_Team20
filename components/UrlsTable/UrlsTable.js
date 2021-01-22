@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Input, Alert } from 'rsuite';
 import { mutate } from 'swr';
+import styles from './UrlsTable.module.css';
 
 import useSWR from '../../lib/swr';
 import { ClinicianJoinCode, CustomTable } from '..';
