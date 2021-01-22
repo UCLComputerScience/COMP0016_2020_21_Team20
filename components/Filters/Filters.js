@@ -176,7 +176,6 @@ export function Filters({ session, ...props }) {
           { label: 'Last year', value: [subtractDays(365), new Date()] },
         ]}
       />
-
       <p>Visualisation</p>
       <SelectPicker
         value={props.visualisationType}
@@ -190,7 +189,6 @@ export function Filters({ session, ...props }) {
           { label: 'Word Cloud', value: Visualisations.WORD_CLOUD },
         ]}
       />
-
       <p>Mentoring?</p>
       <SelectPicker
         value={getMentoringValue()}
@@ -209,7 +207,10 @@ export function Filters({ session, ...props }) {
           { label: 'No', value: 'no' },
         ]}
       />
-
+      {props.isMentoringSession === true ||
+        (props.isMentoringSession === null && (
+          <i>Triangles represent a mentoring session point</i>
+        ))}
       {renderExtraFilters()}
     </div>
   );

@@ -4,7 +4,7 @@ import { Loader, Message } from 'rsuite';
 
 import styles from './linechart.module.css';
 
-const MENTORING_SESSSION_POINT_COLOR = 'grey';
+const MENTORING_SESSSION_POINT_COLOR = 'black';
 
 const baseProperties = {
   fill: false,
@@ -32,15 +32,18 @@ const formatData = data => {
     standardData.pointBackgroundColor = [];
     standardData.pointBorderColor = [];
     standardData.pointBorderWidth = [];
+    standardData.pointStyle = [];
     isMentoringSessions.forEach(isMentoringSession => {
       if (isMentoringSession) {
         standardData.pointBackgroundColor.push(MENTORING_SESSSION_POINT_COLOR);
         standardData.pointBorderColor.push(MENTORING_SESSSION_POINT_COLOR);
-        standardData.pointBorderWidth.push(6);
+        standardData.pointStyle.push('triangle');
+        standardData.pointBorderWidth.push(4);
       } else {
         standardData.pointBackgroundColor.push('white');
         standardData.pointBorderColor.push(thisStandardData[0].color);
         standardData.pointBorderWidth.push(2);
+        standardData.pointStyle.push('circle');
       }
     });
     standardData.data = thisStandardData.map(s => (s.score / 4) * 100);
@@ -59,6 +62,9 @@ function LineChart({ data } = {}) {
     return (
       <>
         <h2 className={styles.title}>Self-reporting over time</h2>
+        <p className={styles.legend}>
+          Click on the legend to toggle the standards.
+        </p>
         <Line
           data={formatData(data)}
           options={{
