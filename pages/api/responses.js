@@ -82,9 +82,15 @@ export default async function handler(req, res) {
       scores: { select: { standards: true, score: true } },
     };
 
+    const orderBy = { timestamp: 'asc' };
+
     const responses = filters.length
-      ? await prisma.responses.findMany({ where: { AND: filters }, select })
-      : await prisma.responses.findMany({ select });
+      ? await prisma.responses.findMany({
+          where: { AND: filters },
+          select,
+          orderBy,
+        })
+      : await prisma.responses.findMany({ select, orderBy });
 
     const scoresPerStandard = {};
     responses.forEach(val =>

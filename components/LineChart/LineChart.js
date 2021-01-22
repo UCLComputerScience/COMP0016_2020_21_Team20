@@ -16,7 +16,7 @@ const baseProperties = {
 // TODO clean up this logic
 const formatData = data => {
   const formattedData = {
-    labels: data.map(d => new Date(d.timestamp).toDateString()),
+    labels: data.map(d => new Date(d.timestamp)),
     datasets: [],
   };
 
@@ -80,7 +80,18 @@ function LineChart({ data } = {}) {
               },
             },
             scales: {
-              xAxes: [{ ticks: { maxRotation: 0 } }],
+              xAxes: [
+                {
+                  ticks: { maxRotation: 0 },
+                  type: 'time',
+                  time: {
+                    displayFormats: {
+                      year: 'DD/MM/YYYY',
+                      quarter: 'DD/MM/YYYY',
+                    },
+                  },
+                },
+              ],
             },
           }}
         />
