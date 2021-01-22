@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         departments: { id: { equals: session.user.departmentId } },
       });
 
-      if (userIdOverride && userIdOverride === session.user.userid) {
+      if (userIdOverride && userIdOverride === session.user.userId) {
         filters.push({ user_id: { equals: session.user.userId } });
       }
     } else if (session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
