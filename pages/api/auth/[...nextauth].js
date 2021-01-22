@@ -3,7 +3,8 @@ import NextAuth from 'next-auth';
 import {
   handleUserAttemptLogin,
   handleUserSuccessfulLogin,
-} from '../../../lib/handleUserLogin';
+  handleUserLogout,
+} from '../../../lib/handleUserAuthEvents';
 
 import config from '../../../lib/config';
 import { Roles } from '../../../lib/constants';
@@ -58,10 +59,9 @@ const options = {
   },
   events: {
     signIn: async message => handleUserSuccessfulLogin(message),
+    signOut: async message => handleUserLogout(message.sub), // Make sure all their sessions are killed in Keycloak
   },
-  pages: {
-    error: '/',
-  },
+  pages: { error: '/' },
 };
 
 export default (req, res) => NextAuth(req, res, options);
