@@ -84,12 +84,7 @@ function LineChart({ data } = {}) {
                 {
                   ticks: { maxRotation: 0 },
                   type: 'time',
-                  time: {
-                    displayFormats: {
-                      year: 'DD/MM/YYYY',
-                      quarter: 'DD/MM/YYYY',
-                    },
-                  },
+                  time: { unit: 'day' },
                 },
               ],
             },
