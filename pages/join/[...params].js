@@ -1,13 +1,13 @@
 import { Header, LoginMessage } from '../../components';
 
-import { useSession, getSession, signOut } from 'next-auth/client';
+import { getSession, signOut } from 'next-auth/client';
 
 import setUserDepartmentAndRole from '../../lib/setUserDepartmentAndRole';
 import prisma from '../../lib/prisma';
 import { Roles } from '../../lib/constants';
 
-export const getServerSideProps = async ctx => {
-  const { params } = ctx.query;
+export const getServerSideProps = async context => {
+  const { params } = context.query;
   const [type, joinCode] = params;
 
   if (
@@ -18,7 +18,7 @@ export const getServerSideProps = async ctx => {
   }
 
   // User must have no role to be able to join a department
-  const session = await getSession(ctx);
+  const session = await getSession(context);
   if (!session || session.roles[0] !== Roles.USER_TYPE_UNKNOWN) {
     return { props: {} };
   }
@@ -38,16 +38,14 @@ export const getServerSideProps = async ctx => {
     newUserType: type,
   });
 
-  return { props: { success } };
+  return { props: { success, session } };
 };
 
-function Join(props) {
-  const [session, loading] = useSession(); // TODO use loading state better?
-
+function Join({ session, ...props }) {
   if (!session) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <LoginMessage />
       </div>
     );
@@ -59,7 +57,7 @@ function Join(props) {
 
   return (
     <div>
-      <Header />
+      <Header session={session} />
       {session.roles[0] !== Roles.USER_TYPE_UNKNOWN &&
         'You are not eligible to join a department at this time.'}
       {props.invalidCode &&

@@ -4,7 +4,26 @@
   justify-content: space-between;
 }
 
-.actions {
-  display: flex;
-  flex-direction: row;
+.url {
+  width: 50%;
+}
+
+.actions button + button {
+  margin-left: 10px;
+}
+
+@media (max-width: 648px) {
+  /*Mobile view*/
+  .url {
+    width: 100%;
+  }
+
+  .content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .actions {
+    margin-top: 10px;
+  }
 }

@@ -1,6 +1,7 @@
-import { signIn, useSession } from 'next-auth/client';
+import { useRef, useState, useEffect } from 'react';
+import { signIn } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Nav } from 'rsuite';
+import { Icon, Nav } from 'rsuite';
 import Link from 'next/link';
 
 import styles from './Header.module.css';
@@ -16,9 +17,10 @@ const paths = {
   [Roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
 };
 
-function Header() {
+function Header({ session }) {
   const router = useRouter();
-  const [session, loading] = useSession(); // TODO use loading state better?
+  const [isOpen, setIsOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
 
   const renderLinks = () => {
     const role = session.roles[0]; // TODO do we want to support multiple roles?
@@ -32,6 +34,25 @@ function Header() {
     ));
   };
 
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        isOpen
+      ) {
+        setIsOpen(false);
+      } else if (event.target.id === 'navbar-expand-icon') {
+        setIsOpen(isOpen => !isOpen);
+      }
+
+      event.stopPropagation();
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [mobileMenuRef, isOpen]);
+
   return (
     <Nav className={styles.header}>
       <Link href="/">
@@ -39,13 +60,24 @@ function Header() {
           <span className={styles.logo}>CQ Dashboard</span>
         </Nav.Item>
       </Link>
-      {session && renderLinks()}
-      <div className={styles.profile}>
-        {session ? (
-          <ProfileButton />
-        ) : (
-          <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
-        )}
+      {session && (
+        <Icon
+          id="navbar-expand-icon"
+          className={styles.navbarExpandIcon}
+          icon="bars"
+        />
+      )}
+      <div
+        ref={mobileMenuRef}
+        className={`${styles.links} ${isOpen ? styles.open : ''}`}>
+        {session && renderLinks()}
+        <div className={styles.profile}>
+          {session ? (
+            <ProfileButton session={session} />
+          ) : (
+            <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
+          )}
+        </div>
       </div>
     </Nav>
   );

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSession } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Button, IconButton, Icon, Toggle, Alert } from 'rsuite';
@@ -34,9 +34,16 @@ const useQuestions = () => {
   };
 };
 
-function selfReporting() {
-  const [session] = useSession();
+export async function getServerSideProps(context) {
+  return { props: { session: await getSession(context) } };
+}
+
+function selfReporting({ session }) {
   const router = useRouter();
+  const { data: words } = useSWR('/api/recent_words', {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   // TODO improve loading/error UI, or use server-side rendering for this page
   const {
@@ -138,7 +145,7 @@ function selfReporting() {
   if (!session) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <LoginMessage />
       </div>
     );
@@ -151,7 +158,7 @@ function selfReporting() {
   ) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <NoAccess />
       </div>
     );
@@ -163,7 +170,7 @@ function selfReporting() {
         <title>Self-reporting</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header session={session} />
       <AlertDialog
         open={showDialog}
         setOpen={setShowDialog}
@@ -207,6 +214,7 @@ function selfReporting() {
         {wordsQuestions.map((question, i) => (
           <WordsQuestion
             key={i}
+            suggestedWords={words ? words.words : []}
             question={question.body}
             questionId={question.id}
             questionNumber={i + likertScaleQuestions.length + 1}

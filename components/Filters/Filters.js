@@ -1,5 +1,4 @@
 import { SelectPicker, DateRangePicker, Icon } from 'rsuite';
-import { useSession } from 'next-auth/client';
 import { useState } from 'react';
 
 import { Roles, Visualisations } from '../../lib/constants';
@@ -9,8 +8,7 @@ const subtractDays = days => {
   return new Date(now - days * 24 * 60 * 60 * 1000);
 };
 
-export function Filters(props) {
-  const [session] = useSession();
+export function Filters({ session, ...props }) {
   const [departments, setDepartments] = useState([]);
   const [hospitals, setHospitals] = useState([]);
 

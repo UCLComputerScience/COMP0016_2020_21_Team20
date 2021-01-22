@@ -21,6 +21,14 @@
   color: red;
 }
 
+.actionButtons {
+  margin: auto;
+}
+
+.actionButtons button {
+  margin-top: 2px;
+}
+
 .actionButtons > * {
   display: inline;
   margin-left: 5px;

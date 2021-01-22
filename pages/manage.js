@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 
 import {
@@ -13,12 +13,20 @@ import {
 
 import { Roles } from '../lib/constants';
 
-function manage() {
-  const [session, loading] = useSession(); // TODO use loading state better?
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      session: await getSession(context),
+      host: context.req.headers.host,
+    },
+  };
+}
+
+function manage({ session, host }) {
   if (!session) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <LoginMessage />
       </div>
     );
@@ -32,12 +40,12 @@ function manage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div style={{ zIndex: 1000, position: 'relative' }}>
-        <Header />
+        <Header session={session} />
       </div>
       {role === Roles.USER_TYPE_DEPARTMENT ? (
         <div>
           <h3>Manage the URLs of each question</h3>
-          <UrlsTable />
+          <UrlsTable session={session} host={host} />
         </div>
       ) : role === Roles.USER_TYPE_ADMIN ? (
         <div>
@@ -47,7 +55,7 @@ function manage() {
       ) : role === Roles.USER_TYPE_HOSPITAL ? (
         <div>
           <h3>Manage and add new departments</h3>
-          <DepartmentsTable />
+          <DepartmentsTable host={host} />
         </div>
       ) : (
         <NoAccess />

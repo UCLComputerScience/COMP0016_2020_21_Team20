@@ -1,6 +1,6 @@
 import querystring from 'querystring';
 import { useState } from 'react';
-import { useSession } from 'next-auth/client';
+import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 
 import styles from './statistics.module.css';
@@ -47,8 +47,11 @@ const generateQueryParams = ({
   return querystring.stringify(query);
 };
 
-function statistics() {
-  const [session] = useSession();
+export async function getServerSideProps(context) {
+  return { props: { session: await getSession(context) } };
+}
+
+function statistics({ session }) {
   const [isMentoringSession, setIsMentoringSession] = useState(null);
   const [dataToDisplayOverride, setDataToDisplayOverride] = useState(null);
   const [visualisationType, setVisualisationType] = useState(
@@ -71,7 +74,7 @@ function statistics() {
   if (!session) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <LoginMessage />
       </div>
     );
@@ -81,7 +84,7 @@ function statistics() {
   if (role === Roles.USER_TYPE_UNKNOWN || role === Roles.USER_TYPE_ADMIN) {
     return (
       <div>
-        <Header />
+        <Header session={session} />
         <NoAccess />
       </div>
     );
@@ -106,11 +109,12 @@ function statistics() {
         <title>Statistics</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header session={session} />
       <CirclesAccordion circles={circles} />
       <div className={styles.content}>
         <div className={styles.filters}>
           <Filters
+            session={session}
             dateRange={dateRange}
             setDateRange={setDateRange}
             visualisationType={visualisationType}

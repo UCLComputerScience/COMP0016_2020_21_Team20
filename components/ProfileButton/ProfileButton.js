@@ -1,4 +1,4 @@
-import { signOut, useSession } from 'next-auth/client';
+import { signOut } from 'next-auth/client';
 import { Dropdown, Icon } from 'rsuite';
 import styles from './ProfileButton.module.css';
 
@@ -7,8 +7,7 @@ import { LeaveDeptButton } from '../';
 import config from '../../lib/config';
 import { Roles } from '../../lib/constants';
 
-function ProfileButton() {
-  const [session] = useSession();
+function ProfileButton({ session }) {
   const role = session.roles[0];
 
   return (

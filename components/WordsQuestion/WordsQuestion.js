@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input } from 'rsuite';
+import { AutoComplete } from 'rsuite';
 
 import styles from './WordsQuestion.module.css';
 
@@ -23,7 +23,8 @@ function WordsQuestion(props) {
       }
 
       inputs.push(
-        <Input
+        <AutoComplete
+          data={props.suggestedWords}
           size="lg"
           className={styles.input}
           key={i}

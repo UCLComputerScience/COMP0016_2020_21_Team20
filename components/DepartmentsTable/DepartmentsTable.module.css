@@ -1,27 +1,27 @@
-.input {
-  border: 1px solid black;
-  width: 100%;
-}
-
-.buttons {
-  float: right;
-}
-
-.header {
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-.alertContent {
+.intro {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
-.alertText {
-  color: red;
+.url {
+  width: 50%;
 }
 
-.actionButtons > * {
-  display: inline;
-  margin-left: 5px;
+@media (max-width: 648px) {
+  /*Mobile view*/
+  .url {
+    width: 100%;
+  }
+
+  .intro {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .button {
+    margin: auto;
+    margin-top: 10px;
+    width: 50%;
+  }
 }

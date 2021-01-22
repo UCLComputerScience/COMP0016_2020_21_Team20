@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { Input, Alert } from 'rsuite';
 import { mutate } from 'swr';
 
-import styles from './UrlsTable.module.css';
-
 import useSWR from '../../lib/swr';
 import { ClinicianJoinCode, CustomTable } from '..';
 
@@ -17,7 +15,7 @@ const columns = [
   {
     id: 'standard',
     label: 'Standard',
-    width: '10%',
+    width: 'auto',
     render: (edited, row) => row['standards']['name'],
   },
   {
@@ -48,7 +46,7 @@ const columns = [
       }
     },
   },
-  { id: 'actions', label: 'Actions', width: '15%' },
+  { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
 const useDatabaseData = () => {
@@ -62,7 +60,7 @@ const useDatabaseData = () => {
 
 var editedRow = null;
 
-export default function UrlsTable() {
+export default function UrlsTable({ session, host }) {
   const [editing, setEditing] = useState(null);
   let localData = useDatabaseData();
 
@@ -110,17 +108,17 @@ export default function UrlsTable() {
 
   return (
     <div>
-      <ClinicianJoinCode />
+      <ClinicianJoinCode session={session} host={host} />
       <CustomTable
-        tableType='urls'
+        tableType="urls"
         data={localData}
         columns={columns}
         editing={editing}
         sendData={() => sendData()}
         cancelEditing={() => cancelEditing()}
-        setEditing={(i) => setEditing(i)}
-        setToDefaultUrl={(id) => setToDefaultUrl(id)}
-        />
+        setEditing={i => setEditing(i)}
+        setToDefaultUrl={id => setToDefaultUrl(id)}
+      />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useSession } from 'next-auth/client';
 import { Button, Icon, Alert } from 'rsuite';
 import { mutate } from 'swr';
 
@@ -17,8 +16,7 @@ const getCode = id => {
   return data;
 };
 
-function ClinicianJoinCode() {
-  const [session] = useSession();
+function ClinicianJoinCode({ session, host }) {
   const code = getCode(session.user.departmentId);
 
   const regenerateInDatabase = async id => {
@@ -44,35 +42,34 @@ function ClinicianJoinCode() {
 
   return (
     <div className={styles.content}>
-      <div style={{ width: '70%' }}>
+      <div className={styles.url}>
         {'Please send this unique URL to clinicians so they can join your ' +
           (code !== undefined ? code['0']['name'] : 'loading...') +
           ' department:'}{' '}
-        {`https://${window.location.host}/join/${Roles.USER_TYPE_CLINICIAN}/${
+        {`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
           code !== undefined
             ? code['0']['clinician_join_codes']['code']
             : 'loading...'
         }`}
       </div>
+      <div className={styles.actions}>
+        <CopyToClipboard
+          text={`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
+            code !== undefined
+              ? code['0']['clinician_join_codes']['code']
+              : 'loading...'
+          }`}>
+          <Button appearance="primary" onClick={() => showCopyAlert()}>
+            <Icon icon="clone" /> Copy to clipboard
+          </Button>
+        </CopyToClipboard>
 
-      <CopyToClipboard
-        text={`https://${window.location.host}/join/${
-          Roles.USER_TYPE_CLINICIAN
-        }/${
-          code !== undefined
-            ? code['0']['clinician_join_codes']['code']
-            : 'loading...'
-        }`}>
-        <Button appearance="primary" onClick={() => showCopyAlert()}>
-          <Icon icon="clone" /> Copy to clipboard
+        <Button
+          appearance="primary"
+          onClick={() => regenerateCode(session.user.departmentId)}>
+          <div>Re-generate URL</div>
         </Button>
-      </CopyToClipboard>
-
-      <Button
-        appearance="primary"
-        onClick={() => regenerateCode(session.user.departmentId)}>
-        <div>Re-generate URL</div>
-      </Button>
+      </div>
     </div>
   );
 }

@@ -57,7 +57,7 @@ function LineChart({ data } = {}) {
     );
   } else if (data.length) {
     return (
-      <div>
+      <>
         <h2 className={styles.title}>Self-reporting over time</h2>
         <Line
           data={formatData(data)}
@@ -79,9 +79,12 @@ function LineChart({ data } = {}) {
                 },
               },
             },
+            scales: {
+              xAxes: [{ ticks: { maxRotation: 0 } }],
+            },
           }}
         />
-      </div>
+      </>
     );
   }
 

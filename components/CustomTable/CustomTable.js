@@ -21,11 +21,18 @@ const typeOfTable = {
 const renderCells = [
   {
     id: typeOfTable.DEPARTMENTS,
-    render: (editing, row, showCopyAlert, regenerateCode, confirmDelete) => {
+    render: (
+      editing,
+      row,
+      showCopyAlert,
+      regenerateCode,
+      confirmDelete,
+      host
+    ) => {
       return (
         <div className={styles.actionButtons}>
           <CopyToClipboard
-            text={`https://${window.location.host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
+            text={`https://${host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
             <Button appearance="primary" onClick={() => showCopyAlert()}>
               <Icon icon="clone" />
             </Button>
@@ -117,7 +124,7 @@ const renderCells = [
 ];
 
 //props tableType localData, columns, editing
-function CustomTable(props) {
+function CustomTable({ host, ...props }) {
   return (
     <TableContainer>
       <Table stickyHeader aria-label="sticky table">
@@ -142,14 +149,15 @@ function CustomTable(props) {
                     return (
                       <TableCell key={column.id} align={column.align}>
                         {column.id !== 'actions'
-                          ? column.render(props.editing === i, row)
+                          ? column.render(props.editing === i, row, host)
                           : props.tableType === 'departments'
                           ? renderCells[typeOfTable.DEPARTMENTS].render(
                               props.editing,
                               row,
                               () => props.showCopyAlert(),
                               id => props.regenerateCode(id),
-                              id => props.confirmDelete(id)
+                              id => props.confirmDelete(id),
+                              host
                             )
                           : props.tableType === 'urls'
                           ? renderCells[typeOfTable.URLS].render(

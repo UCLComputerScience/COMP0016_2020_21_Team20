@@ -26,6 +26,43 @@
   margin-top: -5px;
 }
 
+.links {
+  display: inline;
+}
+
 .profile {
   float: right;
+}
+
+.navbarExpandIcon {
+  display: none;
+  margin-top: 15px;
+  cursor: pointer;
+  float: right;
+}
+
+@media (max-width: 648px) {
+  /*Mobile view*/
+  .navbarExpandIcon {
+    display: inline-block;
+  }
+
+  .links.open {
+    display: inline;
+    background-color: #f6f9fc;
+    border-radius: 10px;
+    box-shadow: 1px 1px lightgrey;
+    top: 35px;
+    position: absolute;
+    right: 0;
+    user-select: none;
+  }
+
+  .links.open > li {
+    display: block !important;
+  }
+
+  .links {
+    display: none;
+  }
 }
