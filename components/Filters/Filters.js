@@ -139,7 +139,7 @@ export function Filters({ session, ...props }) {
             onChange={value =>
               props.setDataToDisplayOverride(
                 value === 'myself'
-                  ? { key: 'user_id', value: session.user.id }
+                  ? { key: 'user_id', value: session.user.userId }
                   : null
               )
             }
