@@ -20,7 +20,7 @@ export const getServerSideProps = async context => {
   // User must have no role to be able to join a department
   const session = await getSession(context);
   if (!session || session.roles[0] !== Roles.USER_TYPE_UNKNOWN) {
-    return { props: {} };
+    return { props: { session } };
   }
 
   const dbTable =
