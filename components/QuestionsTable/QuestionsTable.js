@@ -168,13 +168,13 @@ export default function QuestionsTable() {
   const confirmDelete = id => {
     setShowDeleteDialog(true);
     setDeleteDialogActions([
-      <Button key="alertdialog-edit" onClick={() => setShowDeleteDialog(false)}>
+      <Button key="alertdialog-edit" color="red" onClick={() => setShowDeleteDialog(false)}>
         Cancel
       </Button>,
       <Button
         key="alertdialog-confirm"
         onClick={() => deleteRow(id)}
-        color="red">
+        appearance="primary">
         Yes
       </Button>,
     ]);
@@ -225,7 +225,7 @@ export default function QuestionsTable() {
       </div>,
     ]);
     setDialogActions([
-      <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
+      <Button key="alertdialog-edit" color="red" onClick={() => setShowDialog(false)}>
         Cancel
       </Button>,
       <Button

@@ -139,11 +139,6 @@ export default function Home({ session }) {
                 onClick={() => featuresRef.current.scrollIntoView()}>
                 Features
               </Button>
-              <Button
-                color="cyan"
-                onClick={() => document.body.classList.toggle("dark-mode")}>
-                Dark toggle
-              </Button>
             </div>
           </main>
         </div>

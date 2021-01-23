@@ -41,6 +41,11 @@
   float: right;
 }
 
+.themeToggle {
+  color: var(--text-color);
+  float: right;
+}
+
 @media (max-width: 648px) {
   /*Mobile view*/
   .navbarExpandIcon {

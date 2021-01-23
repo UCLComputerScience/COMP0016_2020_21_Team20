@@ -22,3 +22,33 @@ body {
   --blue-text-color: #3498ff;
   color: var(--text-color);
 }
+
+/* overriding certain components style to match for dark mode*/
+body .rs-panel-title {
+  color: var(--text-color);
+}
+
+body .MuiTableCell-stickyHeader {
+  background-color: var(--bg-color);
+}
+
+body .MuiTableCell-body {
+  color: var(--text-color);
+}
+
+body .rs-calendar-table-cell-content {
+  color: black;
+}
+
+body .rs-calendar-table-cell-in-range .rs-calendar-table-cell-content {
+  color: black;
+}
+
+body .rs-modal-content {
+  background-color: var(--bg-color);
+}
+
+body .rs-btn-ghost {
+  border: 0px;
+  color: var(--text-color);
+}

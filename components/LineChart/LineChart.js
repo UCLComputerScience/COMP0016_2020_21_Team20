@@ -1,3 +1,4 @@
+import { RootRef } from '@material-ui/core';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Loader, Message } from 'rsuite';
@@ -80,7 +81,8 @@ function LineChart({ data } = {}) {
               },
             },
             scales: {
-              xAxes: [{ ticks: { maxRotation: 0 } }],
+              xAxes: [{ ticks: { maxRotation: 0, fontColor:  "darkgray"} }],
+              yAxes: [{ ticks: { fontColor:  "darkgray"} }],
             },
           }}
         />
