@@ -4,6 +4,7 @@ import {
   handleUserAttemptLogin,
   handleUserSuccessfulLogin,
   handleUserLogout,
+  getUserProfile,
 } from '../../../lib/handleUserAuthEvents';
 
 import config from '../../../lib/config';
@@ -32,26 +33,22 @@ const options = {
   ],
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
-      if (profile) {
-        token.sub = profile.sub;
-        token.department_id = profile.department_id;
-        token.hospital_id = profile.hospital_id;
-        token.health_board_id = profile.health_board_id;
-        token.roles = profile.roles.filter(r =>
-          Object.values(Roles).includes(r)
-        );
-
-        if (!token.roles.length) token.roles = [Roles.USER_TYPE_UNKNOWN];
-      }
+      if (profile) token.accessToken = account.accessToken;
       return token;
     },
     session: async (session, user) => {
+      const profile = await getUserProfile(user.accessToken);
+
       // TODO move this to session.user.roles
-      session.roles = user.roles;
-      session.user.userId = user.sub;
-      session.user.departmentId = user.department_id;
-      session.user.hospitalId = user.hospital_id;
-      session.user.healthBoardId = user.health_board_id;
+      session.roles = profile.roles.filter(r =>
+        Object.values(Roles).includes(r)
+      );
+      if (!session.roles.length) session.roles = [Roles.USER_TYPE_UNKNOWN];
+
+      session.user.userId = profile.sub;
+      session.user.departmentId = profile.department_id;
+      session.user.hospitalId = profile.hospital_id;
+      session.user.healthBoardId = profile.health_board_id;
       return session;
     },
     signIn: async (user, account, profile) =>
