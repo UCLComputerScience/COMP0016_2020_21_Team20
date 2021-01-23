@@ -33,7 +33,10 @@ const options = {
   ],
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
-      if (profile) token.accessToken = account.accessToken;
+      if (profile) {
+        token.accessToken = account.accessToken;
+        token.sub = account.sub;
+      }
       return token;
     },
     session: async (session, user) => {
@@ -56,7 +59,7 @@ const options = {
   },
   events: {
     signIn: async message => handleUserSuccessfulLogin(message),
-    signOut: async message => handleUserLogout(message.sub), // Make sure all their sessions are killed in Keycloak
+    signOut: async message => handleUserLogout(message.accessToken), // Make sure all their sessions are killed in Keycloak
   },
   pages: { error: '/' },
 };
