@@ -41,6 +41,11 @@ const options = {
     },
     session: async (session, user) => {
       const profile = await getUserProfile(user.accessToken);
+      if (!profile || profile.error) {
+        console.error('Error fetching user profile', profile);
+        session.roles = [Roles.USER_TYPE_UNKNOWN];
+        return session;
+      }
 
       // TODO move this to session.user.roles
       session.roles = profile.roles.filter(r =>
