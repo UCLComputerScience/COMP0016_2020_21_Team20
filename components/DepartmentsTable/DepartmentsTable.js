@@ -25,6 +25,7 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
+// TODO error handling
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/departments', {
     revalidateOnFocus: false,
@@ -97,7 +98,10 @@ export default function DepartmentsTable({ host }) {
     setShowDeleteDialog(true);
     //add which department about to delete in text of dialog
     setDeleteDialogActions([
-      <Button key="alertdialog-edit" color="red" onClick={() => setShowDeleteDialog(false)}>
+      <Button
+        key="alertdialog-edit"
+        color="red"
+        onClick={() => setShowDeleteDialog(false)}>
         Cancel
       </Button>,
       <Button
@@ -138,7 +142,10 @@ export default function DepartmentsTable({ host }) {
       </div>,
     ]);
     setDialogActions([
-      <Button key="alertdialog-edit" color="red" onClick={() => setShowDialog(false)}>
+      <Button
+        key="alertdialog-edit"
+        color="red"
+        onClick={() => setShowDialog(false)}>
         Cancel
       </Button>,
       <Button

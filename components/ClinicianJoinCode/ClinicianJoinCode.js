@@ -7,6 +7,7 @@ import styles from './ClinicianJoinCode.module.css';
 import useSWR from '../../lib/swr';
 import { Roles } from '../../lib/constants';
 
+// TODO error handling
 const getCode = id => {
   const { data, error } = useSWR('/api/departments/' + id, {
     revalidateOnFocus: false,

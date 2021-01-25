@@ -62,6 +62,7 @@ function statistics({ session }) {
     end: new Date(),
   });
 
+  // TODO error handling
   const { data, error } = useSWR(
     `/api/responses?${generateQueryParams({
       start: dateRange.start.getTime(),
