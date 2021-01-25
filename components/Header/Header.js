@@ -35,6 +35,14 @@ function Header({ session }) {
   };
 
   useEffect(() => {
+
+    //to ensure the right mode that is saved is displayed
+    if (window.localStorage.getItem("dark") === "true") {
+      document.body.classList.toggle("dark-mode", true);
+    } else {
+      document.body.classList.toggle("dark-mode", false);
+    }
+
     const handleClickOutside = event => {
       if (
         mobileMenuRef.current &&
@@ -54,7 +62,14 @@ function Header({ session }) {
   }, [mobileMenuRef, isOpen]);
 
   const toggleDark = () => {
-    document.body.classList.toggle("dark-mode")
+    const wasLight = window.localStorage.getItem("dark") === "false";
+    window.localStorage.setItem("dark", (wasLight ? "true" : "false"));
+    if (wasLight) {
+      document.body.classList.add("dark-mode");
+    }
+    else {
+      document.body.classList.remove("dark-mode");
+    }
   };
 
   return (
