@@ -10,6 +10,7 @@
 .header {
   font-weight: bold;
   text-decoration: underline;
+  color: var(--text-color);
 }
 
 .alertContent {

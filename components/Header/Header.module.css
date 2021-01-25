@@ -1,7 +1,7 @@
 .header {
   position: sticky;
   z-index: 2;
-  background-color: #f5f6fa;
+  background-color: var(--bg-color);
   top: 0px;
   height: 40px;
   margin: auto;
@@ -20,7 +20,7 @@
 }
 
 .logo {
-  color: #005eb8;
+  color: var(--blue-text-color);
   cursor: pointer;
   font-size: 1.5em;
   margin-top: -5px;
@@ -38,6 +38,11 @@
   display: none;
   margin-top: 15px;
   cursor: pointer;
+  float: right;
+}
+
+.themeToggle {
+  color: var(--text-color);
   float: right;
 }
 

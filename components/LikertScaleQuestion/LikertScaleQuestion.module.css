@@ -6,7 +6,7 @@
 .questionText {
   margin-bottom: 5px;
   text-align: left;
-  color: #005eb8;
+  color: var(--blue-text-color);
   font-weight: bold;
 }
 

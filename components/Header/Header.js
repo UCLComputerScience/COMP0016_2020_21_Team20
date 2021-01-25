@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { signIn } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Icon, Nav } from 'rsuite';
+import { Icon, Nav, Button } from 'rsuite';
 import Link from 'next/link';
 
 import styles from './Header.module.css';
@@ -53,6 +53,10 @@ function Header({ session }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [mobileMenuRef, isOpen]);
 
+  const toggleDark = () => {
+    document.body.classList.toggle("dark-mode")
+  };
+
   return (
     <Nav className={styles.header}>
       <Link href="/">
@@ -77,6 +81,11 @@ function Header({ session }) {
           ) : (
             <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
           )}
+          <Button className={styles.themeToggle}
+            appearance="ghost"
+            onClick={() => toggleDark()}>
+            <Icon icon="moon-o" />
+          </Button>
         </div>
       </div>
     </Nav>
