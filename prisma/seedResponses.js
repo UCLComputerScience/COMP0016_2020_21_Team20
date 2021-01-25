@@ -13,13 +13,13 @@ const seedResponses = async userId => {
         is_mentoring_session: true,
         scores: {
           create: [
-            { score: 3, standards: { connect: { id: 1 } } },
-            { score: 1, standards: { connect: { id: 2 } } },
-            { score: 2, standards: { connect: { id: 3 } } },
-            { score: 4, standards: { connect: { id: 4 } } },
-            { score: 2, standards: { connect: { id: 5 } } },
-            { score: 4, standards: { connect: { id: 6 } } },
-            { score: 0, standards: { connect: { id: 7 } } },
+            { score: getRandomScore(), standards: { connect: { id: 1 } } },
+            { score: getRandomScore(), standards: { connect: { id: 2 } } },
+            { score: getRandomScore(), standards: { connect: { id: 3 } } },
+            { score: getRandomScore(), standards: { connect: { id: 4 } } },
+            { score: getRandomScore(), standards: { connect: { id: 5 } } },
+            { score: getRandomScore(), standards: { connect: { id: 6 } } },
+            { score: getRandomScore(), standards: { connect: { id: 7 } } },
           ],
         },
         words: {
@@ -42,13 +42,13 @@ const seedResponses = async userId => {
         is_mentoring_session: false,
         scores: {
           create: [
-            { score: 4, standards: { connect: { id: 1 } } },
-            { score: 2, standards: { connect: { id: 2 } } },
-            { score: 2, standards: { connect: { id: 3 } } },
-            { score: 3, standards: { connect: { id: 4 } } },
-            { score: 3, standards: { connect: { id: 5 } } },
-            { score: 4, standards: { connect: { id: 6 } } },
-            { score: 2, standards: { connect: { id: 7 } } },
+            { score: getRandomScore(), standards: { connect: { id: 1 } } },
+            { score: getRandomScore(), standards: { connect: { id: 2 } } },
+            { score: getRandomScore(), standards: { connect: { id: 3 } } },
+            { score: getRandomScore(), standards: { connect: { id: 4 } } },
+            { score: getRandomScore(), standards: { connect: { id: 5 } } },
+            { score: getRandomScore(), standards: { connect: { id: 6 } } },
+            { score: getRandomScore(), standards: { connect: { id: 7 } } },
           ],
         },
         words: {
@@ -71,13 +71,13 @@ const seedResponses = async userId => {
         is_mentoring_session: true,
         scores: {
           create: [
-            { score: 4, standards: { connect: { id: 1 } } },
-            { score: 2, standards: { connect: { id: 2 } } },
-            { score: 3, standards: { connect: { id: 3 } } },
-            { score: 4, standards: { connect: { id: 4 } } },
-            { score: 3, standards: { connect: { id: 5 } } },
-            { score: 3, standards: { connect: { id: 6 } } },
-            { score: 2, standards: { connect: { id: 7 } } },
+            { score: getRandomScore(), standards: { connect: { id: 1 } } },
+            { score: getRandomScore(), standards: { connect: { id: 2 } } },
+            { score: getRandomScore(), standards: { connect: { id: 3 } } },
+            { score: getRandomScore(), standards: { connect: { id: 4 } } },
+            { score: getRandomScore(), standards: { connect: { id: 5 } } },
+            { score: getRandomScore(), standards: { connect: { id: 6 } } },
+            { score: getRandomScore(), standards: { connect: { id: 7 } } },
           ],
         },
         words: {
@@ -100,13 +100,13 @@ const seedResponses = async userId => {
         is_mentoring_session: false,
         scores: {
           create: [
-            { score: 4, standards: { connect: { id: 1 } } },
-            { score: 3, standards: { connect: { id: 2 } } },
-            { score: 2, standards: { connect: { id: 3 } } },
-            { score: 4, standards: { connect: { id: 4 } } },
-            { score: 2, standards: { connect: { id: 5 } } },
-            { score: 3, standards: { connect: { id: 6 } } },
-            { score: 2, standards: { connect: { id: 7 } } },
+            { score: getRandomScore(), standards: { connect: { id: 1 } } },
+            { score: getRandomScore(), standards: { connect: { id: 2 } } },
+            { score: getRandomScore(), standards: { connect: { id: 3 } } },
+            { score: getRandomScore(), standards: { connect: { id: 4 } } },
+            { score: getRandomScore(), standards: { connect: { id: 5 } } },
+            { score: getRandomScore(), standards: { connect: { id: 6 } } },
+            { score: getRandomScore(), standards: { connect: { id: 7 } } },
           ],
         },
         words: {
@@ -117,6 +117,76 @@ const seedResponses = async userId => {
             { word: 'stressful', questions: { connect: { id: 9 } } },
             { word: 'exhausting', questions: { connect: { id: 9 } } },
             { word: 'draining', questions: { connect: { id: 9 } } },
+          ],
+        },
+      },
+    }),
+    prisma.responses.create({
+      data: {
+        users: { connect: { id: userId } },
+        departments: { connect: { id: 1 } },
+        timestamp: new Date('2020-12-26 16:00:00'),
+        is_mentoring_session: true,
+        scores: {
+          create: [
+            { score: getRandomScore(), standards: { connect: { id: 1 } } },
+            { score: getRandomScore(), standards: { connect: { id: 2 } } },
+            { score: getRandomScore(), standards: { connect: { id: 3 } } },
+            { score: getRandomScore(), standards: { connect: { id: 4 } } },
+            { score: getRandomScore(), standards: { connect: { id: 5 } } },
+            { score: getRandomScore(), standards: { connect: { id: 6 } } },
+            { score: getRandomScore(), standards: { connect: { id: 7 } } },
+          ],
+        },
+      },
+    }),
+    prisma.responses.create({
+      data: {
+        users: { connect: { id: userId } },
+        departments: { connect: { id: 1 } },
+        timestamp: new Date('2021-01-01 10:00:00'),
+        is_mentoring_session: false,
+        scores: {
+          create: [
+            { score: getRandomScore(), standards: { connect: { id: 1 } } },
+            { score: getRandomScore(), standards: { connect: { id: 2 } } },
+            { score: getRandomScore(), standards: { connect: { id: 3 } } },
+            { score: getRandomScore(), standards: { connect: { id: 4 } } },
+            { score: getRandomScore(), standards: { connect: { id: 5 } } },
+            { score: getRandomScore(), standards: { connect: { id: 6 } } },
+            { score: getRandomScore(), standards: { connect: { id: 7 } } },
+          ],
+        },
+        words: {
+          create: [
+            { word: 'educational', questions: { connect: { id: 8 } } },
+            { word: 'stressful', questions: { connect: { id: 9 } } },
+          ],
+        },
+      },
+    }),
+    prisma.responses.create({
+      data: {
+        users: { connect: { id: userId } },
+        departments: { connect: { id: 1 } },
+        timestamp: new Date('2021-01-11 17:00:00'),
+        is_mentoring_session: true,
+        scores: {
+          create: [
+            { score: getRandomScore(), standards: { connect: { id: 1 } } },
+            { score: getRandomScore(), standards: { connect: { id: 2 } } },
+            { score: getRandomScore(), standards: { connect: { id: 3 } } },
+            { score: getRandomScore(), standards: { connect: { id: 4 } } },
+            { score: getRandomScore(), standards: { connect: { id: 5 } } },
+            { score: getRandomScore(), standards: { connect: { id: 6 } } },
+            { score: getRandomScore(), standards: { connect: { id: 7 } } },
+          ],
+        },
+        words: {
+          create: [
+            { word: 'pleasing', questions: { connect: { id: 8 } } },
+            { word: 'stressful', questions: { connect: { id: 9 } } },
+            { word: 'exhausting', questions: { connect: { id: 9 } } },
           ],
         },
       },

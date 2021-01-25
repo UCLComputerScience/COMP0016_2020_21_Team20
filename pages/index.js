@@ -101,14 +101,13 @@ export default function Home({ session }) {
 
   return (
     <div>
+      <Head>
+        <title>Care Quality Dashboard</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Header session={session} />
       <div className="hero">
         <div className="container">
-          <Head>
-            <title>Care Quality Dashboard</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <Header session={session} />
-
           {router.query && router.query.error && showError(router.query.error)}
           <main>
             <h1 className="title">Welcome to Care Quality Dashboard</h1>

@@ -1,6 +1,8 @@
-import { Header, LoginMessage } from '../../components';
+import { Button, Message } from 'rsuite';
+import { useRouter } from 'next/router';
+import { getSession } from 'next-auth/client';
 
-import { getSession, signOut } from 'next-auth/client';
+import { Header, LoginMessage } from '../../components';
 
 import setUserDepartmentAndRole from '../../lib/setUserDepartmentAndRole';
 import prisma from '../../lib/prisma';
@@ -20,7 +22,7 @@ export const getServerSideProps = async context => {
   // User must have no role to be able to join a department
   const session = await getSession(context);
   if (!session || session.roles[0] !== Roles.USER_TYPE_UNKNOWN) {
-    return { props: {} };
+    return { props: { session } };
   }
 
   const dbTable =
@@ -42,6 +44,8 @@ export const getServerSideProps = async context => {
 };
 
 function Join({ session, ...props }) {
+  const router = useRouter();
+
   if (!session) {
     return (
       <div>
@@ -52,7 +56,25 @@ function Join({ session, ...props }) {
   }
 
   if (props.success === true) {
-    setTimeout(() => signOut({ callbackUrl: '/' }), 5000);
+    return (
+      <>
+        <Header session={session} />
+        <Message
+          style={{ margin: 'auto', width: '50%', textAlign: 'center' }}
+          type="success"
+          title="Successfully joined department"
+          description={
+            <p>
+              You have successfully joined the department!
+              <br />
+              <br />
+              <Button appearance="primary" onClick={() => router.push('/')}>
+                Click here to go back to the homepage
+              </Button>
+            </p>
+          }></Message>
+      </>
+    );
   }
 
   return (
