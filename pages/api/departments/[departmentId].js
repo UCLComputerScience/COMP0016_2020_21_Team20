@@ -1,16 +1,9 @@
-import { getSession } from 'next-auth/client';
-
 import prisma from '../../../lib/prisma';
 import { Roles } from '../../../lib/constants';
+import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    res.end('Unauthorized access');
-    return;
-  }
+const handler = async (req, res) => {
+  const { session } = req;
 
   if (req.method === 'GET') {
     if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
@@ -69,4 +62,6 @@ export default async function handler(req, res) {
 
   res.statusCode = 405;
   res.end('HTTP Method Not Allowed');
-}
+};
+
+export default requiresAuth(handler);

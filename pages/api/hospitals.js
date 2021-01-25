@@ -1,16 +1,9 @@
+import requiresAuth from '../../lib/requiresAuthApiMiddleware';
 import prisma from '../../lib/prisma';
 import { Roles } from '../../lib/constants';
 
-import { getSession } from 'next-auth/client';
-
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    res.end('Unauthorized access');
-    return;
-  }
+const handler = async (req, res) => {
+  const { session } = req;
 
   if (req.method === 'GET') {
     if (!session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
@@ -30,4 +23,6 @@ export default async function handler(req, res) {
 
   res.statusCode = 405;
   res.end('HTTP Method Not Allowed');
-}
+};
+
+export default requiresAuth(handler);

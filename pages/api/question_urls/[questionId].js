@@ -1,16 +1,9 @@
-import { getSession } from 'next-auth/client';
-
 import prisma from '../../../lib/prisma';
 import { Roles } from '../../../lib/constants';
+import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    return res.end('Unauthorized access');
-  }
-
+const handler = async (req, res) => {
+  const { session } = req;
   const { questionId } = req.query;
 
   if (isNaN(questionId)) {
@@ -68,4 +61,6 @@ export default async function handler(req, res) {
 
   res.statusCode = 405;
   return res.end('HTTP Method Not Allowed');
-}
+};
+
+export default requiresAuth(handler);
