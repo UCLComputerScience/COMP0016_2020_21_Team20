@@ -7,20 +7,24 @@ const handler = async (req, res) => {
   const { questionId } = req.query;
 
   if (isNaN(questionId)) {
-    res.statusCode = 422;
-    return res.end('Invalid question ID provided');
+    return res
+      .status(422)
+      .json({ error: true, message: 'Invalid question ID provided' });
   }
 
   if (req.method === 'PUT') {
     if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to modify question URLs');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to modify question URLs',
+        });
     }
 
     const { url } = req.body;
     if (!url) {
-      res.statusCode = 422;
-      return res.end('No URL provided');
+      return res.status(422).json({ error: true, message: 'No URL provided' });
     }
 
     const response = await prisma.question_urls.upsert({
@@ -43,8 +47,12 @@ const handler = async (req, res) => {
 
   if (req.method === 'DELETE') {
     if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to delete question URLs');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to delete question URLs',
+        });
     }
 
     const response = await prisma.question_urls.delete({
@@ -59,8 +67,7 @@ const handler = async (req, res) => {
     return res.json(response);
   }
 
-  res.statusCode = 405;
-  return res.end('HTTP Method Not Allowed');
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
 };
 
 export default requiresAuth(handler);

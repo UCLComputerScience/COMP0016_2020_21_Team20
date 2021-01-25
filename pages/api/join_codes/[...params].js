@@ -12,30 +12,30 @@ const handler = async (req, res) => {
     ![Roles.USER_TYPE_DEPARTMENT, Roles.USER_TYPE_HOSPITAL].includes(type) ||
     !departmentId
   ) {
-    res.statusCode = 404;
-    return res.end('Route not found');
+    return res.status(404).json({ error: true, message: 'Route not found' });
   }
 
   if (req.method === 'PUT') {
     if (!session.roles.includes(type)) {
-      res.statusCode = 403;
-      return res.end(
-        `You do not have permission to modify
-         ${
-           type === Roles.USER_TYPE_DEPARTMENT
-             ? 'department-level'
-             : 'clinician-level'
-         } join codes`
-      );
+      return res.status(403).json({
+        error: true,
+        message: `You do not have permission to modify ${
+          type === Roles.USER_TYPE_DEPARTMENT
+            ? 'department-level'
+            : 'clinician-level'
+        } join codes`,
+      });
     }
 
     if (
       type === Roles.USER_TYPE_DEPARTMENT &&
       +departmentId !== session.user.departmentId
     ) {
-      return res.end(
-        'You do not have permission to modify join codes for a department you do not belong to'
-      );
+      return res.status(403).json({
+        error: true,
+        message:
+          'You do not have permission to modify join codes for a department you do not belong to',
+      });
     }
 
     const code = await createJoinCode();
@@ -56,8 +56,7 @@ const handler = async (req, res) => {
     return res.json({ code });
   }
 
-  res.statusCode = 405;
-  res.end('HTTP Method Not Allowed');
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
 };
 
 export default requiresAuth(handler);

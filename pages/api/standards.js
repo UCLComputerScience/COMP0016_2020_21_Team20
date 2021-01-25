@@ -8,8 +8,7 @@ const handler = async (req, res) => {
     return res.json(standards);
   }
 
-  res.statusCode = 405;
-  res.end('HTTP Method Not Allowed');
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
 };
 
 export default requiresAuth(handler);

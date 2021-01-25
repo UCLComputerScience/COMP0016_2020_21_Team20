@@ -7,8 +7,12 @@ const handler = async (req, res) => {
 
   if (req.method === 'GET') {
     if (!session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to view hospitals');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to view hospitals',
+        });
     }
 
     const hospitals = await prisma.hospitals.findMany({
@@ -21,8 +25,7 @@ const handler = async (req, res) => {
     return res.json(hospitals.map(h => ({ name: h.name, id: h.id })));
   }
 
-  res.statusCode = 405;
-  res.end('HTTP Method Not Allowed');
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
 };
 
 export default requiresAuth(handler);

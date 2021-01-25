@@ -10,8 +10,12 @@ const handler = async (req, res) => {
       !session.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
       !session.roles.includes(Roles.USER_TYPE_CLINICIAN)
     ) {
-      res.statusCode = 403;
-      return res.end('You do not belong to a specific department');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not belong to a specific department',
+        });
     }
 
     const result = await setUserDepartmentAndRole({
@@ -21,8 +25,7 @@ const handler = async (req, res) => {
     return res.json({ success: result });
   }
 
-  res.statusCode = 405;
-  res.end('HTTP Method Not Allowed');
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
 };
 
 export default requiresAuth(handler);
