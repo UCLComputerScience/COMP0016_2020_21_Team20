@@ -1,15 +1,7 @@
-import { getSession } from 'next-auth/client';
-
+import requiresAuth from '../../lib/requiresAuthApiMiddleware';
 import prisma from '../../lib/prisma';
 
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    return res.end('Unauthorized access');
-  }
-
+const handler = async (req, res) => {
   // Return a list of recently used words
   if (req.method === 'GET') {
     const words = await prisma.responses.findMany({
@@ -28,6 +20,7 @@ export default async function handler(req, res) {
     });
   }
 
-  res.statusCode = 405;
-  return res.end('HTTP Method Not Allowed');
-}
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
+};
+
+export default requiresAuth(handler);

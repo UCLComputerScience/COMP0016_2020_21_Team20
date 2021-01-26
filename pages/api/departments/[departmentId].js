@@ -1,23 +1,18 @@
-import { getSession } from 'next-auth/client';
-
 import prisma from '../../../lib/prisma';
 import { Roles } from '../../../lib/constants';
+import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    res.end('Unauthorized access');
-    return;
-  }
+const handler = async (req, res) => {
+  const { session } = req;
 
   if (req.method === 'GET') {
     if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
-      res.statusCode = 403;
-      return res.end(
-        'You do not have permission to view individual departments'
-      );
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to view individual departments',
+        });
     }
 
     const includes = {};
@@ -36,8 +31,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'DELETE') {
     if (!session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to delete departments');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to delete departments',
+        });
     }
 
     const isDepartmentInHospital = await prisma.departments.count({
@@ -50,8 +49,12 @@ export default async function handler(req, res) {
     });
 
     if (!isDepartmentInHospital) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to delete this department');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to delete this department',
+        });
     }
 
     const responses = await Promise.all([
@@ -67,6 +70,7 @@ export default async function handler(req, res) {
     return res.json({ success: responses.every(r => !!r) });
   }
 
-  res.statusCode = 405;
-  res.end('HTTP Method Not Allowed');
-}
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
+};
+
+export default requiresAuth(handler);

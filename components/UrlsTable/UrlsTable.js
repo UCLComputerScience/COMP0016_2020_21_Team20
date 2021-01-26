@@ -50,6 +50,7 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
+// TODO error handling
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/questions', {
     revalidateOnFocus: false,

@@ -1,30 +1,31 @@
-import { getSession } from 'next-auth/client';
-
+import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 import prisma from '../../../lib/prisma';
 import createJoinCode from '../../../lib/createJoinCode';
 import { Roles } from '../../../lib/constants';
 
 // TODO do we want to add an override to these methods to allow a health board/admin user to specify which hospital?
 // Or should it be tied to the session.user.hospitalId (as currently implemented)
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    res.end('Unauthorized access');
-    return;
-  }
+const handler = async (req, res) => {
+  const { session } = req;
 
   if (req.method === 'POST') {
     if (!session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to add new departments');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to add new departments',
+        });
     }
 
     const { name } = req.body;
     if (!name) {
-      res.statusCode = 422;
-      return res.end('The required department details are missing');
+      return res
+        .status(422)
+        .json({
+          error: true,
+          message: 'The required department details are missing',
+        });
     }
 
     const record = await prisma.departments.create({
@@ -48,8 +49,12 @@ export default async function handler(req, res) {
     const isHealthBoard = session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD);
 
     if (!isHospital && !isHealthBoard) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to view departments');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to view departments',
+        });
     }
 
     const where = { archived: { equals: false } };
@@ -76,6 +81,7 @@ export default async function handler(req, res) {
     );
   }
 
-  res.statusCode = 405;
-  res.end('HTTP Method Not Allowed');
-}
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
+};
+
+export default requiresAuth(handler);

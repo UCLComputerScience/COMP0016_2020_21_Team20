@@ -1,26 +1,28 @@
-import { getSession } from 'next-auth/client';
-
 import prisma from '../../../lib/prisma';
 import { Roles } from '../../../lib/constants';
+import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    return res.end('Unauthorized access');
-  }
+const handler = async (req, res) => {
+  const { session } = req;
 
   if (req.method === 'POST') {
     if (!session.roles.includes(Roles.USER_TYPE_ADMIN)) {
-      res.statusCode = 403;
-      return res.end('You do not have permission to add new questions');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not have permission to add new questions',
+        });
     }
 
     const { body, url, standard, type } = req.body;
     if (!body || !url || !standard || !type) {
-      res.statusCode = 422;
-      return res.end('The required question details are missing');
+      return res
+        .status(422)
+        .json({
+          error: true,
+          message: 'The required question details are missing',
+        });
     }
 
     const record = await prisma.questions.create({
@@ -81,6 +83,7 @@ export default async function handler(req, res) {
     return res.json(questionsToReturn);
   }
 
-  res.statusCode = 405;
-  return res.end('HTTP Method Not Allowed');
-}
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
+};
+
+export default requiresAuth(handler);

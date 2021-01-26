@@ -2,15 +2,6 @@
   width: 10%;
 }
 
-.circleLabel {
-  transform: translateY(0.2em);
-}
-
-.percentage {
-  font-size: 0.6em;
-  text-anchor: middle;
-}
-
 .leftOffset {
   margin-left: -15px;
 }

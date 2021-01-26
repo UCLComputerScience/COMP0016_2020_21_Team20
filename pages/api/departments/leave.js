@@ -1,24 +1,21 @@
-import { getSession } from 'next-auth/client';
-
+import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 import setUserDepartmentAndRole from '../../../lib/setUserDepartmentAndRole';
 import { Roles } from '../../../lib/constants';
 
-export default async function handler(req, res) {
-  const session = await getSession({ req });
-
-  if (!session) {
-    res.status = 401;
-    res.end('Unauthorized access');
-    return;
-  }
+const handler = async (req, res) => {
+  const { session } = req;
 
   if (req.method === 'POST') {
     if (
       !session.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
       !session.roles.includes(Roles.USER_TYPE_CLINICIAN)
     ) {
-      res.statusCode = 403;
-      return res.end('You do not belong to a specific department');
+      return res
+        .status(403)
+        .json({
+          error: true,
+          message: 'You do not belong to a specific department',
+        });
     }
 
     const result = await setUserDepartmentAndRole({
@@ -28,6 +25,7 @@ export default async function handler(req, res) {
     return res.json({ success: result });
   }
 
-  res.statusCode = 405;
-  res.end('HTTP Method Not Allowed');
-}
+  res.status(405).json({ error: true, message: 'Method Not Allowed' });
+};
+
+export default requiresAuth(handler);

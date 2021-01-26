@@ -69,6 +69,7 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
+// TODO error handling
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/questions?default_urls=1', {
     revalidateOnFocus: false,
@@ -78,6 +79,7 @@ const useDatabaseData = () => {
   return data ? data.likert_scale : [];
 };
 
+// TODO error handling
 const getStandards = () => {
   const { data, error } = useSWR('/api/standards', {
     revalidateOnFocus: false,
@@ -168,7 +170,10 @@ export default function QuestionsTable() {
   const confirmDelete = id => {
     setShowDeleteDialog(true);
     setDeleteDialogActions([
-      <Button key="alertdialog-edit" color="red" onClick={() => setShowDeleteDialog(false)}>
+      <Button
+        key="alertdialog-edit"
+        color="red"
+        onClick={() => setShowDeleteDialog(false)}>
         Cancel
       </Button>,
       <Button
@@ -225,7 +230,10 @@ export default function QuestionsTable() {
       </div>,
     ]);
     setDialogActions([
-      <Button key="alertdialog-edit" color="red" onClick={() => setShowDialog(false)}>
+      <Button
+        key="alertdialog-edit"
+        color="red"
+        onClick={() => setShowDialog(false)}>
         Cancel
       </Button>,
       <Button
