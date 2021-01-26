@@ -34,13 +34,18 @@ const options = {
   callbacks: {
     jwt: async (token, user, account, profile, isNewUser) => {
       if (profile) {
+        token.refreshToken = account.refreshToken;
         token.accessToken = account.accessToken;
         token.sub = account.sub;
       }
       return token;
     },
     session: async (session, user) => {
-      const profile = await getUserProfile(user.accessToken);
+      const profile = await getUserProfile(
+        user.accessToken,
+        user.refreshToken,
+        user
+      );
       if (!profile || profile.error) {
         console.error('Error fetching user profile', profile);
         session.roles = [Roles.USER_TYPE_UNKNOWN];
@@ -64,7 +69,8 @@ const options = {
   },
   events: {
     signIn: async message => handleUserSuccessfulLogin(message),
-    signOut: async message => handleUserLogout(message.accessToken), // Make sure all their sessions are killed in Keycloak
+    signOut: async message =>
+      handleUserLogout(message.accessToken, message.refreshToken), // Make sure all their sessions are killed in Keycloak
   },
   pages: { error: '/' },
 };
