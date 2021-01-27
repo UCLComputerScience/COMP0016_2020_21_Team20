@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRef } from 'react';
 
 import { Header } from '../components';
@@ -152,12 +150,7 @@ export default function Home({ session }) {
 
       <div className="features" ref={featuresRef}>
         <div className="feature">
-          <Image
-            src="/images/icons8-todo-list-96.png"
-            width={96}
-            height={96}
-            layout="intrinsic"
-          />
+          <img src="/images/icons8-todo-list-96.png" width={96} height={96} />
           <p>
             Complete your self-reporting on the device of your
             <br />
@@ -171,12 +164,7 @@ export default function Home({ session }) {
           </p>
         </div>
         <div className="feature">
-          <Image
-            src="/images/icons8-combo-chart-96.png"
-            width={96}
-            height={96}
-            layout="intrinsic"
-          />
+          <img src="/images/icons8-combo-chart-96.png" width={96} height={96} />
           <p>
             Track your self-reporting any time and on any device.
             <br />
@@ -192,12 +180,7 @@ export default function Home({ session }) {
           </p>
         </div>
         <div className="feature">
-          <Image
-            src="/images/icons8-people-96.png"
-            width={96}
-            height={96}
-            layout="intrinsic"
-          />
+          <img src="/images/icons8-people-96.png" width={96} height={96} />
           <p>
             Complete your self-reporting by yourself or as part of
             <br />
