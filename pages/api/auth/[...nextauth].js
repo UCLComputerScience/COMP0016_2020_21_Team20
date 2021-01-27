@@ -47,9 +47,11 @@ const options = {
         user
       );
       if (!profile || profile.error) {
-        console.error('Error fetching user profile', profile);
-        session.roles = [Roles.USER_TYPE_UNKNOWN];
-        return session;
+        console.error(
+          'Error fetching user profile, returning null session',
+          profile
+        );
+        return null;
       }
 
       // TODO move this to session.user.roles
@@ -64,13 +66,20 @@ const options = {
       session.user.healthBoardId = profile.health_board_id;
       return session;
     },
-    signIn: async (user, account, profile) =>
-      handleUserAttemptLogin(user, account, profile),
+    signIn: async (user, account, profile) => {
+      console.log('User attempting log in');
+      return handleUserAttemptLogin(user, account, profile);
+    },
   },
   events: {
-    signIn: async message => handleUserSuccessfulLogin(message),
-    signOut: async message =>
-      handleUserLogout(message.accessToken, message.refreshToken), // Make sure all their sessions are killed in Keycloak
+    signIn: async message => {
+      console.log('User logged in successfully');
+      return handleUserSuccessfulLogin(message);
+    },
+    signOut: async message => {
+      console.log('User signing out');
+      return handleUserLogout(message.accessToken, message.refreshToken); // Make sure all their sessions are killed in Keycloak
+    },
   },
   pages: { error: '/' },
 };

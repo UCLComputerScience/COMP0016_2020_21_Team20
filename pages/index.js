@@ -66,6 +66,21 @@ const errors = {
       </div>
     ),
   },
+  invaliduser: {
+    heading: 'Unable to sign in',
+    message: (
+      <div>
+        <p>There was an error logging in. Please try again.</p>
+        <p>
+          <Button
+            appearance="primary"
+            onClick={() => signIn('keycloak', { callbackUrl: '/' })}>
+            Sign in
+          </Button>
+        </p>
+      </div>
+    ),
+  },
 };
 
 export async function getServerSideProps(context) {
