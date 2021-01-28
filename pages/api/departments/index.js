@@ -9,23 +9,19 @@ const handler = async (req, res) => {
   const { session } = req;
 
   if (req.method === 'POST') {
-    if (!session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to add new departments',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to add new departments',
+      });
     }
 
     const { name } = req.body;
     if (!name) {
-      return res
-        .status(422)
-        .json({
-          error: true,
-          message: 'The required department details are missing',
-        });
+      return res.status(422).json({
+        error: true,
+        message: 'The required department details are missing',
+      });
     }
 
     const record = await prisma.departments.create({
@@ -45,16 +41,16 @@ const handler = async (req, res) => {
   }
 
   if (req.method === 'GET') {
-    const isHospital = session.roles.includes(Roles.USER_TYPE_HOSPITAL);
-    const isHealthBoard = session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD);
+    const isHospital = session.user.roles.includes(Roles.USER_TYPE_HOSPITAL);
+    const isHealthBoard = session.user.roles.includes(
+      Roles.USER_TYPE_HEALTH_BOARD
+    );
 
     if (!isHospital && !isHealthBoard) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to view departments',
-        });
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to view departments',
+      });
     }
 
     const where = { archived: { equals: false } };

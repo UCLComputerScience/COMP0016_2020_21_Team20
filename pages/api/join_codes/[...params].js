@@ -16,7 +16,7 @@ const handler = async (req, res) => {
   }
 
   if (req.method === 'PUT') {
-    if (!session.roles.includes(type)) {
+    if (!session.user.roles.includes(type)) {
       return res.status(403).json({
         error: true,
         message: `You do not have permission to modify ${

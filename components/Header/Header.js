@@ -23,7 +23,7 @@ function Header({ session }) {
   const mobileMenuRef = useRef(null);
 
   const renderLinks = () => {
-    const role = session.roles[0]; // TODO do we want to support multiple roles?
+    const role = session.user.roles[0]; // TODO do we want to support multiple roles?
     const pathsForRole = paths[role];
     if (!pathsForRole) return <span />;
 
@@ -35,12 +35,11 @@ function Header({ session }) {
   };
 
   useEffect(() => {
-
     //to ensure the right mode that is saved is displayed
-    if (window.localStorage.getItem("dark") === "true") {
-      document.body.classList.toggle("dark-mode", true);
+    if (window.localStorage.getItem('dark') === 'true') {
+      document.body.classList.toggle('dark-mode', true);
     } else {
-      document.body.classList.toggle("dark-mode", false);
+      document.body.classList.toggle('dark-mode', false);
     }
 
     const handleClickOutside = event => {
@@ -62,13 +61,12 @@ function Header({ session }) {
   }, [mobileMenuRef, isOpen]);
 
   const toggleDark = () => {
-    const wasLight = window.localStorage.getItem("dark") === "false";
-    window.localStorage.setItem("dark", (wasLight ? "true" : "false"));
+    const wasLight = window.localStorage.getItem('dark') === 'false';
+    window.localStorage.setItem('dark', wasLight ? 'true' : 'false');
     if (wasLight) {
-      document.body.classList.add("dark-mode");
-    }
-    else {
-      document.body.classList.remove("dark-mode");
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
     }
   };
 
@@ -96,7 +94,8 @@ function Header({ session }) {
           ) : (
             <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
           )}
-          <Button className={styles.themeToggle}
+          <Button
+            className={styles.themeToggle}
             appearance="ghost"
             onClick={() => toggleDark()}>
             <Icon icon="moon-o" />

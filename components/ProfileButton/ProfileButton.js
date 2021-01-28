@@ -8,7 +8,7 @@ import config from '../../lib/config';
 import { Roles } from '../../lib/constants';
 
 function ProfileButton({ session }) {
-  const role = session.roles[0];
+  const role = session.user.roles[0];
 
   return (
     <Dropdown title="Your account" icon={<Icon icon="user" />}>

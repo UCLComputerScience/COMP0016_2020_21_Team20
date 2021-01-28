@@ -19,7 +19,7 @@ export function Filters({ session, ...props }) {
   };
 
   const renderExtraFilters = () => {
-    if (session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
+    if (session.user.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
       return (
         <>
           <p>Group</p>
@@ -81,7 +81,7 @@ export function Filters({ session, ...props }) {
           />
         </>
       );
-    } else if (session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
       return (
         <>
           <p>Group</p>
@@ -130,7 +130,7 @@ export function Filters({ session, ...props }) {
           />
         </>
       );
-    } else if (session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+    } else if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       return (
         <>
           <p>Group</p>

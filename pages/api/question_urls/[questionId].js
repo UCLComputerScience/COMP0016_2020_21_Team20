@@ -13,13 +13,11 @@ const handler = async (req, res) => {
   }
 
   if (req.method === 'PUT') {
-    if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to modify question URLs',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to modify question URLs',
+      });
     }
 
     const { url } = req.body;
@@ -46,13 +44,11 @@ const handler = async (req, res) => {
   }
 
   if (req.method === 'DELETE') {
-    if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to delete question URLs',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to delete question URLs',
+      });
     }
 
     const response = await prisma.question_urls.delete({

@@ -6,18 +6,16 @@ const handler = async (req, res) => {
   const { session } = req;
 
   if (req.method === 'GET') {
-    if (!session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to view individual departments',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to view individual departments',
+      });
     }
 
     const includes = {};
 
-    if (session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+    if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       includes.clinician_join_codes = { select: { code: true } };
     }
 
@@ -30,13 +28,11 @@ const handler = async (req, res) => {
   }
 
   if (req.method === 'DELETE') {
-    if (!session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to delete departments',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to delete departments',
+      });
     }
 
     const isDepartmentInHospital = await prisma.departments.count({
@@ -49,12 +45,10 @@ const handler = async (req, res) => {
     });
 
     if (!isDepartmentInHospital) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to delete this department',
-        });
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to delete this department',
+      });
     }
 
     const responses = await Promise.all([

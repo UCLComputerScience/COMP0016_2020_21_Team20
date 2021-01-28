@@ -29,7 +29,7 @@ const handler = async (req, res) => {
       filters.push({ is_mentoring_session: false });
     }
 
-    if (session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+    if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       filters.push({
         departments: { id: { equals: session.user.departmentId } },
       });
@@ -37,7 +37,7 @@ const handler = async (req, res) => {
       if (userIdOverride && userIdOverride === session.user.userId) {
         filters.push({ user_id: { equals: session.user.userId } });
       }
-    } else if (session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
       filters.push({
         departments: { hospital_id: { equals: session.user.hospitalId } },
       });
@@ -47,7 +47,7 @@ const handler = async (req, res) => {
           departments: { id: { equals: +departmentIdOverride } },
         });
       }
-    } else if (session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
       filters.push({
         departments: {
           hospitals: {

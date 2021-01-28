@@ -31,7 +31,7 @@ function manage({ session, host }) {
       </div>
     );
   }
-  const role = session.roles[0]; // TODO do we want to support multiple roles?
+  const role = session.user.roles[0]; // TODO do we want to support multiple roles?
 
   return (
     <div>

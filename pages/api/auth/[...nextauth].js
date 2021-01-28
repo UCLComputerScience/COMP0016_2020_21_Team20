@@ -54,11 +54,11 @@ const options = {
         return null;
       }
 
-      // TODO move this to session.user.roles
-      session.roles = profile.roles.filter(r =>
+      session.user.roles = profile.roles.filter(r =>
         Object.values(Roles).includes(r)
       );
-      if (!session.roles.length) session.roles = [Roles.USER_TYPE_UNKNOWN];
+      if (!session.user.roles.length)
+        session.user.roles = [Roles.USER_TYPE_UNKNOWN];
 
       session.user.userId = profile.sub;
       session.user.departmentId = profile.department_id;
