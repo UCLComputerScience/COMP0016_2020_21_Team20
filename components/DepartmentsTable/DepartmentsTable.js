@@ -25,14 +25,13 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
-// TODO error handling
 const useDatabaseData = () => {
-  const { data, error } = useSWR('/api/departments', {
+  const { data, error, message} = useSWR('/api/departments', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
-  });
-
-  return data;
+  }); 
+  console.log(data, error, message);
+  return {data: data, error: error, message: message};
 };
 
 export default function DepartmentsTable({ host }) {
@@ -44,7 +43,12 @@ export default function DepartmentsTable({ host }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteDialogActions, setDeleteDialogActions] = useState([]);
   var newRow = { name: null };
-  let localData = useDatabaseData();
+  const { data, error, message} = useDatabaseData();
+  var localData = data;
+  if (error) {
+    Alert.error("Error: '" + message + "'. Please try again later or contact system administrator", 0);
+  }
+  console.log(localData);
 
   const regenerateInDatabase = async id => {
     const res = await fetch(
