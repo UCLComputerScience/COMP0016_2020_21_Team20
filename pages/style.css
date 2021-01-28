@@ -17,7 +17,7 @@ body {
 }
 
 .dark-mode {
-  --bg-color: #353535;
+  --bg-color: #121212;
   --text-color: #f6f9fc;
   --blue-text-color: #3498ff;
   color: var(--text-color);
