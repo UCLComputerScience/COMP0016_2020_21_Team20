@@ -153,10 +153,9 @@ function selfReporting({ session }) {
     );
   }
 
-  const role = session.user.roles[0]; // TODO do we want to support multiple roles?
   if (
-    role !== Roles.USER_TYPE_DEPARTMENT &&
-    role !== Roles.USER_TYPE_CLINICIAN
+    !session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
+    !session.user.roles.includes(Roles.USER_TYPE_CLINICIAN)
   ) {
     return (
       <div>

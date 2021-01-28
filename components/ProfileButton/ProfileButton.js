@@ -8,13 +8,11 @@ import config from '../../lib/config';
 import { Roles } from '../../lib/constants';
 
 function ProfileButton({ session }) {
-  const role = session.user.roles[0];
-
   return (
     <Dropdown title="Your account" icon={<Icon icon="user" />}>
       {/*only show leave option if clinician or department*/}
-      {(role === Roles.USER_TYPE_CLINICIAN ||
-        role === Roles.USER_TYPE_DEPARTMENT) && (
+      {(session.user.roles.includes(Roles.USER_TYPE_CLINICIAN) ||
+        session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) && (
         <Dropdown.Item>
           <LeaveDeptButton />
         </Dropdown.Item>

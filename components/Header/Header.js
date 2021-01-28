@@ -10,11 +10,11 @@ import { Roles } from '../../lib/constants';
 import { ProfileButton } from '..';
 
 const paths = {
-  [Roles.USER_TYPE_ADMIN]: ['manage'],
   [Roles.USER_TYPE_HEALTH_BOARD]: ['statistics'],
   [Roles.USER_TYPE_HOSPITAL]: ['statistics', 'manage'],
   [Roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-reporting', 'manage'],
   [Roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
+  [Roles.USER_TYPE_ADMIN]: ['admin'],
 };
 
 function Header({ session }) {
@@ -23,11 +23,13 @@ function Header({ session }) {
   const mobileMenuRef = useRef(null);
 
   const renderLinks = () => {
-    const role = session.user.roles[0]; // TODO do we want to support multiple roles?
-    const pathsForRole = paths[role];
-    if (!pathsForRole) return <span />;
+    const userPaths = [];
+    Object.entries(paths).forEach(([role, paths]) => {
+      if (!session.user.roles.includes(role)) return;
+      userPaths.push(...paths);
+    });
 
-    return pathsForRole.map((path, i) => (
+    return userPaths.map((path, i) => (
       <Link key={i} href={'/'.concat(path)}>
         <Nav.Item active={router.pathname === `/${path}`}>{path}</Nav.Item>
       </Link>

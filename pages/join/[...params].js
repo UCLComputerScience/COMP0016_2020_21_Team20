@@ -21,7 +21,7 @@ export const getServerSideProps = async context => {
 
   // User must have no role to be able to join a department
   const session = await getSession(context);
-  if (!session || session.user.roles[0] !== Roles.USER_TYPE_UNKNOWN) {
+  if (!session || !session.user.roles.includes(Roles.USER_TYPE_UNKNOWN)) {
     return { props: { session } };
   }
 
@@ -81,7 +81,7 @@ function Join({ session, ...props }) {
   return (
     <div>
       <Header session={session} />
-      {session.user.roles[0] !== Roles.USER_TYPE_UNKNOWN &&
+      {!session.user.roles.includes(Roles.USER_TYPE_UNKNOWN) &&
         'You are not eligible to join a department at this time.'}
       {props.invalidCode &&
         'Your join code is invalid. Please ensure your code has not expired and is exactly as you were provided.'}
