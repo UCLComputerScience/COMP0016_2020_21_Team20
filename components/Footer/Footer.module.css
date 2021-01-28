@@ -1,4 +1,4 @@
-.feedback {
+.footer {
   position: fixed;
   left: 0;
   bottom: 0;
@@ -7,5 +7,8 @@
   background-color: var(--bg-color);
   color: var(--text-color);
   border-top: 1px solid darkgrey;
-  text-align: center;
+}
+
+.About {
+  text-align: Center;
 }
