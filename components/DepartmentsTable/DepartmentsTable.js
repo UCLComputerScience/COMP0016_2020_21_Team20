@@ -26,12 +26,15 @@ const columns = [
 ];
 
 const useDatabaseData = () => {
-  const { data, error, message} = useSWR('/api/departments', {
+  const { data, error } = useSWR('/api/departments', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
-  }); 
-  console.log(data, error, message);
-  return {data: data, error: error, message: message};
+  });
+
+  if (data) {
+    return {data: data, error: error || data.error, message: data.message};
+  }
+  return {data: null, error: error , message: error ? error.message : null};
 };
 
 export default function DepartmentsTable({ host }) {
@@ -43,12 +46,11 @@ export default function DepartmentsTable({ host }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteDialogActions, setDeleteDialogActions] = useState([]);
   var newRow = { name: null };
-  const { data, error, message} = useDatabaseData();
-  var localData = data;
+  const { data, error, message } = useDatabaseData();
+  const localData = data;
   if (error) {
-    Alert.error("Error: '" + message + "'. Please try again later or contact system administrator", 0);
+    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
   }
-  console.log(localData);
 
   const regenerateInDatabase = async id => {
     const res = await fetch(
@@ -199,7 +201,7 @@ export default function DepartmentsTable({ host }) {
         }
         actions={deleteDialogActions}
       />
-      <CustomTable
+      {!error && <CustomTable
         tableType="departments"
         host={host}
         data={localData}
@@ -208,7 +210,7 @@ export default function DepartmentsTable({ host }) {
         showCopyAlert={() => showCopyAlert()}
         regenerateCode={id => regenerateCode(id)}
         confirmDelete={id => confirmDelete(id)}
-      />
+        />}
     </div>
   );
 }

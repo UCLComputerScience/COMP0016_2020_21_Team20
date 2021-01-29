@@ -1,5 +1,6 @@
 import querystring from 'querystring';
 import { useState } from 'react';
+import { Alert } from 'rsuite';
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 
@@ -62,7 +63,6 @@ function statistics({ session }) {
     end: new Date(),
   });
 
-  // TODO error handling
   const { data, error } = useSWR(
     `/api/responses?${generateQueryParams({
       start: dateRange.start.getTime(),
@@ -71,6 +71,21 @@ function statistics({ session }) {
       dataToDisplayOverride,
     })}`
   );
+
+  var localData, localError, localMessage;
+  if (data) {
+    localData = data;
+    localError = error || data.error;
+    localMessage = data.message;
+  } else {
+    localData = null;
+    localError = error;
+    localMessage = error ? error.message : null;
+  }
+
+  if (localError) {
+    Alert.error("Error: '" + localMessage + "'. Please reload/try again later or the contact system administrator", 0);
+  }
 
   if (!session) {
     return (
@@ -92,7 +107,7 @@ function statistics({ session }) {
   }
 
   const getAverage = name => {
-    const average = data ? data.averages[name] : null;
+    const average = !localError ? localData ? localData.averages[name] : null : null;
     return average ? Math.ceil(average * 25) : 0;
   };
 
@@ -131,8 +146,8 @@ function statistics({ session }) {
           {visualisationType === Visualisations.LINE_CHART ? (
             <LineChart
               data={
-                data
-                  ? data.responses.map(d => ({
+                !localError ? localData
+                  ? localData.responses.map(d => ({
                       is_mentoring_session: d.is_mentoring_session,
                       timestamp: d.timestamp,
                       scores: d.scores.map(s => ({
@@ -142,13 +157,15 @@ function statistics({ session }) {
                       })),
                     }))
                   : null
+                  : null
               }
             />
           ) : (
             <WordCloud
               words={
-                data
-                  ? data.responses.map(r => r.words.map(w => w.word)).flat()
+                !localError ? localData
+                  ? localData.responses.map(r => r.words.map(w => w.word)).flat()
+                  : null
                   : null
               }
             />

@@ -69,24 +69,28 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
-// TODO error handling
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/questions?default_urls=1', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
 
-  return data ? data.likert_scale : [];
+  if (data) {
+    return {data: data ? data.likert_scale : [], error: error || data.error, message: data.message};
+  }
+  return {data: null, error: error , message: error ? error.message : null};
 };
 
-// TODO error handling
 const getStandards = () => {
   const { data, error } = useSWR('/api/standards', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
 
-  return data;
+  if (data) {
+    return {data2: data, error2: error || data.error, message2: data.message};
+  }
+  return {data2: null, error2: error , message2: error ? error.message : null};
 };
 
 var standards = [];
@@ -102,8 +106,19 @@ export default function QuestionsTable() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteDialogActions, setDeleteDialogActions] = useState([]);
   var newRow = { body: null, url: null, standard: -1, type: 'likert_scale' };
-  let localData = useDatabaseData();
+  const { data, error, message } = useDatabaseData();
+  const localData = data;
+  if (error) {
+    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
+  }
+
   standards = getStandards();
+
+  const { data2, error2, message2 } = getStandards();
+  standards = data2;
+  if (error2) {
+    Alert.error("Error: '" + message2 + "'. Please reload/try again later or the contact system administrator", 0);
+  }
 
   const resetNewRow = () => {
     newRow = { body: null, url: null, standard: -1, type: 'likert_scale' };
@@ -215,7 +230,7 @@ export default function QuestionsTable() {
           defaultValue={newRow.standard}
           onChange={value => (newRow.standard = value)}
           placeholder="Choose Standard"
-          data={standards.map(standard => ({
+          data={!error2 && standards.map(standard => ({
             label: standard.name,
             value: standard.id,
           }))}

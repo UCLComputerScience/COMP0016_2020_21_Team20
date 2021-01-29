@@ -7,18 +7,24 @@ import styles from './ClinicianJoinCode.module.css';
 import useSWR from '../../lib/swr';
 import { Roles } from '../../lib/constants';
 
-// TODO error handling
 const getCode = id => {
   const { data, error } = useSWR('/api/departments/' + id, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
 
-  return data;
+  if (data) {
+    return {data: data, error: error || data.error, message: data.message};
+  }
+  return {data: null, error: error , message: error ? error.message : null};
 };
 
 function ClinicianJoinCode({ session, host }) {
-  const code = getCode(session.user.departmentId);
+  const { data, error, message} = getCode(session.user.departmentId);
+  const code = data;
+  if (error) {
+    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
+  }
 
   const regenerateInDatabase = async id => {
     const res = await fetch(
@@ -45,20 +51,24 @@ function ClinicianJoinCode({ session, host }) {
     <div className={styles.content}>
       <div className={styles.url}>
         {'Please send this unique URL to clinicians so they can join your ' +
-          (code !== undefined ? code['0']['name'] : 'loading...') +
+          (!error ? code ? code['0']['name'] : 'loading...' : 'error') +
           ' department:'}{' '}
         {`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
-          code !== undefined
-            ? code['0']['clinician_join_codes']['code']
-            : 'loading...'
+          !error ?
+            code
+              ? code['0']['clinician_join_codes']['code']
+              : 'loading...'
+              : 'error'
         }`}
       </div>
       <div className={styles.actions}>
         <CopyToClipboard
           text={`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
-            code !== undefined
-              ? code['0']['clinician_join_codes']['code']
-              : 'loading...'
+            !error ?
+              code
+                ? code['0']['clinician_join_codes']['code']
+                : 'loading...' 
+                : 'error'
           }`}>
           <Button appearance="primary" onClick={() => showCopyAlert()}>
             <Icon icon="clone" /> Copy to clipboard
