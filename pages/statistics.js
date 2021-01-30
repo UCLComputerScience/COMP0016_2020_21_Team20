@@ -107,7 +107,7 @@ function statistics({ session }) {
   }
 
   const getAverage = name => {
-    const average = !localError ? localData ? localData.averages[name] : null : null;
+    const average = !localError && localData ? localData.averages[name] : null;
     return average ? Math.ceil(average * 25) : 0;
   };
 
@@ -146,7 +146,7 @@ function statistics({ session }) {
           {visualisationType === Visualisations.LINE_CHART ? (
             <LineChart
               data={
-                !localError ? localData
+                !localError && localData
                   ? localData.responses.map(d => ({
                       is_mentoring_session: d.is_mentoring_session,
                       timestamp: d.timestamp,
@@ -157,15 +157,13 @@ function statistics({ session }) {
                       })),
                     }))
                   : null
-                  : null
               }
             />
           ) : (
             <WordCloud
               words={
-                !localError ? localData
+                !localError && localData
                   ? localData.responses.map(r => r.words.map(w => w.word)).flat()
-                  : null
                   : null
               }
             />
