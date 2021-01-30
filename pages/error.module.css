@@ -1,0 +1,28 @@
+.header {
+  position: sticky;
+  z-index: 2;
+  background-color: var(--bg-color);
+  top: 0px;
+  height: 40px;
+  margin: auto;
+  margin-bottom: 10px;
+  border-bottom: 1px solid darkgrey;
+  margin-top: -10px;
+  width: 100%;
+}
+
+.logoWrapper {
+  margin-top: -5px;
+}
+
+.logo {
+  color: var(--blue-text-color);
+  cursor: pointer;
+  font-size: 1.5em;
+  margin-top: -5px;
+}
+
+.content {
+  text-align: center;
+  margin: 10px;
+}
