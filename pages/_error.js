@@ -16,8 +16,8 @@ function Error({ statusCode }) {
         <div className={styles.content}>
             <p>
             {statusCode
-                ? `An error ${statusCode} occurred on server`
-                : 'An error occurred on client'}
+                ? `A ${statusCode} error occurred on the server. Please try again later or contact the system administrator if the issue persists.`
+                : 'An unknown error occurred. Please try again later or contact the system administrator if the issue persists.'}
             </p>
             <Link href="/">
               <Button appearance="primary" >Go to home page</Button>
