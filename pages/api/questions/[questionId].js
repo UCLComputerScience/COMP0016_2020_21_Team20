@@ -14,25 +14,21 @@ const handler = async (req, res) => {
 
   if (req.method === 'PUT') {
     if (
-      !session.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
-      !session.roles.includes(Roles.USER_TYPE_ADMIN)
+      !session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
+      !session.user.roles.includes(Roles.USER_TYPE_ADMIN)
     ) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to modify questions',
-        });
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to modify questions',
+      });
     }
 
     const { body, url, standard } = req.body;
     if (!body && !url && !standard) {
-      return res
-        .status(422)
-        .json({
-          error: true,
-          message: 'The required question details are missing',
-        });
+      return res.status(422).json({
+        error: true,
+        message: 'The required question details are missing',
+      });
     }
 
     // Note: we don't support changing the standard of a question (otherwise users will
@@ -51,13 +47,11 @@ const handler = async (req, res) => {
   }
 
   if (req.method === 'DELETE') {
-    if (!session.roles.includes(Roles.USER_TYPE_ADMIN)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to delete questions',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_ADMIN)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to delete questions',
+      });
     }
 
     const response = await prisma.questions.update({

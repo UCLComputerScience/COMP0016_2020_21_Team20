@@ -7,15 +7,13 @@ const handler = async (req, res) => {
 
   if (req.method === 'POST') {
     if (
-      !session.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
-      !session.roles.includes(Roles.USER_TYPE_CLINICIAN)
+      !session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
+      !session.user.roles.includes(Roles.USER_TYPE_CLINICIAN)
     ) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not belong to a specific department',
-        });
+      return res.status(403).json({
+        error: true,
+        message: 'You do not belong to a specific department',
+      });
     }
 
     const result = await setUserDepartmentAndRole({

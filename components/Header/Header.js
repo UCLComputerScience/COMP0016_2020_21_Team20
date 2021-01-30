@@ -10,11 +10,11 @@ import { Roles } from '../../lib/constants';
 import { ProfileButton } from '..';
 
 const paths = {
-  [Roles.USER_TYPE_ADMIN]: ['manage'],
   [Roles.USER_TYPE_HEALTH_BOARD]: ['statistics'],
   [Roles.USER_TYPE_HOSPITAL]: ['statistics', 'manage'],
   [Roles.USER_TYPE_DEPARTMENT]: ['statistics', 'self-reporting', 'manage'],
   [Roles.USER_TYPE_CLINICIAN]: ['statistics', 'self-reporting'],
+  [Roles.USER_TYPE_ADMIN]: ['admin'],
 };
 
 function Header({ session }) {
@@ -23,11 +23,13 @@ function Header({ session }) {
   const mobileMenuRef = useRef(null);
 
   const renderLinks = () => {
-    const role = session.roles[0]; // TODO do we want to support multiple roles?
-    const pathsForRole = paths[role];
-    if (!pathsForRole) return <span />;
+    const userPaths = [];
+    Object.entries(paths).forEach(([role, paths]) => {
+      if (!session.user.roles.includes(role)) return;
+      userPaths.push(...paths);
+    });
 
-    return pathsForRole.map((path, i) => (
+    return userPaths.map((path, i) => (
       <Link key={i} href={'/'.concat(path)}>
         <Nav.Item active={router.pathname === `/${path}`}>{path}</Nav.Item>
       </Link>
@@ -35,12 +37,11 @@ function Header({ session }) {
   };
 
   useEffect(() => {
-
     //to ensure the right mode that is saved is displayed
-    if (window.localStorage.getItem("dark") === "true") {
-      document.body.classList.toggle("dark-mode", true);
+    if (window.localStorage.getItem('dark') === 'true') {
+      document.body.classList.toggle('dark-mode', true);
     } else {
-      document.body.classList.toggle("dark-mode", false);
+      document.body.classList.toggle('dark-mode', false);
     }
 
     const handleClickOutside = event => {
@@ -62,13 +63,12 @@ function Header({ session }) {
   }, [mobileMenuRef, isOpen]);
 
   const toggleDark = () => {
-    const wasLight = window.localStorage.getItem("dark") === "false";
-    window.localStorage.setItem("dark", (wasLight ? "true" : "false"));
+    const wasLight = window.localStorage.getItem('dark') === 'false';
+    window.localStorage.setItem('dark', wasLight ? 'true' : 'false');
     if (wasLight) {
-      document.body.classList.add("dark-mode");
-    }
-    else {
-      document.body.classList.remove("dark-mode");
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
     }
   };
 
@@ -96,7 +96,8 @@ function Header({ session }) {
           ) : (
             <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
           )}
-          <Button className={styles.themeToggle}
+          <Button
+            className={styles.themeToggle}
             appearance="ghost"
             onClick={() => toggleDark()}>
             <Icon icon="moon-o" />

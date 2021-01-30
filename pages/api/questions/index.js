@@ -6,23 +6,19 @@ const handler = async (req, res) => {
   const { session } = req;
 
   if (req.method === 'POST') {
-    if (!session.roles.includes(Roles.USER_TYPE_ADMIN)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to add new questions',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_ADMIN)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to add new questions',
+      });
     }
 
     const { body, url, standard, type } = req.body;
     if (!body || !url || !standard || !type) {
-      return res
-        .status(422)
-        .json({
-          error: true,
-          message: 'The required question details are missing',
-        });
+      return res.status(422).json({
+        error: true,
+        message: 'The required question details are missing',
+      });
     }
 
     const record = await prisma.questions.create({

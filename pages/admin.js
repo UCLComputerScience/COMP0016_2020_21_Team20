@@ -2,11 +2,9 @@ import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 
 import {
-  UrlsTable,
   Header,
   LoginMessage,
   QuestionsTable,
-  DepartmentsTable,
   NoAccess,
   FeedbackNotification,
 } from '../components';
@@ -41,20 +39,10 @@ function manage({ session, host }) {
       <div style={{ zIndex: 1000, position: 'relative' }}>
         <Header session={session} />
       </div>
-      {session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) ? (
-        <div>
-          <h3>Manage the URLs of each question</h3>
-          <UrlsTable session={session} host={host} />
-        </div>
-      ) : session.user.roles.includes(Roles.USER_TYPE_ADMIN) ? (
+      {session.user.roles.includes(Roles.USER_TYPE_ADMIN) ? (
         <div>
           <h3>Manage and add new questions</h3>
           <QuestionsTable />
-        </div>
-      ) : session.user.roles.includes(Roles.USER_TYPE_HOSPITAL) ? (
-        <div>
-          <h3>Manage and add new departments</h3>
-          <DepartmentsTable host={host} />
         </div>
       ) : (
         <NoAccess />

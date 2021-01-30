@@ -6,13 +6,11 @@ const handler = async (req, res) => {
   const { session } = req;
 
   if (req.method === 'GET') {
-    if (!session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
-      return res
-        .status(403)
-        .json({
-          error: true,
-          message: 'You do not have permission to view hospitals',
-        });
+    if (!session.user.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to view hospitals',
+      });
     }
 
     const hospitals = await prisma.hospitals.findMany({

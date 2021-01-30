@@ -29,7 +29,11 @@ const handler = async (req, res) => {
       filters.push({ is_mentoring_session: false });
     }
 
-    if (session.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+    if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+      if (!session.user.departmentId) {
+        return res.json({ responses: [], averages: {} });
+      }
+
       filters.push({
         departments: { id: { equals: session.user.departmentId } },
       });
@@ -37,7 +41,11 @@ const handler = async (req, res) => {
       if (userIdOverride && userIdOverride === session.user.userId) {
         filters.push({ user_id: { equals: session.user.userId } });
       }
-    } else if (session.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+      if (!session.user.hospitalId) {
+        return res.json({ responses: [], averages: {} });
+      }
+
       filters.push({
         departments: { hospital_id: { equals: session.user.hospitalId } },
       });
@@ -47,7 +55,11 @@ const handler = async (req, res) => {
           departments: { id: { equals: +departmentIdOverride } },
         });
       }
-    } else if (session.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
+      if (!session.user.healthBoardId) {
+        return res.json({ responses: [], averages: {} });
+      }
+
       filters.push({
         departments: {
           hospitals: {
@@ -62,6 +74,10 @@ const handler = async (req, res) => {
         });
       }
     } else {
+      if (!session.user.userId) {
+        return res.json({ responses: [], averages: {} });
+      }
+
       // Default to lowest-level i.e. logged in user's data
       filters.push({ user_id: { equals: session.user.userId } });
     }

@@ -1,6 +1,6 @@
 .header {
   position: sticky;
-  z-index: 2;
+  z-index: 10;
   background-color: var(--bg-color);
   top: 0px;
   height: 40px;
