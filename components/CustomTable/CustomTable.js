@@ -141,7 +141,7 @@ function CustomTable({ host, ...props }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.data !== undefined &&
+          {props.data &&
             props.data.map((row, i) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>

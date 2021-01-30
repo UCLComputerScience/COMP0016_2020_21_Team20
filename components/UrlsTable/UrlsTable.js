@@ -50,21 +50,27 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
-// TODO error handling
 const useDatabaseData = () => {
   const { data, error } = useSWR('/api/questions', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
 
-  return data ? data.likert_scale : [];
+  if (data) {
+    return {data: data ? data.likert_scale : [], error: error || data.error, message: data.message};
+  }
+  return {data: null, error: error , message: error ? error.message : null};
 };
 
 var editedRow = null;
 
 export default function UrlsTable({ session, host }) {
   const [editing, setEditing] = useState(null);
-  let localData = useDatabaseData();
+  const { data, error, message } = useDatabaseData();
+  const localData = data;
+  if (error) {
+    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
+  }
 
   const sendDataToDatabase = async () => {
     const res = await fetch('/api/question_urls/' + editedRow['id'], {
