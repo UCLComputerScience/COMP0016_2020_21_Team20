@@ -38,7 +38,7 @@ export async function getServerSideProps(context) {
   return { props: { session: await getSession(context) } };
 }
 
-function selfReporting({ session }) {
+function selfReporting({ session, toggleTheme }) {
   const router = useRouter();
   const { data: words } = useSWR('/api/recent_words', {
     revalidateOnFocus: false,
@@ -147,7 +147,7 @@ function selfReporting({ session }) {
   if (!session) {
     return (
       <div>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
         <LoginMessage />
       </div>
     );
@@ -159,7 +159,7 @@ function selfReporting({ session }) {
   ) {
     return (
       <div>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
         <NoAccess />
       </div>
     );
@@ -171,7 +171,7 @@ function selfReporting({ session }) {
         <title>Self-reporting</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header session={session} />
+      <Header session={session} toggleTheme={toggleTheme} />
       <AlertDialog
         open={showDialog}
         setOpen={setShowDialog}

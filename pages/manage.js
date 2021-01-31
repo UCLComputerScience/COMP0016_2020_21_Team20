@@ -22,11 +22,11 @@ export async function getServerSideProps(context) {
   };
 }
 
-function manage({ session, host }) {
+function manage({ session, host, toggleTheme }) {
   if (!session) {
     return (
       <div>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
         <LoginMessage />
       </div>
     );
@@ -39,7 +39,7 @@ function manage({ session, host }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div style={{ zIndex: 1000, position: 'relative' }}>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
       </div>
       {session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) ? (
         <div>

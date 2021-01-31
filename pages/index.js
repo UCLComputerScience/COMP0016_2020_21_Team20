@@ -87,7 +87,7 @@ export async function getServerSideProps(context) {
   return { props: { session: await getSession(context) } };
 }
 
-export default function Home({ session }) {
+export default function Home({ session, toggleTheme }) {
   const router = useRouter();
   const featuresRef = useRef(null);
 
@@ -118,7 +118,7 @@ export default function Home({ session }) {
         <title>Care Quality Dashboard</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header session={session} />
+      <Header session={session} toggleTheme={toggleTheme} />
       <div className="hero">
         <div className="container">
           {router.query && router.query.error && showError(router.query.error)}
