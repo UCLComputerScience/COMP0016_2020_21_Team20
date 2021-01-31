@@ -228,7 +228,8 @@ function selfReporting({ session, toggleTheme }) {
           appearance="primary"
           onClick={() => handleSubmit()}
           placement="right"
-          icon={<Icon icon="send" />}>
+          icon={<Icon icon="send" />}
+          block>
           Submit
         </IconButton>
       </div>
