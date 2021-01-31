@@ -3,8 +3,6 @@ import prisma from '../../../lib/prisma';
 import createJoinCode from '../../../lib/createJoinCode';
 import { Roles } from '../../../lib/constants';
 
-// TODO do we want to add an override to these methods to allow a health board/admin user to specify which hospital?
-// Or should it be tied to the session.user.hospitalId (as currently implemented)
 const handler = async (req, res) => {
   const { session } = req;
 
