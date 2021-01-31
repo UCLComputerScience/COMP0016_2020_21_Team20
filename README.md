@@ -85,7 +85,15 @@ If you need to make some test users to play around with locally, you'll can use 
 
 <img width="50%" alt="Edit password screen" src="./docs/new-user-creds.png" />
 
-7. Repeat for any other users you need
+7. Add a `department_id`, `hospital_id`, or `health_board_id` to their user attributes, matching the ID of their corresponding department/hospital/health board.
+
+8. Repeat for any other users you need
+
+You might also want to seed some dummy responses for the new user:
+
+1. First, login as this user on your local server. This is needed so that the User ID is added to our database, which only happens on the first login. You'll get an error about no matching parent ID for nested inserts if you don't do this first!
+
+2. Run `node prisma/seedResponses.js USER_ID`, replacing `USER_ID` with the new user's ID, which you can copy from Keycloak.
 
 ## Database
 
@@ -95,13 +103,21 @@ The SQL Schema can be found in [`schema.sql`](./schema.sql).
 
 Make sure you have a `.env` file in [`./prisma`](./prisma) with the `DATABASE_URL` property set to the [PostgreSQL connection URL](https://www.prisma.io/docs/concepts/database-connectors/postgresql).
 
-To introspect the PostgreSQL database and generate a Prisma Schema, run the following command:
+If you've made a change to the database [`schema.sql`](./schema.sql), you'll need to introspect the PostgreSQL database and generate a new Prisma Schema:
 
 ```bash
 npx prisma introspect
 ```
 
 This should generate the [`./prisma/schema.prisma`](./prisma/schema.prisma) file, based on the SQL database schema.
+
+You should then run the database migrations, using Prisma Migrate:
+
+```bash
+npx prisma migrate dev --preview-feature
+```
+
+This will ask you to name the migration, so give it a short but concise name using `snake_case`.
 
 Finally, to generate the Prisma Client, for use in our code, run:
 
@@ -110,5 +126,13 @@ npx prisma generate
 ```
 
 This will generate the database-specific Prisma Client into `./node_modules/.prisma`.
+
+Note: if you're pulling migrations made by another developer, you can just run:
+
+```bash
+npx prisma migrate dev --preview-feature
+```
+
+to apply the migrations on your local database!
 
 See the [Prisma docs](https://www.prisma.io/docs/) for more detailed information and the API reference.
