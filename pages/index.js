@@ -136,10 +136,20 @@ export default function Home({ session, toggleTheme }) {
               However, if you spot something that doesn't look right please do
               let us know (via Trello or Whatsapp) and we'll get it fixed!
             </p>
-            {/*TODO maybe if unknown user type add an input where they can put their join url? */}
             {!session && (
               <div className="loginButton">
-                <h2> Get started </h2>
+                <h2>Get started</h2>
+                <p
+                  style={{ width: '60%', margin: 'auto', marginBottom: '5px' }}>
+                  If this is your first time using the Care Quality Dashboard,
+                  please contact your department or hospital manager to obtain a
+                  unique Join URL.
+                  <br />
+                  <br />
+                  This will automatically link your account to your
+                  corresponding department or hospital, so you can start
+                  completing self-reports and viewing your statistics.
+                </p>
                 <Button appearance="primary" onClick={() => signIn('keycloak')}>
                   Login or Register
                 </Button>

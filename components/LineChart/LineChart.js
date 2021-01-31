@@ -14,7 +14,6 @@ const baseProperties = {
   // data, label, borderColor remaining
 };
 
-// TODO clean up this logic
 const formatData = data => {
   const formattedData = {
     labels: data.map(d => new Date(d.timestamp)),

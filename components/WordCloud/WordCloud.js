@@ -74,7 +74,6 @@ function WordCloud(props) {
       transitionDuration: 100,
     };
 
-    // TODO play around with the options for best UI
     return (
       <div style={{ height: 400, width: 600, margin: 'auto' }}>
         <ReactWordcloud words={Object.values(words)} options={options} />
