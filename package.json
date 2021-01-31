@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --ext .ts,.tsx,.js,.jsx"
+    "lint": "eslint --ext .ts,.tsx,.js,.jsx",
+    "deploy-migrations": "prisma migrate deploy --preview-feature"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
