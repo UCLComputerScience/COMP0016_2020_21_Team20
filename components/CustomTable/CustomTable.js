@@ -132,6 +132,7 @@ function CustomTable({ host, ...props }) {
           <TableRow>
             {props.columns.map(column => (
               <TableCell
+                className={styles.tableCell}
                 key={column.id}
                 align={column.align}
                 style={{ width: column.width }}>
@@ -147,7 +148,10 @@ function CustomTable({ host, ...props }) {
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {props.columns.map(column => {
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell
+                        className={styles.tableCell}
+                        key={column.id}
+                        align={column.align}>
                         {column.id !== 'actions'
                           ? column.render(props.editing === i, row, host)
                           : props.tableType === 'departments'

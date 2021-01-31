@@ -17,7 +17,7 @@ const paths = {
   [Roles.USER_TYPE_ADMIN]: ['admin'],
 };
 
-function Header({ session }) {
+function Header({ session, toggleTheme }) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const mobileMenuRef = useRef(null);
@@ -37,13 +37,6 @@ function Header({ session }) {
   };
 
   useEffect(() => {
-    //to ensure the right mode that is saved is displayed
-    if (window.localStorage.getItem('dark') === 'true') {
-      document.body.classList.toggle('dark-mode', true);
-    } else {
-      document.body.classList.toggle('dark-mode', false);
-    }
-
     const handleClickOutside = event => {
       if (
         mobileMenuRef.current &&
@@ -61,16 +54,6 @@ function Header({ session }) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [mobileMenuRef, isOpen]);
-
-  const toggleDark = () => {
-    const wasLight = window.localStorage.getItem('dark') === 'false';
-    window.localStorage.setItem('dark', wasLight ? 'true' : 'false');
-    if (wasLight) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-  };
 
   return (
     <Nav className={styles.header}>
@@ -99,7 +82,7 @@ function Header({ session }) {
           <Button
             className={styles.themeToggle}
             appearance="ghost"
-            onClick={() => toggleDark()}>
+            onClick={toggleTheme}>
             <Icon icon="moon-o" />
           </Button>
         </div>

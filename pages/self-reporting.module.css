@@ -25,7 +25,14 @@
 }
 
 .submit {
-  display: block;
+  width: auto !important;
   margin: auto;
   margin-top: 10px;
+}
+
+.loading {
+  display: block !important;
+  height: 55px;
+  margin: 10px;
+  text-align: center;
 }

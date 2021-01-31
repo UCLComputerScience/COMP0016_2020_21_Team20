@@ -52,7 +52,7 @@ export async function getServerSideProps(context) {
   return { props: { session: await getSession(context) } };
 }
 
-function statistics({ session }) {
+function statistics({ session, toggleTheme }) {
   const [isMentoringSession, setIsMentoringSession] = useState(null);
   const [dataToDisplayOverride, setDataToDisplayOverride] = useState(null);
   const [visualisationType, setVisualisationType] = useState(
@@ -84,13 +84,18 @@ function statistics({ session }) {
   }
 
   if (localError) {
-    Alert.error("Error: '" + localMessage + "'. Please reload/try again later or the contact system administrator", 0);
+    Alert.error(
+      "Error: '" +
+        localMessage +
+        "'. Please reload/try again later or the contact system administrator",
+      0
+    );
   }
 
   if (!session) {
     return (
       <div>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
         <LoginMessage />
       </div>
     );
@@ -104,7 +109,7 @@ function statistics({ session }) {
   ) {
     return (
       <div>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
         <NoAccess />
       </div>
     );
@@ -129,7 +134,7 @@ function statistics({ session }) {
         <title>Statistics</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header session={session} />
+      <Header session={session} toggleTheme={toggleTheme} />
       <CirclesAccordion circles={circles} />
       <div className={styles.content}>
         <div className={styles.filters}>
@@ -167,7 +172,9 @@ function statistics({ session }) {
             <WordCloud
               words={
                 !localError && localData
-                  ? localData.responses.map(r => r.words.map(w => w.word)).flat()
+                  ? localData.responses
+                      .map(r => r.words.map(w => w.word))
+                      .flat()
                   : null
               }
             />

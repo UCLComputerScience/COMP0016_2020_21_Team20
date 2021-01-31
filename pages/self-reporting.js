@@ -2,7 +2,15 @@ import { useState } from 'react';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Button, IconButton, Icon, Toggle, Alert } from 'rsuite';
+import {
+  Button,
+  IconButton,
+  Icon,
+  Toggle,
+  Alert,
+  Loader,
+  Message,
+} from 'rsuite';
 
 import styles from './self-reporting.module.css';
 
@@ -30,7 +38,7 @@ const useQuestions = () => {
     likertScaleQuestions: data ? data.likert_scale : [],
     wordsQuestions: data ? data.words : [],
     isQuestionsLoading: !error && !data,
-    questionsError: error,
+    questionsError: data ? data.error : error,
   };
 };
 
@@ -38,14 +46,13 @@ export async function getServerSideProps(context) {
   return { props: { session: await getSession(context) } };
 }
 
-function selfReporting({ session }) {
+function selfReporting({ session, toggleTheme }) {
   const router = useRouter();
   const { data: words } = useSWR('/api/recent_words', {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
 
-  // TODO improve loading/error UI, or use server-side rendering for this page
   const {
     likertScaleQuestions,
     wordsQuestions,
@@ -58,7 +65,6 @@ function selfReporting({ session }) {
   const [dialogText, setDialogText] = useState(null);
   const [dialogActions, setDialogActions] = useState([]);
   const [isMentoringSession, setIsMentoringSession] = useState(false);
-  const [showMentoringError, setShowMentoringError] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 
   const submitAnswers = async () => {
@@ -87,7 +93,10 @@ function selfReporting({ session }) {
       Alert.success('Successfully submitted', 3000);
       router.push('/statistics');
     } else {
-      // TODO handle error
+      Alert.error(
+        'There was an error submitting your responses. Please try again or contact the system administrator if the issue persists',
+        0
+      );
     }
   };
 
@@ -95,8 +104,6 @@ function selfReporting({ session }) {
     const unAnsweredQuestions = likertScaleQuestions.filter(
       q => typeof q.score === 'undefined'
     );
-
-    handleMentoring();
 
     if (unAnsweredQuestions.length !== 0 || isMentoringSession === null) {
       setShowErrors(true);
@@ -135,19 +142,10 @@ function selfReporting({ session }) {
     setShowDialog(true);
   };
 
-  // TODO improve error handling styling
-  const handleMentoring = () => {
-    if (isMentoringSession === null) {
-      setShowMentoringError(true);
-    } else {
-      setShowMentoringError(false);
-    }
-  };
-
   if (!session) {
     return (
       <div>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
         <LoginMessage />
       </div>
     );
@@ -159,7 +157,7 @@ function selfReporting({ session }) {
   ) {
     return (
       <div>
-        <Header session={session} />
+        <Header session={session} toggleTheme={toggleTheme} />
         <NoAccess />
       </div>
     );
@@ -171,7 +169,7 @@ function selfReporting({ session }) {
         <title>Self-reporting</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header session={session} />
+      <Header session={session} toggleTheme={toggleTheme} />
       <AlertDialog
         open={showDialog}
         setOpen={setShowDialog}
@@ -180,57 +178,88 @@ function selfReporting({ session }) {
         actions={dialogActions}
       />
 
-      <div className={styles.mentoringSessionContainer}>
-        <label htmlFor="mentoring-session">
-          Is this submission as part of a mentoring session?
-          {showMentoringError && ` (please choose an answer)`}
-        </label>
-        <Toggle
-          className={styles.mentoringToggle}
-          size="lg"
-          checkedChildren="Yes"
-          unCheckedChildren="No"
-          onChange={value => setIsMentoringSession(value)}
-        />
-      </div>
+      {!questionsError && !isQuestionsLoading && (
+        <div className={styles.mentoringSessionContainer}>
+          <label htmlFor="mentoring-session">
+            Is this submission as part of a mentoring session?
+          </label>
+          <Toggle
+            className={styles.mentoringToggle}
+            size="lg"
+            checkedChildren="Yes"
+            unCheckedChildren="No"
+            onChange={value => setIsMentoringSession(value)}
+          />
+        </div>
+      )}
 
       <div className={styles.selfReportingContainer}>
-        <p className={styles.mainQuestion}>
-          To what extent do you agree with the following statements regarding
-          your recent experience?
-        </p>
-
-        {likertScaleQuestions.map((question, i) => (
-          <LikertScaleQuestion
-            key={i}
-            question={question.body}
-            questionId={question.id}
-            questionNumber={i + 1}
-            questionUrl={question.url}
-            onChange={score => (question.score = score)}
-            showError={showErrors && typeof question.score === 'undefined'}
+        {isQuestionsLoading && (
+          <Loader
+            className={styles.loading}
+            size="lg"
+            content="Loading questions..."
           />
-        ))}
+        )}
 
-        {wordsQuestions.map((question, i) => (
-          <WordsQuestion
-            key={i}
-            suggestedWords={words ? words.words : []}
-            question={question.body}
-            questionId={question.id}
-            questionNumber={i + likertScaleQuestions.length + 1}
-            onChange={words => (question.words = words)}
+        {questionsError && (
+          <Message
+            type="error"
+            title="Error fetching questions"
+            description={
+              <p>
+                There was an error fetching the questions. Please try again
+                later or contact the system administrator if the issue persists.
+              </p>
+            }
           />
-        ))}
+        )}
 
-        <IconButton
-          className={styles.submit}
-          appearance="primary"
-          onClick={() => handleSubmit()}
-          placement="right"
-          icon={<Icon icon="send" />}>
-          Submit
-        </IconButton>
+        {!questionsError && !isQuestionsLoading && (
+          <p className={styles.mainQuestion}>
+            To what extent do you agree with the following statements regarding
+            your recent experience?
+          </p>
+        )}
+
+        {!questionsError &&
+          !isQuestionsLoading &&
+          likertScaleQuestions.map((question, i) => (
+            <LikertScaleQuestion
+              key={i}
+              question={question.body}
+              questionId={question.id}
+              questionNumber={i + 1}
+              questionUrl={question.url}
+              onChange={score => (question.score = score)}
+              showError={showErrors && typeof question.score === 'undefined'}
+            />
+          ))}
+
+        {!questionsError &&
+          !isQuestionsLoading &&
+          wordsQuestions.map((question, i) => (
+            <WordsQuestion
+              key={i}
+              suggestedWords={words ? words.words : []}
+              question={question.body}
+              questionId={question.id}
+              questionNumber={i + likertScaleQuestions.length + 1}
+              onChange={words => (question.words = words)}
+            />
+          ))}
+
+        {!questionsError && !isQuestionsLoading && (
+          <IconButton
+            className={styles.submit}
+            appearance="primary"
+            onClick={() => handleSubmit()}
+            placement="right"
+            icon={<Icon icon="send" />}
+            block>
+            Submit
+          </IconButton>
+        )}
       </div>
       <FeedbackNotification />
     </div>

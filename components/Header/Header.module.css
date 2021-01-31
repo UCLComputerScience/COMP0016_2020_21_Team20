@@ -1,5 +1,5 @@
 .header {
-  position: sticky;
+  position: sticky !important;
   z-index: 10;
   background-color: var(--bg-color);
   top: 0px;
@@ -35,7 +35,7 @@
 }
 
 .navbarExpandIcon {
-  display: none;
+  display: none !important;
   margin-top: 15px;
   cursor: pointer;
   float: right;
@@ -44,12 +44,13 @@
 .themeToggle {
   color: var(--text-color);
   float: right;
+  border: none !important;
 }
 
 @media (max-width: 648px) {
   /*Mobile view*/
   .navbarExpandIcon {
-    display: inline-block;
+    display: inline-block !important;
   }
 
   .links.open {

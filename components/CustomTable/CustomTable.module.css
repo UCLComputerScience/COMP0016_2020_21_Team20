@@ -34,3 +34,8 @@
   display: inline;
   margin-left: 5px;
 }
+
+.tableCell {
+  color: inherit !important;
+  background-color: inherit !important;
+}

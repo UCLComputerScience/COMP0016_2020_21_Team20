@@ -7,86 +7,23 @@ body {
   /* font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; */
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  margin: 10px;
 }
 
 body {
+  margin: 10px !important;
+}
+
+body.default {
   --bg-color: #f6f9fc;
-  --second-layer-bg-color:  #f6f9fc;
+  --second-layer-bg-color: #f6f9fc;
   --blue-text-color: #005eb8;
   background-color: var(--bg-color);
 }
 
-.dark-mode {
+body.dark {
   --bg-color: #121212;
   --second-layer-bg-color: #353535;
   --text-color: #f6f9fc;
   --blue-text-color: #3498ff;
-  color: var(--text-color);
-}
-
-/* overriding certain components style to match for dark mode*/
-body .rs-panel-title {
-  color: var(--text-color);
-}
-
-body .MuiTableCell-stickyHeader {
-  background-color: var(--bg-color);
-}
-
-body .MuiTableCell-body {
-  color: var(--text-color);
-}
-
-body .rs-calendar-table-cell-content {
-  color: black;
-}
-
-body .rs-calendar-table-cell-in-range .rs-calendar-table-cell-content {
-  color: black;
-}
-
-body .rs-modal-content {
-  background-color: var(--bg-color);
-}
-
-body .rs-btn-ghost {
-  border: 0px;
-  color: var(--text-color);
-}
-
-body .rs-progress-circle-info {
-  color: var(--text-color);
-}
-
-body .rs-panel-heading {
-  color: var(--text-color);
-}
-
-body .rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
-  background-color: var(--second-layer-bg-color);
-}
-
-body .rs-picker-toggle-wrapper .rs-picker-toggle.rs-btn {
-  background-color: var(--second-layer-bg-color) !important;
-}
-
-body .rs-picker-has-value .rs-btn .rs-picker-toggle-value, .rs-picker-has-value .rs-picker-toggle .rs-picker-toggle-value {
-  color: var(--blue-text-color);
-}
-
-body .rs-nav-item>.rs-nav-item-content {
-  color: var(--text-color);
-}
-
-body .rs-btn-subtle {
-  color: var(--text-color);
-}
-
-body .rs-panel-bordered {
-  background-color: var(--second-layer-bg-color)
-}
-
-body .rs-picker-toggle-caret {
   color: var(--text-color);
 }

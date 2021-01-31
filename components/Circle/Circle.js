@@ -5,7 +5,6 @@ import styles from './Circle.module.css';
 
 const { Circle: CircleComponent } = Progress;
 
-// TODO make this responsive for tablet-sizes and lower (somehow...)
 const Circle = ({ name, color, percentage }) => {
   return (
     <div className={styles.circle}>
