@@ -1,5 +1,5 @@
 .header {
-  position: sticky;
+  position: sticky !important;
   z-index: 10;
   background-color: var(--bg-color);
   top: 0px;
@@ -44,6 +44,7 @@
 .themeToggle {
   color: var(--text-color);
   float: right;
+  border: none !important;
 }
 
 @media (max-width: 648px) {

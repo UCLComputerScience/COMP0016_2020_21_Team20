@@ -14,5 +14,16 @@ body {
 }
 
 body.default {
-  background-color: #f6f9fc;
+  --bg-color: #f6f9fc;
+  --second-layer-bg-color: #f6f9fc;
+  --blue-text-color: #005eb8;
+  background-color: var(--bg-color);
+}
+
+body.dark {
+  --bg-color: #121212;
+  --second-layer-bg-color: #353535;
+  --text-color: #f6f9fc;
+  --blue-text-color: #3498ff;
+  color: var(--text-color);
 }
