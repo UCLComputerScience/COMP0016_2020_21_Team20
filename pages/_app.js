@@ -13,6 +13,8 @@ const LoadCssFile = (href, theme) => {
   link.dataset.theme = theme;
   document.head.appendChild(link);
   document.body.dataset.theme = theme;
+  document.body.classList.remove(theme === 'default' ? 'dark' : 'default');
+  document.body.classList.add(theme);
   return link;
 };
 
@@ -27,10 +29,7 @@ function MyApp({ Component, pageProps }) {
   );
 
   const toggleTheme = theme => {
-    if (
-      (!currentLink && theme === 'default') ||
-      (currentLink && theme === currentLink.dataset.theme)
-    ) {
+    if (currentLink && theme === currentLink.dataset.theme) {
       return;
     }
 
