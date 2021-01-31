@@ -35,7 +35,7 @@
 }
 
 .navbarExpandIcon {
-  display: none;
+  display: none !important;
   margin-top: 15px;
   cursor: pointer;
   float: right;
@@ -49,7 +49,7 @@
 @media (max-width: 648px) {
   /*Mobile view*/
   .navbarExpandIcon {
-    display: inline-block;
+    display: inline-block !important;
   }
 
   .links.open {
