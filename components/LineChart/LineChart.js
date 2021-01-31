@@ -87,8 +87,36 @@ function LineChart({ data } = {}) {
               },
             },
             scales: {
-              xAxes: [{ ticks: { maxRotation: 0, fontColor:  "darkgray"}, type: 'time', time: { unit: 'day' }, }],
-              yAxes: [{ ticks: { fontColor:  "darkgray"} }],
+              xAxes: [
+                {
+                  ticks: { maxRotation: 0, fontColor: 'darkgray' },
+                  type: 'time',
+                  time: { unit: 'day' },
+                  gridLines: {
+                    color:
+                      document.body.dataset.theme === 'dark'
+                        ? 'rgba(220, 220, 220, 0.1)'
+                        : 'rgba(0, 0, 0, 0.1)',
+                  },
+                },
+              ],
+              yAxes: [
+                {
+                  ticks: { fontColor: 'darkgray' },
+                  gridLines: {
+                    color:
+                      document.body.dataset.theme === 'dark'
+                        ? 'rgba(220, 220, 220, 0.1)'
+                        : 'rgba(0, 0, 0, 0.1)',
+                  },
+                },
+              ],
+            },
+            legend: {
+              labels: {
+                fontColor:
+                  document.body.dataset.theme === 'dark' ? '#9C9C9D' : '#666',
+              },
             },
           }}
         />

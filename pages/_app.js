@@ -12,6 +12,7 @@ const LoadCssFile = (href, theme) => {
   link.href = href;
   link.dataset.theme = theme;
   document.head.appendChild(link);
+  document.body.dataset.theme = theme;
   return link;
 };
 
