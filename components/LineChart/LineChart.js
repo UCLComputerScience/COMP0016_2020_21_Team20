@@ -74,7 +74,7 @@ function LineChart({ data } = {}) {
                 afterTitle: (tooltip, data) =>
                   data.datasets[tooltip[0].datasetIndex].pointBackgroundColor[
                     tooltip[0].index
-                  ] === MENTORING_SESSSION_POINT_COLOR && 'Mentoring session',
+                  ] === MENTORING_SESSION_POINT_COLOR && 'Mentoring session',
                 labelColor: (tooltip, data) => {
                   return {
                     borderColor:
