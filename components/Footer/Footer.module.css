@@ -4,10 +4,14 @@
   bottom: 0;
   width: 100%;
   background-color: var(--bg-color);
-  padding: 0px;
   color: var(--text-color);
   border-top: 1px solid darkgrey;
-  text-align: Center;
-  display: inline-block;
+  padding: 10px;
+  display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.link {
+  max-width: 25%;
 }
