@@ -54,11 +54,7 @@ function MyApp({ Component, pageProps }) {
     <Provider session={pageProps.session}>
       <Container>
         <Content style={{ minHeight: 'calc(100vh - 65px)' }}>
-          <Component
-            {...pageProps}
-            toggleTheme={toggleTheme}
-            style={{ height: '95vh' }}
-          />
+          <Component {...pageProps} toggleTheme={toggleTheme} />
         </Content>
         <Footer />
       </Container>
