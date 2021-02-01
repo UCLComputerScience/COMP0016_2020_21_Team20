@@ -23,7 +23,7 @@ function Footer() {
         target="_blank"
         rel="noopener noreferer"
         href="https://forms.office.com/Pages/ResponsePage.aspx?id=_oivH5ipW0yTySEKEdmlwqQsVN_qV_tIhIq5N2SskKtUNU1XTkZUVlFPUVhJQ0o2UEFQNTM1NVg5Ti4u">
-        Please share your feedback!
+        Share your feedback!
       </a>
       <i>
         Developed as part of the{' '}

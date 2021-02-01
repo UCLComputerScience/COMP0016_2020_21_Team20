@@ -4,7 +4,7 @@ import './style.css';
 import { Provider } from 'next-auth/client';
 import { Footer } from '../components';
 import { useEffect, useState } from 'react';
-import { Button } from 'rsuite';
+import { Container, Content } from 'rsuite';
 
 const LoadCssFile = (href, theme) => {
   const link = document.createElement('link');
@@ -49,10 +49,19 @@ function MyApp({ Component, pageProps }) {
     };
   };
 
+  // Note: content min-height is calculated by subtracting the header height and footer height
   return (
     <Provider session={pageProps.session}>
-      <Component {...pageProps} toggleTheme={toggleTheme} />
-      <Footer />
+      <Container>
+        <Content style={{ minHeight: 'calc(100vh - 65px)' }}>
+          <Component
+            {...pageProps}
+            toggleTheme={toggleTheme}
+            style={{ height: '95vh' }}
+          />
+        </Content>
+        <Footer />
+      </Container>
     </Provider>
   );
 }
