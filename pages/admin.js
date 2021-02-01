@@ -1,13 +1,7 @@
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 
-import {
-  Header,
-  LoginMessage,
-  QuestionsTable,
-  NoAccess,
-  FeedbackNotification,
-} from '../components';
+import { Header, LoginMessage, QuestionsTable, NoAccess } from '../components';
 
 import { Roles } from '../lib/constants';
 
@@ -42,7 +36,6 @@ function manage({ session, toggleTheme }) {
       ) : (
         <NoAccess />
       )}
-      <FeedbackNotification />
     </div>
   );
 }

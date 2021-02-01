@@ -21,7 +21,6 @@ import {
   Header,
   LoginMessage,
   NoAccess,
-  FeedbackNotification,
 } from '../components';
 
 import useSWR from '../lib/swr';
@@ -261,7 +260,6 @@ function selfReporting({ session, toggleTheme }) {
           </IconButton>
         )}
       </div>
-      <FeedbackNotification />
     </div>
   );
 }

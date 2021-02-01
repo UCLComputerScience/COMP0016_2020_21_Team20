@@ -8,7 +8,6 @@ import {
   QuestionsTable,
   DepartmentsTable,
   NoAccess,
-  FeedbackNotification,
 } from '../components';
 
 import { Roles } from '../lib/constants';
@@ -59,7 +58,6 @@ function manage({ session, host, toggleTheme }) {
       ) : (
         <NoAccess />
       )}
-      <FeedbackNotification />
     </div>
   );
 }
