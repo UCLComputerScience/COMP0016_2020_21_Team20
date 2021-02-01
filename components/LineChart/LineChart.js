@@ -5,7 +5,7 @@ import { Loader, Message } from 'rsuite';
 
 import styles from './linechart.module.css';
 
-const MENTORING_SESSSION_POINT_COLOR = 'black';
+const MENTORING_SESSION_POINT_COLOR = 'red';
 
 const baseProperties = {
   fill: false,
@@ -35,8 +35,8 @@ const formatData = data => {
     standardData.pointStyle = [];
     isMentoringSessions.forEach(isMentoringSession => {
       if (isMentoringSession) {
-        standardData.pointBackgroundColor.push(MENTORING_SESSSION_POINT_COLOR);
-        standardData.pointBorderColor.push(MENTORING_SESSSION_POINT_COLOR);
+        standardData.pointBackgroundColor.push(MENTORING_SESSION_POINT_COLOR);
+        standardData.pointBorderColor.push(MENTORING_SESSION_POINT_COLOR);
         standardData.pointStyle.push('triangle');
         standardData.pointBorderWidth.push(4);
       } else {
@@ -74,7 +74,7 @@ function LineChart({ data } = {}) {
                 afterTitle: (tooltip, data) =>
                   data.datasets[tooltip[0].datasetIndex].pointBackgroundColor[
                     tooltip[0].index
-                  ] === MENTORING_SESSSION_POINT_COLOR && 'Mentoring session',
+                  ] === MENTORING_SESSION_POINT_COLOR && 'Mentoring session',
                 labelColor: (tooltip, data) => {
                   return {
                     borderColor:
