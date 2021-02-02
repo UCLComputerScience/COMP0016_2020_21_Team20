@@ -73,6 +73,9 @@ function Header({ session, toggleTheme }) {
         ref={mobileMenuRef}
         className={`${styles.links} ${isOpen ? styles.open : ''}`}>
         {session && renderLinks()}
+        <Link href="/help">
+          <Nav.Item active={router.pathname === `/help`}>help</Nav.Item>
+        </Link>
         <div className={styles.profile}>
           {session ? (
             <ProfileButton session={session} />
