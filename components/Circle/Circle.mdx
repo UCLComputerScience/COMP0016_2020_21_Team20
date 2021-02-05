@@ -1,0 +1,23 @@
+---
+name: Circle
+route: /Circle
+menu: Statistics
+---
+
+import { Playground, Props } from 'docz';
+import Circle from './Circle';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# Circle
+
+The `Circle` component is used on the Statistics page to show average scores to-date.
+
+<Props of={Circle} />
+
+It is normally used in Conjunction with the [`CirclesAccordion`](/CirclesAccordion) wrapper component.
+
+## Basic usage
+
+<Playground>
+  <Circle name="test" color="red" percentage={50} />
+</Playground>
