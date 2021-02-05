@@ -1,0 +1,24 @@
+name: Deploy frontend docs
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-frontend-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install and Build
+        run: |
+          npm install
+          npm run docz:build
+      - name: Deploy Docs
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: .docz/dist
+          TARGET_FOLDER: frontend
+          CLEAN: true
