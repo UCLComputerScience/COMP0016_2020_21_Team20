@@ -73,6 +73,12 @@ function Header({ session, toggleTheme }) {
         ref={mobileMenuRef}
         className={`${styles.links} ${isOpen ? styles.open : ''}`}>
         {session && renderLinks()}
+        <Nav.Item
+          onClick={() =>
+            window && window.open('/user-guide.pdf', '_blank', 'fullscreen=yes')
+          }>
+          help
+        </Nav.Item>
         <div className={styles.profile}>
           {session ? (
             <ProfileButton session={session} />
