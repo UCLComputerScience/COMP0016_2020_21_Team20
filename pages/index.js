@@ -124,18 +124,6 @@ export default function Home({ session, toggleTheme }) {
           {router.query && router.query.error && showError(router.query.error)}
           <main>
             <h1 className="title">Welcome to Care Quality Dashboard</h1>
-            <p>
-              This is a demo of the current state of development for the Care
-              Quality Dashboard.
-            </p>
-            <p>
-              Please expect things to break and bear with us whilst we implement
-              all the features!
-            </p>
-            <p>
-              However, if you spot something that doesn't look right please do
-              let us know (via Trello or Whatsapp) and we'll get it fixed!
-            </p>
             {!session && (
               <div className="loginButton">
                 <h2>Get started</h2>
@@ -144,8 +132,6 @@ export default function Home({ session, toggleTheme }) {
                   If this is your first time using the Care Quality Dashboard,
                   please contact your department or hospital manager to obtain a
                   unique Join URL.
-                  <br />
-                  <br />
                   This will automatically link your account to your
                   corresponding department or hospital, so you can start
                   completing self-reports and viewing your statistics.
@@ -155,16 +141,45 @@ export default function Home({ session, toggleTheme }) {
                 </Button>
               </div>
             )}
-            <div className="buttonsRow">
-              <Button
-                color="cyan"
-                onClick={() => featuresRef.current.scrollIntoView()}>
-                Features
-              </Button>
+            {session && (
+              <div className="spacing">
+              </div>
+            )}
+            <div className="features" ref={featuresRef}>
+              <div className="feature">
+                <img src="/images/icons8-todo-list-96.png" width={96} height={96} />
+                <p>
+                  Complete your self-reporting on the device of your
+                  choice in a matter of minutes. The self-reporting page
+                  is clear and simple to use allowing you to efficiently
+                  report your recent experience. Remember to submit
+                  as your answers aren't automatically saved.
+                </p>
+              </div>
+              <div className="feature">
+                <img src="/images/icons8-combo-chart-96.png" width={96} height={96} />
+                <p>
+                  Track your self-reporting any time and on any device.
+                  The statistics page gives you great flexibilty allowing
+                  you to change data ranges and whether the submissions
+                  were a part of a mentoring session. There is also a
+                  quick to read summary at the top which gives you
+                  great insight of your average.
+                </p>
+              </div>
+              <div className="feature">
+                <img src="/images/icons8-people-96.png" width={96} height={96} />
+                <p>
+                  Complete your self-reporting by yourself or as part of
+                  a mentoring session. You and your managers can then
+                  use these useful meaningful insights to spark
+                  conversaions on how you and your department can improve
+                  and what areas are doing well and need to be maintained.
+                </p>
+              </div>
             </div>
-          </main>
-        </div>
-
+          </main> 
+        </div>     
         <div className="cube"></div>
         <div className="cube"></div>
         <div className="cube"></div>
@@ -172,60 +187,15 @@ export default function Home({ session, toggleTheme }) {
         <div className="cube"></div>
         <div className="cube"></div>
       </div>
-
-      <div className="features" ref={featuresRef}>
-        <div className="feature">
-          <img src="/images/icons8-todo-list-96.png" width={96} height={96} />
-          <p>
-            Complete your self-reporting on the device of your
-            <br />
-            choice in a matter of minutes. The self-reporting page
-            <br />
-            is clear and simple to use allowing you to efficiently
-            <br />
-            report your recent experience. Remember to submit
-            <br />
-            as your answers aren't automatically saved.
-          </p>
-        </div>
-        <div className="feature">
-          <img src="/images/icons8-combo-chart-96.png" width={96} height={96} />
-          <p>
-            Track your self-reporting any time and on any device.
-            <br />
-            The statistics page gives you great flexibilty allowing
-            <br />
-            you to change data ranges and whether the submissions
-            <br />
-            were a part of a mentoring session. There is also a
-            <br />
-            quick to read summary at the top which gives you
-            <br />
-            great insight of your average.
-          </p>
-        </div>
-        <div className="feature">
-          <img src="/images/icons8-people-96.png" width={96} height={96} />
-          <p>
-            Complete your self-reporting by yourself or as part of
-            <br />
-            a mentoring session. You and your managers can then
-            <br />
-            use these useful meaningful insights to spark
-            <br />
-            conversaions on how you and your department can improve
-            <br />
-            and what areas are doing well and need to be maintained.
-          </p>
-        </div>
+      <div className="iconInfo">
+        <a href="https://icons8.com">Icons by Icons8</a> 
       </div>
-      <a href="https://icons8.com">Icons by Icons8</a>
 
       <style jsx>{`
         .hero {
           position: relative;
-          height: 100vh;
           overflow: hidden;
+          min-height: 87vh;
         }
 
         .hero__title {
@@ -296,21 +266,35 @@ export default function Home({ session, toggleTheme }) {
         }
 
         .features {
-          margin: 5vh;
+          margin: 1vh;
+          margin-bottom: -4vh;
           display: flex;
           flex-direction: row;
           justify-content: center;
-          text-align: center;
         }
 
         .feature {
           margin: 2vh;
+          text-align: center;
+          width: 25vw;
         }
 
         .loginButton {
-          margin-top: 10vh;
+          margin-top: 5vh;
+          margin-bottom: 5vh;
           text-align: center;
         }
+
+        .spacing {
+          margin-top: 25vh;
+          text-align: center;
+        }
+
+        .iconInfo {
+          text-align: left !important;
+          margin-top: -2vh;
+        }
+
 
         .buttonsRow {
           margin-top: 10vh;
@@ -321,7 +305,6 @@ export default function Home({ session, toggleTheme }) {
         }
 
         .container {
-          height: 100vh;
           paddin;g: 0 0.5rem;
           display: flex;
           flex-direction: column;
@@ -329,7 +312,7 @@ export default function Home({ session, toggleTheme }) {
         }
 
         main {
-          padding: 5rem 0;
+          padding: 4rem 0;
           flex: 1;
           display: flex;
           flex-direction: column;
@@ -353,6 +336,7 @@ export default function Home({ session, toggleTheme }) {
 
         .title {
           margin: 5vh;
+          margin-top: -5vh;
           line-height: 1.15;
           font-size: 4rem;
         }
