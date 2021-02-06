@@ -142,13 +142,7 @@ export default function Home({ session, toggleTheme }) {
               </div>
             )}
             {session && (
-              <div className="infoText">
-                <p
-                  style={{ width: '60%', margin: 'auto', marginBottom: '5px' }}>
-                  This is a demo of the current state of development for the Care Quality Dashboard.
-                  Please expect things to break and bear with us whilst we implement all the features!
-                  However, if you spot something that doesn't look right please do let us know (via Trello or Whatsapp) and we'll get it fixed!
-                </p>
+              <div className="spacing">
               </div>
             )}
             <div className="features" ref={featuresRef}>
@@ -291,9 +285,8 @@ export default function Home({ session, toggleTheme }) {
           text-align: center;
         }
 
-        .infoText {
-          margin-top: 5vh;
-          margin-bottom: 15vh;
+        .spacing {
+          margin-top: 25vh;
           text-align: center;
         }
 
