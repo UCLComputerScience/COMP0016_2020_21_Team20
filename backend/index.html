@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/swagger-ui-dist@3.38.0/swagger-ui-bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3.38.0/swagger-ui.css" />
+    <title>Care Quality Dashboard REST API Documentation</title>
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+    <script>
+        window.onload = () =>
+        (window.ui = SwaggerUIBundle({
+            url: "care-quality-dashboard-api.json",
+            dom_id: "#swagger-ui",
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIBundle.SwaggerUIStandalonePreset,
+            ],
+            plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+        }));
+    </script>
+</body>
+
+</html>
