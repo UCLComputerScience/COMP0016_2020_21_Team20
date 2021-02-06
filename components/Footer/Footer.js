@@ -15,7 +15,7 @@ function Footer() {
         className={styles.link}
         target="_blank"
         rel="noopener noreferer"
-        href="https://abuhb.nhs.wales/use-of-site/privacy-policy/">
+        href="https://www.carefulai.com/privacy-policy.html">
         Privacy Policy
       </a>
       <a
