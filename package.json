@@ -14,29 +14,29 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
-    "@prisma/client": "^2.15.0",
+    "@prisma/client": "^2.16.0",
     "@zeit/next-less": "^1.0.1",
     "chart.js": "^2.9.4",
     "less": "^4.1.1",
     "nanoid": "^3.1.20",
     "next": "^10.0.6",
-    "next-auth": "^3.1.0",
-    "next-transpile-modules": "^6.1.0",
+    "next-auth": "^3.2.0",
+    "next-transpile-modules": "^6.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-chartjs-2": "^2.11.1",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "16.13.1",
     "react-wordcloud": "^1.2.7",
-    "rsuite": "^4.8.8",
+    "rsuite": "^4.8.9",
     "swr": "^0.3.11"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-transform-classes": "^7.12.13",
-    "@prisma/cli": "^2.15.0",
-    "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "@typescript-eslint/parser": "^4.14.1",
+    "@prisma/cli": "^2.16.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
     "docz": "^2.3.1",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^6.15.0",
@@ -46,7 +46,7 @@
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
     "react-error-overlay": "^6.0.9",
-    "webpack": "^5.20.2"
+    "webpack": "^4.46.0"
   },
   "husky": {
     "hooks": {
