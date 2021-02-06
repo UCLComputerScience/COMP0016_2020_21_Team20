@@ -18,6 +18,7 @@
     "nanoid": "^3.1.20",
     "next": "^10.0.6",
     "next-auth": "^3.1.0",
+    "next-transpile-modules": "^6.1.0",
     "react": "^16.14.0",
     "react-chartjs-2": "^2.11.1",
     "react-copy-to-clipboard": "^5.0.3",
@@ -45,5 +46,19 @@
   },
   "prisma": {
     "schema": "prisma/schema.prisma"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "ie 11"
+    ],
+    "development": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "ie 11"
+    ]
   }
 }
