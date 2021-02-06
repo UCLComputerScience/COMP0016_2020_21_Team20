@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+env:
+  CI: true
 jobs:
   deploy-frontend-docs:
     runs-on: ubuntu-latest
