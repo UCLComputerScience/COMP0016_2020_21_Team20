@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install and Generate Spec
-        run: |
-          npm install swagger-jsdoc
-          node openapi-generator.js
+      - name: Install swagger-jsdoc
+        run: npm install swagger-jsdoc
+      - name: Generator specification
+        run: node openapi-generator.js
       - name: Deploy Spec
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
