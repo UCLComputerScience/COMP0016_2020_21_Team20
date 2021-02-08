@@ -168,15 +168,21 @@ function statistics({ session, toggleTheme }) {
               }
             />
           ) : (
+            ''
+          )}
+
+          {visualisationType === Visualisations.WORD_CLOUD ||
+          visualisationType === Visualisations.WORD_CLOUD_BARRIERS ? (
             <WordCloud
               words={
                 !localError && localData
-                  ? localData.responses
-                      .map(r => r.words.map(w => w.word))
-                      .flat()
+                  ? localData.responses.map(r => r.words.map(w => w)).flat()
                   : null
               }
+              visualisationType={visualisationType}
             />
+          ) : (
+            ''
           )}
         </div>
       </div>
