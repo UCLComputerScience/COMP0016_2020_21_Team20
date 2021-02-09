@@ -1,0 +1,122 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Care Quality Dashboard REST API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://nhsw.sjain.dev/api"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "boolean",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Unauthorized access"
+          }
+        }
+      },
+      "standards": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Timely Care"
+          }
+        }
+      }
+    },
+    "examples": {
+      "unauthorized": {
+        "value": {
+          "error": true,
+          "message": "Unauthorized access"
+        }
+      },
+      "internal_server_error": {
+        "value": {
+          "error": true,
+          "message": "An unexpected error occurred. Please try again later or contact the system administrator if the error persists."
+        }
+      }
+    },
+    "responses": {
+      "unauthorized": {
+        "description": "Unauthorized access",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "unauthorized": {
+                "$ref": "#/components/examples/unauthorized"
+              }
+            }
+          }
+        }
+      },
+      "internal_server_error": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "internal_server_error": {
+                "$ref": "#/components/examples/internal_server_error"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/standards": {
+      "get": {
+        "summary": "Retrieve the list of standards stored in the system",
+        "description": "Retrieve the list of standards stored in the system, with their ID and name",
+        "tags": [
+          "standards"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/standards"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "standards",
+      "description": "Health & Care Standards"
+    }
+  ]
+}
