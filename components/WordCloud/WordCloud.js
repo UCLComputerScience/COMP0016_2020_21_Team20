@@ -1,6 +1,7 @@
 import React from 'react';
 import { Loader, Message } from 'rsuite';
 import ReactWordcloud from 'react-wordcloud';
+import { Visualisations } from '../../lib/constants';
 
 import styles from './WordCloud.module.css';
 
@@ -42,12 +43,19 @@ function WordCloud(props) {
       <Loader className={styles.loading} size="lg" content="Loading data..." />
     );
   } else if (props.words.length) {
+    let questionId = 8;
+    // We are hardcoding questionId = 8 as this corresponds to the 8th question in the self-report in which the user is asked to enter the enablers. Opposite for questionId = 9 (user enters barriers).
+    if (props.visualisationType === Visualisations.WORD_CLOUD_BARRIERS) {
+      questionId = 9;
+    }
     const words = {};
     props.words.forEach(word => {
-      if (words[word]) {
-        words[word].value++;
-      } else {
-        words[word] = { text: word, value: 1 };
+      if (word.question_id === questionId) {
+        if (words[word.word]) {
+          words[word.word].value++;
+        } else {
+          words[word.word] = { text: word.word, value: 1 };
+        }
       }
     });
 

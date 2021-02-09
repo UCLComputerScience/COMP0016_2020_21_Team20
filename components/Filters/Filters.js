@@ -186,7 +186,14 @@ export function Filters({ session, ...props }) {
         block={true}
         data={[
           { label: 'Line Chart', value: Visualisations.LINE_CHART },
-          { label: 'Word Cloud', value: Visualisations.WORD_CLOUD },
+          {
+            label: 'Enablers Word Cloud',
+            value: Visualisations.WORD_CLOUD_ENABLERS,
+          },
+          {
+            label: 'Barriers Word Cloud',
+            value: Visualisations.WORD_CLOUD_BARRIERS,
+          },
         ]}
       />
       <p>Mentoring?</p>
