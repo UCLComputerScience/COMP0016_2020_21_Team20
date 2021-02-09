@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AutoComplete } from 'rsuite';
 
+import PropTypes from 'prop-types';
 import styles from './WordsQuestion.module.css';
 
 const MAX_NUMBER_OF_WORDS = 3;
@@ -46,11 +47,24 @@ function WordsQuestion(props) {
         {props.questionNumber}. {props.question}
       </div>
       <div className={styles.italicText}>
-        {'(response is not required, you may provide none or up to 3 words that you feel are suitable)'}
+        {
+          '(response is not required, you may provide none or up to 3 words that you feel are suitable)'
+        }
       </div>
       <div className={styles.wordsInputContainer}>{generateInputs()}</div>
     </div>
   );
 }
+
+WordsQuestion.propTypes = {
+  /** What function is triggered by changes in the input boxes */
+  onChange: PropTypes.func.isRequired,
+  /** The question number of the question */
+  questionNumber: PropTypes.number.isRequired,
+  /** The text of the question */
+  question: PropTypes.string.isRequired,
+  /** Array of suggested words to show when writing in input boxes */
+  suggestedWords: PropTypes.object.isRequired,
+};
 
 export default WordsQuestion;

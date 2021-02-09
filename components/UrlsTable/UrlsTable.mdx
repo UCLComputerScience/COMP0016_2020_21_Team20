@@ -1,0 +1,25 @@
+---
+name: UrlsTable
+route: /UrlsTable
+menu: Manage
+---
+
+import { Playground, Props } from 'docz';
+import UrlsTable from './UrlsTable';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# UrlsTable
+
+The `UrlsTable` component displays a table with all the questions and the urls specific to that department. It allows only the urls of
+the questions to be edited or set to the default global URL. It also uses the [`ClinicianJoinCode`](/ClinicianJoinCode) component to allow
+the user to manage their join URL for their department. (if it can't fetch data from the backend, the table only shows the column names)
+
+<Props of={UrlsTable} />
+
+It is normally used in the manage page for the Department user type.
+
+## Basic usage
+
+<Playground>
+  <UrlsTable host="example.com" />
+</Playground>

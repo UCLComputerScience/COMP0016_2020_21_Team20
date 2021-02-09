@@ -1,0 +1,25 @@
+---
+name: QuestionsTable
+route: /QuestionsTable
+menu: Manage
+---
+
+import { Playground, Props } from 'docz';
+import QuestionsTable from './QuestionsTable';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# QuestionsTable
+
+The `QuestionsTable` component displays a table with all the questions on the platfrom. It allows the Admin user type
+to change the question body and global default urls and also allows questions to be deleted and added. (if it can't
+fetch data from the backend, the table only shows the column names)
+
+<Props of={QuestionsTable} />
+
+It is normally used in the manage page for the Admin user type.
+
+## Basic usage
+
+<Playground>
+  <QuestionsTable />
+</Playground>

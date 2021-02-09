@@ -1,0 +1,27 @@
+---
+name: LikertScale
+route: /LikertScale
+menu: Self-reporting
+---
+
+import { Playground, Props } from 'docz';
+import LikertScale from './LikertScale';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# LikertScale
+
+The `LikertScale` component is used on the Self-reporting page to allow clinicians to record the extent they agree with each question.
+
+<Props of={LikertScale} />
+
+It is normally used in conjunction with the [`LikertScaleQuestion`](/LikertScaleQuestion) wrapper component.
+
+## Basic usage
+
+<Playground>
+  <LikertScale
+    onChange={value => {
+      null;
+    }}
+  />
+</Playground>

@@ -1,5 +1,6 @@
 import { Panel } from 'rsuite';
 import styles from './CirclesAccordion.module.css';
+import PropTypes from 'prop-types';
 
 import { Circle } from '..';
 
@@ -24,3 +25,8 @@ export default function CirclesAccordion(props) {
     </Panel>
   );
 }
+
+CirclesAccordion.propTypes = {
+  /** Object containg array that describes the circles to be displayed, containing the name, colour and percentage of each circle*/
+  circles: PropTypes.object.isRequired,
+};

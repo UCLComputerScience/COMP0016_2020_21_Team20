@@ -76,9 +76,13 @@ const useDatabaseData = () => {
   });
 
   if (data) {
-    return {data: data ? data.likert_scale : [], error: error || data.error, message: data.message};
+    return {
+      data: data ? data.likert_scale : [],
+      error: error || data.error,
+      message: data.message,
+    };
   }
-  return {data: null, error: error , message: error ? error.message : null};
+  return { data: null, error: error, message: error ? error.message : null };
 };
 
 const getStandards = () => {
@@ -88,9 +92,9 @@ const getStandards = () => {
   });
 
   if (data) {
-    return {data2: data, error2: error || data.error, message2: data.message};
+    return { data2: data, error2: error || data.error, message2: data.message };
   }
-  return {data2: null, error2: error , message2: error ? error.message : null};
+  return { data2: null, error2: error, message2: error ? error.message : null };
 };
 
 var standards = [];
@@ -109,7 +113,12 @@ export default function QuestionsTable() {
   const { data, error, message } = useDatabaseData();
   const localData = data;
   if (error) {
-    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
+    Alert.error(
+      "Error: '" +
+        message +
+        "'. Please reload/try again later or the contact system administrator",
+      0
+    );
   }
 
   standards = getStandards();
@@ -117,7 +126,12 @@ export default function QuestionsTable() {
   const { data2, error2, message2 } = getStandards();
   standards = data2;
   if (error2) {
-    Alert.error("Error: '" + message2 + "'. Please reload/try again later or the contact system administrator", 0);
+    Alert.error(
+      "Error: '" +
+        message2 +
+        "'. Please reload/try again later or the contact system administrator",
+      0
+    );
   }
 
   const resetNewRow = () => {
@@ -230,10 +244,13 @@ export default function QuestionsTable() {
           defaultValue={newRow.standard}
           onChange={value => (newRow.standard = value)}
           placeholder="Choose Standard"
-          data={!error2 && standards.map(standard => ({
-            label: standard.name,
-            value: standard.id,
-          }))}
+          data={
+            !error2 &&
+            standards.map(standard => ({
+              label: standard.name,
+              value: standard.id,
+            }))
+          }
         />
         <br />
         <label>Url:</label>

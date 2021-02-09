@@ -1,0 +1,29 @@
+---
+name: CirclesAccordion
+route: /CirclesAccordion
+menu: Statistics
+---
+
+import { Playground, Props } from 'docz';
+import CirclesAccordion from './CirclesAccordion';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# CirclesAccordion
+
+The `CirclesAccordion` component acts as a wrapper for multiple of the [`Circle`](/Circle) component.
+
+<Props of={CirclesAccordion} />
+
+It is normally used in the Statistics page.
+
+## Basic usage
+
+<Playground>
+  <CirclesAccordion
+    circles={[
+      { name: 'test1', color: 'red', percentage: 80 },
+      { name: 'test2', color: 'blue', percentage: 10 },
+      { name: 'test3', color: 'green', percentage: 50 },
+    ]}
+  />
+</Playground>

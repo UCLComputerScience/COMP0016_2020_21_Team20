@@ -1,4 +1,6 @@
 import { Icon } from 'rsuite';
+
+import PropTypes from 'prop-types';
 import styles from './Info.module.css';
 
 function Info(props) {
@@ -12,5 +14,10 @@ function Info(props) {
     </a>
   );
 }
+
+Info.propTypes = {
+  /** The (training) url this info icon links to */
+  url: PropTypes.string.isRequired,
+};
 
 export default Info;

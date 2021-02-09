@@ -3,6 +3,7 @@ import { Input, Alert } from 'rsuite';
 import { mutate } from 'swr';
 import styles from './UrlsTable.module.css';
 
+import PropTypes from 'prop-types';
 import useSWR from '../../lib/swr';
 import { ClinicianJoinCode, CustomTable } from '..';
 
@@ -57,9 +58,13 @@ const useDatabaseData = () => {
   });
 
   if (data) {
-    return {data: data ? data.likert_scale : [], error: error || data.error, message: data.message};
+    return {
+      data: data ? data.likert_scale : [],
+      error: error || data.error,
+      message: data.message,
+    };
   }
-  return {data: null, error: error , message: error ? error.message : null};
+  return { data: null, error: error, message: error ? error.message : null };
 };
 
 var editedRow = null;
@@ -69,7 +74,12 @@ export default function UrlsTable({ session, host }) {
   const { data, error, message } = useDatabaseData();
   const localData = data;
   if (error) {
-    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
+    Alert.error(
+      "Error: '" +
+        message +
+        "'. Please reload/try again later or the contact system administrator",
+      0
+    );
   }
 
   const sendDataToDatabase = async () => {
@@ -130,3 +140,10 @@ export default function UrlsTable({ session, host }) {
     </div>
   );
 }
+
+UrlsTable.propTypes = {
+  /** The session of the users webpage, used to fecth the correct join code from the backend*/
+  session: PropTypes.object.isRequired,
+  /** The host name of the website*/
+  host: PropTypes.string.isRequired,
+};

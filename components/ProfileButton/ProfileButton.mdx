@@ -1,0 +1,23 @@
+---
+name: ProfileButton
+route: /ProfileButton
+menu: Non-page specific
+---
+
+import { Playground, Props } from 'docz';
+import ProfileButton from './ProfileButton';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# ProfileButton
+
+The `ProfileButton` component is used in the header and is a wrapper holds the different options a user has for their account.
+
+<Props of={ProfileButton} />
+
+It is normally used in conjunction with the [`Header`](/Header) wrapper component.
+
+## Basic usage
+
+<Playground>
+  <ProfileButton session={null} />
+</Playground>

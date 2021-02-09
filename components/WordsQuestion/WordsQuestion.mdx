@@ -1,0 +1,29 @@
+---
+name: WordsQuestion
+route: /WordsQuestion
+menu: Self-reporting
+---
+
+import { Playground, Props } from 'docz';
+import WordsQuestion from './WordsQuestion';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# WordsQuestion
+
+The `WordsQuestion` component is used in the self-reporting page to give clinicians an oppurtunity to submit up to 3 words related to their
+reports experience. It also has an auto suggest to suggest previously used words on the platform.
+
+<Props of={WordsQuestion} />
+
+## Basic usage
+
+<Playground>
+  <WordsQuestion
+    onChange={value => {
+      null;
+    }}
+    questionNumber={1}
+    question="Type 't' to test it out"
+    suggestedWords={['test', 'test1', 'test2', 'thisTest']}
+  />
+</Playground>

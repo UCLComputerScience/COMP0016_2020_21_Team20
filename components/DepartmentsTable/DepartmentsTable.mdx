@@ -1,0 +1,25 @@
+---
+name: DepartmentsTable
+route: /DepartmentsTable
+menu: Manage
+---
+
+import { Playground, Props } from 'docz';
+import DepartmentsTable from './DepartmentsTable';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# DepartmentsTable
+
+The `DepartmentsTable` component displays a table with all the departments in the logged in users hospital. It allows the Hospital user
+type to add and delete departments and also copy/regenerate each join URL. (if it can't fetch data from the backend, the table only shows
+the column names)
+
+<Props of={DepartmentsTable} />
+
+It is normally used in the manage page for the Hospital user type.
+
+## Basic usage
+
+<Playground>
+  <DepartmentsTable host="example.com" />
+</Playground>

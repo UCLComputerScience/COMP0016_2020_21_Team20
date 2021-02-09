@@ -1,0 +1,48 @@
+---
+name: CustomTable
+route: /CustomTable
+menu: Manage
+---
+
+import { Playground, Props } from 'docz';
+import CustomTable from './CustomTable';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# CustomTable
+
+The `CustomTable` component displays a table, which depending on `tableType` is slightly different. The urls table type allows only the urls of the
+questions to be changed. The questions table type allows the urls and question body to be changed and also allows questions to be deleted and
+added. Laslty, the departments table type allows the Hospital user type to add and delete departments and also copy/regenerate each join URL.
+(if no data the table only shows the column names)
+
+<Props of={CustomTable} />
+
+It is normally used in the manage page.
+
+## Basic usage
+
+<Playground>
+  <CustomTable
+    host="example.com"
+    data={null}
+    columns={[
+      {
+        id: 'department',
+        label: 'Department Name',
+        width: 'auto',
+        render: () => null,
+      },
+      {
+        id: 'url',
+        label: 'Join URL',
+        width: 'auto',
+        render: () => null,
+      },
+      { id: 'actions', label: 'Actions', width: 'auto' },
+    ]}
+    tableType="departments"
+    editing={null}
+    showCopyAlert={() => null}
+    regenerateCode={() => null}
+  />
+</Playground>

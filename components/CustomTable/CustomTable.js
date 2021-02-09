@@ -9,6 +9,7 @@ import {
 import { Button, Icon } from 'rsuite';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
+import PropTypes from 'prop-types';
 import styles from './CustomTable.module.css';
 import { Roles } from '../../lib/constants';
 
@@ -195,5 +196,32 @@ function CustomTable({ host, ...props }) {
     </TableContainer>
   );
 }
+
+CustomTable.propTypes = {
+  /** The host name of the website*/
+  host: PropTypes.string.isRequired,
+  /** Array containing data to be displayed in the table */
+  data: PropTypes.object.isRequired,
+  /** Object containg the defined coloumns of table */
+  columns: PropTypes.object.isRequired,
+  /** The type of custom table: departments or urls or questions */
+  tableType: PropTypes.string.isRequired,
+  /** The index of the data that is being editted */
+  editing: PropTypes.number.isRequired,
+  /** Function that is triggered by using copy button in departments table (REQUIRED IN DEPARTMENTS TABLE ONLY)*/
+  showCopyAlert: PropTypes.func,
+  /** Function that is triggered by using regenerate button in departments table (REQUIRED IN DEPARTMENTS TABLE ONLY)*/
+  regenerateCode: PropTypes.func,
+  /** Function that is triggered by the delete button in departments and questions table (REQUIRED IN DEPARTMENTS AND QUESTIONS TABLE ONLY)*/
+  confirmDelete: PropTypes.func,
+  /** Function that is triggered by save button while editing in urls table (REQUIRED IN URLS TABLE ONLY)*/
+  sendData: PropTypes.func,
+  /** Function that is triggered by the x button in urls and questions table to stop the editing state (REQUIRED IN URLS AND QUESTIONS TABLE ONLY)*/
+  cancelEditing: PropTypes.func,
+  /** Function that is triggered by the pencil edit button in urls and questions table to edit a certain row (REQUIRED IN URLS AND QUESTIONS TABLE ONLY)*/
+  setEditing: PropTypes.func,
+  /** Function that is triggered by the set to default button in urls table which sets that URL to the default global URL (REQUIRED IN URLS TABLE ONLY)*/
+  setToDefaultUrl: PropTypes.func,
+};
 
 export default CustomTable;

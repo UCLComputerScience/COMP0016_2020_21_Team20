@@ -1,0 +1,23 @@
+---
+name: Header
+route: /Header
+menu: Non-page specific
+---
+
+import { Playground, Props } from 'docz';
+import Header from './Header';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# Header
+
+The `Header` component is used throughout the platform and is a wrapper which contains the platform name which takes you to the hompage,
+the different tabs a user can use to navigate the platform and finally the [`ProfileButton`](/ProfileButton) component (if logged in else
+a button to log in).
+
+<Props of={Header} />
+
+## Basic usage
+
+<Playground>
+  <Header session={null} toggleTheme={() => null} />
+</Playground>

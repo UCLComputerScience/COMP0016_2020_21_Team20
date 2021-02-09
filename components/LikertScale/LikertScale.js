@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Radio, RadioGroup } from 'rsuite';
 
+import PropTypes from 'prop-types';
 import styles from './LikertScale.module.css';
 
 const options = {
@@ -41,5 +42,10 @@ function LikertScale(props) {
     </RadioGroup>
   );
 }
+
+LikertScale.propTypes = {
+  /** What function a likert scale click triggers */
+  onChange: PropTypes.func.isRequired,
+};
 
 export default LikertScale;

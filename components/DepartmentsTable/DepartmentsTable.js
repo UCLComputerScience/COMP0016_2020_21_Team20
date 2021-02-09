@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Input, Alert } from 'rsuite';
 import { mutate } from 'swr';
 
+import PropTypes from 'prop-types';
 import styles from './DepartmentsTable.module.css';
 
 import { AlertDialog, CustomTable } from '../';
@@ -32,9 +33,9 @@ const useDatabaseData = () => {
   });
 
   if (data) {
-    return {data: data, error: error || data.error, message: data.message};
+    return { data: data, error: error || data.error, message: data.message };
   }
-  return {data: null, error: error , message: error ? error.message : null};
+  return { data: null, error: error, message: error ? error.message : null };
 };
 
 export default function DepartmentsTable({ host }) {
@@ -49,7 +50,12 @@ export default function DepartmentsTable({ host }) {
   const { data, error, message } = useDatabaseData();
   const localData = data;
   if (error) {
-    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
+    Alert.error(
+      "Error: '" +
+        message +
+        "'. Please reload/try again later or the contact system administrator",
+      0
+    );
   }
 
   const regenerateInDatabase = async id => {
@@ -201,16 +207,23 @@ export default function DepartmentsTable({ host }) {
         }
         actions={deleteDialogActions}
       />
-      {!error && <CustomTable
-        tableType="departments"
-        host={host}
-        data={localData}
-        columns={columns}
-        editing={false} //cannot edit departments
-        showCopyAlert={() => showCopyAlert()}
-        regenerateCode={id => regenerateCode(id)}
-        confirmDelete={id => confirmDelete(id)}
-        />}
+      {!error && (
+        <CustomTable
+          tableType="departments"
+          host={host}
+          data={localData}
+          columns={columns}
+          editing={false} //cannot edit departments
+          showCopyAlert={() => showCopyAlert()}
+          regenerateCode={id => regenerateCode(id)}
+          confirmDelete={id => confirmDelete(id)}
+        />
+      )}
     </div>
   );
 }
+
+DepartmentsTable.propTypes = {
+  /** The host name of the website*/
+  host: PropTypes.string.isRequired,
+};
