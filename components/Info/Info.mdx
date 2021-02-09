@@ -1,0 +1,23 @@
+---
+name: Info
+route: /Info
+menu: Self-reporting
+---
+
+import { Playground, Props } from 'docz';
+import Info from './Info';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# Info
+
+The `Info` component is used on the Self-reporting page to allow clinicians to have access to training URL's for each question.
+
+<Props of={Info} />
+
+It is normally used in conjunction with the [`LikertScaleQuestion`](/LikertScaleQuestion) wrapper component.
+
+## Basic usage
+
+<Playground>
+  <Info url="http://www.wales.nhs.uk/governance-emanual/theme-5-timely-care" />
+</Playground>

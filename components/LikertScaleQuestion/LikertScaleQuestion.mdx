@@ -1,0 +1,30 @@
+---
+name: LikertScaleQuestion
+route: /LikertScaleQuestion
+menu: Self-reporting
+---
+
+import { Playground, Props } from 'docz';
+import LikertScaleQuestion from './LikertScaleQuestion';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# LikertScaleQuestion
+
+The `LikertScaleQuestion` component is used on the Self-reporting page to allow clinicians to record the extent they agree with a certain
+question, also giving them a training URL linked to that question.
+
+<Props of={LikertScaleQuestion} />
+
+## Basic usage
+
+<Playground>
+  <LikertScaleQuestion
+    onChange={value => {
+      null;
+    }}
+    questionNumber={1}
+    questionUrl="http://www.wales.nhs.uk/governance-emanual/theme-5-timely-care"
+    question="This is a good test question?"
+    showError={false}
+  />
+</Playground>

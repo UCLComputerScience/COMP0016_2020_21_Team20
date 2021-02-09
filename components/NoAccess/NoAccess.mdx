@@ -1,0 +1,22 @@
+---
+name: NoAccess
+route: /NoAccess
+menu: Non-page specific
+---
+
+import { Playground, Props } from 'docz';
+import NoAccess from './NoAccess';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# NoAccess
+
+The `NoAccess` component is any page a user has no access to. This means the platform doesn't just crash when someone has no access to
+a certain page but gives them an option to go back to the homepage.
+
+<Props of={NoAccess} />
+
+## Basic usage
+
+<Playground>
+  <NoAccess />
+</Playground>

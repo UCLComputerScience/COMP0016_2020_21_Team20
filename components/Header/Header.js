@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Icon, Nav, Button } from 'rsuite';
 import Link from 'next/link';
 
+import PropTypes from 'prop-types';
 import styles from './Header.module.css';
 
 import { Roles } from '../../lib/constants';
@@ -96,5 +97,12 @@ function Header({ session, toggleTheme }) {
     </Nav>
   );
 }
+
+Header.propTypes = {
+  /** The session of the users webpage, used determine whether to show a LeaveDeptButton and what tabs to show (if any)*/
+  session: PropTypes.object.isRequired,
+  /** The function which toggles the theme on the platform*/
+  toggleTheme: PropTypes.func.isRequired,
+};
 
 export default Header;

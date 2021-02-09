@@ -1,0 +1,30 @@
+---
+name: AlertDialog
+route: /AlertDialog
+menu: Non-page specific
+---
+
+import { Playground, Props } from 'docz';
+import AlertDialog from './AlertDialog';
+import { Button } from 'rsuite';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# AlertDialog
+
+The `AlertDialog` component is used to display an Alert on the page with given title, text, content and actions.
+
+<Props of={AlertDialog} />
+
+## Basic usage
+
+<Playground>
+  {/* change open from false to true to see alert */}
+  <AlertDialog
+    open={false}
+    setOpen={() => null}
+    title="TestTitle"
+    text="TestText"
+    content="TestContent"
+    actions={[<Button> test button </Button>]}
+  />
+</Playground>

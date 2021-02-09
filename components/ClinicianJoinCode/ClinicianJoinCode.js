@@ -2,6 +2,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, Icon, Alert } from 'rsuite';
 import { mutate } from 'swr';
 
+import PropTypes from 'prop-types';
 import styles from './ClinicianJoinCode.module.css';
 
 import useSWR from '../../lib/swr';
@@ -14,16 +15,23 @@ const getCode = id => {
   });
 
   if (data) {
-    return {data: data, error: error || data.error, message: data.message};
+    return { data: data, error: error || data.error, message: data.message };
   }
-  return {data: null, error: error , message: error ? error.message : null};
+  return { data: null, error: error, message: error ? error.message : null };
 };
 
 function ClinicianJoinCode({ session, host }) {
-  const { data, error, message} = getCode(session.user.departmentId);
+  const { data, error, message } = session
+    ? getCode(session.user.departmentId)
+    : [{ data: null, error: null, message: null }];
   const code = data;
   if (error) {
-    Alert.error("Error: '" + message + "'. Please reload/try again later or the contact system administrator", 0);
+    Alert.error(
+      "Error: '" +
+        message +
+        "'. Please reload/try again later or the contact system administrator",
+      0
+    );
   }
 
   const regenerateInDatabase = async id => {
@@ -51,24 +59,24 @@ function ClinicianJoinCode({ session, host }) {
     <div className={styles.content}>
       <div className={styles.url}>
         {'Please send this unique URL to clinicians so they can join your ' +
-          (!error ? code ? code['0']['name'] : 'loading...' : 'error') +
+          (!error ? (code ? code['0']['name'] : 'loading...') : 'error') +
           ' department:'}{' '}
         {`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
-          !error ?
-            code
+          !error
+            ? code
               ? code['0']['clinician_join_codes']['code']
               : 'loading...'
-              : 'error'
+            : 'error'
         }`}
       </div>
       <div className={styles.actions}>
         <CopyToClipboard
           text={`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
-            !error ?
-              code
+            !error
+              ? code
                 ? code['0']['clinician_join_codes']['code']
-                : 'loading...' 
-                : 'error'
+                : 'loading...'
+              : 'error'
           }`}>
           <Button appearance="primary" onClick={() => showCopyAlert()}>
             <Icon icon="clone" /> Copy to clipboard
@@ -84,4 +92,12 @@ function ClinicianJoinCode({ session, host }) {
     </div>
   );
 }
+
+ClinicianJoinCode.propTypes = {
+  /** The session of the users webpage, used to fecth the correct join code from the backend*/
+  session: PropTypes.object.isRequired,
+  /** The host name of the website*/
+  host: PropTypes.string.isRequired,
+};
+
 export default ClinicianJoinCode;
