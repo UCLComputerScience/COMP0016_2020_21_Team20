@@ -44,6 +44,7 @@ function WordCloud(props) {
     );
   } else if (props.words.length) {
     let questionId = 8;
+    // We are hardcoding questionId = 8 as this corresponds to the 8th question in the self-report in which the user is asked to enter the enablers. Opposite for questionId = 9 (user enters barriers).
     if (props.visualisationType === Visualisations.WORD_CLOUD_BARRIERS) {
       questionId = 9;
     }

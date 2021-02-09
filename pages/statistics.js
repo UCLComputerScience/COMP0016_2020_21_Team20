@@ -171,7 +171,7 @@ function statistics({ session, toggleTheme }) {
             ''
           )}
 
-          {visualisationType === Visualisations.WORD_CLOUD ||
+          {visualisationType === Visualisations.WORD_CLOUD_ENABLERS ||
           visualisationType === Visualisations.WORD_CLOUD_BARRIERS ? (
             <WordCloud
               words={
