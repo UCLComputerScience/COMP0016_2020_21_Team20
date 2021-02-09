@@ -15,12 +15,11 @@ jobs:
       - name: Generator specification
         run: node openapi-generator.js && ls && pwd
       - name: Deploy Spec
-        uses: dmnemec/copy_file_to_another_repo_action@v1.0.4
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          source_file: 'care-quality-dashboard-api.json'
-          destination_repo: 'COMP0016_2020_21_Team20/COMP0016_2020_21_Team20'
-          destination_branch: 'gh-pages'
-          user_email: 'shubham@sjain.dev'
-          user_name: 'shu8'
+          commit_message: Deploy OpenAPI specification
+          branch: gh-pages
+          file_pattern: care-quality-dashboard-api.json
+          commit_user_name: Shubham Jain
+          commit_user_email: shubham@sjain.dev
+          push_options: '--force'
