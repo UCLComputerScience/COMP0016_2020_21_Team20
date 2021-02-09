@@ -19,6 +19,6 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: care-quality-dashboard-api.json
+          FOLDER: /home/runner/work/COMP0016_2020_21_Team20/COMP0016_2020_21_Team20/care-quality-dashboard-api.json
           TARGET_FOLDER: backend
           CLEAN: true
