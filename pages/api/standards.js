@@ -13,7 +13,7 @@ import requiresAuth from '../../lib/requiresAuthApiMiddleware';
  * @swagger
  * components:
  *  schemas:
- *    standards:
+ *    standard:
  *      properties:
  *        id:
  *         type: integer
@@ -36,7 +36,9 @@ import requiresAuth from '../../lib/requiresAuthApiMiddleware';
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/standards'
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/standard'
  *      401:
  *        $ref: '#/components/responses/unauthorized'
  *      500:
