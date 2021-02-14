@@ -13,13 +13,12 @@ jobs:
       - name: Install swagger-jsdoc
         run: npm install swagger-jsdoc
       - name: Generator specification
-        run: node openapi-generator.js && ls && pwd
+        run: node openapi-generator.js
       - name: Deploy Spec
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Deploy OpenAPI specification
-          branch: gh-pages
-          file_pattern: care-quality-dashboard-api.json
-          commit_user_name: Shubham Jain
-          commit_user_email: shubham@sjain.dev
-          push_options: '--force'
+        run: |
+          git stash
+          git checkout gh-pages
+          git stash pop
+          git add care-quality-dashboard-api.json
+          git -c user.name="Shubham Jain" -c user.email="shubham@sjain.dev" commit -m "Deploy OpenAPI specification"
+          git push origin gh-pages
