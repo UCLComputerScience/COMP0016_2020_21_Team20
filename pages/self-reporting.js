@@ -26,6 +26,9 @@ import {
 import useSWR from '../lib/swr';
 import { Roles } from '../lib/constants';
 
+/**
+ * Fetches questions from the backend
+ */
 const useQuestions = () => {
   const { data, error } = useSWR('/api/questions', {
     // We don't want to refetch questions, as we're storing our score state in this
@@ -45,6 +48,12 @@ export async function getServerSideProps(context) {
   return { props: { session: await getSession(context) } };
 }
 
+/**
+ * If there is a valid session a page is displayed with likert scale and words questions (which are fetched from the backend)
+ *
+ * @param session The session of the users webpage, passed into other components to decided what to display
+ * @param toggleTheme This is passed into the header component to control the theme being displayed
+ */
 function selfReporting({ session, toggleTheme }) {
   const router = useRouter();
   const { data: words } = useSWR('/api/recent_words', {
@@ -66,6 +75,9 @@ function selfReporting({ session, toggleTheme }) {
   const [isMentoringSession, setIsMentoringSession] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
 
+  /**
+   * Sends the answers to the backend, if successful it take the user to the statistics page, else an error alert is displayed
+   */
   const submitAnswers = async () => {
     const words = [];
     wordsQuestions.forEach(
@@ -99,6 +111,11 @@ function selfReporting({ session, toggleTheme }) {
     }
   };
 
+  /**
+   * Checks if any of the required questions have been left blank and then shows a corresponding pop-up. If all required questions are
+   * completed then the pop-up allows the user to edit or submit. Else the the pop-up prompts which required questions are unaswered and
+   * lets them edit the responses.
+   */
   const handleSubmit = () => {
     const unAnsweredQuestions = likertScaleQuestions.filter(
       q => typeof q.score === 'undefined'

@@ -87,10 +87,23 @@ export async function getServerSideProps(context) {
   return { props: { session: await getSession(context) } };
 }
 
+/**
+ * This page is the home/landing page of the platform. If there are no errors, then the header is displayed along with a welcome message
+ * and a features list to show he user what the platform allows you to achieve. Lastly if the user is not logged in then there is a
+ * login/register button along with a "Get Started" message.
+ *
+ * @param session The session of the users webpage, used determine what access they have and therefore what to display
+ * @param toggleTheme This is passed into the header component to control the theme being displayed
+ */
 export default function Home({ session, toggleTheme }) {
   const router = useRouter();
   const featuresRef = useRef(null);
 
+  /**
+   * Displays error as a message
+   *
+   * @param error error code
+   */
   const showError = error => {
     // Don't do exact match
     error = error.toLowerCase();
@@ -131,9 +144,8 @@ export default function Home({ session, toggleTheme }) {
                   style={{ width: '60%', margin: 'auto', marginBottom: '5px' }}>
                   If this is your first time using the Care Quality Dashboard,
                   please contact your department or hospital manager to obtain a
-                  unique Join URL.
-                  This will automatically link your account to your
-                  corresponding department or hospital, so you can start
+                  unique Join URL. This will automatically link your account to
+                  your corresponding department or hospital, so you can start
                   completing self-reports and viewing your statistics.
                 </p>
                 <Button appearance="primary" onClick={() => signIn('keycloak')}>
@@ -141,45 +153,53 @@ export default function Home({ session, toggleTheme }) {
                 </Button>
               </div>
             )}
-            {session && (
-              <div className="spacing">
-              </div>
-            )}
+            {session && <div className="spacing"></div>}
             <div className="features" ref={featuresRef}>
               <div className="feature">
-                <img src="/images/icons8-todo-list-96.png" width={96} height={96} />
+                <img
+                  src="/images/icons8-todo-list-96.png"
+                  width={96}
+                  height={96}
+                />
                 <p>
-                  Complete your self-reporting on the device of your
-                  choice in a matter of minutes. The self-reporting page
-                  is clear and simple to use allowing you to efficiently
-                  report your recent experience. Remember to submit
-                  as your answers aren't automatically saved.
+                  Complete your self-reporting on the device of your choice in a
+                  matter of minutes. The self-reporting page is clear and simple
+                  to use allowing you to efficiently report your recent
+                  experience. Remember to submit as your answers aren't
+                  automatically saved.
                 </p>
               </div>
               <div className="feature">
-                <img src="/images/icons8-combo-chart-96.png" width={96} height={96} />
+                <img
+                  src="/images/icons8-combo-chart-96.png"
+                  width={96}
+                  height={96}
+                />
                 <p>
-                  Track your self-reporting any time and on any device.
-                  The statistics page gives you great flexibilty allowing
-                  you to change data ranges and whether the submissions
-                  were a part of a mentoring session. There is also a
-                  quick to read summary at the top which gives you
-                  great insight of your average.
+                  Track your self-reporting any time and on any device. The
+                  statistics page gives you great flexibilty allowing you to
+                  change data ranges and whether the submissions were a part of
+                  a mentoring session. There is also a quick to read summary at
+                  the top which gives you great insight of your average.
                 </p>
               </div>
               <div className="feature">
-                <img src="/images/icons8-people-96.png" width={96} height={96} />
+                <img
+                  src="/images/icons8-people-96.png"
+                  width={96}
+                  height={96}
+                />
                 <p>
-                  Complete your self-reporting by yourself or as part of
-                  a mentoring session. You and your managers can then
-                  use these useful meaningful insights to spark
-                  conversaions on how you and your department can improve
-                  and what areas are doing well and need to be maintained.
+                  Complete your self-reporting by yourself or as part of a
+                  mentoring session. You and your managers can then use these
+                  useful meaningful insights to spark conversaions on how you
+                  and your department can improve and what areas are doing well
+                  and need to be maintained.
                 </p>
               </div>
             </div>
-          </main> 
-        </div>     
+          </main>
+        </div>
         <div className="cube"></div>
         <div className="cube"></div>
         <div className="cube"></div>
@@ -188,7 +208,7 @@ export default function Home({ session, toggleTheme }) {
         <div className="cube"></div>
       </div>
       <div className="iconInfo">
-        <a href="https://icons8.com">Icons by Icons8</a> 
+        <a href="https://icons8.com">Icons by Icons8</a>
       </div>
 
       <style jsx>{`
