@@ -71,7 +71,7 @@ function selfReporting({ session, toggleTheme }) {
     wordsQuestions.forEach(
       q =>
         q.words &&
-        q.words.forEach(w => words.push({ questionId: q.id, word: w }))
+        q.words.forEach(w => w && words.push({ questionId: q.id, word: w }))
     );
     const scores = likertScaleQuestions.map(q => ({
       standardId: q.standards.id,
