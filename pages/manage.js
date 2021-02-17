@@ -21,6 +21,13 @@ export async function getServerSideProps(context) {
   };
 }
 
+/**
+ * If there is a valid session it displays the correct manage page for the relevant user type, else it displays the login message compnonent
+ *
+ * @param session The session of the users webpage, passed into other components to decided what to display
+ * @param host The host name of the website
+ * @param toggleTheme This is passed into the header component to control the theme being displayed
+ */
 function manage({ session, host, toggleTheme }) {
   if (!session) {
     return (
