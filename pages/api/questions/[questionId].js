@@ -13,18 +13,15 @@ const handler = async (req, res) => {
   }
 
   if (req.method === 'PUT') {
-    if (
-      !session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
-      !session.user.roles.includes(Roles.USER_TYPE_ADMIN)
-    ) {
+    if (!session.user.roles.includes(Roles.USER_TYPE_ADMIN)) {
       return res.status(403).json({
         error: true,
         message: 'You do not have permission to modify questions',
       });
     }
 
-    const { body, url, standard } = req.body;
-    if (!body && !url && !standard) {
+    const { body, url } = req.body;
+    if (!body && !url) {
       return res.status(422).json({
         error: true,
         message: 'The required question details are missing',
