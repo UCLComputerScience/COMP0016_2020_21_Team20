@@ -20,9 +20,9 @@ jobs:
         run: node openapi-generator.js
       - name: Deploy Spec
         run: |
-          git stash
+          mv care-quality-dashboard-api{,2}.json
           git checkout gh-pages
-          git stash pop
+          mv care-quality-dashboard-api{2,}.json
           git add care-quality-dashboard-api.json
           git -c user.name="Shubham Jain" -c user.email="shubham@sjain.dev" commit -m "Deploy OpenAPI specification"
           git push origin gh-pages
