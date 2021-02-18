@@ -133,9 +133,24 @@ const handler = async (req, res) => {
         message:
           'You do not have permission to modify join codes for a department you do not belong to',
       });
-    }
+    } else if (type === Roles.USER_TYPE_HOSPITAL) {
+      const isDepartmentInHospital = await prisma.departments.count({
+        where: {
+          AND: [
+            { id: { equals: +req.query.departmentId } },
+            { hospital_id: { equals: session.user.hospitalId } },
+          ],
+        },
+      });
 
-    // TODO make sure departmentId is within session.user.hospitalId
+      if (!isDepartmentInHospital) {
+        return res.status(403).json({
+          error: true,
+          message:
+            'You do not have permission to modify join codes for a department that is not in your hospital',
+        });
+      }
+    }
 
     const code = await createJoinCode();
     const dbTable =
