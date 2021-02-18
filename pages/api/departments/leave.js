@@ -2,6 +2,27 @@ import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 import setUserDepartmentAndRole from '../../../lib/setUserDepartmentAndRole';
 import { Roles } from '../../../lib/constants';
 
+/**
+ * @swagger
+ * /departments/leave:
+ *  post:
+ *    summary: Leave your department
+ *    description: "Leave your department in the system. This is irreversible. You must later join a new department to continue using the platform. Note: you must be a department or clinician user to perform this operation."
+ *    tags: [departments]
+ *    responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/operationResult'
+ *      401:
+ *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      500:
+ *        $ref: '#/components/responses/internal_server_error'
+ */
 const handler = async (req, res) => {
   const { session } = req;
 

@@ -2,6 +2,60 @@ import prisma from '../../../lib/prisma';
 import { Roles } from '../../../lib/constants';
 import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
 
+/**
+ * @swagger
+ * /departments/{id}:
+ *  get:
+ *    summary: Retrieve a single department
+ *    description: "Retrieve the details of a single departments in the system, for your hospital, health board or department. Note: you must be a hospital, health board or department user to perform this operation, and `id` must be your own department, or a department within your hospital/health board."
+ *    tags: [departments]
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        description: The department ID to update the Join Code for (it must be in your hospital)
+ *        required: true
+ *        schema:
+ *          type: integer
+ *    responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/department'
+ *      401:
+ *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      500:
+ *        $ref: '#/components/responses/internal_server_error'
+ *  delete:
+ *    summary: Delete a department
+ *    description: "Delete a department from the system, and automatically un-link existing clinicians/managers for this department. This is irreversible. Clinicians and department managers will need to join a new department to continue using the platform. Note: you must be a hospital user to perform this operation."
+ *    tags: [departments]
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        description: The department ID to update the Join Code for (it must be in your hospital)
+ *        required: true
+ *        schema:
+ *          type: integer
+ *    responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/operationResult'
+ *      401:
+ *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      500:
+ *        $ref: '#/components/responses/internal_server_error'
+ */
 const handler = async (req, res) => {
   const { session } = req;
 
@@ -12,6 +66,8 @@ const handler = async (req, res) => {
         message: 'You do not have permission to view individual departments',
       });
     }
+
+    // TODO guard this against other users seeing not their own department
 
     const includes = {};
 
