@@ -17,6 +17,7 @@ jobs:
       - name: Deploy Spec
         run: |
           git stash
+          git fetch
           git checkout gh-pages
           git stash pop
           git add care-quality-dashboard-api.json
