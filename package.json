@@ -11,8 +11,8 @@
     "docz:dev": "docz dev",
     "docz:build": "docz build",
     "docz:serve": "docz serve",
-    "test": "jest",
-    "testwatch": "jest --watchAll"
+    "frontend:test": "jest",
+    "frontend:testwatch": "jest --watchAll"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
