@@ -12,12 +12,15 @@ jobs:
         uses: actions/checkout@v2
       - name: Install swagger-jsdoc
         run: npm install swagger-jsdoc
+      - name: Checkout gh-pages
+        run: |
+          git checkout .
+          git fetch
       - name: Generator specification
         run: node openapi-generator.js
       - name: Deploy Spec
         run: |
           git stash
-          git fetch
           git checkout gh-pages
           git stash pop
           git add care-quality-dashboard-api.json
