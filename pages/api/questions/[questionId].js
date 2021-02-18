@@ -67,6 +67,10 @@ import { Roles } from '../../../lib/constants';
  *              $ref: '#/components/schemas/question'
  *      401:
  *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      422:
+ *        $ref: '#/components/responses/invalid_question_id'
  *      500:
  *        $ref: '#/components/responses/internal_server_error'
  *  delete:
@@ -89,6 +93,10 @@ import { Roles } from '../../../lib/constants';
  *              $ref: '#/components/schemas/question'
  *      401:
  *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      422:
+ *        $ref: '#/components/responses/invalid_question_id'
  *      500:
  *        $ref: '#/components/responses/internal_server_error'
  */

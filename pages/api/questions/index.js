@@ -100,6 +100,8 @@ import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
  *              $ref: '#/components/schemas/question'
  *      401:
  *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
  *      500:
  *        $ref: '#/components/responses/internal_server_error'
  */

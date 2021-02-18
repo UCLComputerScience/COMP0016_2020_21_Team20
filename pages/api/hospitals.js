@@ -41,6 +41,8 @@ import { Roles } from '../../lib/constants';
  *                $ref: '#/components/schemas/hospital'
  *      401:
  *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
  *      500:
  *        $ref: '#/components/responses/internal_server_error'
  */
