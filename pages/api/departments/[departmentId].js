@@ -60,19 +60,57 @@ const handler = async (req, res) => {
   const { session } = req;
 
   if (req.method === 'GET') {
-    if (!session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+    if (session.user.roles.includes(Roles.USER_TYPE_CLINICIAN)) {
       return res.status(403).json({
         error: true,
         message: 'You do not have permission to view individual departments',
       });
     }
 
-    // TODO guard this against other users seeing not their own department
-
     const includes = {};
-
     if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+      if (+req.query.departmentId !== session.user.departmentId) {
+        return res.status(403).json({
+          error: true,
+          message:
+            'You do not have permission to view a department you do not belong to',
+        });
+      }
       includes.clinician_join_codes = { select: { code: true } };
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+      const isDepartmentInHospital = await prisma.departments.count({
+        where: {
+          AND: [
+            { id: { equals: +req.query.departmentId } },
+            { hospital_id: { equals: session.user.hospitalId } },
+          ],
+        },
+      });
+
+      if (!isDepartmentInHospital) {
+        return res.status(403).json({
+          error: true,
+          message:
+            'You do not have permission to view a department that is not in your hospital',
+        });
+      }
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
+      const isDepartmentInHealthBoard = await prisma.departments.count({
+        where: {
+          AND: [
+            { id: { equals: +req.query.departmentId } },
+            { health_board_id: { equals: session.user.healthBoardId } },
+          ],
+        },
+      });
+
+      if (!isDepartmentInHealthBoard) {
+        return res.status(403).json({
+          error: true,
+          message:
+            'You do not have permission to view a department that is not in your health board',
+        });
+      }
     }
 
     const department = await prisma.departments.findMany({
