@@ -3,6 +3,89 @@ import prisma from '../../../lib/prisma';
 import createJoinCode from '../../../lib/createJoinCode';
 import { Roles } from '../../../lib/constants';
 
+/**
+ * @swagger
+ * tags:
+ *  name: departments
+ *  description: Departments in the system
+ */
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    department:
+ *      properties:
+ *        id:
+ *         type: integer
+ *         example: 1
+ *        name:
+ *          type: string
+ *          example: Physiotherapy
+ *        department_join_code:
+ *          type: string
+ *          example: AgH-Cda-rOC
+ */
+
+/**
+ * @swagger
+ * /departments:
+ *  get:
+ *    summary: Retrieve the list of departments
+ *    description: "Retrieve the list of departments in the system, for your hospital or health board. Note: you must be a hospital or health board user to perform this operation."
+ *    tags: [departments]
+ *    responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/department'
+ *      401:
+ *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      500:
+ *        $ref: '#/components/responses/internal_server_error'
+ *  post:
+ *    summary: Add a new department
+ *    description: "Add a new department to the system, to be automatically tied to your hospital. Note: you must be a hospital user to perform this operation."
+ *    tags: [departments]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: Physiotherapy
+ *    responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/department'
+ *      401:
+ *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      422:
+ *        description: Invalid details
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/error'
+ *            example:
+ *              error: true
+ *              message: The required department details are missing
+ *      500:
+ *        $ref: '#/components/responses/internal_server_error'
+ */
 const handler = async (req, res) => {
   const { session } = req;
 
