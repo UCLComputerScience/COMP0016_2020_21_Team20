@@ -28,6 +28,14 @@ const options = {
             },
           },
         },
+        operationResult: {
+          type: 'object',
+          properties: {
+            success: {
+              type: 'boolean',
+            },
+          },
+        },
       },
       examples: {
         unauthorized: {
@@ -41,6 +49,18 @@ const options = {
             error: true,
             message:
               'An unexpected error occurred. Please try again later or contact the system administrator if the error persists.',
+          },
+        },
+        invalid_question_id: {
+          value: {
+            error: true,
+            message: 'Invalid Question ID provided',
+          },
+        },
+        insufficient_permission: {
+          value: {
+            error: true,
+            message: 'You do not have permission to modify question URLs',
           },
         },
       },
@@ -70,6 +90,37 @@ const options = {
               examples: {
                 internal_server_error: {
                   $ref: '#/components/examples/internal_server_error',
+                },
+              },
+            },
+          },
+        },
+        invalid_question_id: {
+          description: 'Invalid Question ID provided',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/error',
+              },
+              examples: {
+                invalid_id: {
+                  $ref: '#/components/examples/invalid_question_id',
+                },
+              },
+            },
+          },
+        },
+        insufficient_permission: {
+          description:
+            'Insufficient permission: the authenticated account is not of the correct user type for this operation.',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/error',
+              },
+              examples: {
+                invalid_id: {
+                  $ref: '#/components/examples/insufficient_permission',
                 },
               },
             },
