@@ -50,8 +50,8 @@ import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
  *        name: default_urls
  *        schema:
  *          type: integer
+ *          default: 0
  *        required: false
- *        default: 0
  *        description: "'1' if you want to get the default URLs for all questions, or '0' if you want your department-overridden URL returned (if it exists)."
  *    responses:
  *      200:
