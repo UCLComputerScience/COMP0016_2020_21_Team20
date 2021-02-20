@@ -100,7 +100,7 @@ function Header({ session, toggleTheme }) {
 
 Header.propTypes = {
   /** The session of the users webpage, used determine whether to show a LeaveDeptButton and what tabs to show (if any)*/
-  session: PropTypes.object.isRequired,
+  session: PropTypes.object,
   /** The function which toggles the theme on the platform*/
   toggleTheme: PropTypes.func.isRequired,
 };

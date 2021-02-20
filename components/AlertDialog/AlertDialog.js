@@ -6,8 +6,8 @@ export default function AlertDialog(props) {
     <Modal show={props.open} onHide={() => props.setOpen(false)}>
       <Modal.Header>{props.title}</Modal.Header>
       <Modal.Body>
-        <p>{props.text}</p>
-        <p>{props.content}</p>
+        <p key="text">{props.text}</p>
+        <p key="content">{props.content}</p>
       </Modal.Body>
       <Modal.Footer>{props.actions}</Modal.Footer>
     </Modal>
@@ -24,7 +24,7 @@ AlertDialog.propTypes = {
   /** Text of the alert */
   text: PropTypes.string,
   /** Content of the alert */
-  content: PropTypes.object,
+  content: PropTypes.array,
   /** Actions of the alert */
-  actions: PropTypes.object,
+  actions: PropTypes.array,
 };

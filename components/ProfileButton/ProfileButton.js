@@ -35,7 +35,7 @@ function ProfileButton({ session }) {
 
 ProfileButton.propTypes = {
   /** The session of the users webpage, used determine whether to show a LeaveDeptButton */
-  session: PropTypes.object.isRequired,
+  session: PropTypes.object,
 };
 
 export default ProfileButton;

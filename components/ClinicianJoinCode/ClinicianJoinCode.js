@@ -95,7 +95,7 @@ function ClinicianJoinCode({ session, host }) {
 
 ClinicianJoinCode.propTypes = {
   /** The session of the users webpage, used to fecth the correct join code from the backend*/
-  session: PropTypes.object.isRequired,
+  session: PropTypes.object,
   /** The host name of the website*/
   host: PropTypes.string.isRequired,
 };

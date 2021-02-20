@@ -199,15 +199,15 @@ function CustomTable({ host, ...props }) {
 
 CustomTable.propTypes = {
   /** The host name of the website*/
-  host: PropTypes.string.isRequired,
+  host: PropTypes.string,
   /** Array containing data to be displayed in the table */
-  data: PropTypes.object.isRequired,
-  /** Object containg the defined coloumns of table */
-  columns: PropTypes.object.isRequired,
+  data: PropTypes.array,
+  /** Array containg the defined coloumns of table */
+  columns: PropTypes.array,
   /** The type of custom table: departments or urls or questions */
   tableType: PropTypes.string.isRequired,
   /** The index of the data that is being editted */
-  editing: PropTypes.number.isRequired,
+  editing: PropTypes.bool.isRequired,
   /** Function that is triggered by using copy button in departments table (REQUIRED IN DEPARTMENTS TABLE ONLY)*/
   showCopyAlert: PropTypes.func,
   /** Function that is triggered by using regenerate button in departments table (REQUIRED IN DEPARTMENTS TABLE ONLY)*/
