@@ -15,7 +15,11 @@ describe('Footer', () => {
   it('Has share feedback text', () => {
     const wrapper = mount(<Footer />);
 
-    expect(wrapper.find('a').at(2).text()).toBe('Share your feedback!');
+    expect(
+      wrapper.findWhere(
+        n => n.type() === 'a' && n.contains('Share your feedback!')
+      )
+    );
   });
 });
 
@@ -23,8 +27,12 @@ describe('Footer', () => {
   it('Has privacy policy link', () => {
     const wrapper = mount(<Footer />);
 
-    expect(wrapper.find('a').at(1).prop('href')).toEqual(
-      'https://www.carefulai.com/privacy-policy.html'
+    expect(
+      wrapper.findWhere(
+        n =>
+          n.type() === 'a' &&
+          n.prop('href') === 'https://www.carefulai.com/privacy-policy.html'
+      )
     );
   });
 });

@@ -15,6 +15,7 @@ module.exports = {
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   moduleNameMapper: {
+    '\\.(css|less|sass|scss)$': '<rootDir>/config/jest/CSSStub.js',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
 };

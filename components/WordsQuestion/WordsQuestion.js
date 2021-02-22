@@ -64,7 +64,7 @@ WordsQuestion.propTypes = {
   /** The text of the question */
   question: PropTypes.string.isRequired,
   /** Array of suggested words to show when writing in input boxes */
-  suggestedWords: PropTypes.object.isRequired,
+  suggestedWords: PropTypes.array.isRequired,
 };
 
 export default WordsQuestion;
