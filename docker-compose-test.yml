@@ -1,5 +1,4 @@
-# Note this is a development version of the Docker Compose configuration, so there is no web container
-# The web service should be run manually, outside of Docker, for easiest development
+# Note this is a testing version of the Docker Compose configuration, so there is no web container
 version: '3.8'
 services:
   keycloak:
