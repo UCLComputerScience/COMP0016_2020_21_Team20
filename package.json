@@ -12,7 +12,8 @@
     "docz:build": "docz build",
     "docz:serve": "docz serve",
     "frontend:test": "jest",
-    "frontend:testwatch": "jest --watchAll"
+    "frontend:testwatch": "jest --watchAll",
+    "openapi:generate": "node openapi-generator.js"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",

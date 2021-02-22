@@ -13,7 +13,19 @@ const options = {
         url: 'https://nhsw.sjain.dev/api',
       },
     ],
+    security: [
+      {
+        cookieAuth: [],
+      },
+    ],
     components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: 'apiKey',
+          in: 'cookie',
+          name: '__Secure-next-auth.session-token',
+        },
+      },
       schemas: {
         error: {
           type: 'object',
