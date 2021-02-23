@@ -1,0 +1,31 @@
+---
+name: AnalyticsAccordion
+route: /AnalyticsAccordion
+menu: Statistics
+---
+
+import { Playground, Props } from 'docz';
+import AnalyticsAccordion from './AnalyticsAccordion';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# AnalyticsAccordion
+
+The `AnalyticsAccordion` component displays anlaytics about the statistics in the [`CirclesAccordion`](/CirclesAccordion) component.
+
+<Props of={AnalyticsAccordion} />
+
+It is normally used in the Statistics page.
+
+## Basic usage
+
+<Playground>
+  {/*set a self report to 8 days ago*/}
+  <AnalyticsAccordion
+    data={[{ timestamp: new Date().getTime() - 60 * 60 * 24 * 8 * 1000 }]}
+    stats={[
+      { percentage: 90, longName: 'test1' },
+      { percentage: 50, longName: 'test2' },
+      { percentage: 20, longName: 'test3' },
+    ]}
+  />
+</Playground>
