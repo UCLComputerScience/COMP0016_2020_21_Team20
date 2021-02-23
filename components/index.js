@@ -19,3 +19,4 @@ export { default as LeaveDeptButton } from './LeaveDeptButton/LeaveDeptButton';
 export { default as NoAccess } from './NoAccess/NoAccess';
 export { default as CustomTable } from './CustomTable/CustomTable';
 export { default as Footer } from './Footer/Footer';
+export { default as AnalyticsAccordion } from './AnalyticsAccordion/AnalyticsAccordion';

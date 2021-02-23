@@ -10,6 +10,7 @@ import {
   LineChart,
   Header,
   CirclesAccordion,
+  AnalyticsAccordion,
   Filters,
   LoginMessage,
   WordCloud,
@@ -119,13 +120,29 @@ function statistics({ session, toggleTheme }) {
     return average ? Math.ceil(average * 25) : 0;
   };
 
-  const circles = Object.entries(Standards).map(([shortName, longName]) => {
-    return {
-      name: shortName[0].toUpperCase() + shortName.substr(1).toLowerCase(),
-      color: StandardColors[longName],
-      percentage: getAverage(longName),
-    };
-  });
+  const averageStats = Object.entries(Standards).map(
+    ([shortName, longName]) => {
+      return {
+        name: shortName[0].toUpperCase() + shortName.substr(1).toLowerCase(),
+        longName: longName[0].toUpperCase() + longName.substr(1).toLowerCase(),
+        color: StandardColors[longName],
+        percentage: getAverage(longName),
+      };
+    }
+  );
+
+  const dataToSend =
+    !localError && localData
+      ? localData.responses.map(d => ({
+          is_mentoring_session: d.is_mentoring_session,
+          timestamp: d.timestamp,
+          scores: d.scores.map(s => ({
+            score: s.score,
+            standardName: s.standards.name,
+            color: StandardColors[s.standards.name],
+          })),
+        }))
+      : null;
 
   return (
     <div>
@@ -134,7 +151,11 @@ function statistics({ session, toggleTheme }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header session={session} toggleTheme={toggleTheme} />
-      <CirclesAccordion circles={circles} />
+      <CirclesAccordion circles={averageStats} />
+      {(session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) ||
+        session.user.roles.includes(Roles.USER_TYPE_CLINICIAN)) && (
+        <AnalyticsAccordion data={dataToSend} stats={averageStats} />
+      )}
       <div className={styles.content}>
         <div className={styles.filters}>
           <Filters
@@ -152,21 +173,7 @@ function statistics({ session, toggleTheme }) {
 
         <div className={styles.graph}>
           {visualisationType === Visualisations.LINE_CHART ? (
-            <LineChart
-              data={
-                !localError && localData
-                  ? localData.responses.map(d => ({
-                      is_mentoring_session: d.is_mentoring_session,
-                      timestamp: d.timestamp,
-                      scores: d.scores.map(s => ({
-                        score: s.score,
-                        standardName: s.standards.name,
-                        color: StandardColors[s.standards.name],
-                      })),
-                    }))
-                  : null
-              }
-            />
+            <LineChart data={dataToSend} />
           ) : (
             ''
           )}
