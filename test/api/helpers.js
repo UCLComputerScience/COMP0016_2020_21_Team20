@@ -16,6 +16,7 @@ const mockSessionWithUserType = userType => {
   switch (userType) {
     case 'clinician': {
       mockSession = {
+        // TODO add roles
         expires: '1',
         user: { email: `${userType}@example.com`, name: userType, image: null },
       };
