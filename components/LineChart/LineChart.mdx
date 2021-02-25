@@ -1,0 +1,23 @@
+---
+name: LineChart
+route: /LineChart
+menu: Statistics
+---
+
+import { Playground, Props } from 'docz';
+import LineChart from './LineChart';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# LineChart
+
+The `LineChart` component is used on the Statistics page and displays the results from the user's answers to the word based questions in the self-report.
+
+<Props of={LineChart} />
+
+It is normally used in conjunction with the [`CirclesAccordion`](/CirclesAccordion) wrapper component.
+
+## Basic usage
+
+<Playground>
+  <LineChart />
+</Playground>

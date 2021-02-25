@@ -1,0 +1,23 @@
+---
+name: Filters
+route: /Filters
+menu: Statistics
+---
+
+import { Playground, Props } from 'docz';
+import Filters from './Filters';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# Filters
+
+The `Filters` component is used on the Statistics page and displays the results from the user's answers to the word based questions in the self-report.
+
+<Props of={Filters} />
+
+It is normally used in conjunction with the [`CirclesAccordion`](/CirclesAccordion) wrapper component.
+
+## Basic usage
+
+<Playground>
+  <Circle name="test" color="red" percentage={50} />
+</Playground>
