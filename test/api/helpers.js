@@ -1,6 +1,8 @@
 import OpenAPIResponseValidator from 'openapi-response-validator';
-import openApiSchema from './openApiSchema';
 import client from 'next-auth/client';
+
+import openApiSchema from './openApiSchema';
+import { Roles } from '../../lib/constants';
 
 const getOpenApiValidatorForRequest = (endpoint, method = 'get') => {
   const expectedSchema = { ...openApiSchema };
@@ -12,14 +14,30 @@ const getOpenApiValidatorForRequest = (endpoint, method = 'get') => {
 };
 
 const mockSessionWithUserType = userType => {
-  let mockSession = null;
+  let mockSession = Object.values(Roles).includes(userType)
+    ? {
+        expires: '1',
+        user: {
+          email: `${userType}@example.com`,
+          name: userType,
+          image: null,
+          roles: [userType],
+        },
+      }
+    : null;
+
   switch (userType) {
     case 'clinician': {
-      mockSession = {
-        // TODO add roles
-        expires: '1',
-        user: { email: `${userType}@example.com`, name: userType, image: null },
-      };
+      mockSession.user.userId = 'clinician';
+      mockSession.user.departmentId = 1;
+    }
+    case 'hospital': {
+      mockSession.user.userId = 'hospital';
+      mockSession.user.hospitalId = 1;
+    }
+    case 'health_board': {
+      mockSession.user.userId = 'health_board';
+      mockSession.user.healthBoardId = 1;
     }
   }
   client.useSession.mockReturnValue([mockSession, false]);
