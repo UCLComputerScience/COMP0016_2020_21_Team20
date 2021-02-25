@@ -1,5 +1,6 @@
 import OpenAPIResponseValidator from 'openapi-response-validator';
 import openApiSchema from './openApiSchema';
+import client from 'next-auth/client';
 
 const getOpenApiValidatorForRequest = (endpoint, method = 'get') => {
   const expectedSchema = { ...openApiSchema };
@@ -10,4 +11,18 @@ const getOpenApiValidatorForRequest = (endpoint, method = 'get') => {
   return validator;
 };
 
-module.exports = { getOpenApiValidatorForRequest };
+const mockSessionWithUserType = userType => {
+  let mockSession = null;
+  switch (userType) {
+    case 'clinician': {
+      mockSession = {
+        expires: '1',
+        user: { email: `${userType}@example.com`, name: userType, image: null },
+      };
+    }
+  }
+  client.useSession.mockReturnValue([mockSession, false]);
+  client.getSession.mockReturnValue(mockSession);
+};
+
+module.exports = { getOpenApiValidatorForRequest, mockSessionWithUserType };

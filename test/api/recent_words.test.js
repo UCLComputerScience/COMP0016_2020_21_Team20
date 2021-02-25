@@ -2,7 +2,6 @@
  * @jest-environment ./test/api/api-test.environment.js
  */
 import { testApiHandler } from 'next-test-api-route-handler';
-import client from 'next-auth/client';
 
 import handler, { config } from '../../pages/api/recent_words';
 import prisma from '../../lib/prisma';
@@ -12,14 +11,6 @@ jest.mock('next-auth/client');
 handler.config = config;
 
 beforeAll(async () => {
-  const mockSession = {
-    expires: '1',
-    user: { email: 'clinician@example.com', name: 'Clinician', image: null },
-  };
-
-  client.useSession.mockReturnValueOnce([mockSession, false]);
-  client.getSession.mockReturnValueOnce([mockSession, false]);
-
   await prisma.responses.create({
     data: {
       users: { connect: { id: 'clinician' } },
@@ -49,11 +40,23 @@ beforeAll(async () => {
 });
 
 describe('GET /api/recent_words', () => {
-  it('returns words', async () => {
+  it('is guarded by auth', async () => {
     expect.hasAssertions();
+    helpers.mockSessionWithUserType(null);
     await testApiHandler({
       handler,
-      requestPatcher: req => (req.headers = { key: process.env.SPECIAL_TOKEN }),
+      test: async ({ fetch }) => {
+        const res = await fetch();
+        expect(res.status).toBe(401);
+      },
+    });
+  });
+
+  it('returns words', async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType('clinician');
+    await testApiHandler({
+      handler,
       test: async ({ fetch }) => {
         const res = await fetch();
         expect(res.status).toBe(200);
