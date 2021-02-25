@@ -1,21 +1,25 @@
 /**
  * @jest-environment ./test/api/api-test.environment.js
  */
-import fs from 'fs';
-
 import { testApiHandler } from 'next-test-api-route-handler';
-import handler, { config } from '../../pages/api/recent_words';
-import jestOpenAPI from 'jest-openapi';
-import helpers from './helpers';
-import prisma from '../../lib/prisma';
+import client from 'next-auth/client';
 
+import handler, { config } from '../../pages/api/recent_words';
+import prisma from '../../lib/prisma';
+import helpers from './helpers';
+
+jest.mock('next-auth/client');
 handler.config = config;
 
-jestOpenAPI(
-  JSON.parse(fs.readFileSync('care-quality-dashboard-api.json', 'utf-8'))
-);
-
 beforeAll(async () => {
+  const mockSession = {
+    expires: '1',
+    user: { email: 'clinician@example.com', name: 'Clinician', image: null },
+  };
+
+  client.useSession.mockReturnValueOnce([mockSession, false]);
+  client.getSession.mockReturnValueOnce([mockSession, false]);
+
   await prisma.responses.create({
     data: {
       users: { connect: { id: 'clinician' } },
@@ -52,10 +56,14 @@ describe('GET /api/recent_words', () => {
       requestPatcher: req => (req.headers = { key: process.env.SPECIAL_TOKEN }),
       test: async ({ fetch }) => {
         const res = await fetch();
-        console.log(await res.json());
         expect(res.status).toBe(200);
-        expect(res).toSatisfyApiSpec();
+
         const json = await res.json();
+        const validator = helpers.getOpenApiValidatorForRequest(
+          '/recent_words'
+        );
+        expect(validator.validateResponse(200, json)).toEqual(undefined);
+
         expect(json.words.sort()).toEqual([
           'complex',
           'rewarding',

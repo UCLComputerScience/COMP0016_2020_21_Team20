@@ -2,7 +2,6 @@ const fs = require('fs');
 
 const NodeEnvironment = require('jest-environment-node');
 const prisma = require('../../lib/prisma');
-const helpers = require('./helpers');
 const { Client: PgClient } = require('pg');
 
 const getClient = async () => {

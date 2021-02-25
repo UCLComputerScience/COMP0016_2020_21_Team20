@@ -1,3 +1,13 @@
-const getSessionToken = async (username, password) => {};
+import OpenAPIResponseValidator from 'openapi-response-validator';
+import openApiSchema from './openApiSchema';
 
-module.exports = { getSessionToken };
+const getOpenApiValidatorForRequest = (endpoint, method = 'get') => {
+  const expectedSchema = { ...openApiSchema };
+  expectedSchema.responses =
+    expectedSchema.responses[endpoint][method].responses;
+  const validator = new OpenAPIResponseValidator(expectedSchema);
+
+  return validator;
+};
+
+module.exports = { getOpenApiValidatorForRequest };
