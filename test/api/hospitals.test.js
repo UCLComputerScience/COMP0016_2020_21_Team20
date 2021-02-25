@@ -4,6 +4,7 @@
 import { testApiHandler } from 'next-test-api-route-handler';
 
 import handler, { config } from '../../pages/api/hospitals';
+import { Roles } from '../../lib/constants';
 import helpers from './helpers';
 
 jest.mock('next-auth/client');
@@ -22,7 +23,13 @@ describe('GET /api/hospitals', () => {
     });
   });
 
-  ['clinician', 'hospital', 'platform_administrator'].forEach(userType => {
+  [
+    Roles.USER_TYPE_CLINICIAN,
+    Roles.USER_TYPE_DEPARTMENT,
+    Roles.USER_TYPE_HOSPITAL,
+    Roles.USER_TYPE_ADMIN,
+    Roles.USER_TYPE_UNKNOWN,
+  ].forEach(userType => {
     it(`rejects ${userType}s`, async () => {
       expect.hasAssertions();
       helpers.mockSessionWithUserType(userType);
@@ -38,7 +45,7 @@ describe('GET /api/hospitals', () => {
 
   it('returns hospitals', async () => {
     expect.hasAssertions();
-    helpers.mockSessionWithUserType('health_board');
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_HEALTH_BOARD);
     await testApiHandler({
       handler,
       test: async ({ fetch }) => {

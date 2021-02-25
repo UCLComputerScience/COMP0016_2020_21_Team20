@@ -4,6 +4,7 @@
 import { testApiHandler } from 'next-test-api-route-handler';
 
 import handler, { config } from '../../pages/api/recent_words';
+import { Roles } from '../../lib/constants';
 import prisma from '../../lib/prisma';
 import helpers from './helpers';
 
@@ -29,7 +30,7 @@ describe('GET /api/recent_words', () => {
 
   it('returns no words', async () => {
     expect.hasAssertions();
-    helpers.mockSessionWithUserType('clinician');
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
     await testApiHandler({
       handler,
       test: async ({ fetch }) => {
@@ -75,7 +76,7 @@ describe('GET /api/recent_words', () => {
       },
     });
 
-    helpers.mockSessionWithUserType('clinician');
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
     await testApiHandler({
       handler,
       test: async ({ fetch }) => {

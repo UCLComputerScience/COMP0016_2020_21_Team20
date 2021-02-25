@@ -27,15 +27,15 @@ const mockSessionWithUserType = userType => {
     : null;
 
   switch (userType) {
-    case 'clinician': {
+    case Roles.USER_TYPE_CLINICIAN: {
       mockSession.user.userId = 'clinician';
       mockSession.user.departmentId = 1;
     }
-    case 'hospital': {
+    case Roles.USER_TYPE_HOSPITAL: {
       mockSession.user.userId = 'hospital';
       mockSession.user.hospitalId = 1;
     }
-    case 'health_board': {
+    case Roles.USER_TYPE_HEALTH_BOARD: {
       mockSession.user.userId = 'health_board';
       mockSession.user.healthBoardId = 1;
     }
