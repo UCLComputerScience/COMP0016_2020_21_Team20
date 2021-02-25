@@ -1,1 +1,3 @@
-export const getSessionToken = async (username, password) => {};
+const getSessionToken = async (username, password) => {};
+
+module.exports = { getSessionToken };
