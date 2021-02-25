@@ -64,6 +64,7 @@ const handler = async (req, res) => {
     });
 
     // Only return the name and id of the hospital
+    // TODO return as object with key `hospitals` and value the array:
     return res.json(hospitals.map(h => ({ name: h.name, id: h.id })));
   }
 
