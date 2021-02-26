@@ -102,6 +102,15 @@ import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
  *        $ref: '#/components/responses/unauthorized'
  *      403:
  *        $ref: '#/components/responses/insufficient_permission'
+ *      422:
+ *        description: Invalid details
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/error'
+ *            example:
+ *              error: true
+ *              message: The required question details are missing
  *      500:
  *        $ref: '#/components/responses/internal_server_error'
  */
