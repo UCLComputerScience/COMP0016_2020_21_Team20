@@ -6,7 +6,7 @@ services:
     container_name: database
     # XXX: we only publish 5432 in the development version. The production version should NOT publish the db port
     ports:
-      - '127.0.0.1:5432:5432'
+      - '0.0.0.0:5432:5432'
     environment:
       POSTGRES_MULTIPLE_DATABASES: test
       POSTGRES_PASSWORD: test
