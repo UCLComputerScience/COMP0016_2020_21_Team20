@@ -11,9 +11,9 @@
     "docz:dev": "docz dev",
     "docz:build": "docz build",
     "docz:serve": "docz serve",
-    "frontend:test": "jest --testPathPattern=components/*",
-    "frontend:testwatch": "jest --watchAll --testPathPattern=components/*",
-    "backend:test": "cross-env DATABASE_URL=\"postgresql://test:test@localhost:5432/test\" jest --testPathPattern=test/api* --env=node --runInBand",
+    "frontend:test": "jest --testPathPattern=components* --config=jest-frontend.config.js",
+    "frontend:testwatch": "jest --watchAll --testPathPattern=components* --config=jest-frontend.config.js",
+    "backend:test": "cross-env DATABASE_URL=\"postgresql://test:test@localhost:5432/test\" jest --testPathPattern=test/api* --runInBand",
     "openapi:generate": "node openapi-generator.js"
   },
   "dependencies": {
