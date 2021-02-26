@@ -183,6 +183,10 @@ class ApiTestEnvironment extends NodeEnvironment {
     await client.end();
     await super.teardown();
   }
+
+  runScript(script) {
+    return super.runScript(script);
+  }
 }
 
 module.exports = ApiTestEnvironment;

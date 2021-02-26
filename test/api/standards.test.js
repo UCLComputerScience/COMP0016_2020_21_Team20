@@ -5,10 +5,13 @@ import { testApiHandler } from 'next-test-api-route-handler';
 
 import handler, { config } from '../../pages/api/standards';
 import { Roles } from '../../lib/constants';
+import prisma from '../../lib/prisma';
 import helpers from './helpers';
 
 jest.mock('next-auth/client');
 handler.config = config;
+
+afterAll(() => prisma.$disconnect());
 
 describe('GET /api/standards', () => {
   it('is guarded by auth', async () => {
