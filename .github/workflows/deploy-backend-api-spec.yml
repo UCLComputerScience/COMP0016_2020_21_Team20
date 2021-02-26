@@ -14,10 +14,13 @@ jobs:
         run: npm install swagger-jsdoc
       - name: Generate specification
         run: node openapi-generator.js
-      - name: Deploy Spec
-        run: |
-          git checkout package*
-          [[ -z $(git status --untracked-files=no --porcelain) ]] && echo "no changes, exiting" && exit 0;
-          git add -f care-quality-dashboard-api.json
-          git -c user.name="Shubham Jain" -c user.email="shubham@sjain.dev" commit -m "Deploy OpenAPI specification"
-          git push origin main
+      - name: Remove unwanted changes
+        run: git checkout package*
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          labels: automerge
+          delete-branch: true
+          body: Update OpenAPI specification
+          title: Update OpenAPI specification
+          commit-message: Update OpenAPI specification
