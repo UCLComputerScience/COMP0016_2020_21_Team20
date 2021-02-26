@@ -7,6 +7,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Create .env file
+        run: |
+          touch .env
+          echo DATABASE_URL="postgresql://test:test@localhost:5432/test" >> .env
+          echo NEXTAUTH_URL="http://localhost:3000" >> .env
       - name: Start Docker containers
         run: docker-compose -f docker-compose-test.yml up -d
       - name: Install dependencies
