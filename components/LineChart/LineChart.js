@@ -14,13 +14,15 @@ const baseProperties = {
   // data, label, borderColor remaining
 };
 
+var numberOfStandards = 0;
 const formatData = data => {
+  console.log(data);
   const formattedData = {
     labels: data.map(d => new Date(d.timestamp)),
     datasets: [],
   };
 
-  const numberOfStandards = data[0].scores.length;
+  numberOfStandards = data[0].scores.length;
   for (let i = 0; i < numberOfStandards; i++) {
     const thisStandardData = data.map(d => d.scores[i]);
     const standardData = Object.assign({}, baseProperties);
@@ -49,8 +51,29 @@ const formatData = data => {
     standardData.data = thisStandardData.map(s => (s.score / 4) * 100);
     formattedData.datasets.push(standardData);
   }
-
+  formattedData.datasets.push({ label: 'Invert selection' });
   return formattedData;
+};
+
+var newLegendClickHandler = function (e, legendItem) {
+  var ci = this.chart;
+
+  //if not invert selection label then do default
+  if (legendItem.datasetIndex !== numberOfStandards) {
+    var index = legendItem.datasetIndex;
+    var meta = ci.getDatasetMeta(index);
+
+    meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+  } else {
+    //if invert selection labal then invert if hidden or not
+    for (let i = 0; i < numberOfStandards; i++) {
+      var meta = ci.getDatasetMeta(i);
+      meta.hidden = meta.hidden === null ? !ci.data.datasets[i].hidden : null;
+    }
+  }
+
+  //rerender the chart
+  ci.update();
 };
 
 function LineChart({ data } = {}) {
@@ -116,6 +139,7 @@ function LineChart({ data } = {}) {
                 fontColor:
                   document.body.dataset.theme === 'dark' ? '#9C9C9D' : '#666',
               },
+              onClick: newLegendClickHandler,
             },
           }}
         />
