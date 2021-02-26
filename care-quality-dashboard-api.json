@@ -1,0 +1,1158 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Care Quality Dashboard REST API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://nhsw.sjain.dev/api"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "boolean",
+            "default": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Unauthorized access"
+          }
+        }
+      },
+      "operationResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "department": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Physiotherapy"
+          },
+          "department_join_code": {
+            "type": "string",
+            "example": "AgH-Cda-rOC"
+          }
+        }
+      },
+      "hospital": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "The Grange University Hospital"
+          }
+        }
+      },
+      "question": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "body": {
+            "type": "string",
+            "example": "I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them."
+          },
+          "type": {
+            "type": "string",
+            "example": "likert_scale"
+          },
+          "standards": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "Individual Care"
+              }
+            }
+          },
+          "url": {
+            "type": "string",
+            "example": "http://www.wales.nhs.uk/governance-emanual/person-centred-care"
+          }
+        }
+      },
+      "response": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2020-12-01T13:00:00.000Z"
+          },
+          "is_mentoring_session": {
+            "type": "boolean",
+            "example": false
+          },
+          "departments": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "example": "Band 5 Physiotherapist"
+              },
+              "hospital_id": {
+                "type": "integer",
+                "example": 1
+              },
+              "archived": {
+                "type": "boolean",
+                "example": false
+              }
+            }
+          },
+          "words": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "response_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "word": {
+                  "type": "string",
+                  "example": "complex"
+                },
+                "question_id": {
+                  "type": "integer",
+                  "example": 1
+                }
+              }
+            }
+          },
+          "scores": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "standards": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 6
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Timely Care"
+                    }
+                  }
+                },
+                "score": {
+                  "type": "integer",
+                  "example": 4
+                }
+              }
+            }
+          }
+        }
+      },
+      "standard": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Timely Care"
+          }
+        }
+      }
+    },
+    "examples": {
+      "unauthorized": {
+        "value": {
+          "error": true,
+          "message": "Unauthorized access"
+        }
+      },
+      "internal_server_error": {
+        "value": {
+          "error": true,
+          "message": "An unexpected error occurred. Please try again later or contact the system administrator if the error persists."
+        }
+      },
+      "invalid_question_id": {
+        "value": {
+          "error": true,
+          "message": "Invalid Question ID provided"
+        }
+      },
+      "insufficient_permission": {
+        "value": {
+          "error": true,
+          "message": "You do not have permission to modify question URLs"
+        }
+      }
+    },
+    "responses": {
+      "unauthorized": {
+        "description": "Unauthorized access",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "unauthorized": {
+                "$ref": "#/components/examples/unauthorized"
+              }
+            }
+          }
+        }
+      },
+      "internal_server_error": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "internal_server_error": {
+                "$ref": "#/components/examples/internal_server_error"
+              }
+            }
+          }
+        }
+      },
+      "invalid_question_id": {
+        "description": "Invalid Question ID provided",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "invalid_id": {
+                "$ref": "#/components/examples/invalid_question_id"
+              }
+            }
+          }
+        }
+      },
+      "insufficient_permission": {
+        "description": "Insufficient permission: the authenticated account is not of the correct user type for this operation.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "examples": {
+              "invalid_id": {
+                "$ref": "#/components/examples/insufficient_permission"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/departments/{id}": {
+      "get": {
+        "summary": "Retrieve a single department",
+        "description": "Retrieve the details of a single departments in the system, for your hospital, health board or department. Note: you must be a hospital, health board or department user to perform this operation, and `id` must be your own department, or a department within your hospital/health board.",
+        "tags": ["departments"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The department ID to update the Join Code for (it must be in your hospital)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/department"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a department",
+        "description": "Delete a department from the system, and automatically un-link existing clinicians/managers for this department. This is irreversible. Clinicians and department managers will need to join a new department to continue using the platform. Note: you must be a hospital user to perform this operation.",
+        "tags": ["departments"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The department ID to update the Join Code for (it must be in your hospital)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/operationResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/departments": {
+      "get": {
+        "summary": "Retrieve the list of departments",
+        "description": "Retrieve the list of departments in the system, for your hospital or health board. Note: you must be a hospital or health board user to perform this operation.",
+        "tags": ["departments"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/department"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new department",
+        "description": "Add a new department to the system, to be automatically tied to your hospital. Note: you must be a hospital user to perform this operation.",
+        "tags": ["departments"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Physiotherapy"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/department"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "422": {
+            "description": "Invalid details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "error": true,
+                  "message": "The required department details are missing"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/departments/leave": {
+      "post": {
+        "summary": "Leave your department",
+        "description": "Leave your department in the system. This is irreversible. You must later join a new department to continue using the platform. Note: you must be a department or clinician user to perform this operation.",
+        "tags": ["departments"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/operationResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/hospitals": {
+      "get": {
+        "summary": "Retrieve a list of hospitals",
+        "description": "Retrieve a list of hospitals. Note: only health board users can use this endpoint to fetch hospitals inside their own health board. This could be used e.g. for populating a list of hospitals for them to filter by when visualising statistics.",
+        "tags": ["hospitals"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/hospital"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/join_codes/department_manager/{id}": {
+      "put": {
+        "summary": "Update your department's Join Code (URL) for clinicians",
+        "description": "Update the Join Code (URL) for your department's clinicians, to allow them to join your department. Note: this invalidates any previous Join URL and will need to be redistributed. Note: you must be a department manager to perform this operation and `id` must be your own department ID.",
+        "tags": ["join_codes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Your department ID (to update the Join Code for)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "AgH-Cda-rOC"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/join_codes/hospital/{id}": {
+      "put": {
+        "summary": "Update the Join Code for a department in your hospital",
+        "description": "Update the Join Code (URL) for a department in your hospital, to allow the corresponding department managers to join the department. Note: this invalidates any previous Join URL and will need to be redistributed. Note: you must be a hospital user to perform this operation and `id` must be a department ID in your hospital.",
+        "tags": ["join_codes"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The department ID to update the Join Code for (it must be in your hospital)",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "AgH-Cda-rOC"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/question_urls/{id}": {
+      "put": {
+        "summary": "Update a question's training URL for your department",
+        "description": "Update the given question's training URL for all users in your department, to be shown to them when they self-report. Note: you must be a department manager to perform this operation.",
+        "tags": ["question_urls"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Question ID to update training URL for",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "example": "http://www.wales.nhs.uk/governance-emanual/person-centred-care"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/operationResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "422": {
+            "$ref": "#/components/responses/invalid_question_id"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete your department's training URL for a question",
+        "description": "Delete the given question's department-specific training URL, resetting it to the default global training URL for all users in your department when they self-report. to no longer be shown to any users when they self-report. Note: you must be a department manager to perform this operation.",
+        "tags": ["question_urls"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Question ID to delete training URL for",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/operationResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "422": {
+            "$ref": "#/components/responses/invalid_question_id"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/questions/{id}": {
+      "put": {
+        "summary": "Update a self-report question",
+        "description": "Update the given question's body or default training URL, to be shown to users when they self-report. Note: you must be an administrator to perform this operation.",
+        "tags": ["questions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Question ID to update",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "string",
+                    "example": "I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them."
+                  },
+                  "url": {
+                    "type": "string",
+                    "example": "http://www.wales.nhs.uk/governance-emanual/person-centred-care"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/question"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "422": {
+            "$ref": "#/components/responses/invalid_question_id"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a self-report question",
+        "description": "Delete the given self-report question from the system, to no longer be shown to any users when they self-report. This is irreversible. Note: you must be an administrator to perform this operation.",
+        "tags": ["questions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Question ID to delete",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/question"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "422": {
+            "$ref": "#/components/responses/invalid_question_id"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/questions": {
+      "get": {
+        "summary": "Retrieve the self-report questions",
+        "description": "Retrieve the list of questions stored in the system, to be asked to users. Returns an object with keys for each question type along with an array of questions for that type.",
+        "tags": ["questions"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "default_urls",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "required": false,
+            "description": "'1' if you want to get the default URLs for all questions, or '0' if you want your department-overridden URL returned (if it exists)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/question"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new self-report question",
+        "description": "Submit a new self-report question to the system, to be shown to all users when they self-report. Note: you must be an administrator to be able to perform this operation.",
+        "tags": ["questions"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "type": "string",
+                    "example": "I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them."
+                  },
+                  "url": {
+                    "type": "string",
+                    "example": "http://www.wales.nhs.uk/governance-emanual/person-centred-care"
+                  },
+                  "standard": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "likert_scale"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/question"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/recent_words": {
+      "get": {
+        "summary": "Retrieve a list of the recently submitted words",
+        "description": "Retrieve a list of the most recent 100 words that were submitted by users, anonymised. This can be used for e.g. populating an autocomplete input field",
+        "tags": ["recent_words"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "tiring"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/responses": {
+      "get": {
+        "summary": "Retrieve the self-report responses",
+        "description": "Retrieve the list of responses stored in the system, according to the specified filters",
+        "tags": ["responses"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Unix Epoch timestamp (milliseconds) representing the start date you want responses from"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Unix Epoch timestamp (milliseconds) representing the end date you want responses to"
+          },
+          {
+            "in": "query",
+            "name": "only_is_mentoring_session",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": 1,
+            "description": "Whether you want responses only for mentoring sessions (this takes precedence over only_not_mentoring_session)"
+          },
+          {
+            "in": "query",
+            "name": "only_not_mentoring_session",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": 1,
+            "description": "Whether you want responses only for non-mentoring sessions (overriden by only_not_mentoring_session if provided)"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": 1,
+            "description": "The user ID you want to fetch responses for (overrides the default which is to return responses relevant to your user type). Note: this is only relevant for department manager user types."
+          },
+          {
+            "in": "query",
+            "name": "department_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": 1,
+            "description": "The department ID you want to fetch responses for (overrides the default which is to return responses relevant to your user type). Note: this is only relevant for hospital user types."
+          },
+          {
+            "in": "query",
+            "name": "hospital_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": false,
+            "example": 1,
+            "description": "The department ID you want to fetch responses for (overrides the default which is to return responses relevant to your user type). Note: this is only relevant for health board user types."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/response"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit a self-report response",
+        "description": "Submit a self-report response to be associated with the logged in user",
+        "tags": ["responses"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "scores": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "standardId": {
+                          "type": "integer",
+                          "example": 6
+                        },
+                        "score": {
+                          "type": "integer",
+                          "example": 2
+                        }
+                      }
+                    }
+                  },
+                  "words": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "questionId": {
+                          "type": "integer",
+                          "example": 8
+                        },
+                        "word": {
+                          "type": "string",
+                          "example": "tiring"
+                        }
+                      }
+                    }
+                  },
+                  "is_mentoring_session": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/standards": {
+      "get": {
+        "summary": "Retrieve the list of standards stored in the system",
+        "description": "Retrieve the list of standards stored in the system, with their ID and name",
+        "tags": ["standards"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/standard"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "departments",
+      "description": "Departments in the system"
+    },
+    {
+      "name": "hospitals",
+      "description": "Hospitals in the system"
+    },
+    {
+      "name": "join_codes",
+      "description": "Department join codes"
+    },
+    {
+      "name": "question_urls",
+      "description": "Self-report question department training URLs"
+    },
+    {
+      "name": "questions",
+      "description": "Self-report questions"
+    },
+    {
+      "name": "recent_words",
+      "description": "Recently Submitted single-words"
+    },
+    {
+      "name": "responses",
+      "description": "Self-report responses"
+    },
+    {
+      "name": "standards",
+      "description": "Health & Care Standards"
+    }
+  ]
+}
