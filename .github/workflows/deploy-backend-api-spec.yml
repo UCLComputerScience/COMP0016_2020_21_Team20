@@ -12,17 +12,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Install swagger-jsdoc
         run: npm install swagger-jsdoc
-      - name: Fetch branches
-        run: git fetch
-      - name: Generator specification
+      - name: Generate specification
         run: node openapi-generator.js
       - name: Deploy Spec
         run: |
-          git checkout .
-          mv care-quality-dashboard-api{,2}.json
-          git checkout gh-pages
-          mv care-quality-dashboard-api{2,}.json
+          git checkout package*
           [[ -z $(git status --untracked-files=no --porcelain) ]] && echo "no changes, exiting" && exit 0;
           git add -f care-quality-dashboard-api.json
           git -c user.name="Shubham Jain" -c user.email="shubham@sjain.dev" commit -m "Deploy OpenAPI specification"
-          git push origin gh-pages
+          git push origin main
