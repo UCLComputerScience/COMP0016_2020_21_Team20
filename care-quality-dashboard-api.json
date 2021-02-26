@@ -9,7 +9,19 @@
       "url": "https://nhsw.sjain.dev/api"
     }
   ],
+  "security": [
+    {
+      "cookieAuth": []
+    }
+  ],
   "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Secure-next-auth.session-token"
+      }
+    },
     "schemas": {
       "error": {
         "type": "object",
@@ -286,9 +298,7 @@
       "get": {
         "summary": "Retrieve a single department",
         "description": "Retrieve the details of a single departments in the system, for your hospital, health board or department. Note: you must be a hospital, health board or department user to perform this operation, and `id` must be your own department, or a department within your hospital/health board.",
-        "tags": [
-          "departments"
-        ],
+        "tags": ["departments"],
         "parameters": [
           {
             "name": "id",
@@ -328,9 +338,7 @@
       "delete": {
         "summary": "Delete a department",
         "description": "Delete a department from the system, and automatically un-link existing clinicians/managers for this department. This is irreversible. Clinicians and department managers will need to join a new department to continue using the platform. Note: you must be a hospital user to perform this operation.",
-        "tags": [
-          "departments"
-        ],
+        "tags": ["departments"],
         "parameters": [
           {
             "name": "id",
@@ -369,9 +377,7 @@
       "get": {
         "summary": "Retrieve the list of departments",
         "description": "Retrieve the list of departments in the system, for your hospital or health board. Note: you must be a hospital or health board user to perform this operation.",
-        "tags": [
-          "departments"
-        ],
+        "tags": ["departments"],
         "responses": {
           "200": {
             "description": "Success",
@@ -400,9 +406,7 @@
       "post": {
         "summary": "Add a new department",
         "description": "Add a new department to the system, to be automatically tied to your hospital. Note: you must be a hospital user to perform this operation.",
-        "tags": [
-          "departments"
-        ],
+        "tags": ["departments"],
         "requestBody": {
           "required": true,
           "content": {
@@ -460,9 +464,7 @@
       "post": {
         "summary": "Leave your department",
         "description": "Leave your department in the system. This is irreversible. You must later join a new department to continue using the platform. Note: you must be a department or clinician user to perform this operation.",
-        "tags": [
-          "departments"
-        ],
+        "tags": ["departments"],
         "responses": {
           "200": {
             "description": "Success",
@@ -490,9 +492,7 @@
       "get": {
         "summary": "Retrieve a list of hospitals",
         "description": "Retrieve a list of hospitals. Note: only health board users can use this endpoint to fetch hospitals inside their own health board. This could be used e.g. for populating a list of hospitals for them to filter by when visualising statistics.",
-        "tags": [
-          "hospitals"
-        ],
+        "tags": ["hospitals"],
         "responses": {
           "200": {
             "description": "Success",
@@ -523,9 +523,7 @@
       "put": {
         "summary": "Update your department's Join Code (URL) for clinicians",
         "description": "Update the Join Code (URL) for your department's clinicians, to allow them to join your department. Note: this invalidates any previous Join URL and will need to be redistributed. Note: you must be a department manager to perform this operation and `id` must be your own department ID.",
-        "tags": [
-          "join_codes"
-        ],
+        "tags": ["join_codes"],
         "parameters": [
           {
             "name": "id",
@@ -570,9 +568,7 @@
       "put": {
         "summary": "Update the Join Code for a department in your hospital",
         "description": "Update the Join Code (URL) for a department in your hospital, to allow the corresponding department managers to join the department. Note: this invalidates any previous Join URL and will need to be redistributed. Note: you must be a hospital user to perform this operation and `id` must be a department ID in your hospital.",
-        "tags": [
-          "join_codes"
-        ],
+        "tags": ["join_codes"],
         "parameters": [
           {
             "name": "id",
@@ -617,9 +613,7 @@
       "put": {
         "summary": "Update a question's training URL for your department",
         "description": "Update the given question's training URL for all users in your department, to be shown to them when they self-report. Note: you must be a department manager to perform this operation.",
-        "tags": [
-          "question_urls"
-        ],
+        "tags": ["question_urls"],
         "parameters": [
           {
             "name": "id",
@@ -675,9 +669,7 @@
       "delete": {
         "summary": "Delete your department's training URL for a question",
         "description": "Delete the given question's department-specific training URL, resetting it to the default global training URL for all users in your department when they self-report. to no longer be shown to any users when they self-report. Note: you must be a department manager to perform this operation.",
-        "tags": [
-          "question_urls"
-        ],
+        "tags": ["question_urls"],
         "parameters": [
           {
             "name": "id",
@@ -719,9 +711,7 @@
       "put": {
         "summary": "Update a self-report question",
         "description": "Update the given question's body or default training URL, to be shown to users when they self-report. Note: you must be an administrator to perform this operation.",
-        "tags": [
-          "questions"
-        ],
+        "tags": ["questions"],
         "parameters": [
           {
             "name": "id",
@@ -781,9 +771,7 @@
       "delete": {
         "summary": "Delete a self-report question",
         "description": "Delete the given self-report question from the system, to no longer be shown to any users when they self-report. This is irreversible. Note: you must be an administrator to perform this operation.",
-        "tags": [
-          "questions"
-        ],
+        "tags": ["questions"],
         "parameters": [
           {
             "name": "id",
@@ -825,9 +813,7 @@
       "get": {
         "summary": "Retrieve the self-report questions",
         "description": "Retrieve the list of questions stored in the system, to be asked to users. Returns an object with keys for each question type along with an array of questions for that type.",
-        "tags": [
-          "questions"
-        ],
+        "tags": ["questions"],
         "parameters": [
           {
             "in": "query",
@@ -868,9 +854,7 @@
       "post": {
         "summary": "Add a new self-report question",
         "description": "Submit a new self-report question to the system, to be shown to all users when they self-report. Note: you must be an administrator to be able to perform this operation.",
-        "tags": [
-          "questions"
-        ],
+        "tags": ["questions"],
         "requestBody": {
           "required": true,
           "content": {
@@ -926,19 +910,22 @@
       "get": {
         "summary": "Retrieve a list of the recently submitted words",
         "description": "Retrieve a list of the most recent 100 words that were submitted by users, anonymised. This can be used for e.g. populating an autocomplete input field",
-        "tags": [
-          "recent_words"
-        ],
+        "tags": ["recent_words"],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "example": "tiring"
+                  "type": "object",
+                  "properties": {
+                    "words": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "tiring"
+                      }
+                    }
                   }
                 }
               }
@@ -957,9 +944,7 @@
       "get": {
         "summary": "Retrieve the self-report responses",
         "description": "Retrieve the list of responses stored in the system, according to the specified filters",
-        "tags": [
-          "responses"
-        ],
+        "tags": ["responses"],
         "parameters": [
           {
             "in": "query",
@@ -1055,9 +1040,7 @@
       "post": {
         "summary": "Submit a self-report response",
         "description": "Submit a self-report response to be associated with the logged in user",
-        "tags": [
-          "responses"
-        ],
+        "tags": ["responses"],
         "requestBody": {
           "required": true,
           "content": {
@@ -1130,9 +1113,7 @@
       "get": {
         "summary": "Retrieve the list of standards stored in the system",
         "description": "Retrieve the list of standards stored in the system, with their ID and name",
-        "tags": [
-          "standards"
-        ],
+        "tags": ["standards"],
         "responses": {
           "200": {
             "description": "Success",
