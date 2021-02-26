@@ -136,9 +136,17 @@ import { Roles } from '../../lib/constants';
  *        content:
  *          application/json:
  *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/response'
+ *              type: object
+ *              properties:
+ *                responses:
+ *                  type: array
+ *                  items:
+ *                    $ref: '#/components/schemas/response'
+ *                averages:
+ *                  type: object
+ *                  additionalProperties:
+ *                    type: number
+ *
  *      401:
  *        $ref: '#/components/responses/unauthorized'
  *      500:
