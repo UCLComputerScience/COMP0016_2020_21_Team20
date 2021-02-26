@@ -7,6 +7,7 @@ import handler, { config } from '../../pages/api/responses';
 import { Roles } from '../../lib/constants';
 import prisma from '../../lib/prisma';
 import helpers from './helpers';
+import responses from '../../pages/api/responses';
 
 jest.mock('next-auth/client');
 handler.config = config;
@@ -282,6 +283,58 @@ describe('GET /api/responses', () => {
           },
         });
       });
+    });
+  });
+});
+
+describe('POST /api/responses', () => {
+  it('is guarded by auth', async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(null);
+    await testApiHandler({
+      handler,
+      test: async ({ fetch }) => {
+        const res = await fetch({ method: 'POST' });
+        expect(res.status).toBe(401);
+      },
+    });
+  });
+
+  it('allows user to add response', async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+    await testApiHandler({
+      handler,
+      test: async ({ fetch }) => {
+        const res = await fetch({
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            scores: [
+              { standardId: 1, score: 1 },
+              { standardId: 2, score: 2 },
+              { standardId: 3, score: 3 },
+              { standardId: 4, score: 4 },
+              { standardId: 5, score: 0 },
+              { standardId: 6, score: 2 },
+              { standardId: 7, score: 3 },
+            ],
+            words: [{ questionId: 8, word: 'Test' }],
+            is_mentoring_session: true,
+          }),
+        });
+        expect(res.status).toBe(200);
+
+        const json = await res.json();
+        const validator = helpers.getOpenApiValidatorForRequest(
+          '/responses',
+          'post'
+        );
+        expect(validator.validateResponse(200, json)).toEqual(undefined);
+        expect(json.user_id).toEqual('clinician');
+        expect(json.is_mentoring_session).toEqual(true);
+        expect(json.department_id).toEqual(1);
+      },
     });
   });
 });
