@@ -30,14 +30,17 @@ const mockSessionWithUserType = userType => {
     case Roles.USER_TYPE_CLINICIAN: {
       mockSession.user.userId = 'clinician';
       mockSession.user.departmentId = 1;
+      break;
     }
     case Roles.USER_TYPE_HOSPITAL: {
       mockSession.user.userId = 'hospital';
       mockSession.user.hospitalId = 1;
+      break;
     }
     case Roles.USER_TYPE_HEALTH_BOARD: {
       mockSession.user.userId = 'health_board';
       mockSession.user.healthBoardId = 1;
+      break;
     }
   }
   client.useSession.mockReturnValue([mockSession, false]);
