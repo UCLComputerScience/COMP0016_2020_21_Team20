@@ -7,7 +7,6 @@ import handler, { config } from '../../pages/api/responses';
 import { Roles } from '../../lib/constants';
 import prisma from '../../lib/prisma';
 import helpers from './helpers';
-import responses from '../../pages/api/responses';
 
 jest.mock('next-auth/client');
 handler.config = config;
