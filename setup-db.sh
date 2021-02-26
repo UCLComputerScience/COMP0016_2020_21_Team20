@@ -26,8 +26,10 @@ cat /docker-entrypoint-initdb.d/schema.txt | psql -v ON_ERROR_STOP=1 --username 
 # Create "test" user if we're creating "test" database
 if [[ $POSTGRES_MULTIPLE_DATABASES == *"test"* ]]; then
 echo "Updating test database";
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" test <<-EOSQL
 		CREATE USER "test" WITH PASSWORD 'test';
-		GRANT ALL PRIVILEGES ON DATABASE test TO "test";
+		GRANT ALL PRIVILEGES ON DATABASE test TO test;
+		ALTER DATABASE test OWNER TO test;
+		ALTER SCHEMA public OWNER TO test;
 EOSQL
 fi;
