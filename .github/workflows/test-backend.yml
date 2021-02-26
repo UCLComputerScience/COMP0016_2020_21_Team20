@@ -14,8 +14,6 @@ jobs:
           echo NEXTAUTH_URL="http://localhost:3000" >> .env
       - name: Start Docker containers
         run: docker-compose -f docker-compose-test.yml up -d
-      - name: Debug
-        run: docker ps && docker-compose -f docker-compose-test.yml logs
       - name: Install dependencies
         run: npm install
       - name: Test
