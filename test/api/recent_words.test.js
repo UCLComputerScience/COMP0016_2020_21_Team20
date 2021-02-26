@@ -13,6 +13,7 @@ handler.config = config;
 
 afterAll(async () => {
   await prisma.$executeRaw('TRUNCATE TABLE responses CASCADE;');
+  await prisma.$disconnect();
 });
 
 describe('GET /api/recent_words', () => {
