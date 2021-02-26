@@ -58,8 +58,9 @@ describe('GET /api/hospitals', () => {
         const json = await res.json();
         const validator = helpers.getOpenApiValidatorForRequest('/hospitals');
         expect(validator.validateResponse(200, json)).toEqual(undefined);
-        expect(json.length).toEqual(1);
+        expect(json.length).toEqual(2);
         expect(json[0]).toEqual({ name: 'Test Hospital', id: 1 });
+        expect(json[1]).toEqual({ name: 'Test Hospital 2', id: 2 });
       },
     });
   });
