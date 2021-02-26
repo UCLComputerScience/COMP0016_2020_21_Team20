@@ -13,7 +13,7 @@ const getOpenApiValidatorForRequest = (endpoint, method = 'get') => {
   return validator;
 };
 
-const mockSessionWithUserType = userType => {
+const mockSessionWithUserType = (userType, entityId = 1) => {
   let mockSession = Object.values(Roles).includes(userType)
     ? {
         expires: '1',
@@ -22,24 +22,26 @@ const mockSessionWithUserType = userType => {
           name: userType,
           image: null,
           roles: [userType],
+          userId: userType,
         },
       }
     : null;
 
   switch (userType) {
     case Roles.USER_TYPE_CLINICIAN: {
-      mockSession.user.userId = 'clinician';
-      mockSession.user.departmentId = 1;
+      mockSession.user.departmentId = entityId;
+      break;
+    }
+    case Roles.USER_TYPE_DEPARTMENT: {
+      mockSession.user.departmentId = entityId;
       break;
     }
     case Roles.USER_TYPE_HOSPITAL: {
-      mockSession.user.userId = 'hospital';
-      mockSession.user.hospitalId = 1;
+      mockSession.user.hospitalId = entityId;
       break;
     }
     case Roles.USER_TYPE_HEALTH_BOARD: {
-      mockSession.user.userId = 'health_board';
-      mockSession.user.healthBoardId = 1;
+      mockSession.user.healthBoardId = entityId;
       break;
     }
   }

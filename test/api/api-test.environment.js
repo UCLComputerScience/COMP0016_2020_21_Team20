@@ -139,13 +139,30 @@ class ApiTestEnvironment extends NodeEnvironment {
           id: 1,
           name: 'Test Health Board',
           hospitals: {
-            create: {
-              id: 1,
-              name: 'Test Hospital',
-              departments: { create: { id: 1, name: 'Test Department' } },
-            },
+            create: [
+              {
+                id: 1,
+                name: 'Test Hospital',
+                departments: {
+                  create: [
+                    { id: 1, name: 'Test Department' },
+                    { id: 2, name: 'Test Department 2' },
+                  ],
+                },
+              },
+              {
+                id: 2,
+                name: 'Test Hospital 2',
+                departments: {
+                  create: [{ id: 3, name: 'Test Department 3' }],
+                },
+              },
+            ],
           },
         },
+      }),
+      prisma.health_boards.create({
+        data: { id: 2, name: 'Test Health Board 2' },
       }),
       ...standards.map((standard, i) =>
         prisma.standards.create({ data: { name: standard } })
