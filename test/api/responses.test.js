@@ -74,6 +74,26 @@ describe('GET /api/responses', () => {
           },
         },
       });
+
+      await prisma.responses.create({
+        data: {
+          users: { connect: { id: 'clinician' } },
+          is_mentoring_session: true,
+          timestamp: new Date(),
+          departments: { connect: { id: 1 } },
+          scores: {
+            create: [
+              { score: 0, standards: { connect: { id: 1 } } },
+              { score: 1, standards: { connect: { id: 2 } } },
+              { score: 2, standards: { connect: { id: 3 } } },
+              { score: 3, standards: { connect: { id: 4 } } },
+              { score: 4, standards: { connect: { id: 5 } } },
+              { score: 3, standards: { connect: { id: 6 } } },
+              { score: 2, standards: { connect: { id: 7 } } },
+            ],
+          },
+        },
+      });
     });
 
     it("returns clinician's own responses", async () => {
@@ -89,6 +109,86 @@ describe('GET /api/responses', () => {
           const validator = helpers.getOpenApiValidatorForRequest('/responses');
           expect(validator.validateResponse(200, json)).toEqual(undefined);
 
+          expect(json.responses.length).toEqual(2);
+          expect(json.responses[0].scores.length).toEqual(7);
+          expect(json.responses[0].words.length).toEqual(2);
+          expect(Object.keys(json.averages).length).toEqual(7);
+        },
+      });
+    });
+
+    it("obeys 'from' filter", async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        requestPatcher: req =>
+          (req.url = '/api/responses?from=' + new Date().getTime()),
+        test: async ({ fetch }) => {
+          const res = await fetch();
+          expect(res.status).toBe(200);
+
+          const json = await res.json();
+          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          expect(validator.validateResponse(200, json)).toEqual(undefined);
+          expect(json.responses.length).toEqual(0);
+        },
+      });
+    });
+
+    it("obeys 'to' filter", async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        requestPatcher: req =>
+          (req.url =
+            '/api/responses?to=' + (new Date().getTime() - 60 * 60 * 1000)), // 1 hour ago
+        test: async ({ fetch }) => {
+          const res = await fetch();
+          expect(res.status).toBe(200);
+
+          const json = await res.json();
+          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          expect(validator.validateResponse(200, json)).toEqual(undefined);
+          expect(json.responses.length).toEqual(0);
+        },
+      });
+    });
+
+    it("obeys 'only_is_mentoring_session' filter", async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        requestPatcher: req =>
+          (req.url = '/api/responses?only_is_mentoring_session=1'),
+        test: async ({ fetch }) => {
+          const res = await fetch();
+          expect(res.status).toBe(200);
+
+          const json = await res.json();
+          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          expect(validator.validateResponse(200, json)).toEqual(undefined);
+          expect(json.responses.length).toEqual(1);
+        },
+      });
+    });
+
+    it("obeys 'only_not_mentoring_session' filter", async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        requestPatcher: req =>
+          (req.url = '/api/responses?only_not_mentoring_session=1'),
+        test: async ({ fetch }) => {
+          const res = await fetch();
+          expect(res.status).toBe(200);
+
+          const json = await res.json();
+          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          expect(validator.validateResponse(200, json)).toEqual(undefined);
           expect(json.responses.length).toEqual(1);
         },
       });
@@ -127,7 +227,6 @@ describe('GET /api/responses', () => {
               '/responses'
             );
             expect(validator.validateResponse(200, json)).toEqual(undefined);
-
             expect(json.responses.length).toEqual(0);
           },
         });
@@ -153,8 +252,7 @@ describe('GET /api/responses', () => {
               '/responses'
             );
             expect(validator.validateResponse(200, json)).toEqual(undefined);
-
-            expect(json.responses.length).toEqual(1);
+            expect(json.responses.length).toEqual(2);
           },
         });
       });
@@ -180,7 +278,6 @@ describe('GET /api/responses', () => {
               '/responses'
             );
             expect(validator.validateResponse(200, json)).toEqual(undefined);
-
             expect(json.responses.length).toEqual(0);
           },
         });
