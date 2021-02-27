@@ -39,7 +39,7 @@ describe('GET /api/recent_words', () => {
         expect(res.status).toBe(200);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest(
+        const validator = await helpers.getOpenApiValidatorForRequest(
           '/recent_words'
         );
         expect(validator.validateResponse(200, json)).toEqual(undefined);
@@ -85,7 +85,7 @@ describe('GET /api/recent_words', () => {
         expect(res.status).toBe(200);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest(
+        const validator = await helpers.getOpenApiValidatorForRequest(
           '/recent_words'
         );
         expect(validator.validateResponse(200, json)).toEqual(undefined);

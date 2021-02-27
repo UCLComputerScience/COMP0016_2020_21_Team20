@@ -36,7 +36,9 @@ describe('GET /api/questions', () => {
         expect(res.status).toBe(200);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest('/questions');
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/questions'
+        );
         expect(validator.validateResponse(200, json)).toEqual(undefined);
         expect(json.likert_scale.length).toEqual(7);
         expect(json.words.length).toEqual(2);
@@ -45,7 +47,7 @@ describe('GET /api/questions', () => {
   });
 });
 
-describe('POST /api/questions', () => {
+describe.only('POST /api/questions', () => {
   it('is guarded by auth', async () => {
     expect.hasAssertions();
     helpers.mockSessionWithUserType(null);
@@ -79,7 +81,7 @@ describe('POST /api/questions', () => {
           expect(res.status).toBe(403);
 
           const json = await res.json();
-          const validator = helpers.getOpenApiValidatorForRequest(
+          const validator = await helpers.getOpenApiValidatorForRequest(
             '/questions',
             'post'
           );
@@ -108,7 +110,7 @@ describe('POST /api/questions', () => {
         expect(res.status).toBe(200);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest(
+        const validator = await helpers.getOpenApiValidatorForRequest(
           '/questions',
           'post'
         );
@@ -131,7 +133,7 @@ describe('POST /api/questions', () => {
         expect(res.status).toBe(422);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest(
+        const validator = await helpers.getOpenApiValidatorForRequest(
           '/questions',
           'post'
         );

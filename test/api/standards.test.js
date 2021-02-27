@@ -36,7 +36,9 @@ describe('GET /api/standards', () => {
         expect(res.status).toBe(200);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest('/standards');
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/standards'
+        );
         expect(validator.validateResponse(200, json)).toEqual(undefined);
         expect(json.length).toEqual(8);
         expect(json.map(j => j.name).sort()).toEqual(

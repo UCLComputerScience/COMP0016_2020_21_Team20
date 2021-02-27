@@ -39,7 +39,9 @@ describe('GET /api/responses', () => {
         expect(res.status).toBe(200);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest('/responses');
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/responses'
+        );
         expect(validator.validateResponse(200, json)).toEqual(undefined);
         expect(json.responses.length).toEqual(0);
         expect(Object.keys(json.averages).length).toEqual(0);
@@ -106,7 +108,9 @@ describe('GET /api/responses', () => {
           expect(res.status).toBe(200);
 
           const json = await res.json();
-          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
 
           expect(json.responses.length).toEqual(2);
@@ -129,7 +133,9 @@ describe('GET /api/responses', () => {
           expect(res.status).toBe(200);
 
           const json = await res.json();
-          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
           expect(json.responses.length).toEqual(0);
         },
@@ -149,7 +155,9 @@ describe('GET /api/responses', () => {
           expect(res.status).toBe(200);
 
           const json = await res.json();
-          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
           expect(json.responses.length).toEqual(0);
         },
@@ -168,7 +176,9 @@ describe('GET /api/responses', () => {
           expect(res.status).toBe(200);
 
           const json = await res.json();
-          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
           expect(json.responses.length).toEqual(1);
         },
@@ -187,7 +197,9 @@ describe('GET /api/responses', () => {
           expect(res.status).toBe(200);
 
           const json = await res.json();
-          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
           expect(json.responses.length).toEqual(1);
         },
@@ -204,7 +216,9 @@ describe('GET /api/responses', () => {
           expect(res.status).toBe(200);
 
           const json = await res.json();
-          const validator = helpers.getOpenApiValidatorForRequest('/responses');
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
 
           expect(Object.keys(json.responses[0])).not.toContain('user_id');
@@ -223,7 +237,7 @@ describe('GET /api/responses', () => {
             expect(res.status).toBe(200);
 
             const json = await res.json();
-            const validator = helpers.getOpenApiValidatorForRequest(
+            const validator = await helpers.getOpenApiValidatorForRequest(
               '/responses'
             );
             expect(validator.validateResponse(200, json)).toEqual(undefined);
@@ -248,7 +262,7 @@ describe('GET /api/responses', () => {
             expect(res.status).toBe(200);
 
             const json = await res.json();
-            const validator = helpers.getOpenApiValidatorForRequest(
+            const validator = await helpers.getOpenApiValidatorForRequest(
               '/responses'
             );
             expect(validator.validateResponse(200, json)).toEqual(undefined);
@@ -274,7 +288,7 @@ describe('GET /api/responses', () => {
             expect(res.status).toBe(200);
 
             const json = await res.json();
-            const validator = helpers.getOpenApiValidatorForRequest(
+            const validator = await helpers.getOpenApiValidatorForRequest(
               '/responses'
             );
             expect(validator.validateResponse(200, json)).toEqual(undefined);
@@ -325,7 +339,7 @@ describe('POST /api/responses', () => {
         expect(res.status).toBe(200);
 
         const json = await res.json();
-        const validator = helpers.getOpenApiValidatorForRequest(
+        const validator = await helpers.getOpenApiValidatorForRequest(
           '/responses',
           'post'
         );

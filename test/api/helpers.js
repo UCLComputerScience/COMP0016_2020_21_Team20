@@ -1,11 +1,11 @@
 import OpenAPIResponseValidator from 'openapi-response-validator';
 import client from 'next-auth/client';
 
-import openApiSchema from './openApiSchema';
+import getSchema from './openApiSchema';
 import { Roles } from '../../lib/constants';
 
-const getOpenApiValidatorForRequest = (endpoint, method = 'get') => {
-  const expectedSchema = { ...openApiSchema };
+const getOpenApiValidatorForRequest = async (endpoint, method = 'get') => {
+  const expectedSchema = await getSchema();
   expectedSchema.responses =
     expectedSchema.responses[endpoint][method].responses;
   const validator = new OpenAPIResponseValidator(expectedSchema);
