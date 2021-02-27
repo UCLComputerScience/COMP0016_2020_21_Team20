@@ -102,6 +102,17 @@ class ApiTestEnvironment extends NodeEnvironment {
       if (line.startsWith('--')) continue;
       await client.query(line);
     }
+
+    // Start auto-incrementing at 1000 (large number) so the hard-coded values
+    // in the tests don't cause conflicts
+    await client.query('ALTER SEQUENCE departments_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE hospitals_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE health_boards_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE questions_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE responses_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE standards_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE words_id_seq RESTART 1000;');
+
     await client.end();
 
     await prisma.$disconnect();
@@ -162,10 +173,34 @@ class ApiTestEnvironment extends NodeEnvironment {
         },
       }),
       prisma.health_boards.create({
-        data: { id: 2, name: 'Test Health Board 2' },
+        data: {
+          id: 2,
+          name: 'Test Health Board 2',
+          hospitals: {
+            create: [
+              {
+                id: 3,
+                name: 'Test Hospital 3',
+                departments: {
+                  create: [
+                    { id: 4, name: 'Test Department 4' },
+                    { id: 5, name: 'Test Department 5' },
+                  ],
+                },
+              },
+              {
+                id: 4,
+                name: 'Test Hospital 4',
+                departments: {
+                  create: [{ id: 6, name: 'Test Department 6' }],
+                },
+              },
+            ],
+          },
+        },
       }),
       ...standards.map((standard, i) =>
-        prisma.standards.create({ data: { name: standard } })
+        prisma.standards.create({ data: { name: standard, id: i + 1 } })
       ),
     ]);
 
