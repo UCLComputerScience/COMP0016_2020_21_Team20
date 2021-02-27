@@ -162,7 +162,7 @@ const handler = async (req, res) => {
       },
     });
 
-    return res.json({ success: response && response.url === url });
+    return res.json({ success: response && response.url === null });
   }
 
   res.status(405).json({ error: true, message: 'Method Not Allowed' });
