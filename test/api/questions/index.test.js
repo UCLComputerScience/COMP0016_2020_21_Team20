@@ -107,7 +107,7 @@ describe('GET /api/questions', () => {
   });
 });
 
-describe.only('POST /api/questions', () => {
+describe('POST /api/questions', () => {
   it('is guarded by auth', async () => {
     expect.hasAssertions();
     helpers.mockSessionWithUserType(null);
