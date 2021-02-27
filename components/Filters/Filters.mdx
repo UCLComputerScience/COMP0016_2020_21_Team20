@@ -7,21 +7,21 @@ menu: Statistics
 import { Playground, Props } from 'docz';
 import Filters from './Filters';
 import 'rsuite/dist/styles/rsuite-default.min.css';
+import { Roles } from '../../lib/constants';
 
 # Filters
 
-The `Filters` component is used on the Statistics page and displays the results from the user's answers to the word based questions in the self-report.
-
-{' '}
+The `Filters` component is used on the Statistics page and displays a list of filters that the user can choose from to see the appropriate visualisation to his query.
 
 <Props of={Filters} />
 
-It is normally used in conjunction with the [`CirclesAccordion`](/CirclesAccordion) wrapper component.
+It is normally used in the Statistics page.
 
 ## Basic usage
 
-{' '}
-
 <Playground>
-  <Circle name="test" color="red" percentage={50} />
+  <Filters
+    session={{ user: { roles: Roles.USER_TYPE_CLINICIAN } }}
+    dateRange={new Date()}
+  />
 </Playground>

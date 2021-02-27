@@ -1,5 +1,6 @@
 import { SelectPicker, DateRangePicker, Icon } from 'rsuite';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { Roles, Visualisations } from '../../lib/constants';
 
@@ -222,5 +223,25 @@ export function Filters({ session, ...props }) {
     </div>
   );
 }
+Filters.propTypes = {
+  /** Array containing the 'percentage' and 'longName' of each standard*/
+  setDataToDisplayOverride: PropTypes.array,
+  /** Array containing the 'percentage' and 'longName' of each standard*/
+  dataToDisplayOverride: PropTypes.array,
+
+  /** Array containing the 'percentage' and 'longName' of each standard*/
+  setDateRange: PropTypes.array,
+  /** Array containing the 'percentage' and 'longName' of each standard*/
+  dateRange: PropTypes.object.isRequired,
+
+  /** Array containing the dates of previous self reports*/
+  setIsMentoringSession: PropTypes.bool,
+  /** Array containing the 'percentage' and 'longName' of each standard*/
+  isMentoringSession: PropTypes.bool,
+  /** Array containing the 'percentage' and 'longName' of each standard*/
+  setVisualisationType: PropTypes.value,
+  /** Array containing the 'percentage' and 'longName' of each standard*/
+  visualisationType: PropTypes.value,
+};
 
 export default Filters;
