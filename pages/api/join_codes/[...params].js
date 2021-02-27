@@ -108,7 +108,7 @@ const handler = async (req, res) => {
       const isDepartmentInHospital = await prisma.departments.count({
         where: {
           AND: [
-            { id: { equals: +req.query.departmentId } },
+            { id: { equals: +departmentId } },
             { hospital_id: { equals: session.user.hospitalId } },
           ],
         },
