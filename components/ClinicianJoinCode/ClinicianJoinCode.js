@@ -23,7 +23,7 @@ const getCode = id => {
 function ClinicianJoinCode({ session, host }) {
   const { data, error, message } = session
     ? getCode(session.user.departmentId)
-    : [{ data: null, error: null, message: null }];
+    : { data: null, error: null, message: null };
   const code = data;
   if (error) {
     Alert.error(
@@ -59,12 +59,12 @@ function ClinicianJoinCode({ session, host }) {
     <div className={styles.content}>
       <div className={styles.url}>
         {'Please send this unique URL to clinicians so they can join your ' +
-          (!error ? (code ? code['0']['name'] : 'loading...') : 'error') +
+          (!error ? (code ? code['name'] : 'loading...') : 'error') +
           ' department:'}{' '}
         {`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
           !error
             ? code
-              ? code['0']['clinician_join_codes']['code']
+              ? code['clinician_join_codes']['code']
               : 'loading...'
             : 'error'
         }`}
@@ -74,7 +74,7 @@ function ClinicianJoinCode({ session, host }) {
           text={`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
             !error
               ? code
-                ? code['0']['clinician_join_codes']['code']
+                ? code['clinician_join_codes']['code']
                 : 'loading...'
               : 'error'
           }`}>

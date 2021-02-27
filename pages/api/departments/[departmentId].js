@@ -22,9 +22,7 @@ import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
  *        content:
  *          application/json:
  *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/department'
+ *              $ref: '#/components/schemas/department'
  *      401:
  *        $ref: '#/components/responses/unauthorized'
  *      403:
@@ -113,7 +111,7 @@ const handler = async (req, res) => {
       }
     }
 
-    const department = await prisma.departments.findMany({
+    const department = await prisma.departments.findFirst({
       where: { id: +req.query.departmentId },
       include: includes,
     });
