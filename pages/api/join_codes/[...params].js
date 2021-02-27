@@ -12,35 +12,6 @@ import { Roles } from '../../../lib/constants';
 
 /**
  * @swagger
- * components:
- *  schemas:
- *    question:
- *      properties:
- *        id:
- *         type: integer
- *         example: 1
- *        body:
- *          type: string
- *          example: I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.
- *        type:
- *          type: string
- *          example: likert_scale
- *        standards:
- *          type: object
- *          properties:
- *            id:
- *              type: integer
- *              example: 1
- *            name:
- *              type: string
- *              example: Individual Care
- *        url:
- *          type: string
- *          example: http://www.wales.nhs.uk/governance-emanual/person-centred-care
- */
-
-/**
- * @swagger
  * /join_codes/department_manager/{id}:
  *  put:
  *    summary: Update your department's Join Code (URL) for clinicians
