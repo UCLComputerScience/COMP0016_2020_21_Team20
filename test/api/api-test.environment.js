@@ -205,21 +205,26 @@ class ApiTestEnvironment extends NodeEnvironment {
     ]);
 
     await Promise.all([
-      ...likertScaleQuestions.map(question =>
+      ...likertScaleQuestions.map((question, i) =>
         prisma.questions.create({
           data: {
+            id: i + 1,
             default_url: question.url,
-            standards: { connect: { id: question.standardId } },
+            standard_id: question.standardId,
             type: 'likert_scale',
             body: question.question,
           },
         })
       ),
-      ...wordsQuestions.map(question =>
+    ]);
+
+    await Promise.all([
+      ...wordsQuestions.map((question, i) =>
         prisma.questions.create({
           data: {
+            id: i + likertScaleQuestions.length + 1,
             default_url: question.url,
-            standards: { connect: { id: question.standardId } },
+            standard_id: question.standardId,
             type: 'words',
             body: question.question,
           },
