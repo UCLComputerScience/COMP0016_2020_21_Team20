@@ -9,4 +9,4 @@ jobs:
         uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1 # Install dependencies, with cache
       - name: Test
-        run: npm run frontend:test
+        run: npm run test:frontend
