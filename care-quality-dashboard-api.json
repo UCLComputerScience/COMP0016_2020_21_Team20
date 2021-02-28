@@ -9,7 +9,19 @@
       "url": "https://nhsw.sjain.dev/api"
     }
   ],
+  "security": [
+    {
+      "cookieAuth": []
+    }
+  ],
   "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Secure-next-auth.session-token"
+      }
+    },
     "schemas": {
       "error": {
         "type": "object",
@@ -306,10 +318,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/department"
-                  }
+                  "$ref": "#/components/schemas/department"
                 }
               }
             }
@@ -916,6 +925,20 @@
           "403": {
             "$ref": "#/components/responses/insufficient_permission"
           },
+          "422": {
+            "description": "Invalid details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "error": true,
+                  "message": "The required question details are missing"
+                }
+              }
+            }
+          },
           "500": {
             "$ref": "#/components/responses/internal_server_error"
           }
@@ -935,10 +958,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "example": "tiring"
+                  "type": "object",
+                  "properties": {
+                    "words": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "tiring"
+                      }
+                    }
                   }
                 }
               }
@@ -1036,9 +1064,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/response"
+                  "type": "object",
+                  "properties": {
+                    "responses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/response"
+                      }
+                    },
+                    "averages": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "number"
+                      }
+                    }
                   }
                 }
               }
