@@ -22,9 +22,7 @@ import requiresAuth from '../../../lib/requiresAuthApiMiddleware';
  *        content:
  *          application/json:
  *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/department'
+ *              $ref: '#/components/schemas/department'
  *      401:
  *        $ref: '#/components/responses/unauthorized'
  *      403:
@@ -99,7 +97,11 @@ const handler = async (req, res) => {
         where: {
           AND: [
             { id: { equals: +req.query.departmentId } },
-            { health_board_id: { equals: session.user.healthBoardId } },
+            {
+              hospitals: {
+                health_board_id: { equals: session.user.healthBoardId },
+              },
+            },
           ],
         },
       });
@@ -113,11 +115,17 @@ const handler = async (req, res) => {
       }
     }
 
-    const department = await prisma.departments.findMany({
-      where: { id: +req.query.departmentId },
-      include: includes,
-    });
-
+    let department;
+    if (Object.keys(includes).length) {
+      department = await prisma.departments.findFirst({
+        where: { id: +req.query.departmentId },
+        include: includes,
+      });
+    } else {
+      department = await prisma.departments.findFirst({
+        where: { id: +req.query.departmentId },
+      });
+    }
     return res.json(department);
   }
 

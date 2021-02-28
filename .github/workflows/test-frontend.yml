@@ -1,0 +1,12 @@
+name: Test frontend API
+
+on: pull_request
+jobs:
+  test-frontend-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1 # Install dependencies, with cache
+      - name: Test
+        run: npm run frontend:test

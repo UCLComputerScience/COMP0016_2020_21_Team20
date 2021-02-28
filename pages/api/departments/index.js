@@ -152,7 +152,9 @@ const handler = async (req, res) => {
     return res.json(
       departments.map(d => ({
         name: d.name,
-        department_join_code: d.department_join_codes.code,
+        department_join_code: d.department_join_codes
+          ? d.department_join_codes.code
+          : '',
         id: d.id,
       }))
     );

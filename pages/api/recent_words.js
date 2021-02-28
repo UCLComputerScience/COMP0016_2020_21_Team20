@@ -21,10 +21,13 @@ import prisma from '../../lib/prisma';
  *        content:
  *          application/json:
  *            schema:
- *              type: array
- *              items:
- *                type: string
- *                example: tiring
+ *              type: object
+ *              properties:
+ *                words:
+ *                  type: array
+ *                  items:
+ *                    type: string
+ *                    example: tiring
  *      401:
  *        $ref: '#/components/responses/unauthorized'
  *      500:
