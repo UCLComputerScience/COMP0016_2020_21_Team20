@@ -86,6 +86,43 @@ const wordsQuestions = [
   },
 ];
 
+const users = [
+  {
+    email: 'clinician@example.com',
+    credentials: [{ type: 'password', value: 'clinician', temporary: false }],
+    enabled: true,
+    realmRoles: ['clinician'],
+    attributes: { department_id: 1 },
+  },
+  {
+    email: 'department@example.com',
+    credentials: [{ type: 'password', value: 'department', temporary: false }],
+    enabled: true,
+    realmRoles: ['department_manager'],
+    attributes: { department_id: 1 },
+  },
+  {
+    email: 'hospital@example.com',
+    credentials: [{ type: 'password', value: 'hospital', temporary: false }],
+    enabled: true,
+    realmRoles: ['hospital'],
+    attributes: { hospital_id: 1 },
+  },
+  {
+    email: 'healthboard@example.com',
+    credentials: [{ type: 'password', value: 'healthboard', temporary: false }],
+    enabled: true,
+    realmRoles: ['health_board'],
+    attributes: { health_board_id: 1 },
+  },
+  {
+    email: 'admin@example.com',
+    credentials: [{ type: 'password', value: 'admin', temporary: false }],
+    enabled: true,
+    realmRoles: ['platform_administrator'],
+  },
+];
+
 const getKeycloakAdminAccessToken = async () => {
   const res = await fetch(
     'http://localhost:8080/auth/realms/master/protocol/openid-connect/token',
@@ -112,63 +149,59 @@ const deleteTestRealm = async () => {
   }
 };
 
-const createKeycloakDefaultUsers = async () => {
-  const adminAccessToken = await getKeycloakAdminAccessToken();
-  const users = [
-    {
-      email: 'clinician@example.com',
-      credentials: [{ type: 'password', value: 'clinician', temporary: false }],
-      enabled: true,
-      realmRoles: ['clinician'],
-      attributes: { department_id: 1 },
-    },
-    {
-      email: 'department@example.com',
-      credentials: [
-        { type: 'password', value: 'department', temporary: false },
-      ],
-      enabled: true,
-      realmRoles: ['department_manager'],
-      attributes: { department_id: 1 },
-    },
-    {
-      email: 'hospital@example.com',
-      credentials: [{ type: 'password', value: 'hospital', temporary: false }],
-      enabled: true,
-      realmRoles: ['hospital'],
-      attributes: { hospital_id: 1 },
-    },
-    {
-      email: 'healthboard@example.com',
-      credentials: [
-        { type: 'password', value: 'healthboard', temporary: false },
-      ],
-      enabled: true,
-      realmRoles: ['health_board'],
-      attributes: { health_board_id: 1 },
-    },
-    {
-      email: 'admin@example.com',
-      credentials: [{ type: 'password', value: 'admin', temporary: false }],
-      enabled: true,
-      realmRoles: ['platform_administrator'],
-    },
-  ];
+const createUser = async (user, adminAccessToken) => {
+  // This would be simpler if Keycloak supported the `realmRoles` property
+  // in the POST /users endpoint (as they say they do in their docs.).
+  // But, they don't. So we need to do it in 2 requests: create user, then set role
 
-  const results = await Promise.all(
-    users.map(u =>
-      fetch('http://localhost:8080/auth/admin/realms/test/users', {
-        method: 'POST',
-        body: JSON.stringify(u),
-        headers: {
-          Authorization: 'Bearer ' + adminAccessToken,
-          'Content-Type': 'application/json',
-        },
-      }).then(res => res.status)
-    )
+  const res = await fetch(
+    'http://localhost:8080/auth/admin/realms/test/users',
+    {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        Authorization: 'Bearer ' + adminAccessToken,
+        'Content-Type': 'application/json',
+      },
+    }
   );
 
-  if (results.find(r => r !== 201)) {
+  if (res.status !== 201) {
+    console.error('Failed to create user');
+    return res.status;
+  }
+
+  const userId = res.headers.get('Location').split('/').pop();
+  const availableRoles = await fetch(
+    `http://localhost:8080/auth/admin/realms/test/users/${userId}/role-mappings/realm/available`,
+    {
+      headers: { Authorization: 'Bearer ' + adminAccessToken },
+    }
+  ).then(res => res.json());
+
+  const roleToAdd = availableRoles.find(r => r.name === user.realmRoles[0]);
+  const status = await fetch(
+    `http://localhost:8080/auth/admin/realms/test/users/${userId}/role-mappings/realm`,
+    {
+      headers: {
+        Authorization: 'Bearer ' + adminAccessToken,
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify([roleToAdd]),
+    }
+  ).then(res => res.status);
+
+  return status;
+};
+
+const createKeycloakDefaultUsers = async () => {
+  const adminAccessToken = await getKeycloakAdminAccessToken();
+  const results = await Promise.all(
+    users.map(user => createUser(user, adminAccessToken))
+  );
+
+  if (results.find(r => r !== 204)) {
     throw new Error('Failed to add Keycloak test users');
   }
 };
