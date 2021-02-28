@@ -1,0 +1,35 @@
+# Note this is a test version of the Docker Compose configuration, so there are no web or keycloak containers
+version: '3.8'
+services:
+  keycloak:
+    image: 'jboss/keycloak'
+    container_name: keycloak
+    depends_on:
+      - database
+    ports:
+      - '127.0.0.1:8080:8080'
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_ADDR: database
+      DB_USER: test
+      DB_PASSWORD: test
+    volumes:
+      - ./keycloak/register.ftl:/opt/jboss/keycloak/themes/base/login/register.ftl
+      - ./keycloak/account.ftl:/opt/jboss/keycloak/themes/keycloak.v2/account/index.ftl
+  database:
+    image: 'postgres:13.1-alpine'
+    container_name: database
+    # XXX: we only publish 5432 in the development version. The production version should NOT publish the db port
+    ports:
+      - '0.0.0.0:5432:5432'
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: test,keycloak
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.txt
+      - ./setup-db.sh:/docker-entrypoint-initdb.d/setup-db.sh
+      - ./postgres:/var/lib/postgresql/data
+      - /etc/passwd:/etc/passwd:ro
