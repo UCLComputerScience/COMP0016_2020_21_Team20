@@ -1,0 +1,27 @@
+name: Test entire platform (end-to-end)
+
+on: pull_request
+jobs:
+  test-end-to-end:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1 # Install dependencies, with cache
+      - name: Create .env file
+        run: |
+          touch .env
+          echo DATABASE_URL="postgresql://test:test@localhost:5432/test" >> .env
+          echo NEXTAUTH_URL="http://localhost:3000" >> .env
+          echo KEYCLOAK_USER=admin >> .env
+          echo KEYCLOAK_PASSWORD=admin >> .env
+          echo KEYCLOAK_REALM_NAME=test >> .env
+          echo BASE_KEYCLOAK_ADMIN_URL="http://localhost:8080/auth" >> .env
+          echo BASE_KEYCLOAK_CLIENT_URL="http://localhost:8080/auth" >> .env
+          echo NEXT_PUBLIC_KEYCLOAK_USER_ACCOUNT_MANAGE_URL=$BASE_KEYCLOAK_CLIENT_URL/realms/$KEYCLOAK_REALM_NAME/account >> .env
+          echo CLIENT_ID=test_web >> .env
+          echo NEXTAUTH_URL="http://localhost:3000" >> .env
+      - name: Start Docker containers
+        run: docker-compose -f docker-compose-e2e-test.yml up -d
+      - name: Test
+        run: npm run test:e2e
