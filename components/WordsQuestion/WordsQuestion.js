@@ -21,6 +21,7 @@ function WordsQuestion(props) {
 
       inputs.push(
         <AutoComplete
+          id={'wq' + props.questionNumber.toString() + 'i' + i.toString()}
           data={props.suggestedWords}
           size="lg"
           className={styles.input}

@@ -29,7 +29,7 @@ export default function AnalyticsAccordion(props) {
   return (
     <Panel
       className={styles.analytics}
-      header="Personal Analytics"
+      header={<text id="analytics">Personal Analytics</text>}
       collapsible
       bordered
       shaded>
@@ -47,7 +47,7 @@ export default function AnalyticsAccordion(props) {
           <Message
             type="success"
             description={
-              <text>
+              <text id="good">
                 It looks like you are happy that a satisfactory standard has
                 been achieved for:{' '}
                 <text style={{ fontWeight: 'bold' }}>{good.join(', ')}</text>.
@@ -64,7 +64,7 @@ export default function AnalyticsAccordion(props) {
           <Message
             type="warning"
             description={
-              <text>
+              <text id="neutral">
                 It looks like there is an opportunity to improve confidence in
                 meeting:{' '}
                 <text style={{ fontWeight: 'bold' }}>{neutral.join(', ')}</text>
@@ -80,7 +80,7 @@ export default function AnalyticsAccordion(props) {
           <Message
             type="error"
             description={
-              <text>
+              <text id="bad">
                 It looks like you are not happy that a satisfactory standard has
                 been achieved for:{' '}
                 <text style={{ fontWeight: 'bold' }}>{bad.join(', ')}</text>.

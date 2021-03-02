@@ -15,7 +15,10 @@ function LikertScaleQuestion(props) {
         <div className={styles.unAnsweredAlert}>*please choose an answer</div>
       )}
 
-      <LikertScale onChange={value => props.onChange(value)} />
+      <LikertScale
+        id={props.questionNumber.toString()}
+        onChange={value => props.onChange(value)}
+      />
     </div>
   );
 }
