@@ -134,7 +134,11 @@ function selfReporting({ session, toggleTheme }) {
       );
       dialogText += errors.join('; ');
 
-      setDialogTitle('Please ensure you have answered all questions');
+      setDialogTitle(
+        <text id="incomplete">
+          Please ensure you have answered all questions
+        </text>
+      );
       setDialogText(dialogText);
       setDialogActions([
         <Button key="alertdialog-confirm" onClick={() => setShowDialog(false)}>
@@ -149,7 +153,10 @@ function selfReporting({ session, toggleTheme }) {
         <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
           Edit my responses
         </Button>,
-        <Button key="alertdialog-confirm" onClick={() => submitAnswers()}>
+        <Button
+          id="confirm"
+          key="alertdialog-confirm"
+          onClick={() => submitAnswers()}>
           Confirm submission
         </Button>,
       ]);
@@ -267,6 +274,7 @@ function selfReporting({ session, toggleTheme }) {
 
         {!questionsError && !isQuestionsLoading && (
           <IconButton
+            id="submit"
             className={styles.submit}
             appearance="primary"
             onClick={() => handleSubmit()}
