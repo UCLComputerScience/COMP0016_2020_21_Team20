@@ -69,6 +69,8 @@ function WordCloud(props) {
         '#9467bd',
         '#8c564b',
       ],
+      //colors: ['#008000', '#00FA9A', '#2ca02c'],
+      //colors2: ['#d62728', '#FF0000', '#B22222'],
       enableTooltip: true,
       deterministic: true,
       fontFamily: 'impact',

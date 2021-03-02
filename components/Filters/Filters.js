@@ -225,11 +225,11 @@ export function Filters({ session, ...props }) {
 }
 Filters.propTypes = {
   /** Array containing the start and end dates of the period of time that the user wants to analyse*/
-  dateRange: PropTypes.array,
+  dateRange: PropTypes.array.isRequired,
   /** Boolean asking which if the perticular Session was a mentoring session or not*/
   isMentoringSession: PropTypes.bool,
   /** Value asking which visualisationType the user wants to see: Line Chart, Enablers Word Cloud and Barriers Word Cloud */
-  visualisationType: PropTypes.value,
+  visualisationType: PropTypes.string,
 };
 
 export default Filters;
