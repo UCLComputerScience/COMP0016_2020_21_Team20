@@ -224,23 +224,11 @@ export function Filters({ session, ...props }) {
   );
 }
 Filters.propTypes = {
-  /** Array containing the 'percentage' and 'longName' of each standard*/
-  setDataToDisplayOverride: PropTypes.array,
-  /** Array containing the 'percentage' and 'longName' of each standard*/
-  dataToDisplayOverride: PropTypes.array,
-
-  /** Array containing the 'percentage' and 'longName' of each standard*/
-  setDateRange: PropTypes.array,
-  /** Array containing the 'percentage' and 'longName' of each standard*/
-  dateRange: PropTypes.object.isRequired,
-
-  /** Array containing the dates of previous self reports*/
-  setIsMentoringSession: PropTypes.bool,
-  /** Array containing the 'percentage' and 'longName' of each standard*/
+  /** Array containing the start and end dates of the period of time that the user wants to analyse*/
+  dateRange: PropTypes.array,
+  /** Boolean asking which if the perticular Session was a mentoring session or not*/
   isMentoringSession: PropTypes.bool,
-  /** Array containing the 'percentage' and 'longName' of each standard*/
-  setVisualisationType: PropTypes.value,
-  /** Array containing the 'percentage' and 'longName' of each standard*/
+  /** Value asking which visualisationType the user wants to see: Line Chart, Enablers Word Cloud and Barriers Word Cloud */
   visualisationType: PropTypes.value,
 };
 
