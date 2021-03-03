@@ -2,6 +2,7 @@ import { RootRef } from '@material-ui/core';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Loader, Message } from 'rsuite';
+import PropTypes from 'prop-types';
 
 import styles from './linechart.module.css';
 
@@ -158,4 +159,8 @@ function LineChart({ data } = {}) {
     />
   );
 }
+LineChart.propTypes = {
+  /** Array containing objects consisting of: isMentoringSession, scores array and timestamp */
+  data: PropTypes.array,
+};
 export default LineChart;

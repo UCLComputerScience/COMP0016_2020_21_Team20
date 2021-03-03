@@ -1,0 +1,41 @@
+---
+name: LineChart
+route: /LineChart
+menu: Statistics
+---
+
+import { Playground, Props } from 'docz';
+import LineChart from './LineChart';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# LineChart
+
+The `LineChart` component is used on the Statistics page and displays the results from the user's answers to the Likert scale questions in the self-report.
+
+<Props of={LineChart} />
+
+It is normally used in the Statistics page.
+
+## Basic usage
+
+<Playground>
+  <LineChart
+    data={[
+      {
+        is_mentoring_session: false,
+        scores: [{ score: 2, standardName: 'Safe Care', color: '#2f5596' }],
+        timestamp: '2020-12-01T13:00:00.000Z',
+      },
+      {
+        is_mentoring_session: true,
+        scores: [{ score: 1, standardName: 'Safe Care', color: '#2f5596' }],
+        timestamp: '2020-12-07T13:00:00.000Z',
+      },
+      {
+        is_mentoring_session: false,
+        scores: [{ score: 3, standardName: 'Safe Care', color: '#2f5596' }],
+        timestamp: '2020-12-14T13:00:00.000Z',
+      },
+    ]}
+  />
+</Playground>

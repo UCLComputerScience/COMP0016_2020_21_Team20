@@ -2,6 +2,7 @@ import React from 'react';
 import { Loader, Message } from 'rsuite';
 import ReactWordcloud from 'react-wordcloud';
 import { Visualisations } from '../../lib/constants';
+import PropTypes from 'prop-types';
 
 import styles from './WordCloud.module.css';
 
@@ -68,6 +69,8 @@ function WordCloud(props) {
         '#9467bd',
         '#8c564b',
       ],
+      //colors: ['#008000', '#00FA9A', '#2ca02c'],
+      //colors2: ['#d62728', '#FF0000', '#B22222'],
       enableTooltip: true,
       deterministic: true,
       fontFamily: 'impact',
@@ -100,5 +103,12 @@ function WordCloud(props) {
     />
   );
 }
+
+WordCloud.propTypes = {
+  /** a word that will be displayed in the wordcloud */
+  word: PropTypes.string.isRequired,
+  /** Visualisation type: enablers or barriers to display positive or negative words in the word cloud( from question 8 or question 9) */
+  visualisationType: PropTypes.value,
+};
 
 export default WordCloud;

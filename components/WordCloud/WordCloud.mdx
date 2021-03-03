@@ -1,0 +1,31 @@
+---
+name: WordCloud
+route: /WordCloud
+menu: Statistics
+---
+
+import { Playground, Props } from 'docz';
+import WordCloud from './WordCloud';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# WordCloud
+
+The `WordCloud` component is used on the Statistics page and displays the results from the user's answers to the word based questions in the self-report.
+
+<Props of={WordCloud} />
+
+It is normally used in the Statistics page.
+
+## Basic usage
+
+<Playground>
+  {/*writing twice the same word increases the size (weight) of it in the visualisation*/}
+  <WordCloud
+    words={[
+      { word: 'testWord', question_id: 8 },
+      { word: 'testWord1', question_id: 8 },
+      { word: 'testWord1', question_id: 8 },
+      { word: 'testWord2', question_id: 8 },
+    ]}
+  />
+</Playground>
