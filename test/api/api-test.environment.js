@@ -1,8 +1,9 @@
 const fs = require('fs');
 
 const NodeEnvironment = require('jest-environment-node');
-const prisma = require('../../lib/prisma');
 const { Client: PgClient } = require('pg');
+
+const prisma = require('../../lib/prisma');
 
 const getClient = async () => {
   const client = new PgClient({ connectionString: process.env.DATABASE_URL });

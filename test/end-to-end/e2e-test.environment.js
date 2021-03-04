@@ -1,7 +1,9 @@
 const fs = require('fs');
+const spawnd = require('spawnd');
 
-const PuppeteerEnvironment = require('jest-environment-puppeteer');
+const NodeEnvironment = require('jest-environment-node');
 const { Client: PgClient } = require('pg');
+const puppeteer = require('puppeteer');
 const fetch = require('node-fetch');
 
 const prisma = require('../../lib/prisma');
@@ -226,7 +228,7 @@ const createTestRealm = async () => {
   await createKeycloakDefaultUsers();
 };
 
-class PuppeteerTestEnvironment extends PuppeteerEnvironment {
+class PuppeteerTestEnvironment extends NodeEnvironment {
   constructor(config, context) {
     super(config, context);
   }
@@ -236,6 +238,16 @@ class PuppeteerTestEnvironment extends PuppeteerEnvironment {
 
     await deleteTestRealm();
     await createTestRealm();
+
+    // Start a Next (web-app) server for each test suite (file)
+    this.global.server = spawnd('npm', ['run', 'start']);
+
+    // Give each test suite (file) it's own new global browser and page
+    this.global.browser = await puppeteer.launch({
+      defaultViewport: { width: 1920, height: 1500 },
+      timeout: 10000,
+    });
+    this.global.page = await this.global.browser.newPage();
 
     const client = await getClient();
     await client.query('DROP SCHEMA IF EXISTS public CASCADE;');
@@ -357,6 +369,9 @@ class PuppeteerTestEnvironment extends PuppeteerEnvironment {
   async teardown() {
     await deleteTestRealm();
     await prisma.$disconnect();
+    this.global.server.destroy();
+    await this.global.page.close();
+    await this.global.browser.close();
     const client = await getClient();
     await client.query(`DROP SCHEMA public CASCADE;`);
     await client.end();

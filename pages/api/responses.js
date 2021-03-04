@@ -333,8 +333,7 @@ const handler = async (req, res) => {
         word: word.word.toLowerCase(),
       };
     });
-    console.error('USER', session.user);
-    console.error(await prisma.departments.findMany());
+
     const insertion = await prisma.responses.create({
       data: {
         users: { connect: { id: session.user.userId } },
