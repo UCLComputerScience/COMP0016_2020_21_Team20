@@ -1,14 +1,8 @@
-import prisma from '../../lib/prisma';
 import { logInAs } from './e2e-helper';
 
 const numOfQs = 7;
 describe('Partially filling in self report', () => {
-  beforeAll(async () => {
-    await page.goto(process.env.BASE_URL);
-    await page.setViewport({ width: 1920, height: 1500 });
-  });
-
-  afterEach(async () => await prisma.$disconnect());
+  beforeAll(async () => await page.goto(process.env.BASE_URL));
 
   it('Fills form partially', async () => {
     await logInAs({
