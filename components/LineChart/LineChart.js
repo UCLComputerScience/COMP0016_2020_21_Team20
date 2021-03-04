@@ -78,6 +78,11 @@ var newLegendClickHandler = function (e, legendItem) {
 };
 
 function LineChart({ data } = {}) {
+  const isDarkTheme = () => {
+    if (typeof document === 'undefined') return false;
+    return document.body.dataset.theme === 'dark';
+  };
+
   if (data === null) {
     return (
       <Loader className={styles.loading} size="lg" content="Loading data..." />
@@ -116,10 +121,9 @@ function LineChart({ data } = {}) {
                   type: 'time',
                   time: { unit: 'day' },
                   gridLines: {
-                    color:
-                      document.body.dataset.theme === 'dark'
-                        ? 'rgba(220, 220, 220, 0.1)'
-                        : 'rgba(0, 0, 0, 0.1)',
+                    color: isDarkTheme()
+                      ? 'rgba(220, 220, 220, 0.1)'
+                      : 'rgba(0, 0, 0, 0.1)',
                   },
                 },
               ],
@@ -127,18 +131,16 @@ function LineChart({ data } = {}) {
                 {
                   ticks: { fontColor: 'darkgray' },
                   gridLines: {
-                    color:
-                      document.body.dataset.theme === 'dark'
-                        ? 'rgba(220, 220, 220, 0.1)'
-                        : 'rgba(0, 0, 0, 0.1)',
+                    color: isDarkTheme()
+                      ? 'rgba(220, 220, 220, 0.1)'
+                      : 'rgba(0, 0, 0, 0.1)',
                   },
                 },
               ],
             },
             legend: {
               labels: {
-                fontColor:
-                  document.body.dataset.theme === 'dark' ? '#9C9C9D' : '#666',
+                fontColor: isDarkTheme() ? '#9C9C9D' : '#666',
               },
               onClick: newLegendClickHandler,
             },
