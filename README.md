@@ -154,10 +154,10 @@ The SQL Schema can be found in [`schema.sql`](./schema.sql).
 
 Make sure you have a `.env` file in the project root with a `DATABASE_URL` variable set to the [PostgreSQL connection URL](https://www.prisma.io/docs/concepts/database-connectors/postgresql) for your local database (running in Docker).
 
-If you've made a change to the database [`schema.sql`](./schema.sql), you'll need to introspect the PostgreSQL database and generate a new Prisma Schema:
+If you've made a change to the database [`schema.sql`](./schema.sql), you'll need to 'pull' the PostgreSQL database schema and generate a new Prisma Schema (note in earlier version of Prisma, this command was called `prisma introspect` -- they are the same thing!):
 
 ```bash
-npx prisma introspect
+npx prisma db pull
 ```
 
 This should update the [`./prisma/schema.prisma`](./prisma/schema.prisma) file, based on the SQL database schema.

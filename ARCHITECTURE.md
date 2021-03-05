@@ -88,6 +88,6 @@ All database interactions are performed solely through Prisma, as it provides ty
 
 You must ensure to run `npx prisma generate` on first use of the project, and on every database change thereafter. This command will generate the Node Prisma Client that is used throughout the project.
 
-The Prisma Client is generated through the [Prisma Schema file](./prisma/schema.prisma). This file must be kept up to date with the main database schema -- this can be done via the `npx prisma introspect` command to read your current local database schema and update the Prisma schema.
+The Prisma Client is generated through the [Prisma Schema file](./prisma/schema.prisma). This file must be kept up to date with the main database schema -- this can be done via the `npx prisma db pull` command to read your current local database schema and update the Prisma schema.
 
 To use Prisma in the codebase, simply `import prisma from 'lib/prisma'`;
