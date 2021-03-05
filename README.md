@@ -14,7 +14,7 @@ The project's report website [can be found here](http://students.cs.ucl.ac.uk/20
 
 The project's user guide can be found as a static asset in [`./public/user-guide.pdf`](./public/user-guide.pdf).
 
-See also [`ARCHITECTURE.md`](./ARCHIECTURE.md) and [`DEPLOYMENT.md`](./DEPLOYMENT.md) for further information on the system architecture and deployment procedures.
+See also [`ARCHITECTURE.md`](./ARCHITECTURE.md) and [`DEPLOYMENT.md`](./DEPLOYMENT.md) for further information on the system architecture and deployment procedures.
 
 Prettier and ESLint enforce code style for this project. There is a pre-commit hook to auto-format code.
 
@@ -38,7 +38,7 @@ A System Architecture diagram is below:
 
 ![System Architecture Diagram](./docs/system-architecture.png)
 
-See [ARCHIECTURE.md](./ARCHIECTURE.md) for more details on the architecture.
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for more details on the architecture.
 
 ### Project tree
 
@@ -144,7 +144,7 @@ To create users (e.g. to make some test users to play around with locally), use 
 
 6. (optional) Add a `department_id` (for clincians/department managers), `hospital_id` (for hospital users), or `health_board_id` (for health board users) to their "attributes", matching the ID of their corresponding department/hospital/health board
 
-<img width="70%" alt="Edit password screen" src="./docs/new-user-attributes.png" />
+   <img width="70%" alt="Edit password screen" src="./docs/new-user-attributes.png" />
 
 ## Database
 
