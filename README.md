@@ -14,6 +14,8 @@ The project's report website [can be found here](http://students.cs.ucl.ac.uk/20
 
 The project's user guide can be found as a static asset in [`./public/user-guide.pdf`](./public/user-guide.pdf).
 
+See also [`ARCHITECTURE.md`](./ARCHIECTURE.md) and [`DEPLOYMENT.md`](./DEPLOYMENT.md) for further information on the system architecture and deployment procedures.
+
 Prettier and ESLint enforce code style for this project. There is a pre-commit hook to auto-format code.
 
 ## Project Structure and Architecture
