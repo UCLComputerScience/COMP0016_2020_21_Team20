@@ -76,7 +76,12 @@ function Header({ session, toggleTheme }) {
         {session && renderLinks()}
         <Nav.Item
           onClick={() =>
-            window && window.open('/user-guide.pdf', '_blank', 'fullscreen=yes')
+            window &&
+            window.open(
+              'https://liveuclac-my.sharepoint.com/:w:/g/personal/zcabmzi_ucl_ac_uk/EXJNiRz5slBPv0KfCFdaep4BEiiZumxu2SwkeFsuEx_RGg?e=cYTzgn',
+              '_blank',
+              'fullscreen=yes'
+            )
           }>
           help
         </Nav.Item>
