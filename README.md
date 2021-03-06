@@ -12,7 +12,7 @@ The project's comprehensive Development Blog [can be found here](https://comp001
 
 The project's report website [can be found here](http://students.cs.ucl.ac.uk/2020/group20/) with an overview of the project and it's details.
 
-The project's user guide can be found as a static asset in [`./public/user-guide.pdf`](./public/user-guide.pdf).
+The project's user manual [can be found here](https://liveuclac-my.sharepoint.com/:w:/g/personal/zcabmzi_ucl_ac_uk/EXJNiRz5slBPv0KfCFdaep4BEiiZumxu2SwkeFsuEx_RGg?e=cYTzgn).
 
 See also [`ARCHITECTURE.md`](./ARCHITECTURE.md) and [`DEPLOYMENT.md`](./DEPLOYMENT.md) for further information on the system architecture and deployment procedures.
 
