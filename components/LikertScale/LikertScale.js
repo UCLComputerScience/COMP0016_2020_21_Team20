@@ -37,11 +37,21 @@ function LikertScale(props) {
             value={score}
             title={text}>
             {value === score ? (
-              <strong id={'q' + props.id.toString() + 'a' + score.toString()}>
+              <strong
+                id={
+                  props.id
+                    ? 'q' + props.id.toString() + 'a' + score.toString()
+                    : null
+                }>
                 {text}
               </strong>
             ) : (
-              <text id={'q' + props.id.toString() + 'a' + score.toString()}>
+              <text
+                id={
+                  props.id
+                    ? 'q' + props.id.toString() + 'a' + score.toString()
+                    : null
+                }>
                 {text}
               </text>
             )}

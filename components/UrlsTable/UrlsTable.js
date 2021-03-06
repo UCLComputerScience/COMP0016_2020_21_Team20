@@ -24,7 +24,7 @@ const columns = [
     id: 'url',
     label: 'Training URL',
     width: 'auto',
-    render: (edited, row) => {
+    render: (edited, row, host, i) => {
       if (edited) {
         //if this url is being edited then it needs to be an input box
         //copy all the info about the row being currently edited
@@ -32,6 +32,7 @@ const columns = [
         editedRow = Object.assign(buffer, row);
         return (
           <Input
+            id={'url' + i}
             className={styles.input}
             key={row['standards']['name']}
             defaultValue={row['url']}

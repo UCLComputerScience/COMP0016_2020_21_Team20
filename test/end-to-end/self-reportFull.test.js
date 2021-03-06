@@ -1,30 +1,31 @@
-import { logInAs } from './e2e-helper';
+import { logInAs, numberOfQuestions } from './e2e-helper';
 
-const numOfQs = 7;
 describe('Fully filling in self report', () => {
   beforeAll(async () => await page.goto(process.env.BASE_URL));
 
-  it('Fills and submits form', async () => {
+  it('Logs in and goes to self report tab', async () => {
     expect.hasAssertions();
     await logInAs({
       username: 'clinician@example.com',
       password: 'clinician',
     });
-    await expect(page).toClick('a', { text: 'self-report' });
+    await expect(page).toClick('#self-reporting');
     await page.waitForNavigation();
+  });
 
+  it('Fills and submits form', async () => {
     //wait for questions to load
     await page.waitForSelector('#q1a1', { visible: true });
 
     //answer all questions as neutral
-    for (var i = 1; i <= numOfQs; i++) {
+    for (var i = 1; i <= numberOfQuestions; i++) {
       await expect(page).toClick('#q' + i.toString() + 'a2');
     }
 
     //answer all enabler inputs as test
     var id;
     for (var i = 0; i < 3; i++) {
-      id = 'wq' + (numOfQs + 1).toString() + 'i' + i.toString();
+      id = 'wq' + (numberOfQuestions + 1).toString() + 'i' + i.toString();
       await expect(page).toFill('input[id="' + id + '"]', 'test');
     }
 
@@ -39,7 +40,7 @@ describe('Fully filling in self report', () => {
     //wait for circles to load
     await page.waitForSelector("[id='c0%50']", { visible: true });
 
-    for (var i = 0; i < numOfQs; i++) {
+    for (var i = 0; i < numberOfQuestions; i++) {
       await expect(page).toMatchElement("[id='c" + i.toString() + "%50']");
     }
 
@@ -66,6 +67,8 @@ describe('Fully filling in self report', () => {
     await expect(page).toClick('text', { text: 'Enablers Word Cloud' });
 
     await page.waitForSelector('#wordGraphic', { visible: true });
+    await new Promise(r => setTimeout(r, 500));
+
     await expect(page).toMatchElement('text', { text: 'test' });
   });
 });

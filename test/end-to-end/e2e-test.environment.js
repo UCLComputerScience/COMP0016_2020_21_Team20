@@ -220,7 +220,11 @@ class PuppeteerTestEnvironment extends NodeEnvironment {
                 name: 'Test Hospital',
                 departments: {
                   create: [
-                    { id: 1, name: 'Test Department' },
+                    {
+                      id: 1,
+                      name: 'Test Department',
+                      clinician_join_codes: { create: { code: 'aaa-aaa-aaa' } },
+                    },
                     { id: 2, name: 'Test Department 2' },
                   ],
                 },

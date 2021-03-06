@@ -35,6 +35,6 @@ describe('CirclesAccordion', () => {
       />
     );
 
-    expect(wrapper.find('Panel').prop('header')).toEqual('Quick Summary');
+    expect(wrapper.find('#summary').exists()).toBe(true);
   });
 });

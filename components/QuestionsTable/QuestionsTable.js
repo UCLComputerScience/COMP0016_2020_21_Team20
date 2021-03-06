@@ -12,14 +12,15 @@ const columns = [
     id: 'question',
     label: 'Question body',
     width: '40%',
-    render: (edited, row) => {
+    render: (edited, row, host, i) => {
       if (edited) {
-        //if this url is being edited then it needs to be an input box
+        //if this question is being edited then it needs to be an input box
         //copy all the info about the row being currently edited
         let buffer = {};
         editedRow = Object.assign(buffer, row);
         return (
           <Input
+            id={'questionInput' + i}
             className={styles.input}
             key={row['standards']['name']}
             defaultValue={row['body']}
@@ -28,7 +29,7 @@ const columns = [
         );
       } else {
         //else just display body
-        return <div>{row['body']}</div>;
+        return <div id={'question' + i}>{row['body']}</div>;
       }
     },
   },
@@ -235,6 +236,7 @@ export default function QuestionsTable() {
       <div>
         <label>Body:</label>
         <Input
+          id={'bodyText'}
           className={styles.input}
           onChange={value => (newRow.body = value)}
         />
@@ -243,11 +245,11 @@ export default function QuestionsTable() {
         <SelectPicker
           defaultValue={newRow.standard}
           onChange={value => (newRow.standard = value)}
-          placeholder="Choose Standard"
+          placeholder={<text id={'chooseStandard'}>Choose Standard</text>}
           data={
             !error2 &&
             standards.map(standard => ({
-              label: standard.name,
+              label: <text id={'standard' + standard.id}>{standard.name}</text>,
               value: standard.id,
             }))
           }
@@ -256,6 +258,7 @@ export default function QuestionsTable() {
         <label>Url:</label>
         <br />
         <Input
+          id={'urlText'}
           className={styles.input}
           onChange={value => (newRow.url = value)}
         />
@@ -269,6 +272,7 @@ export default function QuestionsTable() {
         Cancel
       </Button>,
       <Button
+        id="addQuestion"
         key="alertdialog-confirm"
         onClick={() => addRow()}
         appearance="primary">
@@ -297,6 +301,7 @@ export default function QuestionsTable() {
         actions={deleteDialogActions}
       />
       <Button
+        id="addNewQuestion"
         className={styles.buttons}
         appearance="primary"
         onClick={() => setDialog()}>

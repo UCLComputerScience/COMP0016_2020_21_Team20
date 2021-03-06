@@ -16,3 +16,7 @@ export async function signOutToHomepage() {
   await expect(page).toClick('a', { text: 'CQ Dashboard' });
   await page.waitForNavigation();
 }
+
+const { likertScaleQuestions } = require('../../seedData');
+
+export const numberOfQuestions = likertScaleQuestions.length;

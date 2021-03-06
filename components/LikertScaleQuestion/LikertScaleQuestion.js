@@ -7,7 +7,9 @@ function LikertScaleQuestion(props) {
   return (
     <div className={styles.question}>
       <div className={styles.questionText}>
-        {props.questionNumber}. {props.question}
+        <text id={'q' + props.questionNumber}>
+          {props.questionNumber + '. ' + props.question}
+        </text>
         <Info url={props.questionUrl} />
       </div>
 

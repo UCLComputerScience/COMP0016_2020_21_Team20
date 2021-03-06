@@ -9,7 +9,7 @@ describe('Logging in', () => {
     await prisma.$disconnect();
   });
 
-  it('Login as clinician', async () => {
+  it('Logs in as clinician', async () => {
     await logInAs({
       username: 'clinician@example.com',
       password: 'clinician',
@@ -19,7 +19,7 @@ describe('Logging in', () => {
     await expect(page).toMatchElement('a', { text: 'Your account' });
   });
 
-  it('Login as department', async () => {
+  it('Logs in as department', async () => {
     await logInAs({
       username: 'department@example.com',
       password: 'department',
@@ -30,7 +30,7 @@ describe('Logging in', () => {
     await expect(page).toMatchElement('a', { text: 'Your account' });
   });
 
-  it('Login as hospital', async () => {
+  it('Logs in as hospital', async () => {
     await logInAs({
       username: 'hospital@example.com',
       password: 'hospital',
@@ -40,7 +40,7 @@ describe('Logging in', () => {
     await expect(page).toMatchElement('a', { text: 'Your account' });
   });
 
-  it('Login as health board', async () => {
+  it('Logs in as health board', async () => {
     await logInAs({
       username: 'healthboard@example.com',
       password: 'healthboard',
@@ -49,7 +49,7 @@ describe('Logging in', () => {
     await expect(page).toMatchElement('a', { text: 'Your account' });
   });
 
-  it('Login as admin', async () => {
+  it('Logs in as admin', async () => {
     await logInAs({
       username: 'admin@example.com',
       password: 'admin',
