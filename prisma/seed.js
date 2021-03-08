@@ -2,59 +2,59 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const standards = [
-  'Staff and Resources',
   'Staying Healthy',
-  'Individual Care',
-  'Timely Care',
-  'Dignified Care',
-  'Effective Care',
   'Safe Care',
+  'Effective Care',
+  'Dignified Care',
+  'Timely Care',
+  'Individual Care',
+  'Staff and Resources',
   'Governance, Leadership and Accountability',
 ];
 
 const likertScaleQuestions = [
   {
     question:
-      'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
+      'I have optimised the opportunity in our interaction today to discuss relevant activities and behaviours that support wellbeing and a healthy lifestyle for this patient.',
     standardId: 1,
-    url:
-      'http://www.wales.nhs.uk/governance-emanual/theme-7-staff-and-resources',
-  },
-  {
-    question:
-      'I have applied knowledge of best evidence to the context of this patient’s presentation to present appropriate treatment options to the patient.',
-    standardId: 2,
     url: 'http://www.wales.nhs.uk/governance-emanual/theme-1-staying-healthy',
   },
   {
     question:
-      'I have optimised the opportunity in our interaction today to discuss relevant activities and behaviours that support wellbeing and a healthy lifestyle for this patient.',
+      'I am confident/reassured that I have screened for serious pathology to an appropriate level in this case.',
+    standardId: 2,
+    url: 'http://www.wales.nhs.uk/governance-emanual/theme-2-safe-care',
+  },
+  {
+    question:
+      "I have applied knowledge of best evidence to the context of this patient's presentation to present appropriate treatment options to the patient.",
     standardId: 3,
-    url: 'http://www.wales.nhs.uk/governance-emanual/theme-6-individual-care',
+    url: 'http://www.wales.nhs.uk/governance-emanual/theme-3-effective-care',
   },
   {
     question:
-      'I have listened and responded with empathy to the patient’s concerns.',
+      "I have listened and responded with empathy to the patient's concerns.",
     standardId: 4,
-    url: 'http://www.wales.nhs.uk/governance-emanual/theme-5-timely-care',
-  },
-  {
-    question:
-      'I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.',
-    standardId: 5,
     url: 'http://www.wales.nhs.uk/governance-emanual/theme-4-dignified-care',
   },
   {
     question:
       'I have established progress markers to help me and the patient monitor and evaluate the success of the treatment plan.',
+    standardId: 5,
+    url: 'http://www.wales.nhs.uk/governance-emanual/theme-5-timely-care',
+  },
+  {
+    question:
+      'I have supported the patient with a shared decision making process to enable us to agree a management approach that is informed by what matters to them.',
     standardId: 6,
-    url: 'http://www.wales.nhs.uk/governance-emanual/theme-3-effective-care',
+    url: 'http://www.wales.nhs.uk/governance-emanual/theme-6-individual-care',
   },
   {
     question:
       'My reflection/discussion about this interaction has supported my development through consolidation or a unique experience I can learn from.',
     standardId: 7,
-    url: 'http://www.wales.nhs.uk/governance-emanual/theme-2-safe-care',
+    url:
+      'http://www.wales.nhs.uk/governance-emanual/theme-7-staff-and-resources',
   },
 ];
 
@@ -139,7 +139,7 @@ const seedQuestions = async () => {
         body: question.question,
       };
 
-      if (question.standardId === 3) {
+      if (question.standardId === 6) {
         data.question_urls = {
           create: {
             department_id: 1,
