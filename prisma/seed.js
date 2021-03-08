@@ -60,6 +60,7 @@ const likertScaleQuestions = [
 
 const wordsQuestions = [
   {
+    id: 8,
     question:
       'Provide 3 words that describe enablers/facilitators to providing high quality effective care in this interaction.',
     standardId: 8,
@@ -67,6 +68,7 @@ const wordsQuestions = [
       'http://www.wales.nhs.uk/governance-emanual/governance-leadership-and-accountability-1',
   },
   {
+    id: 9,
     question:
       'Provide 3 words that describe barriers/challenges to providing high quality effective care in this interaction.',
     standardId: 8,
@@ -153,10 +155,13 @@ const seedQuestions = async () => {
     })
   );
 
+  // 'Word' Questions have their IDs hardcoded to enable filtering for different
+  // word clouds in the UI
   await Promise.all(
     wordsQuestions.map(question =>
       prisma.questions.create({
         data: {
+          id: question.id,
           default_url: question.url,
           standards: { connect: { id: question.standardId } },
           type: 'words',
