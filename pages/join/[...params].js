@@ -65,11 +65,14 @@ function Join({ session, ...props }) {
           type="success"
           title="Successfully joined department"
           description={
-            <p>
+            <p id="joinSuccess">
               You have successfully joined the department!
               <br />
               <br />
-              <Button appearance="primary" onClick={() => router.push('/')}>
+              <Button
+                id="goToHomepage"
+                appearance="primary"
+                onClick={() => router.push('/')}>
                 Click here to go back to the homepage
               </Button>
             </p>

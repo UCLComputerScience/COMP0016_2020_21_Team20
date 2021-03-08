@@ -36,6 +36,7 @@ function LeaveDeptButton() {
               Cancel
             </Button>
             <Button
+              id="leave"
               color="red"
               onClick={() => {
                 Notification.close();

@@ -148,7 +148,10 @@ export default function Home({ session, toggleTheme }) {
                   your corresponding department or hospital, so you can start
                   completing self-reports and viewing your statistics.
                 </p>
-                <Button appearance="primary" onClick={() => signIn('keycloak')}>
+                <Button
+                  id="loginOrRegister"
+                  appearance="primary"
+                  onClick={() => signIn('keycloak')}>
                   Login or Register
                 </Button>
               </div>

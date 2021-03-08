@@ -71,4 +71,16 @@ describe('Fully filling in self report', () => {
 
     await expect(page).toMatchElement('text', { text: 'test' });
   });
+
+  it('Checks if mentoring filter works', async () => {
+    await expect(page).toClick('span', { text: 'Any' });
+    await expect(page).toClick('a', { text: 'Yes' });
+
+    await new Promise(r => setTimeout(r, 500));
+
+    //as we filled out one form which was not a self-report
+    await expect(page).toMatchElement('h5', {
+      text: 'No results found',
+    });
+  });
 });

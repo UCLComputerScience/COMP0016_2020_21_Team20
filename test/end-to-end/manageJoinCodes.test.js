@@ -1,6 +1,6 @@
 import { logInAs } from './e2e-helper';
 
-describe('Logging in', () => {
+describe('Managing join codes', () => {
   beforeAll(async () => {
     await page.goto(process.env.BASE_URL);
     const context = await browser.defaultBrowserContext();
@@ -28,7 +28,7 @@ describe('Logging in', () => {
     await expect(page).toMatchElement('div', {
       text: 'Copied',
     });
-    expect(copiedText.includes('/join/department_manager/')).toBe(true);
+    expect(copiedText).toMatch('/join/department_manager');
   });
 
   it('Regenerates URL', async () => {
@@ -47,6 +47,6 @@ describe('Logging in', () => {
       `(async () => await navigator.clipboard.readText())()`
     );
 
-    expect(after !== before).toBe(true);
+    expect(after).not.toEqual(before);
   });
 });
