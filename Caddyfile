@@ -1,19 +1,10 @@
-# TODO update hostnames with new domain
-# TODO update allowed IP
-
-nhsw.sjain.dev {
+clarionclinical.net {
         reverse_proxy localhost:3000 {
                 header_up X-Forwarded-Proto https
         }
 }
 
-auth.nhsw.sjain.dev {
-        @disallowed_admin_ips {
-                path_regexp (^\/auth\/?$|\/auth\/admin\/*)
-                not remote_ip TODO IP
-        }
-
-        respond @disallowed_admin_ips 403
+auth.clarionclinical.net {
         reverse_proxy localhost:8080 {
                 header_up X-Forwarded-Proto https
         }
