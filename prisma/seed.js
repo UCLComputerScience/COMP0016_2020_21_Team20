@@ -78,7 +78,7 @@ const wordsQuestions = [
 const seedStandards = async () => {
   await Promise.all(
     standards.map((standard, i) =>
-      prisma.standards.create({ data: { name: standard } })
+      prisma.standards.create({ data: { name: standard, id: i + 1 } })
     )
   );
 };
@@ -131,25 +131,27 @@ const seedEntities = async () => {
 
 const seedQuestions = async () => {
   await Promise.all(
-    likertScaleQuestions.map(question =>
-      prisma.questions.create({
-        data: {
-          default_url: question.url,
-          standards: { connect: { id: question.standardId } },
-          type: 'likert_scale',
-          body: question.question,
-        },
-      })
-    )
-  );
+    likertScaleQuestions.map(question => {
+      const data = {
+        default_url: question.url,
+        standards: { connect: { id: question.standardId } },
+        type: 'likert_scale',
+        body: question.question,
+      };
 
-  await prisma.question_urls.create({
-    data: {
-      questions: { connect: { id: 2 } },
-      departments: { connect: { id: 1 } },
-      url: 'http://www.wales.nhs.uk/governance-emanual/person-centred-care',
-    },
-  });
+      if (question.standardId === 3) {
+        data.question_urls = {
+          create: {
+            department_id: 1,
+            url:
+              'http://www.wales.nhs.uk/governance-emanual/person-centred-care',
+          },
+        };
+      }
+
+      return prisma.questions.create({ data });
+    })
+  );
 
   await Promise.all(
     wordsQuestions.map(question =>
