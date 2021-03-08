@@ -37,8 +37,8 @@ const useQuestions = () => {
   });
 
   return {
-    likertScaleQuestions: data ? data.likert_scale : [],
-    wordsQuestions: data ? data.words : [],
+    likertScaleQuestions: data && data.likert_scale ? data.likert_scale : [],
+    wordsQuestions: data && data.words ? data.words : [],
     isQuestionsLoading: !error && !data,
     questionsError: data ? data.error : error,
   };
