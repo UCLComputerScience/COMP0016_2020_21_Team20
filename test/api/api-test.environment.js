@@ -44,13 +44,7 @@ class ApiTestEnvironment extends NodeEnvironment {
     await client.query('ALTER SEQUENCE responses_id_seq RESTART 1000;');
     await client.query('ALTER SEQUENCE standards_id_seq RESTART 1000;');
     await client.query('ALTER SEQUENCE words_id_seq RESTART 1000;');
-
     await client.end();
-
-    await prisma.$disconnect();
-    await prisma.$connect({
-      datasources: { db: { url: process.env.DATABASE_URL } },
-    });
 
     await Promise.all([
       prisma.users.create({
@@ -140,7 +134,6 @@ class ApiTestEnvironment extends NodeEnvironment {
       ...likertScaleQuestions.map((question, i) =>
         prisma.questions.create({
           data: {
-            id: i + 1,
             default_url: question.url,
             standard_id: question.standardId,
             type: 'likert_scale',
@@ -154,7 +147,7 @@ class ApiTestEnvironment extends NodeEnvironment {
       ...wordsQuestions.map((question, i) =>
         prisma.questions.create({
           data: {
-            id: i + likertScaleQuestions.length + 1,
+            id: question.id,
             default_url: question.url,
             standard_id: question.standardId,
             type: 'words',

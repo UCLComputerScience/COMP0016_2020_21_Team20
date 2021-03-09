@@ -172,6 +172,10 @@ class PuppeteerTestEnvironment extends NodeEnvironment {
 
     // Start a Next (web-app) server for each test suite (file)
     this.global.server = spawnd('npm', ['run', 'start']);
+    this.global.server.stdout.on('data', data => console.log(data.toString()));
+    this.global.server.stderr.on('data', data =>
+      console.error(data.toString())
+    );
 
     // Give each test suite (file) it's own new global browser and page
     this.global.browser = await puppeteer.launch({
@@ -200,13 +204,7 @@ class PuppeteerTestEnvironment extends NodeEnvironment {
     await client.query('ALTER SEQUENCE responses_id_seq RESTART 1000;');
     await client.query('ALTER SEQUENCE standards_id_seq RESTART 1000;');
     await client.query('ALTER SEQUENCE words_id_seq RESTART 1000;');
-
     await client.end();
-
-    await prisma.$disconnect();
-    await prisma.$connect({
-      datasources: { db: { url: process.env.DATABASE_URL } },
-    });
 
     await Promise.all([
       prisma.health_boards.create({
@@ -285,7 +283,6 @@ class PuppeteerTestEnvironment extends NodeEnvironment {
       ...likertScaleQuestions.map((question, i) =>
         prisma.questions.create({
           data: {
-            id: i + 1,
             default_url: question.url,
             standard_id: question.standardId,
             type: 'likert_scale',
@@ -299,7 +296,7 @@ class PuppeteerTestEnvironment extends NodeEnvironment {
       ...wordsQuestions.map((question, i) =>
         prisma.questions.create({
           data: {
-            id: i + likertScaleQuestions.length + 1,
+            id: question.id,
             default_url: question.url,
             standard_id: question.standardId,
             type: 'words',
