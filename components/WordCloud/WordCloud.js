@@ -25,10 +25,6 @@ const options = {
   transitionDuration: 100,
 };
 function WordCloud(props) {
-  //const standardData = Object.assign({}, options);
-  //standardData.colors = [];
-  //standardData.colors2 = [];
-
   if (props.words === null) {
     return (
       <Loader className={styles.loading} size="lg" content="Loading data..." />
