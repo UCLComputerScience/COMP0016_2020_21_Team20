@@ -34,7 +34,9 @@ function WordsQuestion(props) {
   };
 
   // Notify the parent whenever state changes
-  useEffect(() => props.onChange([word1, word2, word3]));
+  useEffect(() => {
+    props.onChange([word1, word2, word3]);
+  });
 
   return (
     <div className={styles.question}>
