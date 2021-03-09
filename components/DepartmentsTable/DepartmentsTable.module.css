@@ -8,6 +8,19 @@
   width: 50%;
 }
 
+.actionButtons {
+  margin: auto;
+}
+
+.actionButtons button {
+  margin-top: 2px;
+}
+
+.actionButtons > * {
+  display: inline;
+  margin-left: 5px;
+}
+
 @media (max-width: 648px) {
   /*Mobile view*/
   .url {

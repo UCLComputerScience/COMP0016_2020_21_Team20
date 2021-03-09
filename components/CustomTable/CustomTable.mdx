@@ -6,6 +6,7 @@ menu: Manage
 
 import { Playground, Props } from 'docz';
 import CustomTable from './CustomTable';
+import { Button } from 'rsuite';
 import 'rsuite/dist/styles/rsuite-default.min.css';
 
 # CustomTable
@@ -40,9 +41,18 @@ It is normally used in the manage page.
       },
       { id: 'actions', label: 'Actions', width: 'auto' },
     ]}
-    tableType="departments"
+    renderActionCells={() => {
+      return (
+        <div>
+          <Button appearance="primary" onClick={() => null}>
+            Button1
+          </Button>
+          <Button color="red" onClick={() => null}>
+            Button2
+          </Button>
+        </div>
+      );
+    }}
     editing={null}
-    showCopyAlert={() => null}
-    regenerateCode={() => null}
   />
 </Playground>

@@ -1,6 +1,9 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
+import { Button, Icon } from 'rsuite';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 import CustomTable from './CustomTable.js';
 
 const wrapper = mount(
@@ -22,10 +25,24 @@ const wrapper = mount(
       },
       { id: 'actions', label: 'Actions', width: 'auto' },
     ]}
-    tableType="departments"
+    renderActionCells={() => {
+      return (
+        <div>
+          <CopyToClipboard text="test">
+            <Button appearance="primary" onClick={() => null}>
+              <Icon icon="clone" />
+            </Button>
+          </CopyToClipboard>
+          <Button appearance="primary" onClick={() => null}>
+            Re-generate URL
+          </Button>
+          <Button color="red" onClick={() => null}>
+            Delete
+          </Button>
+        </div>
+      );
+    }}
     editing={false}
-    showCopyAlert={() => null}
-    regenerateCode={() => null}
   />
 );
 

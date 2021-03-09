@@ -101,7 +101,7 @@ const getStandards = () => {
 var standards = [];
 var editedRow = null;
 
-export default function QuestionsTable() {
+export default function QuestionsTable(host) {
   const [editing, setEditing] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
@@ -283,6 +283,32 @@ export default function QuestionsTable() {
     setShowDialog(true);
   };
 
+  const renderActionCells = (editing, row, i) => {
+    if (editing === i) {
+      return (
+        <div className={styles.actionButtons}>
+          <Button appearance="primary" onClick={() => sendUpdated()}>
+            <Icon icon="save" />
+          </Button>
+          <Button color="red" onClick={() => cancelEditing()}>
+            <Icon icon="close" />
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.actionButtons}>
+          <Button appearance="primary" onClick={() => setEditing(i)}>
+            <Icon icon="pencil" />
+          </Button>
+          <Button color="red" onClick={() => confirmDelete(row['id'])}>
+            Delete
+          </Button>
+        </div>
+      );
+    }
+  };
+
   return (
     <div>
       <AlertDialog
@@ -308,14 +334,12 @@ export default function QuestionsTable() {
         <div>Add new question</div>
       </Button>
       <CustomTable
-        tableType="questions"
         data={localData}
         columns={columns}
+        renderActionCells={(editing, row, i) =>
+          renderActionCells(editing, row, i)
+        }
         editing={editing}
-        sendUpdated={() => sendUpdated()}
-        cancelEditing={() => cancelEditing()}
-        setEditing={i => setEditing(i)}
-        confirmDelete={id => confirmDelete(id)}
       />
     </div>
   );

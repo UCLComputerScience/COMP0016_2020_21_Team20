@@ -15,7 +15,7 @@ function LeaveDeptButton() {
   const handleLeave = async () => {
     const success = await leaveInDatabase();
     if (success.success === true) {
-      signOut();
+      signOut({ callbackUrl: '/', redirect: true });
     } else {
       showErrorDialog();
     }

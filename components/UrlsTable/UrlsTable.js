@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Input, Alert } from 'rsuite';
+import { Input, Alert, Button, Icon } from 'rsuite';
 import { mutate } from 'swr';
 import styles from './UrlsTable.module.css';
 
@@ -125,18 +125,42 @@ export default function UrlsTable({ session, host }) {
     Alert.success('URL set to default suggested URL', 3000);
   };
 
+  const renderActionCells = (editing, row, i) => {
+    if (editing === i) {
+      return (
+        <div className={styles.actionButtons}>
+          <Button appearance="primary" onClick={() => sendData()}>
+            <Icon icon="save" />
+          </Button>
+          <Button color="red" onClick={() => cancelEditing()}>
+            <Icon icon="close" />
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.actionButtons}>
+          <Button appearance="primary" onClick={() => setEditing(i)}>
+            <Icon icon="pencil" />
+          </Button>
+          <Button color="red" onClick={() => setToDefaultUrl(row['id'])}>
+            Set to Default
+          </Button>
+        </div>
+      );
+    }
+  };
+
   return (
     <div>
       <ClinicianJoinCode session={session} host={host} />
       <CustomTable
-        tableType="urls"
         data={localData}
         columns={columns}
+        renderActionCells={(editing, row, i) =>
+          renderActionCells(editing, row, i)
+        }
         editing={editing}
-        sendData={() => sendData()}
-        cancelEditing={() => cancelEditing()}
-        setEditing={i => setEditing(i)}
-        setToDefaultUrl={id => setToDefaultUrl(id)}
       />
     </div>
   );

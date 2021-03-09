@@ -159,7 +159,8 @@ function statistics({ session, toggleTheme }) {
       </Head>
       <Header session={session} toggleTheme={toggleTheme} />
       <CirclesAccordion circles={averageStats} />
-      {(session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) ||
+      {((session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
+        dataToDisplayOverride) ||
         session.user.roles.includes(Roles.USER_TYPE_CLINICIAN)) && (
         <AnalyticsAccordion data={dataToSend} stats={averageStats} />
       )}

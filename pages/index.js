@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { Header } from '../components';
 import { Button, Message } from 'rsuite';
 import { signIn, getSession } from 'next-auth/client';
+import styles from './index.module.css';
 
 const errors = {
   configuration: {
@@ -132,13 +133,13 @@ export default function Home({ session, toggleTheme }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header session={session} toggleTheme={toggleTheme} />
-      <div className="hero">
-        <div className="container">
+      <div className={styles.squares}>
+        <div className={styles.container}>
           {router.query && router.query.error && showError(router.query.error)}
-          <main>
-            <h1 className="title">Welcome to Care Quality Dashboard</h1>
+          <main className={styles.mainContent}>
+            <h1 className={styles.title}>Welcome to Care Quality Dashboard</h1>
             {!session && (
-              <div className="loginButton">
+              <div className={styles.loginButton}>
                 <h2>Get started</h2>
                 <p
                   style={{ width: '60%', margin: 'auto', marginBottom: '5px' }}>
@@ -156,9 +157,9 @@ export default function Home({ session, toggleTheme }) {
                 </Button>
               </div>
             )}
-            {session && <div className="spacing"></div>}
-            <div className="features" ref={featuresRef}>
-              <div className="feature">
+            {session && <div className={styles.spacing}></div>}
+            <div className={styles.features} ref={featuresRef}>
+              <div className={styles.feature}>
                 <img
                   src="/images/icons8-todo-list-96.png"
                   width={96}
@@ -172,7 +173,7 @@ export default function Home({ session, toggleTheme }) {
                   automatically saved.
                 </p>
               </div>
-              <div className="feature">
+              <div className={styles.feature}>
                 <img
                   src="/images/icons8-combo-chart-96.png"
                   width={96}
@@ -186,7 +187,7 @@ export default function Home({ session, toggleTheme }) {
                   the top which gives you great insight of your average.
                 </p>
               </div>
-              <div className="feature">
+              <div className={styles.feature}>
                 <img
                   src="/images/icons8-people-96.png"
                   width={96}
@@ -203,220 +204,16 @@ export default function Home({ session, toggleTheme }) {
             </div>
           </main>
         </div>
-        <div className="cube"></div>
-        <div className="cube"></div>
-        <div className="cube"></div>
-        <div className="cube"></div>
-        <div className="cube"></div>
-        <div className="cube"></div>
+        <div className={styles.cube}></div>
+        <div className={styles.cube}></div>
+        <div className={styles.cube}></div>
+        <div className={styles.cube}></div>
+        <div className={styles.cube}></div>
+        <div className={styles.cube}></div>
       </div>
-      <div className="iconInfo">
+      <div className={styles.iconInfo}>
         <a href="https://icons8.com">Icons by Icons8</a>
       </div>
-
-      <style jsx>{`
-        .hero {
-          position: relative;
-          overflow: hidden;
-          min-height: 87vh;
-        }
-
-        .hero__title {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          font-size: 50px;
-          z-index: 1;
-        }
-
-        .cube {
-          position: absolute;
-          top: 80vh;
-          left: 45vw;
-          width: 10px;
-          height: 10px;
-          border: solid 1px #003298;
-          transform-origin: top left;
-          transform: scale(0) rotate(0deg) translate(-50%, -50%);
-          animation: cube 16s ease-in forwards infinite;
-        }
-
-          .cube:nth-child(2n) {
-            border-color: lighten(#0040C1, 10%);
-          }
-
-          .cube:nth-child(2) {
-            animation-delay: 2s;
-            left: 25vw;
-            top: 40vh;
-          }
-
-          .cube:nth-child(3) {
-            animation-delay: 4s;
-            left: 75vw;
-            top: 50vh;
-          }
-
-          .cube:nth-child(4) {
-            animation-delay: 6s;
-            left: 90vw;
-            top: 10vh;
-          }
-
-          .cube:nth-child(5) {
-            animation-delay: 8s;
-            left: 10vw;
-            top: 85vh;
-          }
-
-          .cube:nth-child(6) {
-            animation-delay: 10s;
-            left: 50vw;
-            top: 10vh;
-          }
-
-
-        @keyframes cube {
-          from {
-            transform: scale(0) rotate(0deg) translate(-50%, -50%);
-            opacity: 1;
-          }
-          to {
-            transform: scale(20) rotate(960deg) translate(-50%, -50%);
-            opacity: 0;
-          }
-        }
-
-        .features {
-          margin: 1vh;
-          margin-bottom: -4vh;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-        }
-
-        .feature {
-          margin: 2vh;
-          text-align: center;
-          width: 25vw;
-        }
-
-        .loginButton {
-          margin-top: 5vh;
-          margin-bottom: 5vh;
-          text-align: center;
-        }
-
-        .spacing {
-          margin-top: 25vh;
-          text-align: center;
-        }
-
-        .iconInfo {
-          text-align: left !important;
-          margin-top: -2vh;
-        }
-
-
-        .buttonsRow {
-          margin-top: 10vh;
-          text-align: center;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-        }
-
-        .container {
-          paddin;g: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        main {
-          padding: 4rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title {
-          margin: 5vh;
-          margin-top: -5vh;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-          cursor: pointer;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
     </div>
   );
 }
