@@ -9,35 +9,21 @@ import styles from './WordCloud.module.css';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 
-/*
-function getCallback(callback) {
-  return function (word, event) {
-    const isActive = callback !== 'onWordMouseOut';
-    const element = event.target;
-    const text = select(element);
-    text
-      .on('click', () => {
-        if (isActive) {
-          window.open(`https://dictionary.com/?q=${word.text}`, '_blank');
-        }
-      })
-      .transition()
-      .attr('background', 'white')
-      .attr('font-size', isActive ? '300%' : '100%')
-      .attr('text-decoration', isActive ? 'underline' : 'none');
-  };
-}
-
-const callbacks = {
-  getWordColor: word => (word.value > 50 ? 'orange' : 'purple'),
-  getWordTooltip: word =>
-    `The word "${word.text}" appears ${word.value} times.`,
-  onWordClick: getCallback('onWordClick'),
-  onWordMouseOut: getCallback('onWordMouseOut'),
-  onWordMouseOver: getCallback('onWordMouseOver'),
+const options = {
+  colors: [],
+  enableTooltip: true,
+  deterministic: true,
+  fontFamily: 'impact',
+  fontSizes: [30, 100],
+  fontStyle: 'normal',
+  fontWeight: 'normal',
+  padding: 1,
+  rotations: 0,
+  rotationAngles: [0, 0],
+  scale: 'log',
+  spiral: 'archimedean',
+  transitionDuration: 100,
 };
-*/
-
 function WordCloud(props) {
   if (props.words === null) {
     return (
@@ -45,9 +31,11 @@ function WordCloud(props) {
     );
   } else if (props.words.length) {
     let questionId = 8;
+    options.colors = ['#008000', '#00FA9A', '#2ca02c'];
     // We are hardcoding questionId = 8 as this corresponds to the 8th question in the self-report in which the user is asked to enter the enablers. Opposite for questionId = 9 (user enters barriers).
     if (props.visualisationType === Visualisations.WORD_CLOUD_BARRIERS) {
       questionId = 9;
+      options.colors = ['#d62728', '#FF0000', '#B22222'];
     }
     const words = {};
     props.words.forEach(word => {
@@ -59,31 +47,6 @@ function WordCloud(props) {
         }
       }
     });
-
-    const options = {
-      colors: [
-        '#1f77b4',
-        '#ff7f0e',
-        '#2ca02c',
-        '#d62728',
-        '#9467bd',
-        '#8c564b',
-      ],
-      //colors: ['#008000', '#00FA9A', '#2ca02c'],
-      //colors2: ['#d62728', '#FF0000', '#B22222'],
-      enableTooltip: true,
-      deterministic: true,
-      fontFamily: 'impact',
-      fontSizes: [30, 100],
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      padding: 1,
-      rotations: 0,
-      rotationAngles: [0, 0],
-      scale: 'log',
-      spiral: 'archimedean',
-      transitionDuration: 100,
-    };
 
     return (
       <div style={{ height: 400, width: 600, margin: 'auto' }}>
