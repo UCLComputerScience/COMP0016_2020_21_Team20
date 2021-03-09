@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AutoComplete } from 'rsuite';
 
 import PropTypes from 'prop-types';
@@ -15,13 +15,9 @@ function WordsQuestion(props) {
     const inputs = [];
     for (let i = 0; i < MAX_NUMBER_OF_WORDS; i++) {
       let setter;
-      if (i === 0) {
-        setter = setWord1;
-      } else if (i === 1) {
-        setter = setWord2;
-      } else if (i === 2) {
-        setter = setWord3;
-      }
+      if (i === 0) setter = setWord1;
+      else if (i === 1) setter = setWord2;
+      else if (i === 2) setter = setWord3;
 
       inputs.push(
         <AutoComplete
@@ -29,17 +25,15 @@ function WordsQuestion(props) {
           size="lg"
           className={styles.input}
           key={i}
-          onChange={value => setWord(setter, value)}
+          onChange={value => setter(value)}
         />
       );
     }
     return inputs;
   };
 
-  const setWord = (setter, word) => {
-    setter(word);
-    props.onChange([word1, word2, word3]);
-  };
+  // Notify the parent whenever state changes
+  useEffect(() => props.onChange([word1, word2, word3]));
 
   return (
     <div className={styles.question}>

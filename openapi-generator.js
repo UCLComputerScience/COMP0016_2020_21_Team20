@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: 'https://nhsw.sjain.dev/api',
+        url: 'https://clarionclinical.net/api',
       },
     ],
     security: [
