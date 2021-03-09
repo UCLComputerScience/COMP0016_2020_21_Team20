@@ -8,13 +8,14 @@ export default function CirclesAccordion(props) {
   return (
     <Panel
       className={styles.circles}
-      header="Quick Summary"
+      header={<text id="summary">Quick Summary</text>}
       collapsible
       bordered
       shaded>
       <div className={styles.circlesWrapper}>
         {props.circles.map((c, i) => (
           <Circle
+            id={'c' + i.toString()}
             key={i}
             name={c.name}
             color={c.color}

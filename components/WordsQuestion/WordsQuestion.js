@@ -21,6 +21,7 @@ function WordsQuestion(props) {
 
       inputs.push(
         <AutoComplete
+          id={'wq' + props.questionNumber.toString() + 'i' + i.toString()}
           data={props.suggestedWords}
           size="lg"
           className={styles.input}
@@ -33,7 +34,9 @@ function WordsQuestion(props) {
   };
 
   // Notify the parent whenever state changes
-  useEffect(() => props.onChange([word1, word2, word3]));
+  useEffect(() => {
+    props.onChange([word1, word2, word3]);
+  });
 
   return (
     <div className={styles.question}>

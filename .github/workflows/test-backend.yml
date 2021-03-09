@@ -1,6 +1,10 @@
 name: Test backend API
 
-on: pull_request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 jobs:
   test-backend-api:
     runs-on: ubuntu-latest
@@ -10,9 +14,9 @@ jobs:
       - uses: bahmutov/npm-install@v1 # Install dependencies, with cache
       - name: Create .env file
         run: |
-          touch .env
-          echo DATABASE_URL="postgresql://test:test@localhost:5432/test" >> .env
-          echo NEXTAUTH_URL="http://localhost:3000" >> .env
+          touch .env.test
+          echo DATABASE_URL="postgresql://test:test@localhost:5432/test" >> .env.test
+          echo NEXTAUTH_URL="http://localhost:3000" >> .env.test
       - name: Start Docker containers
         run: docker-compose -f docker-compose-test.yml up -d
       - name: Test

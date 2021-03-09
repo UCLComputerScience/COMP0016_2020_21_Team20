@@ -87,7 +87,11 @@ function WordCloud(props) {
 
     return (
       <div style={{ height: 400, width: 600, margin: 'auto' }}>
-        <ReactWordcloud words={Object.values(words)} options={options} />
+        <ReactWordcloud
+          id="wordGraphic"
+          words={Object.values(words)}
+          options={options}
+        />
       </div>
     );
   }

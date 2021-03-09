@@ -32,7 +32,9 @@ function Header({ session, toggleTheme }) {
 
     return userPaths.map((path, i) => (
       <Link key={i} href={'/'.concat(path)}>
-        <Nav.Item active={router.pathname === `/${path}`}>{path}</Nav.Item>
+        <Nav.Item id={path} active={router.pathname === `/${path}`}>
+          {path}
+        </Nav.Item>
       </Link>
     ));
   };
@@ -89,7 +91,9 @@ function Header({ session, toggleTheme }) {
           {session ? (
             <ProfileButton session={session} />
           ) : (
-            <Nav.Item onClick={() => signIn('keycloak')}>Log in</Nav.Item>
+            <Nav.Item onClick={() => signIn('keycloak')}>
+              <text id="logIn">Log in</text>
+            </Nav.Item>
           )}
           <Button
             className={styles.themeToggle}

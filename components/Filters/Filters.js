@@ -186,13 +186,16 @@ export function Filters({ session, ...props }) {
         cleanable={false}
         block={true}
         data={[
-          { label: 'Line Chart', value: Visualisations.LINE_CHART },
           {
-            label: 'Enablers Word Cloud',
+            label: <text id="lineChart">Line Chart</text>,
+            value: Visualisations.LINE_CHART,
+          },
+          {
+            label: <text id="enablersWords">Enablers Word Cloud</text>,
             value: Visualisations.WORD_CLOUD_ENABLERS,
           },
           {
-            label: 'Barriers Word Cloud',
+            label: <text id="barriersWords">Barriers Word Cloud</text>,
             value: Visualisations.WORD_CLOUD_BARRIERS,
           },
         ]}

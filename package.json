@@ -8,13 +8,14 @@
     "start": "next start",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx",
     "deploy-migrations": "prisma migrate deploy --preview-feature",
+    "openapi:generate": "node openapi-generator.js",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
     "docz:serve": "docz serve",
     "test:frontend": "jest --testPathPattern=components* --config=jest-frontend.config.js",
     "test:backend": "env-cmd -f .env.test jest --testPathPattern=test/api* --runInBand",
-    "test:e2e": "env-cmd -f .env.test jest --testPathPattern=test/end-to-end* --runInBand --config=jest-e2e.config.js",
-    "openapi:generate": "node openapi-generator.js"
+    "pretest:e2e": "env-cmd -f .env.test npm run build",
+    "test:e2e": "env-cmd -f .env.test jest --testPathPattern=test/end-to-end* --runInBand --config=jest-e2e.config.js --no-cache"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -58,7 +59,6 @@
     "husky": "^4.3.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
-    "jest-puppeteer": "^4.4.0",
     "json-schema-ref-parser": "^9.0.7",
     "next-test-api-route-handler": "^1.2.20",
     "prettier": "^2.2.1",
@@ -67,6 +67,7 @@
     "puppeteer": "^8.0.0",
     "react-error-overlay": "^6.0.9",
     "react-test-renderer": "^16.8.4",
+    "spawnd": "^4.4.0",
     "webpack": "^4.46.0"
   },
   "husky": {

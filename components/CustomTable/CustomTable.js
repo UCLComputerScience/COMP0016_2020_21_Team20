@@ -28,22 +28,27 @@ const renderCells = [
       showCopyAlert,
       regenerateCode,
       confirmDelete,
-      host
+      host,
+      i
     ) => {
       return (
         <div className={styles.actionButtons}>
           <CopyToClipboard
             text={`https://${host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
             <Button appearance="primary" onClick={() => showCopyAlert()}>
-              <Icon icon="clone" />
+              <Icon id={'copy' + i} icon="clone" />
             </Button>
           </CopyToClipboard>
           <Button
+            id={'regenerate' + i}
             appearance="primary"
             onClick={() => regenerateCode(row['id'])}>
             Re-generate URL
           </Button>
-          <Button color="red" onClick={() => confirmDelete(row['id'])}>
+          <Button
+            id={'delete' + i}
+            color="red"
+            onClick={() => confirmDelete(row['id'])}>
             Delete
           </Button>
         </div>
@@ -64,7 +69,10 @@ const renderCells = [
       if (editing === i) {
         return (
           <div className={styles.actionButtons}>
-            <Button appearance="primary" onClick={() => sendData()}>
+            <Button
+              id={'saveEdit' + i}
+              appearance="primary"
+              onClick={() => sendData()}>
               <Icon icon="save" />
             </Button>
             <Button color="red" onClick={() => cancelEditing()}>
@@ -76,9 +84,12 @@ const renderCells = [
         return (
           <div className={styles.actionButtons}>
             <Button appearance="primary" onClick={() => setEditing(i)}>
-              <Icon icon="pencil" />
+              <Icon id={'edit' + i} icon="pencil" />
             </Button>
-            <Button color="red" onClick={() => setToDefaultUrl(row['id'])}>
+            <Button
+              id={'setDefault' + i}
+              color="red"
+              onClick={() => setToDefaultUrl(row['id'])}>
               Set to Default
             </Button>
           </div>
@@ -100,7 +111,10 @@ const renderCells = [
       if (editing === i) {
         return (
           <div className={styles.actionButtons}>
-            <Button appearance="primary" onClick={() => sendUpdated()}>
+            <Button
+              id={'saveEdit' + i}
+              appearance="primary"
+              onClick={() => sendUpdated()}>
               <Icon icon="save" />
             </Button>
             <Button color="red" onClick={() => cancelEditing()}>
@@ -112,7 +126,7 @@ const renderCells = [
         return (
           <div className={styles.actionButtons}>
             <Button appearance="primary" onClick={() => setEditing(i)}>
-              <Icon icon="pencil" />
+              <Icon id={'edit' + i} icon="pencil" />
             </Button>
             <Button color="red" onClick={() => confirmDelete(row['id'])}>
               Delete
@@ -154,7 +168,7 @@ function CustomTable({ host, ...props }) {
                         key={column.id}
                         align={column.align}>
                         {column.id !== 'actions'
-                          ? column.render(props.editing === i, row, host)
+                          ? column.render(props.editing === i, row, host, i)
                           : props.tableType === 'departments'
                           ? renderCells[typeOfTable.DEPARTMENTS].render(
                               props.editing,
@@ -162,7 +176,8 @@ function CustomTable({ host, ...props }) {
                               () => props.showCopyAlert(),
                               id => props.regenerateCode(id),
                               id => props.confirmDelete(id),
-                              host
+                              host,
+                              i
                             )
                           : props.tableType === 'urls'
                           ? renderCells[typeOfTable.URLS].render(

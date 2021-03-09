@@ -6,10 +6,11 @@ import styles from './Circle.module.css';
 
 const { Circle: CircleComponent } = Progress;
 
-const Circle = ({ name, color, percentage }) => {
+const Circle = ({ id, name, color, percentage }) => {
   return (
     <div className={styles.circle}>
       <strong
+        id={id + '%' + percentage.toString()}
         className={name.length > 10 ? styles.leftOffset : styles.rightOffset}>
         {name}
       </strong>

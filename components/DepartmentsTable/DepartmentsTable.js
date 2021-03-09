@@ -117,6 +117,7 @@ export default function DepartmentsTable({ host }) {
         Cancel
       </Button>,
       <Button
+        id="confirmDelete"
         key="alertdialog-confirm"
         appearance="primary"
         onClick={() => deleteRow(id)}>
@@ -138,7 +139,10 @@ export default function DepartmentsTable({ host }) {
       resetNewRow();
       //to ensure no stale data, so refetch
       mutate('/api/departments');
-      Alert.success('New department successfully added', 3000);
+      Alert.success(
+        <text id="addSuccess">New department successfully added</text>,
+        3000
+      );
     }
   };
 
@@ -148,6 +152,7 @@ export default function DepartmentsTable({ host }) {
       <div className={styles.alertContent}>
         <Input
           className={styles.input}
+          id="newDeptName"
           key={'new-department-name'}
           onChange={value => (newRow.name = value)}
         />
@@ -161,6 +166,7 @@ export default function DepartmentsTable({ host }) {
         Cancel
       </Button>,
       <Button
+        id="addDept"
         key="alertdialog-confirm"
         onClick={() => addRow()}
         appearance="primary">
@@ -183,6 +189,7 @@ export default function DepartmentsTable({ host }) {
           respective departments
         </p>
         <Button
+          id="addNewDept"
           className={styles.button}
           appearance="primary"
           onClick={() => setDialog()}>
