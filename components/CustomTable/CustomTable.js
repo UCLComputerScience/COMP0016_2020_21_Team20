@@ -40,7 +40,7 @@ function CustomTable({ host, ...props }) {
                         key={column.id}
                         align={column.align}>
                         {column.id !== 'actions'
-                          ? column.render(props.editing === i, row, host)
+                          ? column.render(props.editing === i, row, host, i)
                           : column.id === 'actions'
                           ? props.renderActionCells(props.editing, row, i)
                           : null}
