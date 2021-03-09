@@ -21,7 +21,7 @@ const options = {
   rotations: 0,
   rotationAngles: [0, 0],
   scale: 'log',
-  spiral: 'archimedean',
+  spiral: 'rectangular',
   transitionDuration: 100,
 };
 function WordCloud(props) {
@@ -49,7 +49,7 @@ function WordCloud(props) {
     });
 
     return (
-      <div style={{ height: 400, width: 600, margin: 'auto' }}>
+      <div style={{ height: 400, width: 800, margin: 'auto' }}>
         <ReactWordcloud
           id="wordGraphic"
           words={Object.values(words)}
