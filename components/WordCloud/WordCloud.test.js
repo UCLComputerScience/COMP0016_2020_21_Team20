@@ -4,25 +4,21 @@ import React from 'react';
 import WordCloud from './WordCloud.js';
 
 describe('WordCloud', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<WordCloud words={null} />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('WordCloud', () => {
-  it('Loading message', () => {
+  it('shows loading message', () => {
     const wrapper = mount(<WordCloud words={null} />);
 
     expect(wrapper.findWhere(n => n.contains('Loading data...')).exists()).toBe(
       true
     );
   });
-});
 
-describe('WordCloud', () => {
-  it('No results', () => {
+  it('shows no results', () => {
     const wrapper = mount(<WordCloud words={[]} />);
 
     expect(
