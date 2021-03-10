@@ -47,7 +47,6 @@ import requiresAuth from '../../lib/requiresAuthApiMiddleware';
 const handler = async (req, res) => {
   if (req.method === 'GET') {
     const standards = await prisma.standards.findMany();
-    // TODO return as object with key `standards` and value the array:
     return res.json(standards);
   }
 

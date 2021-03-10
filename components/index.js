@@ -20,3 +20,5 @@ export { default as NoAccess } from './NoAccess/NoAccess';
 export { default as CustomTable } from './CustomTable/CustomTable';
 export { default as Footer } from './Footer/Footer';
 export { default as AnalyticsAccordion } from './AnalyticsAccordion/AnalyticsAccordion';
+export { default as NewUserForm } from './NewUserForm/NewUserForm';
+export { default as NewEntityForm } from './NewEntityForm/NewEntityForm';

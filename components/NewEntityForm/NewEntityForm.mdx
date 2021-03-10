@@ -1,0 +1,29 @@
+---
+name: NewEntityForm
+route: /NewEntityForm
+menu: Manage
+---
+
+import { Playground, Props } from 'docz';
+import NewEntityForm from './NewEntityForm';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# NewEntityForm
+
+The `NewEntityForm` component is used on the platform administrator manage page to allow them to add new hospitals or health boards to the system.
+
+It consists of a form that asks for the relevant details depending on the user type being added, and handles the form submission itself.
+
+<Props of={NewEntityForm} />
+
+It is normally used in the Admin Manage Page.
+
+## Basic usage
+
+<Playground>
+  <NewEntityForm
+    healthBoard
+    onError={console.error}
+    onSuccess={() => console.log('Success!')}
+  />
+</Playground>
