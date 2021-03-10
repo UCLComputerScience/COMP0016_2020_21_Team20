@@ -98,7 +98,7 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
   };
 
   return (
-    <Form fluid>
+    <Form fluid id="newUserForm">
       <FormGroup>
         <ControlLabel>Email address</ControlLabel>
         <FormControl value={email} name="email" onChange={setEmail} />
@@ -109,10 +109,12 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
         <ControlLabel>Password</ControlLabel>
         <FormControl value={password} name="password" onChange={setPassword} />
         <ButtonToolbar>
-          <Button onClick={() => setPassword(generateRandomPassword())}>
+          <Button
+            onClick={() => setPassword(generateRandomPassword())}
+            id="generatePassword">
             Generate random password
           </Button>
-          <CopyToClipboard text={password}>
+          <CopyToClipboard text={password} id="copyPassword">
             <Button
               onClick={() => Alert.info('Copied password to clipboard', 3000)}>
               Copy to clipboard
@@ -126,7 +128,10 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
       </FormGroup>
       <FormGroup>
         <ButtonToolbar>
-          <Button appearance="primary" onClick={handleSubmit}>
+          <Button
+            appearance="primary"
+            onClick={handleSubmit}
+            id="submitNewUser">
             Submit
           </Button>
         </ButtonToolbar>
