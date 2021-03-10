@@ -27,7 +27,7 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
-const useDatabaseData = () => {
+const useDepartments = () => {
   const { data, error } = useSWR('/api/departments');
 
   if (data) {
@@ -40,7 +40,7 @@ export default function DepartmentsTable({ host }) {
   const [showNewDepartmentDialog, setShowNewDepartmentDialog] = useState(false);
   const [dialogText, setDialogText] = useState(null);
   const [newDepartmentName, setNewDepartmentName] = useState(null);
-  const { data, error, message } = useDatabaseData();
+  const { data, error, message } = useDepartments();
 
   if (error) {
     Alert.error(

@@ -53,7 +53,7 @@ const columns = [
   { id: 'actions', label: 'Actions', width: 'auto' },
 ];
 
-const useDatabaseData = () => {
+const useQuestions = () => {
   const { data, error } = useSWR('/api/questions');
 
   if (data) {
@@ -70,7 +70,7 @@ const useDatabaseData = () => {
 var editedRow = null;
 export default function UrlsTable({ session, host }) {
   const [editing, setEditing] = useState(null);
-  const { data, error, message } = useDatabaseData();
+  const { data, error, message } = useQuestions();
 
   if (error) {
     Alert.error(
