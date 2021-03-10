@@ -1,13 +1,16 @@
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
+import { useState } from 'react';
+import { Button, ButtonGroup, Modal } from 'rsuite';
 
 import {
   UrlsTable,
   Header,
   LoginMessage,
-  QuestionsTable,
+  NewUserForm,
   DepartmentsTable,
   NoAccess,
+  NewEntityForm,
 } from '../components';
 
 import { Roles } from '../lib/constants';
@@ -29,6 +32,9 @@ export async function getServerSideProps(context) {
  * @param toggleTheme This is passed into the header component to control the theme being displayed
  */
 function manage({ session, host, toggleTheme }) {
+  const [addNewUserModalUserType, setAddNewUserModalUserType] = useState(null);
+  const [addNewEntityModalType, setAddNewEntityModalType] = useState(null);
+
   if (!session) {
     return (
       <div>
@@ -37,6 +43,114 @@ function manage({ session, host, toggleTheme }) {
       </div>
     );
   }
+
+  const renderContent = () => {
+    if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+      return (
+        <div>
+          <h3>Manage the URLs of each question</h3>
+          <UrlsTable session={session} host={host} />
+        </div>
+      );
+    } else if (session.user.roles.includes(Roles.USER_TYPE_ADMIN)) {
+      return (
+        <div>
+          <h3>Add new health boards and hospitals</h3>
+          <p>
+            Please use the following options to add a new health board or
+            hospital to the system.
+          </p>
+          <p>
+            You may also setup user accounts for health board or hospital users
+            to generate credentials that may be distributed to relevant staff.
+          </p>
+          <p>
+            <strong>
+              No users should be added to this system unless you have
+              authorisation from your Information Governance Team and you have
+              read your organisation&apos;s Privacy Policy.
+            </strong>
+          </p>
+
+          <Modal
+            show={addNewUserModalUserType !== null}
+            onHide={() => setAddNewUserModalUserType(null)}
+            size="xs">
+            <Modal.Header>
+              <Modal.Title>Add new user</Modal.Title>
+              <Modal.Header>
+                Please enter the details of the new user
+              </Modal.Header>
+            </Modal.Header>
+            <Modal.Body>
+              <NewUserForm userType={addNewUserModalUserType} />
+            </Modal.Body>
+          </Modal>
+
+          <Modal
+            show={addNewEntityModalType !== null}
+            onHide={() => setAddNewEntityModalType(null)}
+            size="xs">
+            <Modal.Header>
+              <Modal.Title>Add new {addNewEntityModalType}</Modal.Title>
+              <Modal.Header>
+                Please enter the details of the new {addNewEntityModalType}
+              </Modal.Header>
+            </Modal.Header>
+            <Modal.Body>
+              <NewEntityForm
+                hospital={addNewEntityModalType === 'hospital'}
+                healthBoard={addNewEntityModalType === 'health board'}
+              />
+            </Modal.Body>
+          </Modal>
+
+          <p>
+            <ButtonGroup justified>
+              <Button
+                appearance="ghost"
+                onClick={() => setAddNewEntityModalType('health board')}>
+                Add new health board
+              </Button>
+              <Button
+                appearance="ghost"
+                onClick={() => setAddNewEntityModalType('hospital')}>
+                Add new hospital
+              </Button>
+            </ButtonGroup>
+          </p>
+
+          <p>
+            <ButtonGroup justified>
+              <Button
+                appearance="ghost"
+                onClick={() =>
+                  setAddNewUserModalUserType(Roles.USER_TYPE_HEALTH_BOARD)
+                }>
+                Add new health board user
+              </Button>
+              <Button
+                appearance="ghost"
+                onClick={() =>
+                  setAddNewUserModalUserType(Roles.USER_TYPE_HOSPITAL)
+                }>
+                Add new hospital user
+              </Button>
+            </ButtonGroup>
+          </p>
+        </div>
+      );
+    } else if (session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+      return (
+        <div>
+          <h3>Manage and add new departments</h3>
+          <DepartmentsTable host={host} />
+        </div>
+      );
+    } else {
+      return <NoAccess />;
+    }
+  };
 
   return (
     <div>
@@ -47,24 +161,7 @@ function manage({ session, host, toggleTheme }) {
       <div style={{ zIndex: 1000, position: 'relative' }}>
         <Header session={session} toggleTheme={toggleTheme} />
       </div>
-      {session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) ? (
-        <div>
-          <h3>Manage the URLs of each question</h3>
-          <UrlsTable session={session} host={host} />
-        </div>
-      ) : session.user.roles.includes(Roles.USER_TYPE_ADMIN) ? (
-        <div>
-          <h3>Manage and add new questions</h3>
-          <QuestionsTable />
-        </div>
-      ) : session.user.roles.includes(Roles.USER_TYPE_HOSPITAL) ? (
-        <div>
-          <h3>Manage and add new departments</h3>
-          <DepartmentsTable host={host} />
-        </div>
-      ) : (
-        <NoAccess />
-      )}
+      {renderContent()}
     </div>
   );
 }
