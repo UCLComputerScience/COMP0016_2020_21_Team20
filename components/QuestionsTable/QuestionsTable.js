@@ -287,7 +287,10 @@ export default function QuestionsTable() {
     if (editing === i) {
       return (
         <div className={styles.actionButtons}>
-          <Button appearance="primary" onClick={() => sendUpdated()}>
+          <Button
+            id={'saveEdit' + i}
+            appearance="primary"
+            onClick={() => sendUpdated()}>
             <Icon icon="save" />
           </Button>
           <Button color="red" onClick={() => cancelEditing()}>
@@ -298,7 +301,10 @@ export default function QuestionsTable() {
     } else {
       return (
         <div className={styles.actionButtons}>
-          <Button appearance="primary" onClick={() => setEditing(i)}>
+          <Button
+            id={'edit' + i}
+            appearance="primary"
+            onClick={() => setEditing(i)}>
             <Icon icon="pencil" />
           </Button>
           <Button color="red" onClick={() => confirmDelete(row['id'])}>

@@ -15,7 +15,7 @@
     "test:frontend": "jest --testPathPattern=components* --config=jest-frontend.config.js",
     "test:backend": "env-cmd -f .env.test jest --testPathPattern=test/api* --runInBand",
     "pretest:e2e": "env-cmd -f .env.test npm run build",
-    "test:e2e": "env-cmd -f .env.test jest --testPathPattern=test/end-to-end* --runInBand --config=jest-e2e.config.js --no-cache"
+    "test:e2e": "env-cmd -f .env.test jest --testPathPattern=test/end-to-end* --runInBand --config=jest-e2e.config.js"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",

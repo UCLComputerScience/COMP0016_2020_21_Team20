@@ -39,7 +39,6 @@ describe('Logging in', () => {
   it('Goes to account settings', async () => {
     await expect(page).toClick('a', { text: 'Your account' });
     await expect(page).toClick('a', { text: 'Account settings' });
-    await page.screenshot({ path: '1.png' });
     let pages = await browser.pages();
     await pages[1].evaluate(() => {
       document.body.contains(document.getElementById('#landingWelcomeMessage'));
