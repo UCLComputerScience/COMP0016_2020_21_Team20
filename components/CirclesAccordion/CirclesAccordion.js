@@ -28,6 +28,6 @@ export default function CirclesAccordion(props) {
 }
 
 CirclesAccordion.propTypes = {
-  /** Object containg array that describes the circles to be displayed, containing the name, colour and percentage of each circle*/
+  /** Array of objects for each circle to be displayed, with properties: `name`, `color`, and `percentage` for each circle */
   circles: PropTypes.array.isRequired,
 };
