@@ -39,11 +39,9 @@ function CustomTable({ host, ...props }) {
                         className={styles.tableCell}
                         key={column.id}
                         align={column.align}>
-                        {column.id !== 'actions'
-                          ? column.render(props.editing === i, row, host, i)
-                          : column.id === 'actions'
+                        {column.id === 'actions'
                           ? props.renderActionCells(props.editing, row, i)
-                          : null}
+                          : column.render(props.editing === i, row, host, i)}
                       </TableCell>
                     );
                   })}

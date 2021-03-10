@@ -101,7 +101,7 @@ const getStandards = () => {
 var standards = [];
 var editedRow = null;
 
-export default function QuestionsTable(host) {
+export default function QuestionsTable() {
   const [editing, setEditing] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [dialogTitle, setDialogTitle] = useState(null);
@@ -336,9 +336,7 @@ export default function QuestionsTable(host) {
       <CustomTable
         data={localData}
         columns={columns}
-        renderActionCells={(editing, row, i) =>
-          renderActionCells(editing, row, i)
-        }
+        renderActionCells={renderActionCells}
         editing={editing}
       />
     </div>

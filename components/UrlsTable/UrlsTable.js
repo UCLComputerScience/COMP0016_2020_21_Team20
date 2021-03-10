@@ -157,9 +157,7 @@ export default function UrlsTable({ session, host }) {
       <CustomTable
         data={localData}
         columns={columns}
-        renderActionCells={(editing, row, i) =>
-          renderActionCells(editing, row, i)
-        }
+        renderActionCells={renderActionCells}
         editing={editing}
       />
     </div>

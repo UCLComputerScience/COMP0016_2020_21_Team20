@@ -238,7 +238,7 @@ export default function DepartmentsTable({ host }) {
         <CustomTable
           data={localData}
           columns={columns}
-          renderActionCells={(editing, row) => renderActionCells(editing, row)}
+          renderActionCells={renderActionCells}
           editing={false} //cannot edit departments
         />
       )}
