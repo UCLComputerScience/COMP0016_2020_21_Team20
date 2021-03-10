@@ -18,6 +18,11 @@ function NewEntityForm({ healthBoard, hospital, onSuccess, onError }) {
   const [parentId, setParentId] = useState(null);
   const [parentEntities, setParentEntities] = useState([]);
 
+  /**
+   * Render the extra select-dropdown menu when adding new hospitals
+   * so the containing health board can be chosen.
+   * The dropdown list is asynchronously populated on click.
+   */
   const renderEntityFormGroup = () => {
     // Only hospitals have a 'parent' entity (health board)
     if (!hospital) return <span />;
