@@ -1,0 +1,31 @@
+---
+name: NewUserForm
+route: /NewUserForm
+menu: Manage
+---
+
+import { Playground, Props } from 'docz';
+import NewUserForm from './NewUserForm';
+import 'rsuite/dist/styles/rsuite-default.min.css';
+
+# NewUserForm
+
+The `NewUserForm` component is used on the platform administrator manage page to allow them to add new users with the `hospital` or `health_board` user type.
+
+It consists of a form that asks for the relevant details depending on the user type being added, and handles the form submission itself.
+
+The form allows the user to automatically generate a random (plaintext) password; the intention is that this should be shared to new users so they can update their password.
+
+<Props of={NewUserForm} />
+
+It is normally used in the Admin Manage Page.
+
+## Basic usage
+
+<Playground>
+  <NewUserForm
+    userType="health_board"
+    onError={console.error}
+    onSuccess={() => console.log('Success!')}
+  />
+</Playground>
