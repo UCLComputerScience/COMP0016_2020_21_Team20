@@ -118,7 +118,12 @@ function manage({ session, host, toggleTheme }) {
                 hospital={addNewEntityModalType === 'hospital'}
                 healthBoard={addNewEntityModalType === 'health board'}
                 onSuccess={() => {
-                  Alert.success('Hospital successfully added!');
+                  Alert.success(
+                    `${
+                      addNewEntityModalType[0].toUpperCase() +
+                      addNewEntityModalType.slice(1)
+                    } successfully added!`
+                  );
                   setAddNewEntityModalType(null);
                 }}
                 onError={message => Alert.error('Error: ' + message, 0)}
@@ -129,11 +134,13 @@ function manage({ session, host, toggleTheme }) {
           <p>
             <ButtonGroup justified>
               <Button
+                id="addNewHealthBoard"
                 appearance="ghost"
                 onClick={() => setAddNewEntityModalType('health board')}>
                 Add new health board
               </Button>
               <Button
+                id="addNewHospital"
                 appearance="ghost"
                 onClick={() => setAddNewEntityModalType('hospital')}>
                 Add new hospital
@@ -144,6 +151,7 @@ function manage({ session, host, toggleTheme }) {
           <p>
             <ButtonGroup justified>
               <Button
+                id="addNewHealthBoardUser"
                 appearance="ghost"
                 onClick={() =>
                   setAddNewUserModalUserType(Roles.USER_TYPE_HEALTH_BOARD)
@@ -151,6 +159,7 @@ function manage({ session, host, toggleTheme }) {
                 Add new health board user
               </Button>
               <Button
+                id="addNewHospitalUser"
                 appearance="ghost"
                 onClick={() =>
                   setAddNewUserModalUserType(Roles.USER_TYPE_HOSPITAL)
@@ -163,6 +172,7 @@ function manage({ session, host, toggleTheme }) {
           <p>
             <ButtonGroup justified>
               <Button
+                id="addNewAdminUser"
                 appearance="ghost"
                 onClick={() =>
                   setAddNewUserModalUserType(Roles.USER_TYPE_ADMIN)

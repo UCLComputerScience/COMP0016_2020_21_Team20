@@ -85,7 +85,7 @@ function NewEntityForm({ healthBoard, hospital, onSuccess, onError }) {
   };
 
   return (
-    <Form fluid>
+    <Form fluid id="newEntityForm">
       <FormGroup>
         <ControlLabel>Name</ControlLabel>
         <FormControl value={name} name="name" onChange={setName} />
@@ -94,7 +94,10 @@ function NewEntityForm({ healthBoard, hospital, onSuccess, onError }) {
       {renderEntityFormGroup()}
       <FormGroup>
         <ButtonToolbar>
-          <Button appearance="primary" onClick={handleSubmit}>
+          <Button
+            appearance="primary"
+            onClick={handleSubmit}
+            id="submitNewEntity">
             Submit
           </Button>
         </ButtonToolbar>
