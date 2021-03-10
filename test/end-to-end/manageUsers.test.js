@@ -51,7 +51,6 @@ describe('Manage entities', () => {
     );
 
     // Select "hospital" dropdown and an existing hospital
-    await page.screenshot({ path: './1.png' });
     await expect(page).toClick('#newUserForm a[name="id"]');
     await page.waitForTimeout(2000);
     await expect(page).toClick('.rs-picker-menu a', {

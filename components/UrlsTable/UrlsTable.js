@@ -129,7 +129,10 @@ export default function UrlsTable({ session, host }) {
     if (editing === i) {
       return (
         <div className={styles.actionButtons}>
-          <Button appearance="primary" onClick={() => sendData()}>
+          <Button
+            id={'saveEdit' + i}
+            appearance="primary"
+            onClick={() => sendData()}>
             <Icon icon="save" />
           </Button>
           <Button color="red" onClick={() => cancelEditing()}>
@@ -140,10 +143,16 @@ export default function UrlsTable({ session, host }) {
     } else {
       return (
         <div className={styles.actionButtons}>
-          <Button appearance="primary" onClick={() => setEditing(i)}>
+          <Button
+            id={'edit' + i}
+            appearance="primary"
+            onClick={() => setEditing(i)}>
             <Icon icon="pencil" />
           </Button>
-          <Button color="red" onClick={() => setToDefaultUrl(row['id'])}>
+          <Button
+            id={'setDefault' + i}
+            color="red"
+            onClick={() => setToDefaultUrl(row['id'])}>
             Set to Default
           </Button>
         </div>

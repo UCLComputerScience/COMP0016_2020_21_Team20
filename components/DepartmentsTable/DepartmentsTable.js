@@ -182,19 +182,25 @@ export default function DepartmentsTable({ host }) {
     Alert.info('Copied', 3000);
   };
 
-  const renderActionCells = (editing, row) => {
+  const renderActionCells = (editing, row, i) => {
     return (
       <div className={styles.actionButtons}>
         <CopyToClipboard
           text={`https://${host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
           <Button appearance="primary" onClick={() => showCopyAlert()}>
-            <Icon icon="clone" />
+            <Icon id={'copy' + i} icon="clone" />
           </Button>
         </CopyToClipboard>
-        <Button appearance="primary" onClick={() => regenerateCode(row['id'])}>
+        <Button
+          id={'regenerate' + i}
+          appearance="primary"
+          onClick={() => regenerateCode(row['id'])}>
           Re-generate URL
         </Button>
-        <Button color="red" onClick={() => confirmDelete(row['id'])}>
+        <Button
+          id={'delete' + i}
+          color="red"
+          onClick={() => confirmDelete(row['id'])}>
           Delete
         </Button>
       </div>
