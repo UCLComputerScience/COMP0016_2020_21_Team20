@@ -4,28 +4,14 @@ import React from 'react';
 import LikertScale from './LikertScale.js';
 
 describe('LikertScale', () => {
-  it('Renders', () => {
-    const wrapper = shallow(
-      <LikertScale
-        onChange={value => {
-          null;
-        }}
-      />
-    );
+  it('renders', () => {
+    const wrapper = shallow(<LikertScale onChange={() => null} />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('LikertScale', () => {
-  it('Clicking option', () => {
-    const wrapper = mount(
-      <LikertScale
-        onChange={value => {
-          null;
-        }}
-      />
-    );
+  it('clicking option works', () => {
+    const wrapper = mount(<LikertScale onChange={() => null} />);
 
     wrapper
       .find('Radio')
