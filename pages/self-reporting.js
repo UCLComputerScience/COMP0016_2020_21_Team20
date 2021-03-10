@@ -113,7 +113,7 @@ function selfReporting({ session, toggleTheme }) {
 
   /**
    * Checks if any of the required questions have been left blank and then shows a corresponding pop-up. If all required questions are
-   * completed then the pop-up allows the user to edit or submit. Else the the pop-up prompts which required questions are unaswered and
+   * completed then the pop-up allows the user to edit or submit. Else the the pop-up prompts which required questions are unanswered and
    * lets them edit the responses.
    */
   const handleSubmit = () => {
@@ -130,7 +130,7 @@ function selfReporting({ session, toggleTheme }) {
       errors.push(
         ...likertScaleQuestions
           .filter(q => typeof q.score === 'undefined')
-          .map(q => `Question ${q.id}`)
+          .map(q => `Question ${likertScaleQuestions.indexOf(q) + 1}`)
       );
       dialogText += errors.join('; ');
 
@@ -147,8 +147,12 @@ function selfReporting({ session, toggleTheme }) {
       ]);
     } else {
       setShowErrors(false);
-      setDialogTitle('Are you sure you want to submit?');
-      setDialogText('Your answer will not be able to be changed.');
+      setDialogTitle(
+        'Are you sure you want to submit? (Your answer will not be able to be changed)'
+      );
+      setDialogText(
+        'Please ensure that you have marked this self-report as a mentoring session if applicable before submitting.'
+      );
       setDialogActions([
         <Button key="alertdialog-edit" onClick={() => setShowDialog(false)}>
           Edit my responses

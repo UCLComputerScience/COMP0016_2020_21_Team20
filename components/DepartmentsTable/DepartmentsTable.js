@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Button, Input, Alert } from 'rsuite';
+import { Button, Input, Alert, Icon } from 'rsuite';
 import { mutate } from 'swr';
 
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PropTypes from 'prop-types';
 import styles from './DepartmentsTable.module.css';
 
@@ -181,6 +182,25 @@ export default function DepartmentsTable({ host }) {
     Alert.info('Copied', 3000);
   };
 
+  const renderActionCells = (editing, row) => {
+    return (
+      <div className={styles.actionButtons}>
+        <CopyToClipboard
+          text={`https://${host}/join/${Roles.USER_TYPE_DEPARTMENT}/${row['department_join_code']}`}>
+          <Button appearance="primary" onClick={() => showCopyAlert()}>
+            <Icon icon="clone" />
+          </Button>
+        </CopyToClipboard>
+        <Button appearance="primary" onClick={() => regenerateCode(row['id'])}>
+          Re-generate URL
+        </Button>
+        <Button color="red" onClick={() => confirmDelete(row['id'])}>
+          Delete
+        </Button>
+      </div>
+    );
+  };
+
   return (
     <div>
       <div className={styles.intro}>
@@ -216,14 +236,10 @@ export default function DepartmentsTable({ host }) {
       />
       {!error && (
         <CustomTable
-          tableType="departments"
-          host={host}
           data={localData}
           columns={columns}
+          renderActionCells={renderActionCells}
           editing={false} //cannot edit departments
-          showCopyAlert={() => showCopyAlert()}
-          regenerateCode={id => regenerateCode(id)}
-          confirmDelete={id => confirmDelete(id)}
         />
       )}
     </div>

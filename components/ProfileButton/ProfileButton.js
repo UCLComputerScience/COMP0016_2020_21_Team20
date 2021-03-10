@@ -28,7 +28,12 @@ function ProfileButton({ session }) {
           Account settings
         </a>
       </Dropdown.Item>
-      <Dropdown.Item onSelect={signOut}>Sign out</Dropdown.Item>
+      <Dropdown.Item
+        onSelect={() => {
+          signOut({ callbackUrl: '/', redirect: true });
+        }}>
+        Sign out
+      </Dropdown.Item>
     </Dropdown>
   );
 }
