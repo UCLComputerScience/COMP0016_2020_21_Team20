@@ -4,15 +4,13 @@ import React from 'react';
 import ClinicianJoinCode from './ClinicianJoinCode.js';
 
 describe('ClinicianJoinCode', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<ClinicianJoinCode host="example.com" />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('ClinicianJoinCode', () => {
-  it('Has copy button', () => {
+  it('has copy button', () => {
     const wrapper = mount(<ClinicianJoinCode host="example.com" />);
 
     expect(
@@ -21,10 +19,8 @@ describe('ClinicianJoinCode', () => {
       )
     );
   });
-});
 
-describe('ClinicianJoinCode', () => {
-  it('Has re-generate URL button', () => {
+  it('has re-generate URL button', () => {
     const wrapper = mount(<ClinicianJoinCode host="example.com" />);
 
     expect(
@@ -33,10 +29,8 @@ describe('ClinicianJoinCode', () => {
       )
     );
   });
-});
 
-describe('ClinicianJoinCode', () => {
-  it('Shows host', () => {
+  it('shows host', () => {
     const testHost = 'example.com';
     const wrapper = mount(<ClinicianJoinCode host={testHost} />);
 
