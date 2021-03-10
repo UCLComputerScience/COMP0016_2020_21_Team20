@@ -125,7 +125,7 @@ export default function UrlsTable({ session, host }) {
     Alert.success('URL set to default suggested URL', 3000);
   };
 
-  const renderActionCells = (editing, row, i) => {
+  const renderActionCells = (editing, row, i, host) => {
     if (editing === i) {
       return (
         <div className={styles.actionButtons}>

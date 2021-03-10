@@ -283,7 +283,7 @@ export default function QuestionsTable() {
     setShowDialog(true);
   };
 
-  const renderActionCells = (editing, row, i) => {
+  const renderActionCells = (editing, row, i, host) => {
     if (editing === i) {
       return (
         <div className={styles.actionButtons}>

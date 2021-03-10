@@ -37,7 +37,12 @@ function CustomTable(props) {
                     key={column.id}
                     align={column.align}>
                     {column.id === 'actions'
-                      ? props.renderActionCells(props.editing, row, i)
+                      ? props.renderActionCells(
+                          props.editing,
+                          row,
+                          i,
+                          props.host
+                        )
                       : column.render(props.editing === i, row, props.host, i)}
                   </TableCell>
                 ))}
