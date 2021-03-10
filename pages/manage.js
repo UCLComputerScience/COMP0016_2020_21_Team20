@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 import { useState } from 'react';
-import { Button, ButtonGroup, Modal } from 'rsuite';
+import { Alert, Button, ButtonGroup, Modal } from 'rsuite';
 
 import {
   UrlsTable,
@@ -71,6 +71,11 @@ function manage({ session, host, toggleTheme }) {
               read your organisation&apos;s Privacy Policy.
             </strong>
           </p>
+          <p>
+            For more advanced user management (such as updating passwords or
+            deleting users), please visit the platform&apos;s Keycloak Admin
+            Console for precise user management functionality.
+          </p>
 
           <Modal
             show={addNewUserModalUserType !== null}
@@ -101,6 +106,11 @@ function manage({ session, host, toggleTheme }) {
               <NewEntityForm
                 hospital={addNewEntityModalType === 'hospital'}
                 healthBoard={addNewEntityModalType === 'health board'}
+                onSuccess={() => {
+                  Alert.success('Hospital successfully added!');
+                  setAddNewEntityModalType(null);
+                }}
+                onError={message => Alert.error('Error: ' + message, 0)}
               />
             </Modal.Body>
           </Modal>

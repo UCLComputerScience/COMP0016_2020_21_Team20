@@ -10,9 +10,10 @@ import {
   SelectPicker,
   Button,
   ButtonToolbar,
+  Icon,
 } from 'rsuite';
 
-function NewEntityForm({ healthBoard, hospital }) {
+function NewEntityForm({ healthBoard, hospital, onSuccess, onError }) {
   const [name, setName] = useState(null);
   const [parentId, setParentId] = useState(null);
   const [parentEntities, setParentEntities] = useState([]);
@@ -30,12 +31,15 @@ function NewEntityForm({ healthBoard, hospital }) {
           cleanable={false}
           accepter={SelectPicker}
           onOpen={() =>
-            fetch(`/api/health_board`)
+            fetch(`/api/health_boards`)
               .then(res => res.json())
               .then(res => setParentEntities(res))
           }
           data={parentEntities.map(e => ({ label: e.name, value: e.id }))}
           onChange={setParentId}
+          renderMenu={menu =>
+            parentEntities.length ? menu : <Icon icon="spinner" spin />
+          }
         />
         <HelpBlock>Required</HelpBlock>
       </FormGroup>
@@ -43,17 +47,23 @@ function NewEntityForm({ healthBoard, hospital }) {
   };
 
   const handleSubmit = async () => {
+    let res;
     if (hospital) {
-      return await fetch(`/api/hospitals`, {
+      res = await fetch(`/api/hospitals`, {
         method: 'POST',
-        body: JSON.stringify({ name }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, health_board_id: parentId }),
       }).then(res => res.json());
     } else if (healthBoard) {
-      return await fetch(`/api/health_boards`, {
+      res = await fetch(`/api/health_boards`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name }),
       }).then(res => res.json());
     }
+
+    if (res.error) onError(res.message);
+    else onSuccess();
   };
 
   return (
@@ -80,6 +90,10 @@ NewEntityForm.propTypes = {
   healthBoard: PropTypes.bool,
   /** Is the new entity to be added a hospital? */
   hospital: PropTypes.bool,
+  /** Callack function to be called on error with the error message */
+  onError: PropTypes.func.isRequired,
+  /** Callack function to be called on success (with no parameters) */
+  onSuccess: PropTypes.func.isRequired,
 };
 
 export default NewEntityForm;
