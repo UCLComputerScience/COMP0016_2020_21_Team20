@@ -21,7 +21,7 @@ import { Roles } from '../../lib/constants';
  *        name:
  *          type: string
  *          example: The Grange University Hospital
- *        health_board
+ *        health_board:
  *          type: object
  *          properties:
  *            id:
@@ -85,7 +85,6 @@ const handler = async (req, res) => {
     });
 
     // Return the name, id and health board of the hospital
-    // TODO return as object with key `hospitals` and value the array:
     return res.json(
       hospitals.map(h => ({
         name: h.name,
