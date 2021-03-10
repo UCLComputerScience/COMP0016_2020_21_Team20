@@ -81,15 +81,6 @@ CREATE TABLE departments (
     archived BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE feedback (
-    user_id TEXT NOT NULL,
-    department_id INTEGER NOT NULL,
-    score INTEGER NOT NULL,
-    timestamp TIMESTAMPTZ NOT NULL,
-    comments TEXT,
-    PRIMARY KEY (user_id, timestamp)
-);
-
 ALTER TABLE clinician_join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
 ALTER TABLE department_join_codes ADD FOREIGN KEY (department_id) REFERENCES departments(id);
 
@@ -110,6 +101,3 @@ ALTER TABLE question_urls ADD FOREIGN KEY (department_id) REFERENCES departments
 ALTER TABLE hospitals ADD FOREIGN KEY (health_board_id) REFERENCES health_boards(id);
 
 ALTER TABLE departments ADD FOREIGN KEY (hospital_id) REFERENCES hospitals(id);
-
-ALTER TABLE feedback ADD FOREIGN KEY (user_id) REFERENCES users(id);
-ALTER TABLE feedback ADD FOREIGN KEY (department_id) REFERENCES departments(id);
