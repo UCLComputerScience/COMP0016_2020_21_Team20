@@ -570,6 +570,66 @@
             "$ref": "#/components/responses/internal_server_error"
           }
         }
+      },
+      "post": {
+        "summary": "Add a new hospital",
+        "description": "Add a new hospital to the system. Note: you must be an administrator to be able to perform this operation.",
+        "tags": ["hospitals"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Royal Grent"
+                  },
+                  "health_board_id": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hospital"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/insufficient_permission"
+          },
+          "422": {
+            "description": "Invalid details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                },
+                "example": {
+                  "error": true,
+                  "message": "The required hospital details are missing"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
       }
     },
     "/join_codes/department_manager/{id}": {

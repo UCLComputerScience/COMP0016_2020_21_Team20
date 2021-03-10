@@ -54,6 +54,45 @@ import { Roles } from '../../lib/constants';
  *        $ref: '#/components/responses/insufficient_permission'
  *      500:
  *        $ref: '#/components/responses/internal_server_error'
+ *  post:
+ *    summary: Add a new hospital
+ *    description: "Add a new hospital to the system. Note: you must be an administrator to be able to perform this operation."
+ *    tags: [hospitals]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: Royal Grent
+ *              health_board_id:
+ *                type: integer
+ *                example: 1
+ *    responses:
+ *      200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/hospital'
+ *      401:
+ *        $ref: '#/components/responses/unauthorized'
+ *      403:
+ *        $ref: '#/components/responses/insufficient_permission'
+ *      422:
+ *        description: Invalid details
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/error'
+ *            example:
+ *              error: true
+ *              message: The required hospital details are missing
+ *      500:
+ *        $ref: '#/components/responses/internal_server_error'
  */
 const handler = async (req, res) => {
   const { session } = req;
@@ -92,6 +131,29 @@ const handler = async (req, res) => {
         health_board: h.health_boards,
       }))
     );
+  }
+
+  if (req.method === 'POST') {
+    if (!session.user.roles.includes(Roles.USER_TYPE_ADMIN)) {
+      return res.status(403).json({
+        error: true,
+        message: 'You do not have permission to add hospitals to the system',
+      });
+    }
+
+    const { name, health_board_id: healthBoardId } = req.body;
+    if (!name || !healthBoardId) {
+      return res.status(422).json({
+        error: true,
+        message: 'The required hospital details are missing',
+      });
+    }
+
+    const record = await prisma.hospitals.create({
+      data: { name, health_board_id: healthBoardId },
+    });
+
+    return res.json(record);
   }
 
   res.status(405).json({ error: true, message: 'Method Not Allowed' });
