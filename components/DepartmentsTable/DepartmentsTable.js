@@ -182,7 +182,7 @@ export default function DepartmentsTable({ host }) {
     Alert.info('Copied', 3000);
   };
 
-  const renderActionCells = (editing, row, i) => {
+  const renderActionCells = (editing, row, i, host) => {
     return (
       <div className={styles.actionButtons}>
         <CopyToClipboard
@@ -242,6 +242,7 @@ export default function DepartmentsTable({ host }) {
       />
       {!error && (
         <CustomTable
+          host={host}
           data={localData}
           columns={columns}
           renderActionCells={renderActionCells}

@@ -1,18 +1,16 @@
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 
 import DepartmentsTable from './DepartmentsTable.js';
 
 describe('DepartmentsTable', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<DepartmentsTable host="example.com" />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('DepartmentsTable', () => {
-  it('URL info', () => {
+  it('shows URL info', () => {
     const wrapper = shallow(<DepartmentsTable host="example.com" />);
 
     expect(
@@ -23,10 +21,8 @@ describe('DepartmentsTable', () => {
       )
     );
   });
-});
 
-describe('DepartmentsTable', () => {
-  it('Add department button', () => {
+  it('shows add department button', () => {
     const wrapper = shallow(<DepartmentsTable host="example.com" />);
 
     expect(

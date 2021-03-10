@@ -4,15 +4,13 @@ import React from 'react';
 import UrlsTable from './UrlsTable.js';
 
 describe('UrlsTable', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<UrlsTable host="example.com" />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('UrlsTable', () => {
-  it('Headings', () => {
+  it('shows headings', () => {
     const wrapper = mount(<UrlsTable host="example.com" />);
 
     expect(wrapper.findWhere(n => n.contains('Question body')));
@@ -20,10 +18,8 @@ describe('UrlsTable', () => {
     expect(wrapper.findWhere(n => n.contains('Training URL')));
     expect(wrapper.findWhere(n => n.contains('Actions')));
   });
-});
 
-describe('UrlsTable', () => {
-  it('Copy button', () => {
+  it('shows copy button', () => {
     const wrapper = mount(<UrlsTable host="example.com" />);
 
     expect(
@@ -32,10 +28,8 @@ describe('UrlsTable', () => {
       )
     );
   });
-});
 
-describe('UrlsTable', () => {
-  it('Re generate button', () => {
+  it('shows regenerate button', () => {
     const wrapper = mount(<UrlsTable host="example.com" />);
 
     expect(
@@ -44,10 +38,8 @@ describe('UrlsTable', () => {
       )
     );
   });
-});
 
-describe('UrlsTable', () => {
-  it('Host URL', () => {
+  it('shows host URL', () => {
     const wrapper = mount(<UrlsTable host="example.com" />);
 
     expect(

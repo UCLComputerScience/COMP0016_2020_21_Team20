@@ -10,8 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import styles from './CustomTable.module.css';
 
-//props tableType localData, columns, editing
-function CustomTable({ host, ...props }) {
+function CustomTable(props) {
   return (
     <TableContainer>
       <Table stickyHeader aria-label="sticky table">
@@ -30,24 +29,20 @@ function CustomTable({ host, ...props }) {
         </TableHead>
         <TableBody>
           {props.data &&
-            props.data.map((row, i) => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {props.columns.map(column => {
-                    return (
-                      <TableCell
-                        className={styles.tableCell}
-                        key={column.id}
-                        align={column.align}>
-                        {column.id === 'actions'
-                          ? props.renderActionCells(props.editing, row, i)
-                          : column.render(props.editing === i, row, host, i)}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            props.data.map((row, i) => (
+              <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                {props.columns.map(column => (
+                  <TableCell
+                    className={styles.tableCell}
+                    key={column.id}
+                    align={column.align}>
+                    {column.id === 'actions'
+                      ? props.renderActionCells(props.editing, row, i)
+                      : column.render(props.editing === i, row, props.host, i)}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
@@ -55,12 +50,12 @@ function CustomTable({ host, ...props }) {
 }
 
 CustomTable.propTypes = {
-  /** The host name of the website*/
+  /** The hostname of the website*/
   host: PropTypes.string,
   /** Array containing data to be displayed in the table */
-  data: PropTypes.array,
+  data: PropTypes.array.isRequired,
   /** Array containg the defined coloumns of table */
-  columns: PropTypes.array,
+  columns: PropTypes.array.isRequired,
   /** Function that is used to render the action column cells in the table */
   renderActionCells: PropTypes.func.isRequired,
   /** The index of the data that is being editted */

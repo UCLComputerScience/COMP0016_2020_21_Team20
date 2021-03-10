@@ -4,15 +4,13 @@ import React from 'react';
 import QuestionsTable from './QuestionsTable.js';
 
 describe('QuestionsTable', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<QuestionsTable />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('QuestionsTable', () => {
-  it('Headings', () => {
+  it('shows headings', () => {
     const wrapper = mount(<QuestionsTable />);
 
     expect(wrapper.findWhere(n => n.contains('Question body')));
@@ -20,10 +18,8 @@ describe('QuestionsTable', () => {
     expect(wrapper.findWhere(n => n.contains('Training URL')));
     expect(wrapper.findWhere(n => n.contains('Actions')));
   });
-});
 
-describe('QuestionsTable', () => {
-  it('Add question button', () => {
+  it('shows add question button', () => {
     const wrapper = mount(<QuestionsTable />);
 
     expect(

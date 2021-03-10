@@ -47,21 +47,17 @@ const wrapper = mount(
 );
 
 describe('CustomTable', () => {
-  it('Renders', () => {
+  it('renders', () => {
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('CustomTable', () => {
-  it('Headings', () => {
+  it('shows headings', () => {
     expect(wrapper.findWhere(n => n.contains('Department Name')));
     expect(wrapper.findWhere(n => n.contains('Join URL')));
     expect(wrapper.findWhere(n => n.contains('Actions')));
   });
-});
 
-describe('CustomTable', () => {
-  it('Actions', () => {
+  it('shows actions', () => {
     expect(wrapper.find('CopyToClipboard').exists());
     expect(
       wrapper.findWhere(
