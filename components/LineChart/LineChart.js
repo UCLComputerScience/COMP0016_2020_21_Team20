@@ -1,4 +1,3 @@
-import { RootRef } from '@material-ui/core';
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Loader, Message } from 'rsuite';
@@ -12,12 +11,31 @@ const baseProperties = {
   fill: false,
   lineTension: 0.1,
   pointBackgroundColor: '#fff',
-  // data, label, borderColor remaining
+  // data, label, borderColor, etc. remaining
 };
 
-var numberOfStandards = 0;
+let numberOfStandards = 0;
+
+/**
+ * Chart.js requires a specific format to render the graph. This function simply transforms
+ * the data from the API into the correct format required by Chart.js. For reference, the
+ * expected format is:
+ * {
+ *  labels: ['Label 1', 'Label 2', ...],
+ *  datasets: [
+ *    {
+ *      fill: false,
+ *      lineTension: 0.1,
+ *      pointBackgroundColor: ['color for data point 1', 'color for data point 2', ...],
+ *      borderColor: ['color for data point 1', 'color for data point 2', ...],
+ *      data: [80, 40, ...],
+ *      label: 'Label 1',
+ *      ...
+ *    }
+ *  ]
+ * }
+ */
 const formatData = data => {
-  console.log(data);
   const formattedData = {
     labels: data.map(d => new Date(d.timestamp)),
     datasets: [],
@@ -52,29 +70,36 @@ const formatData = data => {
     standardData.data = thisStandardData.map(s => (s.score / 4) * 100);
     formattedData.datasets.push(standardData);
   }
+
+  // Append a dummy legend button 'invert selection', handled in the legend click handler
   formattedData.datasets.push({ label: 'Invert selection' });
+
   return formattedData;
 };
 
-var newLegendClickHandler = function (e, legendItem) {
-  var ci = this.chart;
+/**
+ * Handle the 'invert selection' dummy legend item that is appended to the legend
+ */
+const legendClickHandler = function (e, legendItem) {
+  const chart = this.chart;
 
-  //if not invert selection label then do default
+  // If not invert selection label, then do default
   if (legendItem.datasetIndex !== numberOfStandards) {
-    var index = legendItem.datasetIndex;
-    var meta = ci.getDatasetMeta(index);
+    const index = legendItem.datasetIndex;
+    const meta = chart.getDatasetMeta(index);
 
-    meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+    meta.hidden =
+      meta.hidden === null ? !chart.data.datasets[index].hidden : null;
   } else {
-    //if invert selection labal then invert if hidden or not
+    // If invert selection label, then invert if hidden or not
     for (let i = 0; i < numberOfStandards; i++) {
-      var meta = ci.getDatasetMeta(i);
-      meta.hidden = meta.hidden === null ? !ci.data.datasets[i].hidden : null;
+      const meta = chart.getDatasetMeta(i);
+      meta.hidden =
+        meta.hidden === null ? !chart.data.datasets[i].hidden : null;
     }
   }
 
-  //rerender the chart
-  ci.update();
+  chart.update();
 };
 
 function LineChart({ data } = {}) {
@@ -139,10 +164,8 @@ function LineChart({ data } = {}) {
               ],
             },
             legend: {
-              labels: {
-                fontColor: isDarkTheme() ? '#9C9C9D' : '#666',
-              },
-              onClick: newLegendClickHandler,
+              labels: { fontColor: isDarkTheme() ? '#9C9C9D' : '#666' },
+              onClick: legendClickHandler, // To add 'invert selection' option to legend
             },
           }}
         />
@@ -161,8 +184,10 @@ function LineChart({ data } = {}) {
     />
   );
 }
+
 LineChart.propTypes = {
   /** Array containing objects consisting of: isMentoringSession, scores array and timestamp */
   data: PropTypes.array,
 };
+
 export default LineChart;
