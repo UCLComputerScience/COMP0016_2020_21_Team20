@@ -12,13 +12,13 @@ const columns = [
     id: 'question',
     label: 'Question body',
     width: '40%',
-    render: (edited, row) => row['body'],
+    render: (edited, row) => row.body,
   },
   {
     id: 'standard',
     label: 'Standard',
     width: 'auto',
-    render: (edited, row) => row['standards']['name'],
+    render: (edited, row) => row.standards.name,
   },
   {
     id: 'url',
@@ -26,24 +26,25 @@ const columns = [
     width: 'auto',
     render: (edited, row, host, i) => {
       if (edited) {
-        //if this url is being edited then it needs to be an input box
-        //copy all the info about the row being currently edited
-        let buffer = {};
-        editedRow = Object.assign(buffer, row);
+        // If this url is being edited then it needs to be an input box
+        // Copy all the info about the row being currently edited
+        const buffer = {};
+        Object.assign(buffer, row);
+        editedRow = buffer;
         return (
           <Input
             id={'url' + i}
             className={styles.input}
-            key={row['standards']['name']}
-            defaultValue={row['url']}
+            key={row.standards.name}
+            defaultValue={row.url}
             onChange={value => (editedRow.url = value)}
           />
         );
       } else {
-        //else just display url as link
+        // Else just display URL as link
         return (
-          <a href={row['url']} target="_blank">
-            {row['url']}
+          <a href={row.url} target="_blank" rel="noopener noreferrer">
+            {row.url}
           </a>
         );
       }
@@ -53,10 +54,7 @@ const columns = [
 ];
 
 const useDatabaseData = () => {
-  const { data, error } = useSWR('/api/questions', {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  const { data, error } = useSWR('/api/questions');
 
   if (data) {
     return {
@@ -65,64 +63,52 @@ const useDatabaseData = () => {
       message: data.message,
     };
   }
+
   return { data: null, error: error, message: error ? error.message : null };
 };
 
 var editedRow = null;
-
 export default function UrlsTable({ session, host }) {
   const [editing, setEditing] = useState(null);
   const { data, error, message } = useDatabaseData();
-  const localData = data;
+
   if (error) {
     Alert.error(
-      "Error: '" +
-        message +
-        "'. Please reload/try again later or the contact system administrator",
+      `Error: ${message}. Please reload/try again later or the contact system administrator`,
       0
     );
   }
 
-  const sendDataToDatabase = async () => {
-    const res = await fetch('/api/question_urls/' + editedRow['id'], {
+  const updateUrl = async () => {
+    const res = await fetch('/api/question_urls/' + editedRow.id, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        url: editedRow['url'],
-      }),
-    });
-    return await res.json();
+      body: JSON.stringify({ url: editedRow.url }),
+    }).then(res => res.json());
+
+    if (res.error) {
+      Alert.error(res.message, 0);
+    } else {
+      setEditing(null);
+      //to ensure no stale data, so refetch
+      mutate('/api/questions');
+      Alert.success('URL updated', 3000);
+    }
   };
 
-  const setToDefaultInDatabase = async id => {
+  const resetToDefaultUrl = async id => {
     const res = await fetch('/api/question_urls/' + id, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-    });
-    return await res.json();
-  };
+    }).then(res => res.json());
 
-  const cancelEditing = () => {
-    //no row is being edited so reset this value
-    editedRow = null;
-    setEditing(null);
-    //to ensure no stale data, so refetch
-    mutate('/api/questions');
-  };
-
-  const sendData = async () => {
-    await sendDataToDatabase();
-    setEditing(null);
-    //to ensure no stale data, so refetch
-    mutate('/api/questions');
-    Alert.success('URL updated', 3000);
-  };
-
-  const setToDefaultUrl = async id => {
-    await setToDefaultInDatabase(id);
-    //to ensure no stale data, so refetch
-    mutate('/api/questions');
-    Alert.success('URL set to default suggested URL', 3000);
+    if (res.error) {
+      Alert.error(res.message, 0);
+    } else {
+      // Refetch to ensure no stale data
+      mutate('/api/questions');
+      Alert.success('URL set to default suggested URL', 3000);
+    }
   };
 
   const renderActionCells = (editing, row, i, host) => {
@@ -132,10 +118,18 @@ export default function UrlsTable({ session, host }) {
           <Button
             id={'saveEdit' + i}
             appearance="primary"
-            onClick={() => sendData()}>
+            onClick={() => updateUrl()}>
             <Icon icon="save" />
           </Button>
-          <Button color="red" onClick={() => cancelEditing()}>
+          <Button
+            color="red"
+            onClick={() => {
+              //no row is being edited so reset this value
+              editedRow = null;
+              setEditing(null);
+              // Refetch to ensure no stale data
+              mutate('/api/questions');
+            }}>
             <Icon icon="close" />
           </Button>
         </div>
@@ -152,7 +146,7 @@ export default function UrlsTable({ session, host }) {
           <Button
             id={'setDefault' + i}
             color="red"
-            onClick={() => setToDefaultUrl(row['id'])}>
+            onClick={() => resetToDefaultUrl(row.id)}>
             Set to Default
           </Button>
         </div>
@@ -164,7 +158,7 @@ export default function UrlsTable({ session, host }) {
     <div>
       <ClinicianJoinCode session={session} host={host} />
       <CustomTable
-        data={localData}
+        data={data}
         columns={columns}
         renderActionCells={renderActionCells}
         editing={editing}
@@ -174,8 +168,8 @@ export default function UrlsTable({ session, host }) {
 }
 
 UrlsTable.propTypes = {
-  /** The session of the users webpage, used to fecth the correct join code from the backend*/
+  /** The session of the users webpage, used to fetch the correct join code from the backend */
   session: PropTypes.object.isRequired,
-  /** The host name of the website*/
+  /** The host name of the website */
   host: PropTypes.string.isRequired,
 };
