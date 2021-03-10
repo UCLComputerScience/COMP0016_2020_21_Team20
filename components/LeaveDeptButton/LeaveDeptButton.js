@@ -4,20 +4,16 @@ import { Notification, Button, ButtonToolbar } from 'rsuite';
 import styles from './LeaveDeptButton.module.css';
 
 function LeaveDeptButton() {
-  const leaveInDatabase = async () => {
+  const handleLeave = async () => {
     const res = await fetch('/api/departments/leave', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-    });
-    return await res.json();
-  };
+    }).then(res => res.json());
 
-  const handleLeave = async () => {
-    const success = await leaveInDatabase();
-    if (success.success === true) {
+    if (!res.error && res.success) {
       signOut({ callbackUrl: '/', redirect: true });
     } else {
-      showErrorDialog();
+      showErrorDialog(res.message);
     }
   };
 
@@ -27,14 +23,9 @@ function LeaveDeptButton() {
       duration: 0,
       description: (
         <div>
-          <p>To join a new department you will need a unique URL.</p>
+          <p>To join a new department you will need a new unique URL.</p>
           <ButtonToolbar className={styles.buttons}>
-            <Button
-              onClick={() => {
-                Notification.close();
-              }}>
-              Cancel
-            </Button>
+            <Button onClick={() => Notification.close()}>Cancel</Button>
             <Button
               id="leave"
               color="red"
@@ -50,23 +41,19 @@ function LeaveDeptButton() {
     });
   };
 
-  const showErrorDialog = () => {
+  const showErrorDialog = message => {
     Notification.open({
       title: 'Error',
       duration: 0,
       description: (
         <div>
           <p>
-            Leaving department failed, please try again or contact system
-            administrator.
+            {message
+              ? `Error: ${message}.`
+              : `Error: leaving department failed. Please try again later or contact system administrator.`}
           </p>
           <ButtonToolbar className={styles.buttons}>
-            <Button
-              onClick={() => {
-                Notification.close();
-              }}>
-              Continue
-            </Button>
+            <Button onClick={() => Notification.close()}>Continue</Button>
           </ButtonToolbar>
         </div>
       ),
