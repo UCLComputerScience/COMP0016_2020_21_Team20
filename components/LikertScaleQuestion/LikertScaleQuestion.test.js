@@ -4,12 +4,10 @@ import React from 'react';
 import LikertScaleQuestion from './LikertScaleQuestion.js';
 
 describe('LikertScaleQuestion', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(
       <LikertScaleQuestion
-        onChange={value => {
-          null;
-        }}
+        onChange={() => null}
         questionNumber={1}
         questionUrl="http://www.example.com"
         question="This is a good test question?"
@@ -19,17 +17,13 @@ describe('LikertScaleQuestion', () => {
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('LikertScaleQuestion', () => {
-  it('Displays question', () => {
+  it('displays question', () => {
     const testQuestion = 'This is a good test question?';
     const testNumber = 1;
     const wrapper = mount(
       <LikertScaleQuestion
-        onChange={value => {
-          null;
-        }}
+        onChange={() => null}
         questionNumber={testNumber}
         questionUrl="http://www.example.com"
         question={testQuestion}

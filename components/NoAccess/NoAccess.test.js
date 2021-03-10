@@ -4,25 +4,21 @@ import React from 'react';
 import NoAccess from './NoAccess.js';
 
 describe('NoAccess', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<NoAccess />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('NoAccess', () => {
-  it('Info message', () => {
+  it('shows info message', () => {
     const wrapper = mount(<NoAccess />);
 
     expect(
       wrapper.findWhere(n => n.contains('You do not have access to this page'))
     );
   });
-});
 
-describe('NoAccess', () => {
-  it('Home page button', () => {
+  it('shows homepage button', () => {
     const wrapper = mount(<NoAccess />);
 
     expect(

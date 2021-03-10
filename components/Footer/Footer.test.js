@@ -4,15 +4,13 @@ import React from 'react';
 import Footer from './Footer.js';
 
 describe('Footer', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<Footer />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('Footer', () => {
-  it('Has share feedback text', () => {
+  it('shows share feedback text', () => {
     const wrapper = mount(<Footer />);
 
     expect(
@@ -21,10 +19,8 @@ describe('Footer', () => {
       )
     );
   });
-});
 
-describe('Footer', () => {
-  it('Has privacy policy link', () => {
+  it('shows privacy policy link', () => {
     const wrapper = mount(<Footer />);
 
     expect(

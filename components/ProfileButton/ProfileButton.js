@@ -24,14 +24,12 @@ function ProfileButton({ session }) {
           className={styles.link}
           href={config.KEYCLOAK_USER_ACCOUNT_MANAGE_URL}
           target="_blank"
-          rel="noopener">
+          rel="noopener noreferrer">
           Account settings
         </a>
       </Dropdown.Item>
       <Dropdown.Item
-        onSelect={() => {
-          signOut({ callbackUrl: '/', redirect: true });
-        }}>
+        onSelect={() => signOut({ callbackUrl: '/', redirect: true })}>
         Sign out
       </Dropdown.Item>
     </Dropdown>
