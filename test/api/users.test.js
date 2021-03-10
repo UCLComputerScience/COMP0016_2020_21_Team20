@@ -61,6 +61,35 @@ describe('POST /api/users', () => {
     });
   });
 
+  it('allows admins to add a new platform administrator user', async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_ADMIN);
+    await testApiHandler({
+      handler,
+      test: async ({ fetch }) => {
+        const res = await fetch({
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: 'testadmin@example.com',
+            password: 'testadmin',
+            user_type: Roles.USER_TYPE_ADMIN,
+          }),
+        });
+        expect(res.status).toBe(200);
+
+        const json = await res.json();
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/users',
+          'post'
+        );
+        expect(validator.validateResponse(200, json)).toEqual(undefined);
+        expect(json.success).toBe(true);
+        expect(json.user_id).toHaveLength(36);
+      },
+    });
+  });
+
   it('allows admins to add a new health board user', async () => {
     expect.hasAssertions();
     helpers.mockSessionWithUserType(Roles.USER_TYPE_ADMIN);

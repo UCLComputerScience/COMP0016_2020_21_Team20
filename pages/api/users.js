@@ -29,7 +29,7 @@ import { Roles } from '../../lib/constants';
  * /users:
  *  post:
  *    summary: Add a new user
- *    description: "Add a new user to the system. Note: you must be an administrator to be able to perform this operation, and you can only add `health_board` or `hospital` user types."
+ *    description: "Add a new user to the system. Note: you must be an administrator to be able to perform this operation. `entity_id` is not required when creating new administrators."
  *    tags: [users]
  *    requestBody:
  *      required: true
@@ -76,7 +76,7 @@ import { Roles } from '../../lib/constants';
  *              $ref: '#/components/schemas/error'
  *            example:
  *              error: true
- *              message: The required user details are missing
+ *              message: The required user details are missing or invalid
  *      500:
  *        $ref: '#/components/responses/internal_server_error'
  */
@@ -98,11 +98,33 @@ const handler = async (req, res) => {
       entity_id: entityId,
     } = req.body;
 
-    if (!email || !password || !userType || !entityId) {
+    if (
+      !email ||
+      !password ||
+      !userType ||
+      !Object.values(Roles).includes(userType)
+    ) {
       return res.status(422).json({
         error: true,
-        message: 'The required user details are missing',
+        message: 'The required user details are missing or invalid',
       });
+    }
+
+    // Most user types need a entity ID -- `platform_administrators` do not
+    if (
+      [
+        Roles.USER_TYPE_HEALTH_BOARD,
+        Roles.USER_TYPE_HOSPITAL,
+        Roles.USER_TYPE_DEPARTMENT,
+        Roles.USER_TYPE_CLINICIAN,
+      ].includes(userType)
+    ) {
+      if (!entityId) {
+        return res.status(422).json({
+          error: true,
+          message: 'The required user details are missing',
+        });
+      }
     }
 
     const result = await addNewUser({ email, password, entityId, userType });

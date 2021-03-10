@@ -1346,7 +1346,7 @@
     "/users": {
       "post": {
         "summary": "Add a new user",
-        "description": "Add a new user to the system. Note: you must be an administrator to be able to perform this operation, and you can only add `health_board` or `hospital` user types.",
+        "description": "Add a new user to the system. Note: you must be an administrator to be able to perform this operation. `entity_id` is not required when creating new administrators.",
         "tags": ["users"],
         "requestBody": {
           "required": true,
@@ -1412,7 +1412,7 @@
                 },
                 "example": {
                   "error": true,
-                  "message": "The required user details are missing"
+                  "message": "The required user details are missing or invalid"
                 }
               }
             }
