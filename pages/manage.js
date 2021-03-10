@@ -88,7 +88,17 @@ function manage({ session, host, toggleTheme }) {
               </Modal.Header>
             </Modal.Header>
             <Modal.Body>
-              <NewUserForm userType={addNewUserModalUserType} />
+              <NewUserForm
+                userType={addNewUserModalUserType}
+                onSuccess={() => {
+                  Alert.success(
+                    'User successfully added! Please share the password with the user -- they will be required to update this when they login',
+                    10000
+                  );
+                  setAddNewUserModalUserType(null);
+                }}
+                onError={message => Alert.error('Error: ' + message, 0)}
+              />
             </Modal.Body>
           </Modal>
 

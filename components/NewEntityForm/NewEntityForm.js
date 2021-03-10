@@ -53,13 +53,31 @@ function NewEntityForm({ healthBoard, hospital, onSuccess, onError }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, health_board_id: parentId }),
-      }).then(res => res.json());
+      })
+        .then(res => res.json())
+        .catch(error => {
+          console.error('Error adding new hospital', error);
+          return {
+            error: true,
+            message:
+              'There was an error adding the new user. Please check your network connection and try again later.',
+          };
+        });
     } else if (healthBoard) {
       res = await fetch(`/api/health_boards`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name }),
-      }).then(res => res.json());
+      })
+        .then(res => res.json())
+        .catch(error => {
+          console.error('Error adding new health board', error);
+          return {
+            error: true,
+            message:
+              'There was an error adding the new user. Please check your network connection and try again later.',
+          };
+        });
     }
 
     if (res.error) onError(res.message);
@@ -90,9 +108,9 @@ NewEntityForm.propTypes = {
   healthBoard: PropTypes.bool,
   /** Is the new entity to be added a hospital? */
   hospital: PropTypes.bool,
-  /** Callack function to be called on error with the error message */
+  /** Callback function to be called on error with the error message */
   onError: PropTypes.func.isRequired,
-  /** Callack function to be called on success (with no parameters) */
+  /** Callback function to be called on success (with no parameters) */
   onSuccess: PropTypes.func.isRequired,
 };
 

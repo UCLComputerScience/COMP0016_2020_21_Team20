@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
+  Alert,
   Form,
   FormGroup,
   FormControl,
@@ -10,13 +12,27 @@ import {
   SelectPicker,
   Button,
   ButtonToolbar,
+  Icon,
 } from 'rsuite';
 
 import { Roles } from '../../lib/constants';
 
-export default function NewUserForm({ userType }) {
+const PASSWORD_LENGTH = 15;
+const ALPHABET =
+  'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!$';
+
+const generateRandomPassword = () => {
+  let password = '';
+  for (let i = 0; i < PASSWORD_LENGTH; i++) {
+    password += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+  }
+  return password;
+};
+
+export default function NewUserForm({ userType, onError, onSuccess }) {
   const [email, setEmail] = useState(null);
-  const [id, setId] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [entityId, setEntityId] = useState(null);
   const [entities, setEntities] = useState([]);
 
   const renderEntityFormGroup = () => {
@@ -34,7 +50,7 @@ export default function NewUserForm({ userType }) {
       <FormGroup>
         <ControlLabel>{textToDisplay}</ControlLabel>
         <FormControl
-          value={id}
+          value={entityId}
           name="id"
           cleanable={false}
           accepter={SelectPicker}
@@ -44,7 +60,10 @@ export default function NewUserForm({ userType }) {
               .then(res => setEntities(res))
           }
           data={entities.map(e => ({ label: e.name, value: e.id }))}
-          onChange={setId}
+          onChange={setEntityId}
+          renderMenu={menu =>
+            entities.length ? menu : <Icon icon="spinner" spin />
+          }
         />
         <HelpBlock>Required</HelpBlock>
       </FormGroup>
@@ -52,10 +71,28 @@ export default function NewUserForm({ userType }) {
   };
 
   const handleSubmit = async () => {
-    return await fetch(`/api/users`, {
+    const res = await fetch(`/api/users`, {
       method: 'POST',
-      body: JSON.stringify({ email, user_type: userType, id }),
-    }).then(res => res.json());
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+        user_type: userType,
+        entity_id: entityId,
+      }),
+    })
+      .then(res => res.json())
+      .catch(error => {
+        console.error('Error adding new user', error);
+        return {
+          error: true,
+          message:
+            'There was an error adding the new user. Please check your network connection and try again later.',
+        };
+      });
+
+    if (res.error) onError(res.message);
+    else onSuccess();
   };
 
   return (
@@ -66,6 +103,25 @@ export default function NewUserForm({ userType }) {
         <HelpBlock>Required</HelpBlock>
       </FormGroup>
       {renderEntityFormGroup()}
+      <FormGroup>
+        <ControlLabel>Password</ControlLabel>
+        <FormControl value={password} name="password" onChange={setPassword} />
+        <ButtonToolbar>
+          <Button onClick={() => setPassword(generateRandomPassword())}>
+            Generate random password
+          </Button>
+          <CopyToClipboard text={password}>
+            <Button
+              onClick={() => Alert.info('Copied password to clipboard', 3000)}>
+              Copy to clipboard
+            </Button>
+          </CopyToClipboard>
+        </ButtonToolbar>
+        <HelpBlock>
+          Required &mdash; the user will be required to update this on first
+          login
+        </HelpBlock>
+      </FormGroup>
       <FormGroup>
         <ButtonToolbar>
           <Button appearance="primary" onClick={handleSubmit}>
@@ -80,4 +136,8 @@ export default function NewUserForm({ userType }) {
 NewUserForm.propTypes = {
   /** What user type is the new user to be? e.g. `health_board` or `hospital` */
   userType: PropTypes.string.isRequired,
+  /** Callback function to be called on error with the error message */
+  onError: PropTypes.func.isRequired,
+  /** Callback function to be called on success (with no parameters) */
+  onSuccess: PropTypes.func.isRequired,
 };
