@@ -55,14 +55,20 @@ function manage({ session, host, toggleTheme }) {
     } else if (session.user.roles.includes(Roles.USER_TYPE_ADMIN)) {
       return (
         <div>
-          <h3>Add new health boards and hospitals</h3>
+          <h3>Manage users, health boards and hospitals</h3>
           <p>
             Please use the following options to add a new health board or
             hospital to the system.
           </p>
           <p>
-            You may also setup user accounts for health board or hospital users
-            to generate credentials that may be distributed to relevant staff.
+            You may also setup user accounts for new health board or hospital
+            users, or platform administrators, to generate credentials that can
+            be distributed to relevant staff.
+          </p>
+          <p>
+            For more advanced user management (such as updating passwords or
+            deleting users), please visit the platform&apos;s Keycloak Admin
+            Console for precise user management functionality.
           </p>
           <p>
             <strong>
@@ -70,11 +76,6 @@ function manage({ session, host, toggleTheme }) {
               authorisation from your Information Governance Team and you have
               read your organisation&apos;s Privacy Policy.
             </strong>
-          </p>
-          <p>
-            For more advanced user management (such as updating passwords or
-            deleting users), please visit the platform&apos;s Keycloak Admin
-            Console for precise user management functionality.
           </p>
 
           <Modal
@@ -155,6 +156,18 @@ function manage({ session, host, toggleTheme }) {
                   setAddNewUserModalUserType(Roles.USER_TYPE_HOSPITAL)
                 }>
                 Add new hospital user
+              </Button>
+            </ButtonGroup>
+          </p>
+
+          <p>
+            <ButtonGroup justified>
+              <Button
+                appearance="ghost"
+                onClick={() =>
+                  setAddNewUserModalUserType(Roles.USER_TYPE_ADMIN)
+                }>
+                Add new platform administrator
               </Button>
             </ButtonGroup>
           </p>

@@ -36,15 +36,17 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
   const [entities, setEntities] = useState([]);
 
   const renderEntityFormGroup = () => {
-    const isHealthBoard = userType === Roles.USER_TYPE_HEALTH_BOARD;
-    const isHospital = userType === Roles.USER_TYPE_HOSPITAL;
-
-    if (userType === null || (!isHealthBoard && !isHospital)) {
+    if (
+      userType !== Roles.USER_TYPE_HEALTH_BOARD &&
+      userType !== Roles.USER_TYPE_HOSPITAL
+    ) {
       return <span />;
     }
 
-    const textToDisplay = isHealthBoard ? 'Health Board' : 'Hospital';
-    const apiEndpoint = isHealthBoard ? 'health_boards' : 'hospitals';
+    const textToDisplay =
+      userType === Roles.USER_TYPE_HEALTH_BOARD ? 'Health Board' : 'Hospital';
+    const apiEndpoint =
+      userType === Roles.USER_TYPE_HEALTH_BOARD ? 'health_boards' : 'hospitals';
 
     return (
       <FormGroup>
