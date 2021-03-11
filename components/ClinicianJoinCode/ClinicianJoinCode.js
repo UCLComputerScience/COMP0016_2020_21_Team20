@@ -8,12 +8,14 @@ import styles from './ClinicianJoinCode.module.css';
 import useSWR from '../../lib/swr';
 import { Roles } from '../../lib/constants';
 
-const useCode = (id, session) => {
+const useCode = session => {
   if (!session) {
     return { code: null, error: true, message: 'You are not logged in' };
   }
 
-  const { data, error } = useSWR('/api/departments/' + id);
+  const { data, error } = useSWR(
+    '/api/departments/' + session.user.departmentId
+  );
   return data
     ? {
         code: data
@@ -30,8 +32,8 @@ const useCode = (id, session) => {
 };
 
 function ClinicianJoinCode({ session, host }) {
-  const { code, error, message } = useCode(session.user.departmentId, session);
-  console.log(code, error, message);
+  const { code, error, message } = useCode(session);
+
   const regenerateCode = async id => {
     const res = await fetch(
       '/api/join_codes/' + Roles.USER_TYPE_DEPARTMENT + '/' + id,

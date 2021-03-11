@@ -1,18 +1,22 @@
 import { shallow, mount } from 'enzyme';
 import React from 'react';
+import { Roles } from '../../lib/constants.js';
 
 import UrlsTable from './UrlsTable.js';
 
 describe('UrlsTable', () => {
-  it('renders', () => {
-    const wrapper = shallow(<UrlsTable host="example.com" />);
+  const wrapper = shallow(
+    <UrlsTable
+      session={{ user: { roles: Roles.USER_TYPE_DEPARTMENT } }}
+      host="example.com"
+    />
+  );
 
+  it('renders', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
   it('shows headings', () => {
-    const wrapper = mount(<UrlsTable host="example.com" />);
-
     expect(wrapper.findWhere(n => n.contains('Question body')));
     expect(wrapper.findWhere(n => n.contains('Standard')));
     expect(wrapper.findWhere(n => n.contains('Training URL')));
@@ -20,8 +24,6 @@ describe('UrlsTable', () => {
   });
 
   it('shows copy button', () => {
-    const wrapper = mount(<UrlsTable host="example.com" />);
-
     expect(
       wrapper.findWhere(
         n => n.type() === 'Button' && n.contains('Copy to clipboard')
@@ -30,8 +32,6 @@ describe('UrlsTable', () => {
   });
 
   it('shows regenerate button', () => {
-    const wrapper = mount(<UrlsTable host="example.com" />);
-
     expect(
       wrapper.findWhere(
         n => n.type() === 'Button' && n.contains('Re-generate URL')
@@ -40,8 +40,6 @@ describe('UrlsTable', () => {
   });
 
   it('shows host URL', () => {
-    const wrapper = mount(<UrlsTable host="example.com" />);
-
     expect(
       wrapper.findWhere(n => n.contains('https://example.com/join/clinician/'))
     );
