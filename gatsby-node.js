@@ -16,8 +16,26 @@ module.exports.onCreateBabelConfig = ({ actions }) => {
  * manage to override the babelrc for Docz/Gatsby successfully, so this works for now.
  */
 module.exports.onCreateWebpackConfig = ({ getConfig, actions, stage }) => {
-  const webpackConfig = getConfig();
+  // Site is built statically for server side rendering but React Suite Alert component
+  // requires the `window`/`document` browser objects to exist, so we were getting build errors
+  // This basically replaces the Alert component with the function in docz-rsuite-ssr-loader.js
+  // as a dummy Alert for use when server-side rendering during build
+  if (stage === 'build-html' || stage === 'develop-html') {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /node_modules\/.*Alert/,
+            use: {
+              loader: './docz-rsuite-ssr-loader.js',
+            },
+          },
+        ],
+      },
+    });
+  }
 
+  const webpackConfig = getConfig();
   if (stage === 'build-javascript') {
     const dependencyRulesIndex = webpackConfig.module.rules.findIndex(rule => {
       return (
@@ -29,6 +47,5 @@ module.exports.onCreateWebpackConfig = ({ getConfig, actions, stage }) => {
 
     webpackConfig.module.rules.splice(dependencyRulesIndex, 1);
   }
-
   actions.replaceWebpackConfig(webpackConfig);
 };

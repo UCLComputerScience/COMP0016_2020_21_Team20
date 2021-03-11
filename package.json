@@ -10,7 +10,7 @@
     "deploy-migrations": "prisma migrate deploy --preview-feature",
     "openapi:generate": "node openapi-generator.js",
     "docz:dev": "docz dev",
-    "docz:build": "docz build",
+    "docz:build": "mkdir -p .docz && cp docz-rsuite-ssr-loader.js .docz/ && docz build",
     "docz:serve": "docz serve",
     "test:frontend": "jest --testPathPattern=components* --config=jest-frontend.config.js",
     "test:backend": "env-cmd -f .env.test jest --testPathPattern=test/api* --runInBand",
