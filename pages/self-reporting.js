@@ -49,17 +49,20 @@ export async function getServerSideProps(context) {
 }
 
 /**
- * If there is a valid session a page is displayed with likert scale and words questions (which are fetched from the backend)
+ * The self-reporting page provides the self-report form to be completed.
+ * If the user is not logged in, they are prompted to login.
  *
- * @param session The session of the users webpage, passed into other components to decided what to display
- * @param toggleTheme This is passed into the header component to control the theme being displayed
+ * It is only accessible to clinicians and department managers. All other users do not have
+ * access to this page.
+ *
+ * This page uses the /api/recent_words, /api/questions API endpoints to fetch the relevant data.
+ *
+ * @param session the user's session object to decide what to display
+ * @param toggleTheme the global function to toggle the current theme
  */
-function selfReporting({ session, toggleTheme }) {
+function SelfReporting({ session, toggleTheme }) {
   const router = useRouter();
-  const { data: words } = useSWR('/api/recent_words', {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  const { data: words } = useSWR('/api/recent_words');
 
   const {
     likertScaleQuestions,
@@ -76,7 +79,9 @@ function selfReporting({ session, toggleTheme }) {
   const [showErrors, setShowErrors] = useState(false);
 
   /**
-   * Sends the answers to the backend, if successful it take the user to the statistics page, else an error alert is displayed
+   * Sends the answers to the backend.
+   * If successful it redirects the user to the statistics page
+   * On error, an alert is displayed
    */
   const submitAnswers = async () => {
     const words = [];
@@ -112,9 +117,9 @@ function selfReporting({ session, toggleTheme }) {
   };
 
   /**
-   * Checks if any of the required questions have been left blank and then shows a corresponding pop-up. If all required questions are
-   * completed then the pop-up allows the user to edit or submit. Else the the pop-up prompts which required questions are unanswered and
-   * lets them edit the responses.
+   * Checks if any of the required questions have been left blank and then shows a corresponding pop-up.
+   * If all required questions are completed, the pop-up allows the user to edit or submit.
+   * Else the the pop-up prompts which questions are remaining and lets them edit their responses.
    */
   const handleSubmit = () => {
     const unAnsweredQuestions = likertScaleQuestions.filter(
@@ -293,4 +298,4 @@ function selfReporting({ session, toggleTheme }) {
   );
 }
 
-export default selfReporting;
+export default SelfReporting;

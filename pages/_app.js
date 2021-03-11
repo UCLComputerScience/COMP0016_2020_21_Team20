@@ -18,7 +18,16 @@ const LoadCssFile = (href, theme) => {
   return link;
 };
 
-function MyApp({ Component, pageProps }) {
+/**
+ * This component class is the base class for every page of the site
+ * This functionality is provided by Next.js. It should be used for global configuration.
+ * At the moment, it handles the dark-mode/light-mode theme switching, and adding the Footer to
+ * every single page.
+ *
+ * @param Component the actual component to be rendered
+ * @param pageProps the actual props to pass to the desired component
+ */
+function App({ Component, pageProps }) {
   const [currentLink, setCurrentLink] = useState(null);
 
   // To ensure the saved mode is displayed on load
@@ -62,4 +71,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default App;

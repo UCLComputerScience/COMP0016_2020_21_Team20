@@ -53,13 +53,22 @@ export async function getServerSideProps(context) {
 }
 
 /**
- * If there is a valid session it displays the correct statistics page for the relevant user type with data fetched from the backend, else it displays the login message compnonent
+ * The statistics page allows users to visualise responses submitted in the SelfReporting form.
+ * If the user is not logged in, they are prompted to login.
  *
- * @param session The session of the users webpage, passed into other components to decided what to display
- * @param toggleTheme This is passed into the header component to control the theme being displayed
+ * It is accessible to clinicians, department managers, hospitals, and health boards.
+ * Any other users do not have access to this page.
+ *
+ * The Statistics page shows different filters based on their user type, which is explained
+ * in the Filters component.
+ *
+ * This page uses the /api/responses endpoint to fetch the relevant data.
+ *
+ * @param session the user's session object to decide what to display
+ * @param toggleTheme the global function to toggle the current theme
  */
 
-function statistics({ session, toggleTheme }) {
+function Statistics({ session, toggleTheme }) {
   const [isMentoringSession, setIsMentoringSession] = useState(null);
   const [dataToDisplayOverride, setDataToDisplayOverride] = useState(null);
   const [visualisationType, setVisualisationType] = useState(
@@ -70,6 +79,7 @@ function statistics({ session, toggleTheme }) {
     end: new Date(),
   });
 
+  // When the state is updated, this will re-fetch from the API with the newly required query parameters
   const { data, error } = useSWR(
     `/api/responses?${generateQueryParams({
       start: dateRange.start.getTime(),
@@ -157,13 +167,17 @@ function statistics({ session, toggleTheme }) {
         <title>Statistics</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Header session={session} toggleTheme={toggleTheme} />
+
       <CirclesAccordion circles={averageStats} />
+
       {((session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT) &&
         dataToDisplayOverride) ||
         session.user.roles.includes(Roles.USER_TYPE_CLINICIAN)) && (
         <AnalyticsAccordion data={dataToSend} stats={averageStats} />
       )}
+
       <div className={styles.content}>
         <div className={styles.filters}>
           <Filters
@@ -205,4 +219,4 @@ function statistics({ session, toggleTheme }) {
   );
 }
 
-export default statistics;
+export default Statistics;

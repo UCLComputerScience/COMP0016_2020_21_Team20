@@ -89,22 +89,19 @@ export async function getServerSideProps(context) {
 }
 
 /**
- * This page is the home/landing page of the platform. If there are no errors, then the header is displayed along with a welcome message
- * and a features list to show he user what the platform allows you to achieve. Lastly if the user is not logged in then there is a
- * login/register button along with a "Get Started" message.
+ * This page is the home/landing page of the platform.
+ * If there are no errors, then the header is displayed along with a welcome message
+ * and a features list to show he user what the platform allows you to achieve.
  *
- * @param session The session of the users webpage, used determine what access they have and therefore what to display
- * @param toggleTheme This is passed into the header component to control the theme being displayed
+ * If the user is not logged in, an additional login/register button and a "Get Started" message are shown.
+ *
+ * @param session the user's session object to decide what to display
+ * @param toggleTheme the global function to toggle the current theme
  */
 export default function Home({ session, toggleTheme }) {
   const router = useRouter();
   const featuresRef = useRef(null);
 
-  /**
-   * Displays error as a message
-   *
-   * @param error error code
-   */
   const showError = error => {
     // Don't do exact match
     error = error.toLowerCase();
@@ -133,6 +130,7 @@ export default function Home({ session, toggleTheme }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header session={session} toggleTheme={toggleTheme} />
+
       <div className={styles.squares}>
         <div className={styles.container}>
           {router.query && router.query.error && showError(router.query.error)}
@@ -157,7 +155,9 @@ export default function Home({ session, toggleTheme }) {
                 </Button>
               </div>
             )}
+
             {session && <div className={styles.spacing}></div>}
+
             <div className={styles.features} ref={featuresRef}>
               <div className={styles.feature}>
                 <img
@@ -165,6 +165,7 @@ export default function Home({ session, toggleTheme }) {
                   width={96}
                   height={96}
                 />
+
                 <p>
                   Complete your self-reporting on the device of your choice in a
                   matter of minutes. The self-reporting page is clear and simple
@@ -173,6 +174,7 @@ export default function Home({ session, toggleTheme }) {
                   automatically saved.
                 </p>
               </div>
+
               <div className={styles.feature}>
                 <img
                   src="/images/icons8-combo-chart-96.png"
@@ -187,6 +189,7 @@ export default function Home({ session, toggleTheme }) {
                   the top which gives you great insight of your average.
                 </p>
               </div>
+
               <div className={styles.feature}>
                 <img
                   src="/images/icons8-people-96.png"
@@ -204,6 +207,7 @@ export default function Home({ session, toggleTheme }) {
             </div>
           </main>
         </div>
+
         <div className={styles.cube}></div>
         <div className={styles.cube}></div>
         <div className={styles.cube}></div>
@@ -211,6 +215,7 @@ export default function Home({ session, toggleTheme }) {
         <div className={styles.cube}></div>
         <div className={styles.cube}></div>
       </div>
+
       <div className={styles.iconInfo}>
         <a href="https://icons8.com">Icons by Icons8</a>
       </div>

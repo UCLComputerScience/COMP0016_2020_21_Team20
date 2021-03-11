@@ -25,13 +25,22 @@ export async function getServerSideProps(context) {
 }
 
 /**
- * If there is a valid session it displays the correct manage page for the relevant user type, else it displays the login message compnonent
+ * The manage page is used to provide various management functionality depending on the user type.
+ * If the user is not logged in, they are prompted to login.
  *
- * @param session The session of the users webpage, passed into other components to decided what to display
+ * The current management functionality, for each user type is:
+ * - Department Managers: Manage the department-specific Question Training URLs, and their
+ * department's Join Code
+ * - Hospitals: Manage the departments in their hospital, and their join codes
+ * - Administrators: Manage the health boards, hospitals, and users in the system
+ *
+ * All other users do not have access to this page.
+ *
+ * @param session the user's session object to decide what to display
+ * @param toggleTheme the global function to toggle the current theme
  * @param host The host name of the website
- * @param toggleTheme This is passed into the header component to control the theme being displayed
  */
-function manage({ session, host, toggleTheme }) {
+function Manage({ session, host, toggleTheme }) {
   const [addNewUserModalUserType, setAddNewUserModalUserType] = useState(null);
   const [addNewEntityModalType, setAddNewEntityModalType] = useState(null);
 
@@ -201,12 +210,10 @@ function manage({ session, host, toggleTheme }) {
         <title>Manage</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div style={{ zIndex: 1000, position: 'relative' }}>
-        <Header session={session} toggleTheme={toggleTheme} />
-      </div>
+      <Header session={session} toggleTheme={toggleTheme} />
       {renderContent()}
     </div>
   );
 }
 
-export default manage;
+export default Manage;

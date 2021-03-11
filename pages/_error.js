@@ -4,10 +4,11 @@ import Link from 'next/link';
 import styles from './error.module.css';
 
 /**
- * This overrides the default react error page. It displays a styled header with a message informing the user of an error and a button
- * which takes them back to the homepage so they can recover from the error.
+ * This overrides the default Next.js Error page.
+ * It displays a styled header with a message informing the user of an error and
+ * a button which takes them back to the homepage so they can recover from the error.
  *
- * @param statusCode the code of the error that has occured
+ * @param statusCode the error code that has occurred
  */
 function Error({ statusCode }) {
   return (

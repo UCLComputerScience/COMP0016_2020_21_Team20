@@ -10,12 +10,15 @@ export async function getServerSideProps(context) {
 }
 
 /**
- * If there is a valid session it displays the correct admin page, else it displays the login message compnonent
+ * The admin page allows administrators to manage and add new questions, via the QuestionsTable component.
+ * If the user is not logged in, they are prompted to login.
  *
- * @param session The session of the users webpage, passed into other components to decided what to display
- * @param toggleTheme This is passed into the header component to control the theme being displayed
+ * All other users do not have access to this page.
+ *
+ * @param session the user's session object to decide what to display
+ * @param toggleTheme the global function to toggle the current theme
  */
-function manage({ session, toggleTheme }) {
+function Manage({ session, toggleTheme }) {
   if (!session) {
     return (
       <div>
@@ -31,9 +34,7 @@ function manage({ session, toggleTheme }) {
         <title>Manage</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div style={{ zIndex: 1000, position: 'relative' }}>
-        <Header session={session} toggleTheme={toggleTheme} />
-      </div>
+      <Header session={session} toggleTheme={toggleTheme} />
       {session.user.roles.includes(Roles.USER_TYPE_ADMIN) ? (
         <div>
           <h3>Manage and add new questions</h3>
@@ -46,4 +47,4 @@ function manage({ session, toggleTheme }) {
   );
 }
 
-export default manage;
+export default Manage;
