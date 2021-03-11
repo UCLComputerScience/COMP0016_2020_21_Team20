@@ -37,6 +37,7 @@ const columns = [
     id: 'standard',
     label: 'Standard',
     width: 'auto',
+    // eslint-disable-next-line react/display-name
     render: (edited, row) => <div>{row['standards']['name']}</div>,
   },
   {
@@ -60,7 +61,7 @@ const columns = [
       } else {
         //else just display url as link
         return (
-          <a href={row['url']} target="_blank">
+          <a href={row['url']} target="_blank" rel="noreferrer">
             {row['url']}
           </a>
         );
@@ -233,7 +234,7 @@ export default function QuestionsTable() {
   const setDialog = () => {
     setDialogTitle('Please fill in the information of the new question:');
     setDialogContent([
-      <div>
+      <div key="Input">
         <label>Body:</label>
         <Input
           id={'bodyText'}

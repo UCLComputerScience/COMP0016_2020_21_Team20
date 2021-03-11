@@ -9,7 +9,7 @@ function Info(props) {
       className={styles.trainingUrlButton}
       href={props.url}
       target="_blank"
-      rel="noopener noreferer">
+      rel="noreferrer">
       <Icon size="lg" icon="info" />
     </a>
   );

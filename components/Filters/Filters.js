@@ -232,7 +232,14 @@ Filters.propTypes = {
   /** Boolean asking which if the perticular Session was a mentoring session or not*/
   isMentoringSession: PropTypes.bool,
   /** Value asking which visualisationType the user wants to see: Line Chart, Enablers Word Cloud and Barriers Word Cloud */
+  setIsMentoringSession: PropTypes.func,
   visualisationType: PropTypes.string,
+  session: PropTypes.object,
+  user: PropTypes.object,
+  dataToDisplayOverride: PropTypes.object,
+  setDataToDisplayOverride: PropTypes.func,
+  setDateRange: PropTypes.func,
+  setVisualisationType: PropTypes.func,
 };
 
 export default Filters;

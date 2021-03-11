@@ -1,7 +1,7 @@
 import { Nav, Button } from 'rsuite';
 import Link from 'next/link';
-
 import styles from './error.module.css';
+import PropTypes from 'prop-types';
 
 /**
  * This overrides the default react error page. It displays a styled header with a message informing the user of an error and a button
@@ -36,6 +36,9 @@ function Error({ statusCode }) {
 Error.getInitialProps = ({ res, err }) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
   return { statusCode };
+};
+Error.propTypes = {
+  statusCode: PropTypes.string,
 };
 
 export default Error;

@@ -24,7 +24,7 @@ function ProfileButton({ session }) {
           className={styles.link}
           href={config.KEYCLOAK_USER_ACCOUNT_MANAGE_URL}
           target="_blank"
-          rel="noopener">
+          rel="noreferrer">
           Account settings
         </a>
       </Dropdown.Item>

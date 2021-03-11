@@ -131,7 +131,7 @@ export default function DepartmentsTable({ host }) {
     if (newRow.name === null) {
       setDialogText(
         <div className={styles.alertText}>
-          *Please don't leave department name blank
+          *Please do not leave department name blank
         </div>
       );
     } else {
@@ -150,7 +150,7 @@ export default function DepartmentsTable({ host }) {
   const setDialog = () => {
     setDialogTitle('Please fill in the new departments name:');
     setDialogContent([
-      <div className={styles.alertContent}>
+      <div className={styles.alertContent} key={value.id}>
         <Input
           className={styles.input}
           id="newDeptName"

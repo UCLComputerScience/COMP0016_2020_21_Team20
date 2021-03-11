@@ -38,7 +38,7 @@ describe('AlertDialog', () => {
 
 describe('AlertDialog', () => {
   it('Content displays', () => {
-    const testContent = [<Button>test button</Button>];
+    const testContent = [<Button key="button">test button</Button>];
     const wrapper = mount(
       <AlertDialog open={true} setOpen={() => null} content={testContent} />
     );
@@ -49,7 +49,7 @@ describe('AlertDialog', () => {
 
 describe('AlertDialog', () => {
   it('Actions are displayed', () => {
-    const testActions = [<Button>test button</Button>];
+    const testActions = [<Button key="button">test button</Button>];
     const wrapper = mount(
       <AlertDialog open={true} setOpen={() => null} actions={testActions} />
     );

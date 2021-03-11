@@ -42,7 +42,7 @@ const columns = [
       } else {
         //else just display url as link
         return (
-          <a href={row['url']} target="_blank">
+          <a href={row['url']} target="_blank" rel="noreferrer noopener">
             {row['url']}
           </a>
         );
