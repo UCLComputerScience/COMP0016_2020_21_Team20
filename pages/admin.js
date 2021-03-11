@@ -1,5 +1,6 @@
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
+import PropTypes from 'prop-types';
 
 import { Header, LoginMessage, QuestionsTable, NoAccess } from '../components';
 
@@ -46,5 +47,10 @@ function Manage({ session, toggleTheme }) {
     </div>
   );
 }
+
+Manage.propTypes = {
+  session: PropTypes.object.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+};
 
 export default Manage;

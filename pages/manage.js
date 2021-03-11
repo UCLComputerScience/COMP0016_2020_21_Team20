@@ -1,6 +1,7 @@
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Alert, Button, ButtonGroup, Modal } from 'rsuite';
 
 import {
@@ -215,5 +216,11 @@ function Manage({ session, host, toggleTheme }) {
     </div>
   );
 }
+
+Manage.propTypes = {
+  session: PropTypes.object.isRequired,
+  host: PropTypes.string.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+};
 
 export default Manage;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { getSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import PropTypes from 'prop-types';
 import {
   Button,
   IconButton,
@@ -297,5 +298,10 @@ function SelfReporting({ session, toggleTheme }) {
     </div>
   );
 }
+
+SelfReporting.propTypes = {
+  session: PropTypes.object.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+};
 
 export default SelfReporting;
