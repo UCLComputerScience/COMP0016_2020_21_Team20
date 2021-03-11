@@ -65,6 +65,7 @@ function LikertScale(props) {
 LikertScale.propTypes = {
   /** What function a likert scale click triggers */
   onChange: PropTypes.func.isRequired,
+  /** The id of the LikertScale question */
   id: PropTypes.string,
 };
 
