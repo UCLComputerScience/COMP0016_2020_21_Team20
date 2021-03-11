@@ -59,7 +59,7 @@ function Header({ session, toggleTheme }) {
   }, [mobileMenuRef, isOpen]);
 
   return (
-    <Nav className={styles.header}>
+    <nav className={`${styles.header} rs-nav rs-nav-horizontal`}>
       <Link href="/">
         <Nav.Item className={styles.logoWrapper}>
           <span className={styles.logo}>CQ Dashboard</span>
@@ -103,7 +103,7 @@ function Header({ session, toggleTheme }) {
           </Button>
         </div>
       </div>
-    </Nav>
+    </nav>
   );
 }
 

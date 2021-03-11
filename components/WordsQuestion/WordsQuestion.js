@@ -44,9 +44,8 @@ function WordsQuestion(props) {
         {props.questionNumber}. {props.question}
       </div>
       <div className={styles.italicText}>
-        {
-          '(response is not required, you may provide none or up to 3 words that you feel are suitable)'
-        }
+        (response is not required, you may provide none or up to 3 words that
+        you feel are suitable)
       </div>
       <div className={styles.wordsInputContainer}>{generateInputs()}</div>
     </div>

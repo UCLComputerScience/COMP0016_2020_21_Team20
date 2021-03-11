@@ -24,19 +24,24 @@ const options = {
   spiral: 'rectangular',
   transitionDuration: 100,
 };
+
 function WordCloud(props) {
   if (props.words === null) {
     return (
       <Loader className={styles.loading} size="lg" content="Loading data..." />
     );
-  } else if (props.words.length) {
+  }
+
+  if (props.words.length) {
+    // We are hardcoding questionId = 8 as the 'enablers' word-based question.
+    // Opposite for questionId = 9 (user enters barriers).
     let questionId = 8;
     options.colors = ['#008000', '#00FA9A', '#2ca02c'];
-    // We are hardcoding questionId = 8 as this corresponds to the 8th question in the self-report in which the user is asked to enter the enablers. Opposite for questionId = 9 (user enters barriers).
     if (props.visualisationType === Visualisations.WORD_CLOUD_BARRIERS) {
       questionId = 9;
       options.colors = ['#d62728', '#FF0000', '#B22222'];
     }
+
     const words = {};
     props.words.forEach(word => {
       if (word.question_id === questionId) {
@@ -72,9 +77,9 @@ function WordCloud(props) {
 }
 
 WordCloud.propTypes = {
-  /** a word that will be displayed in the wordcloud */
-  word: PropTypes.string.isRequired,
-  /** Visualisation type: enablers or barriers to display positive or negative words in the word cloud( from question 8 or question 9) */
+  /** An array of objects with properties word and question_id representing the words and their corresponding questions */
+  words: PropTypes.array.isRequired,
+  /** `word-cloud-enablers` or `word-cloud-barriers` to represent which words to show */
   visualisationType: PropTypes.value,
 };
 

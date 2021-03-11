@@ -13,7 +13,7 @@ const getOpenApiValidatorForRequest = async (endpoint, method = 'get') => {
   return validator;
 };
 
-const mockSessionWithUserType = (userType, entityId = 1) => {
+const mockSessionWithUserType = (userType, entityId = 1, setUserId = true) => {
   let mockSession = Object.values(Roles).includes(userType)
     ? {
         expires: '1',
@@ -22,7 +22,7 @@ const mockSessionWithUserType = (userType, entityId = 1) => {
           name: userType,
           image: null,
           roles: [userType],
-          userId: userType,
+          userId: setUserId ? userType : null,
         },
       }
     : null;

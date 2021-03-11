@@ -81,7 +81,7 @@ describe('PUT /api/questions/{id}', () => {
         const res = await fetch({
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ body: 'test2' }),
+          body: JSON.stringify({ body: 'test2', url: 'https://example.com' }),
         });
         expect(res.status).toBe(200);
 
@@ -92,11 +92,35 @@ describe('PUT /api/questions/{id}', () => {
         );
         expect(validator.validateResponse(200, json)).toEqual(undefined);
 
-        const newBody = await prisma.questions.findFirst({
-          select: { body: true },
+        const newQuestion = await prisma.questions.findFirst({
+          select: { body: true, default_url: true },
           where: { id: { equals: 100 } },
         });
-        expect(newBody.body).toEqual('test2');
+        expect(newQuestion.body).toEqual('test2');
+        expect(newQuestion.default_url).toEqual('https://example.com');
+      },
+    });
+  });
+
+  it('validates request paths', async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_ADMIN);
+    await testApiHandler({
+      handler,
+      params: { questionId: 'foo' },
+      test: async ({ fetch }) => {
+        const res = await fetch({
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        expect(res.status).toBe(422);
+
+        const json = await res.json();
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/questions/{id}',
+          'put'
+        );
+        expect(validator.validateResponse(422, json)).toEqual(undefined);
       },
     });
   });
@@ -190,6 +214,23 @@ describe('DELETE /api/questions/{id}', () => {
         });
         expect(newArchivedStatus.archived).toEqual(true);
       },
+    });
+  });
+});
+
+describe('Invalid HTTP methods for /api/questions/{id}', () => {
+  ['GET', 'POST'].forEach(methodType => {
+    it(`doesn't allow ${methodType} requests`, async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        params: { questionId: 100 },
+        test: async ({ fetch }) => {
+          const res = await fetch({ method: methodType });
+          expect(res.status).toBe(405);
+        },
+      });
     });
   });
 });

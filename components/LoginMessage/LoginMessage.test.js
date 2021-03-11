@@ -4,15 +4,13 @@ import React from 'react';
 import LoginMessage from './LoginMessage.js';
 
 describe('LoginMessage', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<LoginMessage />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('LoginMessage', () => {
-  it('Info message', () => {
+  it('shows info message', () => {
     const wrapper = mount(<LoginMessage />);
 
     expect(
@@ -23,10 +21,8 @@ describe('LoginMessage', () => {
       )
     );
   });
-});
 
-describe('LoginMessage', () => {
-  it('Login/register button', () => {
+  it('shows login/register button', () => {
     const wrapper = mount(<LoginMessage />);
 
     expect(

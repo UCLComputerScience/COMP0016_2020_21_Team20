@@ -4,15 +4,13 @@ import React from 'react';
 import AnalyticsAccordion from './AnalyticsAccordion.js';
 
 describe('AnalyticsAccordion', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<AnalyticsAccordion />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('AnalyticsAccordion', () => {
-  it('Not done report message', () => {
+  it('shows not done report message', () => {
     const wrapper = mount(
       <AnalyticsAccordion
         data={[{ timestamp: new Date().getTime() - 60 * 60 * 24 * 8 * 1000 }]}
@@ -25,10 +23,8 @@ describe('AnalyticsAccordion', () => {
       )
     );
   });
-});
 
-describe('AnalyticsAccordion', () => {
-  it('Good message', () => {
+  it('shows good message', () => {
     const wrapper = mount(
       <AnalyticsAccordion stats={[{ percentage: 90, longName: 'test' }]} />
     );
@@ -36,15 +32,13 @@ describe('AnalyticsAccordion', () => {
     expect(
       wrapper.findWhere(n =>
         n.contains(
-          'It looks like you are happy that a satisfactory standard has been achieved for: test. Well done! You are hitting the target for these standards. You can help your colleagues regarding these standards.'
+          'It looks like you are happy that a satisfactory standard has been achieved for: test. Well done! You are hitting the target for this standard. You can help your colleagues regarding this standard.'
         )
       )
     );
   });
-});
 
-describe('AnalyticsAccordion', () => {
-  it('Neutral message', () => {
+  it('shows neutral message', () => {
     const wrapper = mount(
       <AnalyticsAccordion stats={[{ percentage: 50, longName: 'test' }]} />
     );
@@ -57,10 +51,8 @@ describe('AnalyticsAccordion', () => {
       )
     );
   });
-});
 
-describe('AnalyticsAccordion', () => {
-  it('Bad message', () => {
+  it('shows bad message', () => {
     const wrapper = mount(
       <AnalyticsAccordion stats={[{ percentage: 50, longName: 'test' }]} />
     );

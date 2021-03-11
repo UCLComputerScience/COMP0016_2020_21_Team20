@@ -13,12 +13,18 @@ export function Filters({ session, ...props }) {
   const [departments, setDepartments] = useState([]);
   const [hospitals, setHospitals] = useState([]);
 
-  const getMentoringValue = () => {
-    if (props.isMentoringSession === true) return 'yes';
-    else if (props.isMentoringSession === false) return 'no';
-    else return 'any';
-  };
-
+  /**
+   * Render extra filters based on user type:
+   * - Health Board users have an extra "Group" filter with a list of departments and
+   * hospitals in their health board, grouped by each category respectively
+   * - Hospital users have an extra "Group" filter with a list of departments in
+   * their hospital
+   * - Department managers have an extre "Group" filter which allows them to choose
+   * between viewing their own responses or their department's aggregate responses
+   *
+   * Most of the logic here is to fetch the relevant data asynchronously when the
+   * dropdown is selected.
+   */
   const renderExtraFilters = () => {
     if (session.user.roles.includes(Roles.USER_TYPE_HEALTH_BOARD)) {
       return (
@@ -82,7 +88,9 @@ export function Filters({ session, ...props }) {
           />
         </>
       );
-    } else if (session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
+    }
+
+    if (session.user.roles.includes(Roles.USER_TYPE_HOSPITAL)) {
       return (
         <>
           <p>Group</p>
@@ -131,7 +139,9 @@ export function Filters({ session, ...props }) {
           />
         </>
       );
-    } else if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
+    }
+
+    if (session.user.roles.includes(Roles.USER_TYPE_DEPARTMENT)) {
       return (
         <>
           <p>Group</p>
@@ -155,11 +165,23 @@ export function Filters({ session, ...props }) {
           />
         </>
       );
-    } else {
-      return <span />;
     }
+
+    return <span />;
   };
 
+  const getMentoringValue = () => {
+    if (props.isMentoringSession === true) return 'yes';
+    else if (props.isMentoringSession === false) return 'no';
+    else return 'any';
+  };
+
+  /**
+   * The standard filters shown to ALL users are:
+   * - Date range: a datepicker
+   * - Visualisation: a dropdown menu
+   * - Mentoring session: a dropdown menu
+   */
   return (
     <div>
       <p>Date Range</p>
@@ -177,6 +199,7 @@ export function Filters({ session, ...props }) {
           { label: 'Last year', value: [subtractDays(365), new Date()] },
         ]}
       />
+
       <p>Visualisation</p>
       <SelectPicker
         value={props.visualisationType}
@@ -200,6 +223,7 @@ export function Filters({ session, ...props }) {
           },
         ]}
       />
+
       <p>Mentoring?</p>
       <SelectPicker
         value={getMentoringValue()}
@@ -218,21 +242,23 @@ export function Filters({ session, ...props }) {
           { label: 'No', value: 'no' },
         ]}
       />
+
       {props.isMentoringSession === true ||
         (props.isMentoringSession === null && (
           <i>Triangles represent a mentoring session point</i>
         ))}
+
       {renderExtraFilters()}
     </div>
   );
 }
 Filters.propTypes = {
-  /** Array containing the start and end dates of the period of time that the user wants to analyse*/
-  dateRange: PropTypes.array.isRequired,
-  /** Boolean asking which if the perticular Session was a mentoring session or not*/
+  /** Controlled value representing the selected date range, with `start` and `end` properties containing Date instances */
+  dateRange: PropTypes.object.isRequired,
+  /** Controlled value representing if the user has selected mentoring sessions to be shown */
   isMentoringSession: PropTypes.bool,
-  /** Value asking which visualisationType the user wants to see: Line Chart, Enablers Word Cloud and Barriers Word Cloud */
-  visualisationType: PropTypes.string,
+  /** Controlled value representing which visualisation type the user has selected */
+  visualisationType: PropTypes.oneOf(Object.keys(Visualisations)).isRequired,
 };
 
 export default Filters;

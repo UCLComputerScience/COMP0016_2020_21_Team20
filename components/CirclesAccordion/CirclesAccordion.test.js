@@ -4,7 +4,7 @@ import React from 'react';
 import CirclesAccordion from './CirclesAccordion.js';
 
 describe('CirclesAccordion', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(
       <CirclesAccordion
         circles={[{ name: 'test', color: 'red', percentage: 50 }]}
@@ -13,10 +13,8 @@ describe('CirclesAccordion', () => {
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('CirclesAccordion', () => {
-  it('Displays circle', () => {
+  it('displays circle', () => {
     const wrapper = mount(
       <CirclesAccordion
         circles={[{ name: 'test', color: 'red', percentage: 50 }]}
@@ -25,10 +23,8 @@ describe('CirclesAccordion', () => {
 
     expect(wrapper.find('Circle').exists()).toBe(true);
   });
-});
 
-describe('CirclesAccordion', () => {
-  it('Displays header', () => {
+  it('displays header', () => {
     const wrapper = mount(
       <CirclesAccordion
         circles={[{ name: 'test', color: 'red', percentage: 50 }]}

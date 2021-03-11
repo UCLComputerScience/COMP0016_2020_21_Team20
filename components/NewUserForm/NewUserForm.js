@@ -35,6 +35,14 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
   const [entityId, setEntityId] = useState(null);
   const [entities, setEntities] = useState([]);
 
+  /**
+   * Render the extra 'Hospital' or 'Health Board' select-dropdowns when adding a
+   * new user for the respective user group.
+   * The hospitals or health boards are asynchronously fetched on-click.
+   * Platform administrators have no parent 'entity' ID, so they are excluded.
+   * If this form is ever updated to allow clinician/department registration, they
+   * would need to be shown a select-dropdown to choose which department they belong to.
+   */
   const renderEntityFormGroup = () => {
     if (
       userType !== Roles.USER_TYPE_HEALTH_BOARD &&
@@ -104,7 +112,9 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
         <FormControl value={email} name="email" onChange={setEmail} />
         <HelpBlock>Required</HelpBlock>
       </FormGroup>
+
       {renderEntityFormGroup()}
+
       <FormGroup>
         <ControlLabel>Password</ControlLabel>
         <FormControl value={password} name="password" onChange={setPassword} />
@@ -126,6 +136,7 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
           login
         </HelpBlock>
       </FormGroup>
+
       <FormGroup>
         <ButtonToolbar>
           <Button
@@ -142,7 +153,7 @@ export default function NewUserForm({ userType, onError, onSuccess }) {
 
 NewUserForm.propTypes = {
   /** What user type is the new user to be? e.g. `health_board` or `hospital` */
-  userType: PropTypes.string.isRequired,
+  userType: PropTypes.oneOf(Object.values(Roles)).isRequired,
   /** Callback function to be called on error with the error message */
   onError: PropTypes.func.isRequired,
   /** Callback function to be called on success (with no parameters) */

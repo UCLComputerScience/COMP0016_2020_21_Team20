@@ -4,25 +4,21 @@ import React from 'react';
 import LineChart from './LineChart.js';
 
 describe('LineChart', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<LineChart data={null} />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('LineChart', () => {
-  it('Loading message', () => {
+  it('shows loading message', () => {
     const wrapper = mount(<LineChart data={null} />);
 
     expect(wrapper.findWhere(n => n.contains('Loading data...')).exists()).toBe(
       true
     );
   });
-});
 
-describe('LineChart', () => {
-  it('No results', () => {
+  it('shows no results', () => {
     const wrapper = mount(<LineChart data={[]} />);
 
     expect(

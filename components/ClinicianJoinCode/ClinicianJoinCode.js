@@ -8,77 +8,83 @@ import styles from './ClinicianJoinCode.module.css';
 import useSWR from '../../lib/swr';
 import { Roles } from '../../lib/constants';
 
-const getCode = id => {
-  const { data, error } = useSWR('/api/departments/' + id, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
-
-  if (data) {
-    return { data: data, error: error || data.error, message: data.message };
+const useCode = session => {
+  if (!session) {
+    return { code: null, error: true, message: 'You are not logged in' };
   }
-  return { data: null, error: error, message: error ? error.message : null };
+
+  const { data, error } = useSWR(
+    '/api/departments/' + session.user.departmentId
+  );
+  return data
+    ? {
+        code: data
+          ? { name: data.name, code: data.clinician_join_codes.code }
+          : data,
+        error: error || data.error,
+        message: data.message,
+      }
+    : {
+        code: null,
+        error: error,
+        message: error ? error.message : 'Unknown error',
+      };
 };
 
 function ClinicianJoinCode({ session, host }) {
-  const { data, error, message } = session
-    ? getCode(session.user.departmentId)
-    : { data: null, error: null, message: null };
-  const code = data;
-  if (error) {
-    Alert.error(
-      "Error: '" +
-        message +
-        "'. Please reload/try again later or the contact system administrator",
-      0
-    );
-  }
+  const { code, error, message } = useCode(session);
 
-  const regenerateInDatabase = async id => {
+  const regenerateCode = async id => {
     const res = await fetch(
       '/api/join_codes/' + Roles.USER_TYPE_DEPARTMENT + '/' + id,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
       }
+    ).then(res => res.json());
+
+    if (res.error) {
+      Alert.error(`Error: ${res.message}`);
+    } else {
+      mutate('/api/departments/' + id);
+      Alert.success('Join URL updated', 3000);
+    }
+  };
+
+  if (error) {
+    Alert.error(
+      `Error: ${message}. Please reload/try again later or the contact system administrator`,
+      0
     );
-    return await res.json();
-  };
 
-  const regenerateCode = async id => {
-    await regenerateInDatabase(id);
-    mutate('/api/departments/' + id);
-    Alert.success('Join URL updated', 3000);
-  };
+    return (
+      <div className={styles.content}>
+        There was an error fetching your department&apos;s unique Join URL
+      </div>
+    );
+  }
 
-  const showCopyAlert = () => {
-    Alert.info('Copied', 3000);
-  };
+  if (!code) {
+    return (
+      <div className={styles.content}>
+        Loading your department&apos;s unique Join URL...
+      </div>
+    );
+  }
 
+  const joinUrl = `https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${code.code}`;
   return (
     <div className={styles.content}>
       <div className={styles.url}>
-        {'Please send this unique URL to clinicians so they can join your ' +
-          (!error ? (code ? code['name'] : 'loading...') : 'error') +
-          ' department:'}{' '}
-        {`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
-          !error
-            ? code
-              ? code['clinician_join_codes']['code']
-              : 'loading...'
-            : 'error'
-        }`}
+        {`Please send this unique URL to clinicians so they can join your ${code.name} department:
+        ${joinUrl}`}
       </div>
+
       <div className={styles.actions}>
-        <CopyToClipboard
-          text={`https://${host}/join/${Roles.USER_TYPE_CLINICIAN}/${
-            !error
-              ? code
-                ? code['clinician_join_codes']['code']
-                : 'loading...'
-              : 'error'
-          }`}>
-          <Button appearance="primary" onClick={() => showCopyAlert()}>
+        <CopyToClipboard text={joinUrl}>
+          <Button
+            appearance="primary"
+            onClick={() => Alert.info('Copied', 5000)}>
             <Icon icon="clone" /> Copy to clipboard
           </Button>
         </CopyToClipboard>
@@ -86,7 +92,7 @@ function ClinicianJoinCode({ session, host }) {
         <Button
           appearance="primary"
           onClick={() => regenerateCode(session.user.departmentId)}>
-          <div>Re-generate URL</div>
+          Re-generate URL
         </Button>
       </div>
     </div>

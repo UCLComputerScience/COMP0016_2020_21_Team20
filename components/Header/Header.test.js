@@ -4,15 +4,13 @@ import React from 'react';
 import Header from './Header.js';
 
 describe('Header', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(<Header toggleTheme={() => null} />);
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('Header', () => {
-  it('Logo button', () => {
+  it('shows logo button', () => {
     const wrapper = mount(<Header toggleTheme={() => null} />);
 
     expect(
@@ -21,18 +19,14 @@ describe('Header', () => {
       )
     );
   });
-});
 
-describe('Header', () => {
-  it('Help button', () => {
+  it('shows help button', () => {
     const wrapper = mount(<Header toggleTheme={() => null} />);
 
     expect(wrapper.findWhere(n => n.type() === 'Button' && n.contains('help')));
   });
-});
 
-describe('Header', () => {
-  it('Toggling theme', () => {
+  it('toggles theme', () => {
     let test = false;
     const wrapper = mount(<Header toggleTheme={() => (test = true)} />);
 

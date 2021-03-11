@@ -5,7 +5,7 @@ import Filters from './Filters.js';
 import { Roles } from '../../lib/constants';
 
 describe('Filters', () => {
-  it('Renders', () => {
+  it('renders', () => {
     const wrapper = shallow(
       <Filters
         session={{ user: { roles: Roles.USER_TYPE_CLINICIAN } }}
@@ -15,10 +15,8 @@ describe('Filters', () => {
 
     expect(wrapper.exists()).toBe(true);
   });
-});
 
-describe('Filters', () => {
-  it('Correct filters for clinician type', () => {
+  it('shows correct filters for clinician type', () => {
     const wrapper = mount(
       <Filters
         session={{ user: { roles: Roles.USER_TYPE_CLINICIAN } }}
@@ -36,10 +34,8 @@ describe('Filters', () => {
       true
     );
   });
-});
 
-describe('Filters', () => {
-  it('Correct filters for department type', () => {
+  it('shows correct filters for department type', () => {
     const wrapper = mount(
       <Filters
         session={{ user: { roles: Roles.USER_TYPE_DEPARTMENT } }}

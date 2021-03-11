@@ -172,4 +172,47 @@ describe('POST /api/users', () => {
       },
     });
   });
+
+  it('validates request bodies for missing entity id', async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_ADMIN);
+    await testApiHandler({
+      handler,
+      test: async ({ fetch }) => {
+        const res = await fetch({
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: 'testhospital@example.com',
+            password: 'testhospital',
+            user_type: Roles.USER_TYPE_HOSPITAL,
+          }),
+        });
+        expect(res.status).toBe(422);
+
+        const json = await res.json();
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/users',
+          'post'
+        );
+        expect(validator.validateResponse(422, json)).toEqual(undefined);
+      },
+    });
+  });
+});
+
+describe('Invalid HTTP methods for /api/users', () => {
+  ['DELETE', 'PUT', 'GET'].forEach(methodType => {
+    it(`doesn't allow ${methodType} requests`, async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        test: async ({ fetch }) => {
+          const res = await fetch({ method: methodType });
+          expect(res.status).toBe(405);
+        },
+      });
+    });
+  });
 });

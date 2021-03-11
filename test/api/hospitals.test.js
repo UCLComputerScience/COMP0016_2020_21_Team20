@@ -189,3 +189,19 @@ describe('POST /api/hospitals', () => {
     });
   });
 });
+
+describe('Invalid HTTP methods for /api/hospitals', () => {
+  ['DELETE', 'PUT'].forEach(methodType => {
+    it(`doesn't allow ${methodType} requests`, async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        test: async ({ fetch }) => {
+          const res = await fetch({ method: methodType });
+          expect(res.status).toBe(405);
+        },
+      });
+    });
+  });
+});

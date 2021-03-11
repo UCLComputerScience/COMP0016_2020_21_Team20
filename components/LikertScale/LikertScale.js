@@ -20,9 +20,11 @@ function LikertScale(props) {
     props.onChange(value);
   };
 
+  const id = props.id || 'likert-scale';
+
   return (
     <RadioGroup
-      id={props.id}
+      id={id}
       className={styles.likertScaleWrapper}
       value={value}
       inline
@@ -37,21 +39,11 @@ function LikertScale(props) {
             value={score}
             title={text}>
             {value === score ? (
-              <strong
-                id={
-                  props.id
-                    ? 'q' + props.id.toString() + 'a' + score.toString()
-                    : null
-                }>
+              <strong id={'q' + id.toString() + 'a' + score.toString()}>
                 {text}
               </strong>
             ) : (
-              <text
-                id={
-                  props.id
-                    ? 'q' + props.id.toString() + 'a' + score.toString()
-                    : null
-                }>
+              <text id={'q' + id.toString() + 'a' + score.toString()}>
                 {text}
               </text>
             )}

@@ -4,8 +4,6 @@ import { Progress } from 'rsuite';
 import PropTypes from 'prop-types';
 import styles from './Circle.module.css';
 
-const { Circle: CircleComponent } = Progress;
-
 const Circle = ({ id, name, color, percentage }) => {
   return (
     <div className={styles.circle}>
@@ -14,12 +12,14 @@ const Circle = ({ id, name, color, percentage }) => {
         className={name.length > 10 ? styles.leftOffset : styles.rightOffset}>
         {name}
       </strong>
-      <CircleComponent percent={percentage} strokeColor={color} />
+      <Progress.Circle percent={percentage} strokeColor={color} />
     </div>
   );
 };
 
 Circle.propTypes = {
+  /** The HTML id for the element */
+  id: PropTypes.string.isRequired,
   /** The label (e.g. Standard name) to show for this Circle */
   name: PropTypes.string.isRequired,
   /** The fill color of the circle */

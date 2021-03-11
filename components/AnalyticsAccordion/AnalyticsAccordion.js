@@ -2,29 +2,33 @@ import { Panel, Message } from 'rsuite';
 import styles from './AnalyticsAccordion.module.css';
 import PropTypes from 'prop-types';
 
+// Threshold (hours) for when to alert a user they haven't completed a self-report
+const LAST_SELF_REPORT_CHECK_PERIOD_HOURS = 7 * 24;
+
 export default function AnalyticsAccordion(props) {
   const lastWeek = new Date();
-  //currently cheking if done in the past week, to change to for example past month change 7*24 to 30*24
-  lastWeek.setHours(lastWeek.getHours() - 7 * 24);
+  lastWeek.setHours(lastWeek.getHours() - LAST_SELF_REPORT_CHECK_PERIOD_HOURS);
+
   const showNotDone =
-    props.data &&
-    props.data.filter(d => lastWeek < new Date(d.timestamp)).length === 0;
+    !props.data ||
+    !props.data.filter(d => lastWeek < new Date(d.timestamp)).length;
 
-  const good =
-    props.stats &&
-    props.stats.filter(s => s.percentage >= 75).map(s => s.longName);
+  const goodStandardNames = props.stats
+    ? props.stats.filter(s => s.percentage >= 75).map(s => s.longName)
+    : [];
+
   const goodWord =
-    good && good.length === 0 ? ' this standard' : ' these standards';
+    goodStandardNames.length === 1 ? 'this standard' : 'these standards';
 
-  const neutral =
-    props.stats &&
-    props.stats
-      .filter(s => s.percentage < 75 && s.percentage > 25)
-      .map(s => s.longName);
+  const neutralStandardNames = props.stats
+    ? props.stats
+        .filter(s => s.percentage < 75 && s.percentage > 25)
+        .map(s => s.longName)
+    : [];
 
-  const bad =
-    props.stats &&
-    props.stats.filter(s => s.percentage <= 25).map(s => s.longName);
+  const badStandardNames = props.stats
+    ? props.stats.filter(s => s.percentage <= 25).map(s => s.longName)
+    : [];
 
   return (
     <Panel
@@ -33,65 +37,68 @@ export default function AnalyticsAccordion(props) {
       collapsible
       bordered
       shaded>
-      <div>
-        {(showNotDone || !props.data) && (
-          <Message
-            showIcon
-            type="info"
-            description="You have not completed a self-report in the last week."
-          />
-        )}
-      </div>
-      <div className={styles.spacing}>
-        {good && good.length !== 0 && (
-          <Message
-            type="success"
-            description={
-              <text id="good">
-                It looks like you are happy that a satisfactory standard has
-                been achieved for:{' '}
-                <text style={{ fontWeight: 'bold' }}>{good.join(', ')}</text>.
-                Well done! You are hitting the target for{goodWord}. You can
-                help your colleagues regarding{goodWord}
-                {'.'}
+      {showNotDone && (
+        <Message
+          showIcon
+          type="info"
+          description="You have not completed a self-report in the last week."
+        />
+      )}
+
+      {goodStandardNames.length !== 0 && (
+        <Message
+          className={styles.spacing}
+          type="success"
+          description={
+            <text id="good">
+              It looks like you are happy that a satisfactory standard has been
+              achieved for:{' '}
+              <text style={{ fontWeight: 'bold' }}>
+                {goodStandardNames.join(', ')}
               </text>
-            }
-          />
-        )}
-      </div>
-      <div className={styles.spacing}>
-        {neutral && neutral.length !== 0 && (
-          <Message
-            type="warning"
-            description={
-              <text id="neutral">
-                It looks like there is an opportunity to improve confidence in
-                meeting:{' '}
-                <text style={{ fontWeight: 'bold' }}>{neutral.join(', ')}</text>
-                . You may wish to follow the i link (next to each respective
-                question) to resources that you may find helpful.
+              . Well done! You are hitting the target for {goodWord}. You can
+              help your colleagues regarding {goodWord}.
+            </text>
+          }
+        />
+      )}
+
+      {neutralStandardNames.length !== 0 && (
+        <Message
+          className={styles.spacing}
+          type="warning"
+          description={
+            <text id="neutral">
+              It looks like there is an opportunity to improve confidence in
+              meeting:{' '}
+              <text style={{ fontWeight: 'bold' }}>
+                {neutralStandardNames.join(', ')}
               </text>
-            }
-          />
-        )}
-      </div>
-      <div className={styles.spacing}>
-        {bad && bad.length !== 0 && (
-          <Message
-            type="error"
-            description={
-              <text id="bad">
-                It looks like you are not happy that a satisfactory standard has
-                been achieved for:{' '}
-                <text style={{ fontWeight: 'bold' }}>{bad.join(', ')}</text>.
-                You are strongly advised to further discuss this case with a
-                mentor or colleague to establish what further steps may need to
-                be taken to address this.
+              . You may wish to follow the <i>i</i> link (next to each
+              respective question) to resources that you may find helpful.
+            </text>
+          }
+        />
+      )}
+
+      {badStandardNames.length !== 0 && (
+        <Message
+          className={styles.spacing}
+          type="error"
+          description={
+            <text id="bad">
+              It looks like you are not happy that a satisfactory standard has
+              been achieved for:{' '}
+              <text style={{ fontWeight: 'bold' }}>
+                {badStandardNames.join(', ')}
               </text>
-            }
-          />
-        )}
-      </div>
+              . You are strongly advised to further discuss this case with a
+              mentor or colleague to establish what further steps may need to be
+              taken to address this.
+            </text>
+          }
+        />
+      )}
     </Panel>
   );
 }
