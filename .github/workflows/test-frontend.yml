@@ -1,4 +1,4 @@
-name: Test frontend API
+name: Test frontend components
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
 jobs:
-  test-frontend-api:
+  test-frontend-components:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
