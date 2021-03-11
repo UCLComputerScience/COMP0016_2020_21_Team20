@@ -32,7 +32,7 @@ const options = {
     },
   ],
   callbacks: {
-    jwt: async (token, user, account, profile, isNewUser) => {
+    jwt: async (token, user, account, profile) => {
       if (profile) {
         token.refreshToken = account.refreshToken;
         token.accessToken = account.accessToken;
@@ -51,7 +51,7 @@ const options = {
           'Error fetching user profile, returning null session',
           profile
         );
-        return null;
+        return {};
       }
 
       session.user.roles = profile.roles.filter(r =>
@@ -68,17 +68,17 @@ const options = {
     },
     signIn: async (user, account, profile) => {
       console.log('User attempting log in');
-      return handleUserAttemptLogin(user, account, profile);
+      return await handleUserAttemptLogin(user, account, profile);
     },
   },
   events: {
     signIn: async message => {
       console.log('User logged in successfully');
-      return handleUserSuccessfulLogin(message);
+      return await handleUserSuccessfulLogin(message);
     },
     signOut: async message => {
       console.log('User signing out');
-      return handleUserLogout(message.accessToken, message.refreshToken); // Make sure all their sessions are killed in Keycloak
+      return await handleUserLogout(message.accessToken, message.refreshToken); // Make sure all their sessions are killed in Keycloak
     },
   },
   pages: { error: '/' },
