@@ -98,7 +98,8 @@ function Header({ session, toggleTheme }) {
           <Button
             className={styles.themeToggle}
             appearance="ghost"
-            onClick={toggleTheme}>
+            onClick={toggleTheme}
+            aria-label="toggleTheme">
             <Icon icon="moon-o" />
           </Button>
         </div>

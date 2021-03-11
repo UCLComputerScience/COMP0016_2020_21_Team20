@@ -32,11 +32,12 @@ function App({ Component, pageProps }) {
   const [currentLink, setCurrentLink] = useState(null);
 
   // To ensure the saved mode is displayed on load
-  useEffect(() =>
+  useEffect(() => {
     toggleTheme(
       window.localStorage.getItem('dark') === 'true' ? 'dark' : 'default'
-    )
-  );
+    );
+    document.documentElement.lang = 'en-GB';
+  });
 
   const toggleTheme = theme => {
     if (currentLink && theme === currentLink.dataset.theme) {
@@ -64,7 +65,7 @@ function App({ Component, pageProps }) {
     <Provider session={pageProps.session}>
       <Container>
         <Content style={{ minHeight: 'calc(100vh - 65px)' }}>
-          <Component {...pageProps} toggleTheme={toggleTheme} />
+          <Component {...pageProps} toggleTheme={toggleTheme} lang="en-GB" />
         </Content>
         <Footer />
       </Container>
