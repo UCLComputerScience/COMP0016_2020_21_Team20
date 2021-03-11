@@ -252,19 +252,27 @@ export function Filters({ session, ...props }) {
     </div>
   );
 }
+
 Filters.propTypes = {
+  /** The user's session object to decide what to display */
+  session: PropTypes.object,
+
   /** Controlled value representing the selected date range, with `start` and `end` properties containing Date instances */
   dateRange: PropTypes.object.isRequired,
   /** Controlled value representing if the user has selected mentoring sessions to be shown */
   isMentoringSession: PropTypes.bool,
   /** Controlled value representing which visualisation type the user has selected */
   visualisationType: PropTypes.oneOf(Object.keys(Visualisations)).isRequired,
-  setIsMentoringSession: PropTypes.func,
-  session: PropTypes.object,
-  user: PropTypes.object,
+  /** Controlled value representing if there is any data entity to override */
   dataToDisplayOverride: PropTypes.object,
+
+  /** Callback function to be called when the mentoring session filter is toggled */
+  setIsMentoringSession: PropTypes.func.isRequired,
+  /** Callback function to be called when the overriden group filter is toggled */
   setDataToDisplayOverride: PropTypes.func,
+  /** Callback function to be called when the date range filter is changed */
   setDateRange: PropTypes.func,
+  /** Callback function to be called when the visualisation type filter is toggled */
   setVisualisationType: PropTypes.func,
 };
 

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Alert } from 'rsuite';
 import { getSession } from 'next-auth/client';
 import Head from 'next/head';
+import PropTypes from 'prop-types';
 
 import styles from './statistics.module.css';
 
@@ -218,5 +219,10 @@ function Statistics({ session, toggleTheme }) {
     </div>
   );
 }
+
+Statistics.propTypes = {
+  session: PropTypes.object.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+};
 
 export default Statistics;

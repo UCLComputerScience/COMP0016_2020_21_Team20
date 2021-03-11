@@ -99,8 +99,7 @@ export async function getServerSideProps(context) {
  * @param session the user's session object to decide what to display
  * @param toggleTheme the global function to toggle the current theme
  */
-// eslint-disable-next-line react/prop-types
-export default function Home({ session, toggleTheme }) {
+function Home({ session, toggleTheme }) {
   const router = useRouter();
   const featuresRef = useRef(null);
 
@@ -224,3 +223,10 @@ export default function Home({ session, toggleTheme }) {
     </div>
   );
 }
+
+Home.propTypes = {
+  session: PropTypes.object.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+};
+
+export default Home;
