@@ -82,6 +82,28 @@ Importantly, the grant type must be `authorization_code`, as this is the authent
 
 Including the `roles` scope is useful to determine which users have what roles.
 
+### Authentication workflow
+
+As Keycloak is the central authentication management system for the platform, minimal user information is stored in the `care_quality_dashboard` database itself (only the user IDs and type). Consequently, the system must interact with Keycloak via the [Keycloak Admin REST API](https://www.keycloak.org/docs/latest/server_development/#admin-rest-api) -- all actions that can be performed through the Keycloak Admin Console (UI) can also be performed through this Admin REST API.
+
+The Keycloak Admin REST API should only ever be used when running code on the server-side (i.e. on API routes, not client side). This is because admin credentials are required (they will be in your `.env` file) to generate an admin access token for use in the Admin REST API requests.
+
+The authentication workflow currently looks like:
+
+1. User clicks login button
+2. User enters credentials on Keycloak auth page
+3. User redirected back to app
+4. NextAuth.js `signIn` callback called (see [source](https://github.com/UCLComputerScience/COMP0016_2020_21_Team20/blob/89897c0cdb4c909e16b4103c9578c72e52e84ffd/pages/api/auth/%5B...nextauth%5D.js#L69-L72))
+   This callback checks to see if the user's department is marked as `archived` in the database (if it has been archived/deleted since they last used the platform). If it is, they are redirected to the homepage and a message is shown to them. Their role and department ID are also updated/deleted in Keycloak through its Admin REST API.
+5. NextAuth.js `signIn` event called (see [source](https://github.com/UCLComputerScience/COMP0016_2020_21_Team20/blob/89897c0cdb4c909e16b4103c9578c72e52e84ffd/pages/api/auth/%5B...nextauth%5D.js#L75-L77)).
+   This callback is triggered when the user successfully signs in. This callback ensures that the user's ID and type is stored inside the `care_quality_dashboard` database itself. This is neccessary because user responses etc. are tied to their ID, so they must be present in the database to use the system. In addition, this callback checks to see whether the user's Keycloak roles have been updated since they last logged in -- and then updates the `care_quality_dashboard` database with this information too.
+6. Platform uses `session` object throughout
+   This `session` object is populated through the NextAuth.js `session` callback (see [source](https://github.com/UCLComputerScience/COMP0016_2020_21_Team20/blob/89897c0cdb4c909e16b4103c9578c72e52e84ffd/pages/api/auth/%5B...nextauth%5D.js#L43-L68)), and ensures that the data is up-to-date from Keycloak whenever the `session` object is checked throughout the codebase. Data added here that comes from Keycloak includes `userId`, `departmentId`, `hospitalId`, `healthBoardId`, and the user `roles`.
+7. User signs out
+   NextAuth.js' `signOut` event is triggered (see [source](https://github.com/UCLComputerScience/COMP0016_2020_21_Team20/blob/89897c0cdb4c909e16b4103c9578c72e52e84ffd/pages/api/auth/%5B...nextauth%5D.js#L79-L82)), and the local cookie is deleted. On top of this, the event callback destroys the Keycloak session via the Admin REST API to ensure the user isn't automatically logged back in when they next click 'sign in'.
+
+All the user authentication event-related handlers can be found in [`./lib/handleUserAuthEvents.js`](./lib/handleUserAuthEvents.js).
+
 ## Prisma (database ORM)
 
 All database interactions are performed solely through Prisma, as it provides type enforcement and simplifies the development experience.
