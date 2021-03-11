@@ -259,6 +259,13 @@ Filters.propTypes = {
   isMentoringSession: PropTypes.bool,
   /** Controlled value representing which visualisation type the user has selected */
   visualisationType: PropTypes.oneOf(Object.keys(Visualisations)).isRequired,
+  setIsMentoringSession: PropTypes.func,
+  session: PropTypes.object,
+  user: PropTypes.object,
+  dataToDisplayOverride: PropTypes.object,
+  setDataToDisplayOverride: PropTypes.func,
+  setDateRange: PropTypes.func,
+  setVisualisationType: PropTypes.func,
 };
 
 export default Filters;

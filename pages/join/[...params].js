@@ -1,7 +1,7 @@
 import { Button, Message } from 'rsuite';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
-
+import PropTypes from 'prop-types';
 import { Header, LoginMessage } from '../../components';
 
 import setUserDepartmentAndRole from '../../lib/setUserDepartmentAndRole';
@@ -94,5 +94,11 @@ function Join({ session, ...props }) {
     </div>
   );
 }
+Join.propTypes = {
+  session: PropTypes.object,
+  user: PropTypes.object,
+  invalidCode: PropTypes.bool,
+  success: PropTypes.bool,
+};
 
 export default Join;

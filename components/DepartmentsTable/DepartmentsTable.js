@@ -83,7 +83,7 @@ export default function DepartmentsTable({ host }) {
     if (newDepartmentName === null) {
       setDialogText(
         <div className={styles.alertText}>
-          *Please don&apos;t leave department name blank
+          *Please do not leave department name blank
         </div>
       );
     } else {

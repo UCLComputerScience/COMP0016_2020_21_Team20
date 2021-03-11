@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useRef } from 'react';
+import PropTypes from 'prop-types';
 
 import { Header } from '../components';
 import { Button, Message } from 'rsuite';
@@ -98,6 +99,7 @@ export async function getServerSideProps(context) {
  * @param session the user's session object to decide what to display
  * @param toggleTheme the global function to toggle the current theme
  */
+// eslint-disable-next-line react/prop-types
 export default function Home({ session, toggleTheme }) {
   const router = useRouter();
   const featuresRef = useRef(null);
@@ -170,7 +172,7 @@ export default function Home({ session, toggleTheme }) {
                   Complete your self-reporting on the device of your choice in a
                   matter of minutes. The self-reporting page is clear and simple
                   to use allowing you to efficiently report your recent
-                  experience. Remember to submit as your answers aren't
+                  experience. Remember to submit as your answers are not
                   automatically saved.
                 </p>
               </div>

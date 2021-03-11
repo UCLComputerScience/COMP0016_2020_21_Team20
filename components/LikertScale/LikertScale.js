@@ -57,6 +57,7 @@ function LikertScale(props) {
 LikertScale.propTypes = {
   /** What function a likert scale click triggers */
   onChange: PropTypes.func.isRequired,
+  id: PropTypes.string,
 };
 
 export default LikertScale;
