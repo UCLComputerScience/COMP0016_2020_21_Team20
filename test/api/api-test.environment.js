@@ -35,17 +35,6 @@ class ApiTestEnvironment extends NodeEnvironment {
       await client.query(line);
     }
 
-    // Start auto-incrementing at 1000 (large number) so the hard-coded values
-    // in the tests don't cause conflicts
-    await client.query('ALTER SEQUENCE departments_id_seq RESTART 1000;');
-    await client.query('ALTER SEQUENCE hospitals_id_seq RESTART 1000;');
-    await client.query('ALTER SEQUENCE health_boards_id_seq RESTART 1000;');
-    await client.query('ALTER SEQUENCE questions_id_seq RESTART 1000;');
-    await client.query('ALTER SEQUENCE responses_id_seq RESTART 1000;');
-    await client.query('ALTER SEQUENCE standards_id_seq RESTART 1000;');
-    await client.query('ALTER SEQUENCE words_id_seq RESTART 1000;');
-    await client.end();
-
     await Promise.all([
       prisma.users.create({
         data: {
@@ -156,6 +145,17 @@ class ApiTestEnvironment extends NodeEnvironment {
         })
       ),
     ]);
+
+    // Start auto-incrementing at 1000 (large number) so the hard-coded values
+    // in the tests don't cause conflicts
+    await client.query('ALTER SEQUENCE departments_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE hospitals_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE health_boards_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE questions_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE responses_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE standards_id_seq RESTART 1000;');
+    await client.query('ALTER SEQUENCE words_id_seq RESTART 1000;');
+    await client.end();
   }
 
   async teardown() {
