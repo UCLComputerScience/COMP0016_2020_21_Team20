@@ -208,3 +208,20 @@ describe('DELETE /api/departments/{departmentId}', () => {
     });
   });
 });
+
+describe('Invalid HTTP methods for /api/departments/{id}', () => {
+  ['PUT', 'POST'].forEach(methodType => {
+    it(`doesn't allow ${methodType} requests`, async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        params: { departmentId: 100 },
+        test: async ({ fetch }) => {
+          const res = await fetch({ method: methodType });
+          expect(res.status).toBe(405);
+        },
+      });
+    });
+  });
+});

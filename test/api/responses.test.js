@@ -96,6 +96,45 @@ describe('GET /api/responses', () => {
           },
         },
       });
+
+      await prisma.responses.create({
+        data: {
+          users: { connect: { id: 'clinician' } },
+          is_mentoring_session: true,
+          timestamp: new Date(),
+          departments: { connect: { id: 3 } },
+          scores: {
+            create: [
+              { score: 0, standards: { connect: { id: 1 } } },
+              { score: 1, standards: { connect: { id: 2 } } },
+              { score: 2, standards: { connect: { id: 3 } } },
+              { score: 3, standards: { connect: { id: 4 } } },
+              { score: 4, standards: { connect: { id: 5 } } },
+              { score: 3, standards: { connect: { id: 6 } } },
+              { score: 2, standards: { connect: { id: 7 } } },
+            ],
+          },
+        },
+      });
+      await prisma.responses.create({
+        data: {
+          users: { connect: { id: 'department_manager' } },
+          is_mentoring_session: true,
+          timestamp: new Date(),
+          departments: { connect: { id: 1 } },
+          scores: {
+            create: [
+              { score: 0, standards: { connect: { id: 1 } } },
+              { score: 1, standards: { connect: { id: 2 } } },
+              { score: 2, standards: { connect: { id: 3 } } },
+              { score: 3, standards: { connect: { id: 4 } } },
+              { score: 4, standards: { connect: { id: 5 } } },
+              { score: 3, standards: { connect: { id: 6 } } },
+              { score: 2, standards: { connect: { id: 7 } } },
+            ],
+          },
+        },
+      });
     });
 
     it("returns clinician's own responses", async () => {
@@ -113,7 +152,7 @@ describe('GET /api/responses', () => {
           );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
 
-          expect(json.responses.length).toEqual(2);
+          expect(json.responses.length).toEqual(3);
           expect(json.responses[0].scores.length).toEqual(7);
           expect(json.responses[0].words.length).toEqual(2);
           expect(Object.keys(json.averages).length).toEqual(7);
@@ -180,7 +219,7 @@ describe('GET /api/responses', () => {
             '/responses'
           );
           expect(validator.validateResponse(200, json)).toEqual(undefined);
-          expect(json.responses.length).toEqual(1);
+          expect(json.responses.length).toEqual(2);
         },
       });
     });
@@ -192,6 +231,67 @@ describe('GET /api/responses', () => {
         handler,
         requestPatcher: req =>
           (req.url = '/api/responses?only_not_mentoring_session=1'),
+        test: async ({ fetch }) => {
+          const res = await fetch();
+          expect(res.status).toBe(200);
+
+          const json = await res.json();
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
+          expect(validator.validateResponse(200, json)).toEqual(undefined);
+          expect(json.responses.length).toEqual(1);
+        },
+      });
+    });
+
+    it("obeys 'user_id' filter", async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_DEPARTMENT);
+      await testApiHandler({
+        handler,
+        requestPatcher: req =>
+          (req.url = '/api/responses?user_id=' + Roles.USER_TYPE_DEPARTMENT),
+        test: async ({ fetch }) => {
+          const res = await fetch();
+          expect(res.status).toBe(200);
+
+          const json = await res.json();
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
+          expect(validator.validateResponse(200, json)).toEqual(undefined);
+          expect(json.responses.length).toEqual(1);
+        },
+      });
+    });
+
+    it("obeys 'department_id' filter", async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_HOSPITAL, 2);
+      await testApiHandler({
+        handler,
+        requestPatcher: req => (req.url = '/api/responses?department_id=3'),
+        test: async ({ fetch }) => {
+          const res = await fetch();
+          expect(res.status).toBe(200);
+
+          const json = await res.json();
+          const validator = await helpers.getOpenApiValidatorForRequest(
+            '/responses'
+          );
+          expect(validator.validateResponse(200, json)).toEqual(undefined);
+          expect(json.responses.length).toEqual(1);
+        },
+      });
+    });
+
+    it("obeys 'hospital_id' filter", async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_HEALTH_BOARD, 1);
+      await testApiHandler({
+        handler,
+        requestPatcher: req => (req.url = '/api/responses?hospital_id=2'),
         test: async ({ fetch }) => {
           const res = await fetch();
           expect(res.status).toBe(200);
@@ -266,7 +366,9 @@ describe('GET /api/responses', () => {
               '/responses'
             );
             expect(validator.validateResponse(200, json)).toEqual(undefined);
-            expect(json.responses.length).toEqual(2);
+            expect(json.responses.length).toEqual(
+              userType === Roles.USER_TYPE_HEALTH_BOARD ? 4 : 3
+            );
           },
         });
       });
@@ -279,7 +381,7 @@ describe('GET /api/responses', () => {
     ].forEach(userType => {
       it(`doesn't return responses to ${userType} users who are in a different location`, async () => {
         expect.hasAssertions();
-        helpers.mockSessionWithUserType(userType, 2);
+        helpers.mockSessionWithUserType(userType, 4);
         await testApiHandler({
           handler,
           requestPatcher: req => (req.url = '/api/responses?user_id=clinician'),
@@ -296,6 +398,52 @@ describe('GET /api/responses', () => {
           },
         });
       });
+    });
+
+    [
+      Roles.USER_TYPE_DEPARTMENT,
+      Roles.USER_TYPE_HOSPITAL,
+      Roles.USER_TYPE_HEALTH_BOARD,
+    ].forEach(userType => {
+      it(`doesn't return responses to ${userType} users who have no parent entity ID`, async () => {
+        expect.hasAssertions();
+        helpers.mockSessionWithUserType(userType, null);
+        await testApiHandler({
+          handler,
+          requestPatcher: req => (req.url = '/api/responses?user_id=clinician'),
+          test: async ({ fetch }) => {
+            const res = await fetch();
+            expect(res.status).toBe(200);
+
+            const json = await res.json();
+            const validator = await helpers.getOpenApiValidatorForRequest(
+              '/responses'
+            );
+            expect(validator.validateResponse(200, json)).toEqual(undefined);
+            expect(json.responses.length).toEqual(0);
+          },
+        });
+      });
+    });
+  });
+
+  it(`doesn't return responses to users with no ID`, async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN, null, false);
+    await testApiHandler({
+      handler,
+      requestPatcher: req => (req.url = '/api/responses?user_id=clinician'),
+      test: async ({ fetch }) => {
+        const res = await fetch();
+        expect(res.status).toBe(200);
+
+        const json = await res.json();
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/responses'
+        );
+        expect(validator.validateResponse(200, json)).toEqual(undefined);
+        expect(json.responses.length).toEqual(0);
+      },
     });
   });
 });
@@ -348,6 +496,22 @@ describe('POST /api/responses', () => {
         expect(json.is_mentoring_session).toEqual(true);
         expect(json.department_id).toEqual(1);
       },
+    });
+  });
+});
+
+describe('Invalid HTTP methods for /api/responses', () => {
+  ['DELETE', 'PUT'].forEach(methodType => {
+    it(`doesn't allow ${methodType} requests`, async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        test: async ({ fetch }) => {
+          const res = await fetch({ method: methodType });
+          expect(res.status).toBe(405);
+        },
+      });
     });
   });
 });

@@ -139,3 +139,33 @@ afterAll(() => prisma.$disconnect());
     });
   });
 });
+
+describe('Invalid HTTP methods for /api/join_codes/*', () => {
+  ['DELETE', 'GET', 'POST'].forEach(methodType => {
+    it(`doesn't allow ${methodType} requests`, async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_DEPARTMENT);
+      await testApiHandler({
+        handler,
+        params: { params: ['department_manager', 2] },
+        test: async ({ fetch }) => {
+          const res = await fetch({ method: methodType });
+          expect(res.status).toBe(405);
+        },
+      });
+    });
+  });
+
+  it(`doesn't allow non-existent path requests`, async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_DEPARTMENT);
+    await testApiHandler({
+      handler,
+      params: { params: ['foo', 'bar'] },
+      test: async ({ fetch }) => {
+        const res = await fetch();
+        expect(res.status).toBe(404);
+      },
+    });
+  });
+});

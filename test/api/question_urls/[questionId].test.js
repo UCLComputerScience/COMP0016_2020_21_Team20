@@ -106,6 +106,29 @@ describe('PUT /api/question_urls/{id}', () => {
     });
   });
 
+  it('validates request paths', async () => {
+    expect.hasAssertions();
+    helpers.mockSessionWithUserType(Roles.USER_TYPE_DEPARTMENT);
+    await testApiHandler({
+      handler,
+      params: { questionId: 'foo' },
+      test: async ({ fetch }) => {
+        const res = await fetch({
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        expect(res.status).toBe(422);
+
+        const json = await res.json();
+        const validator = await helpers.getOpenApiValidatorForRequest(
+          '/question_urls/{id}',
+          'put'
+        );
+        expect(validator.validateResponse(422, json)).toEqual(undefined);
+      },
+    });
+  });
+
   it('validates request bodies', async () => {
     expect.hasAssertions();
     helpers.mockSessionWithUserType(Roles.USER_TYPE_DEPARTMENT);
@@ -197,6 +220,23 @@ describe('DELETE /api/question_urls/{id}', () => {
         });
         expect(newUrl).toBe(null);
       },
+    });
+  });
+});
+
+describe('Invalid HTTP methods for /api/question_urls/{id}', () => {
+  ['GET', 'POST'].forEach(methodType => {
+    it(`doesn't allow ${methodType} requests`, async () => {
+      expect.hasAssertions();
+      helpers.mockSessionWithUserType(Roles.USER_TYPE_CLINICIAN);
+      await testApiHandler({
+        handler,
+        params: { questionId: 100 },
+        test: async ({ fetch }) => {
+          const res = await fetch({ method: methodType });
+          expect(res.status).toBe(405);
+        },
+      });
     });
   });
 });
