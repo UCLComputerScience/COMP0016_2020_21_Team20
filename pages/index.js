@@ -164,6 +164,7 @@ export default function Home({ session, toggleTheme }) {
               <div className={styles.feature}>
                 <img
                   src="/images/icons8-todo-list-96.png"
+                  alt="Self-report icon"
                   width={96}
                   height={96}
                 />
@@ -178,6 +179,7 @@ export default function Home({ session, toggleTheme }) {
               <div className={styles.feature}>
                 <img
                   src="/images/icons8-combo-chart-96.png"
+                  alt="Statistics graph icon"
                   width={96}
                   height={96}
                 />
@@ -192,6 +194,7 @@ export default function Home({ session, toggleTheme }) {
               <div className={styles.feature}>
                 <img
                   src="/images/icons8-people-96.png"
+                  alt="Mentoring people icon"
                   width={96}
                   height={96}
                 />
