@@ -146,6 +146,8 @@ export function Filters({ session, ...props }) {
         <>
           <p>Group</p>
           <SelectPicker
+            aria-label="group"
+            aria-expanded="false"
             value={props.dataToDisplayOverride ? 'myself' : 'department'}
             onChange={value =>
               props.setDataToDisplayOverride(
@@ -186,6 +188,8 @@ export function Filters({ session, ...props }) {
     <div>
       <p>Date Range</p>
       <DateRangePicker
+        aria-label="dateRange"
+        aria-expanded="false"
         showOneCalendar
         onChange={([start, end]) => props.setDateRange({ start, end })}
         value={[props.dateRange.start, props.dateRange.end]}
@@ -202,6 +206,8 @@ export function Filters({ session, ...props }) {
 
       <p>Visualisation</p>
       <SelectPicker
+        aria-label="visualisation"
+        aria-expanded="false"
         value={props.visualisationType}
         onChange={value => props.setVisualisationType(value)}
         searchable={false}
@@ -226,6 +232,8 @@ export function Filters({ session, ...props }) {
 
       <p>Mentoring?</p>
       <SelectPicker
+        aria-label="mentoring"
+        aria-expanded="false"
         value={getMentoringValue()}
         onChange={value => {
           if (value === 'yes') props.setIsMentoringSession(true);

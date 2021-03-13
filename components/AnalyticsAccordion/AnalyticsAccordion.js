@@ -32,6 +32,7 @@ export default function AnalyticsAccordion(props) {
 
   return (
     <Panel
+      aria-label="analyticsAccordion"
       className={styles.analytics}
       header={<text id="analytics">Personal Analytics</text>}
       collapsible

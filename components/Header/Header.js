@@ -32,9 +32,11 @@ function Header({ session, toggleTheme }) {
 
     return userPaths.map((path, i) => (
       <Link key={i} href={'/'.concat(path)}>
-        <Nav.Item id={path} active={router.pathname === `/${path}`}>
-          {path}
-        </Nav.Item>
+        <ul className={styles.list}>
+          <Nav.Item id={path} active={router.pathname === `/${path}`}>
+            {path}
+          </Nav.Item>
+        </ul>
       </Link>
     ));
   };
@@ -61,9 +63,11 @@ function Header({ session, toggleTheme }) {
   return (
     <nav className={`${styles.header} rs-nav rs-nav-horizontal`}>
       <Link href="/">
-        <Nav.Item className={styles.logoWrapper}>
-          <span className={styles.logo}>CQ Dashboard</span>
-        </Nav.Item>
+        <ul className={styles.list}>
+          <Nav.Item className={styles.logoWrapper}>
+            <span className={styles.logo}>CQ Dashboard</span>
+          </Nav.Item>
+        </ul>
       </Link>
       {session && (
         <Icon
@@ -76,17 +80,19 @@ function Header({ session, toggleTheme }) {
         ref={mobileMenuRef}
         className={`${styles.links} ${isOpen ? styles.open : ''}`}>
         {session && renderLinks()}
-        <Nav.Item
-          onClick={() =>
-            window &&
-            window.open(
-              'https://liveuclac-my.sharepoint.com/:w:/g/personal/zcabmzi_ucl_ac_uk/EXJNiRz5slBPv0KfCFdaep4BEiiZumxu2SwkeFsuEx_RGg?e=cYTzgn',
-              '_blank',
-              'fullscreen=yes'
-            )
-          }>
-          help
-        </Nav.Item>
+        <ul className={styles.list}>
+          <Nav.Item
+            onClick={() =>
+              window &&
+              window.open(
+                'https://liveuclac-my.sharepoint.com/:w:/g/personal/zcabmzi_ucl_ac_uk/EXJNiRz5slBPv0KfCFdaep4BEiiZumxu2SwkeFsuEx_RGg?e=cYTzgn',
+                '_blank',
+                'fullscreen=yes'
+              )
+            }>
+            help
+          </Nav.Item>
+        </ul>
         <div className={styles.profile}>
           {session ? (
             <ProfileButton session={session} />
@@ -107,12 +113,5 @@ function Header({ session, toggleTheme }) {
     </nav>
   );
 }
-
-Header.propTypes = {
-  /** The session of the users webpage, used determine whether to show a LeaveDeptButton and what tabs to show (if any)*/
-  session: PropTypes.object,
-  /** The function which toggles the theme on the platform*/
-  toggleTheme: PropTypes.func.isRequired,
-};
 
 export default Header;

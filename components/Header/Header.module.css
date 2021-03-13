@@ -72,3 +72,10 @@
     display: none;
   }
 }
+
+.list {
+  display: inline !important;
+  list-style: none !important;
+  padding: 0;
+  margin: 0;
+}

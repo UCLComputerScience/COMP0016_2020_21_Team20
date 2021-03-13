@@ -117,7 +117,7 @@ export default function DepartmentsTable({ host }) {
           <Button
             appearance="primary"
             onClick={() => Alert.info('Copied', 5000)}>
-            <Icon id={'copy' + i} icon="clone" />
+            <Icon aria-label={'copy' + i} id={'copy' + i} icon="clone" />
           </Button>
         </CopyToClipboard>
         <Button
