@@ -188,7 +188,7 @@ export function Filters({ session, ...props }) {
     <div>
       <p>Date Range</p>
       <DateRangePicker
-        aria-label="dateRange"
+        aria-label="Date Range"
         aria-expanded="false"
         showOneCalendar
         onChange={([start, end]) => props.setDateRange({ start, end })}
@@ -206,7 +206,7 @@ export function Filters({ session, ...props }) {
 
       <p>Visualisation</p>
       <SelectPicker
-        aria-label="visualisation"
+        aria-label="Visualisation type filter"
         aria-expanded="false"
         value={props.visualisationType}
         onChange={value => props.setVisualisationType(value)}
@@ -232,7 +232,7 @@ export function Filters({ session, ...props }) {
 
       <p>Mentoring?</p>
       <SelectPicker
-        aria-label="mentoring"
+        aria-label="Mentoring session filter"
         aria-expanded="false"
         value={getMentoringValue()}
         onChange={value => {
