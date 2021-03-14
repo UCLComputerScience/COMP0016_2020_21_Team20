@@ -8,9 +8,8 @@ export default function CirclesAccordion(props) {
   return (
     <Panel
       aria-label="Quick Summary"
-      id="summary"
       className={styles.circles}
-      header="Quick Summary"
+      header={<text id="summary">Quick Summary</text>}
       collapsible
       bordered
       shaded>
