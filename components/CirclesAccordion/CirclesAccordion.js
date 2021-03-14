@@ -7,6 +7,7 @@ import { Circle } from '..';
 export default function CirclesAccordion(props) {
   return (
     <Panel
+      aria-label="Quick Summary"
       className={styles.circles}
       header={<text id="summary">Quick Summary</text>}
       collapsible

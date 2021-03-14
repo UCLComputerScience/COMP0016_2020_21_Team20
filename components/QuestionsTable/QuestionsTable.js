@@ -197,12 +197,14 @@ export default function QuestionsTable() {
       return (
         <div className={styles.actionButtons}>
           <Button
+            aria-label={'Save'}
             id={'saveEdit' + i}
             appearance="primary"
             onClick={() => updateQuestion()}>
             <Icon icon="save" />
           </Button>
           <Button
+            aria-label={'Cancel'}
             color="red"
             onClick={() => {
               // No row is being edited so reset this value
@@ -219,6 +221,7 @@ export default function QuestionsTable() {
       return (
         <div className={styles.actionButtons}>
           <Button
+            aria-label={'Edit Question'}
             id={'edit' + i}
             appearance="primary"
             onClick={() => setEditing(i)}>

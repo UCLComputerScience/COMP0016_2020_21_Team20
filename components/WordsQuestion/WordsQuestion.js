@@ -20,14 +20,21 @@ function WordsQuestion(props) {
       else if (i === 2) setter = setWord3;
 
       inputs.push(
-        <AutoComplete
-          id={'wq' + props.questionNumber.toString() + 'i' + i.toString()}
-          data={props.suggestedWords}
-          size="lg"
-          className={styles.input}
-          key={i}
-          onChange={value => setter(value)}
-        />
+        <div>
+          <AutoComplete
+            id={'wq' + props.questionNumber.toString() + 'i' + i.toString()}
+            data={props.suggestedWords}
+            size="lg"
+            className={styles.input}
+            key={i}
+            onChange={value => setter(value)}
+          />
+          <label
+            className={styles.hidden}
+            for={'wq' + props.questionNumber.toString() + 'i' + i.toString()}>
+            {'Enter a word (optional)'}
+          </label>
+        </div>
       );
     }
     return inputs;

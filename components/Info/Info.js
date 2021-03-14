@@ -11,6 +11,7 @@ function Info(props) {
       target="_blank"
       rel="noopener noreferrer">
       <Icon size="lg" icon="info" />
+      <text className={styles.hidden}>{props.url}</text>
     </a>
   );
 }

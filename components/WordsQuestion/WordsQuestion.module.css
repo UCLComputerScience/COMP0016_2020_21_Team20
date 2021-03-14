@@ -27,3 +27,7 @@
   font-style: italic;
   margin-bottom: 5px;
 }
+
+.hidden {
+  font-size: 0;
+}
