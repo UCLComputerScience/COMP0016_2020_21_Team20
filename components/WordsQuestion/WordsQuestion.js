@@ -32,10 +32,7 @@ function WordsQuestion(props) {
           <label
             className={styles.hidden}
             for={'wq' + props.questionNumber.toString() + 'i' + i.toString()}>
-            {'word question ' +
-              props.questionNumber.toString() +
-              ' input ' +
-              i.toString()}
+            {'Enter a word (optional)'}
           </label>
         </div>
       );

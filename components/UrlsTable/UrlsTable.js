@@ -116,14 +116,14 @@ export default function UrlsTable({ session, host }) {
       return (
         <div className={styles.actionButtons}>
           <Button
-            aria-label={'saveEdit' + i}
+            aria-label={'Save'}
             id={'saveEdit' + i}
             appearance="primary"
             onClick={() => updateUrl()}>
             <Icon icon="save" />
           </Button>
           <Button
-            aria-label={'cancelEdit' + i}
+            aria-label={'Cancel'}
             color="red"
             onClick={() => {
               //no row is being edited so reset this value
@@ -140,7 +140,7 @@ export default function UrlsTable({ session, host }) {
       return (
         <div className={styles.actionButtons}>
           <Button
-            aria-label={'edit' + i}
+            aria-label={'Edit URL'}
             id={'edit' + i}
             appearance="primary"
             onClick={() => setEditing(i)}>
