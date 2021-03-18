@@ -184,6 +184,7 @@ class PuppeteerTestEnvironment extends NodeEnvironment {
       this.global.browser = await puppeteer.launch({
         defaultViewport: { width: 1920, height: 1500 },
         timeout: 10000,
+        headless: false,
         // Note that (at the moment) firefox nightly must be manually installed to this
         // location for this to work
         executablePath: '/usr/bin/firefox-trunk',
