@@ -1,4 +1,4 @@
-name: Test entire platform (end-to-end)
+name: Test entire platform on Chrome (end-to-end)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
 jobs:
-  test-end-to-end:
+  test-end-to-end-chrome:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -13,8 +13,6 @@ export async function signOutToHomepage() {
   await expect(page).toClick('a', { text: 'Your account' });
   await expect(page).toClick('a', { text: 'Sign out' });
   await page.waitForNavigation();
-  await expect(page).toClick('a', { text: 'CQ Dashboard' });
-  await page.waitForNavigation();
 }
 
 const { likertScaleQuestions } = require('../../seedData');
