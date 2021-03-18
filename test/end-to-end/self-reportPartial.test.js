@@ -25,6 +25,6 @@ describe('Partially filling in self report', () => {
 
   it('Submits and shows incomplete message', async () => {
     await expect(page).toClick('#submit');
-    await page.evaluate(() => document.querySelector('#incomplete'));
+    await expect(page).toMatchElement('#incomplete');
   });
 });

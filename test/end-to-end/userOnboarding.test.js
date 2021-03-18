@@ -42,10 +42,11 @@ describe('Logging in', () => {
     await expect(page).toClick('a', { text: 'Your account' });
     await expect(page).toClick('a', { text: 'Account settings' });
     await page.waitForTimeout(1000);
-    let pages = await browser.pages();
-    const accountPage = pages.find(
-      p => !p.url().includes(process.env.BASE_URL)
-    );
+
+    const pages = await browser.pages();
+    expect(pages.length).toBe(2);
+
+    const accountPage = pages[1];
     expect(
       await accountPage.evaluate(() => {
         return (
