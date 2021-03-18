@@ -12,19 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1 # Install dependencies, with cache
-      - name: Create .env file
-        run: |
-          touch .env.test
-          echo DATABASE_URL="postgresql://test:test@localhost:5432/test" >> .env.test
-          echo NEXTAUTH_URL="http://localhost:3000" >> .env.test
-          echo KEYCLOAK_USER=admin >> .env.test
-          echo KEYCLOAK_PASSWORD=admin >> .env.test
-          echo KEYCLOAK_REALM_NAME=test >> .env.test
-          echo BASE_KEYCLOAK_ADMIN_URL="http://localhost:8080/auth" >> .env.test
-          echo BASE_KEYCLOAK_CLIENT_URL="http://localhost:8080/auth" >> .env.test
-          echo NEXT_PUBLIC_KEYCLOAK_USER_ACCOUNT_MANAGE_URL=$BASE_KEYCLOAK_CLIENT_URL/realms/$KEYCLOAK_REALM_NAME/account >> .env.test
-          echo CLIENT_ID=test_web >> .env.test
-          echo NEXTAUTH_URL="http://localhost:3000" >> .env.test
       - name: Start Docker containers
         run: docker-compose -f docker-compose-e2e-test.yml up -d
       - name: Install Firefox Nightly & XVFB

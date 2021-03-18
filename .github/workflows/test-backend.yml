@@ -12,11 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1 # Install dependencies, with cache
-      - name: Create .env file
-        run: |
-          touch .env.test
-          echo DATABASE_URL="postgresql://test:test@localhost:5432/test" >> .env.test
-          echo NEXTAUTH_URL="http://localhost:3000" >> .env.test
       - name: Start Docker containers
         run: docker-compose -f docker-compose-test.yml up -d
       - name: Test
