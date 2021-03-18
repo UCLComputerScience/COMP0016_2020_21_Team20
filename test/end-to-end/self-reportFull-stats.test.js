@@ -75,7 +75,8 @@ describe('Fully filling in self report', () => {
   it('Displays response in word cloud', async () => {
     await expect(page).toClick('#lineChart');
     await page.waitForTimeout(100);
-    await expect(page).toClick('text', { text: 'Enablers Word Cloud' });
+    await page.waitForSelector('#enablersWords');
+    await expect(page).toClick('#enablersWords');
 
     await page.waitForSelector('#wordGraphic', { visible: true });
     await new Promise(r => setTimeout(r, 500));
