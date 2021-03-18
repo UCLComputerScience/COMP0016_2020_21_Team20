@@ -10,7 +10,7 @@ describe('Fully filling in self report', () => {
       password: 'clinician',
     });
     await expect(page).toClick('#self-reporting');
-    await page.waitForNavigation();
+    await page.waitForSelector('#submit');
   });
 
   it('Fills and submits form', async () => {
@@ -31,7 +31,7 @@ describe('Fully filling in self report', () => {
 
     await expect(page).toClick('#submit');
     await page.evaluate(() => document.querySelector('#confirm').click());
-    await page.waitForNavigation();
+    await page.waitForTimeout(500);
   });
 
   it('Displays response in circles', async () => {

@@ -9,7 +9,10 @@ describe('Managing departments', () => {
       password: 'hospital',
     });
     await expect(page).toClick('#manage');
-    await page.waitForNavigation();
+    await page.waitForTimeout(100);
+    await expect(page).toMatchElement('h3', {
+      text: 'Manage and add new departments',
+    });
   });
 
   it('Adds department', async () => {

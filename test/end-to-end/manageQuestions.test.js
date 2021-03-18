@@ -12,7 +12,10 @@ describe('Managing questions', () => {
       password: 'admin',
     });
     await expect(page).toClick('#admin');
-    await page.waitForNavigation();
+    await expect(page).toMatchElement('h3', {
+      text: 'Manage and add new questions',
+      polling: 'mutation',
+    });
   });
 
   it('Edits question to test question', async () => {
@@ -32,7 +35,9 @@ describe('Managing questions', () => {
     await page.waitForSelector('#bodyText', { visible: true });
     await expect(page).toFill('#bodyText', newTestQuestion);
     await expect(page).toClick('#chooseStandard');
+    await page.waitForTimeout(100);
     await expect(page).toClick('#standard1');
+    await page.waitForTimeout(100);
     await expect(page).toFill('#urlText', testUrl);
     await expect(page).toClick('#addQuestion');
 
@@ -48,7 +53,7 @@ describe('Managing questions', () => {
       password: 'clinician',
     });
     await expect(page).toClick('#self-reporting');
-    await page.waitForNavigation();
+    await page.waitForSelector('#submit');
   });
 
   it('Checks test question body is there', async () => {

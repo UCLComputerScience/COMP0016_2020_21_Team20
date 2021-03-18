@@ -10,7 +10,10 @@ describe('Managing Urls', () => {
       password: 'department',
     });
     await expect(page).toClick('#manage');
-    await page.waitForNavigation();
+    await page.waitForTimeout(100);
+    await expect(page).toMatchElement('h3', {
+      text: 'Manage the URLs of each question',
+    });
   });
 
   it('Edits to test URL', async () => {
@@ -25,7 +28,7 @@ describe('Managing Urls', () => {
 
   it('Goes to self-report tab to check test url is there', async () => {
     await expect(page).toClick('#self-reporting');
-    await page.waitForNavigation();
+    await page.waitForSelector('#submit');
 
     const links = await page.$$eval('a', el =>
       el.map(x => x.getAttribute('href'))
@@ -36,7 +39,10 @@ describe('Managing Urls', () => {
 
   it('Goes to manage tab and sets a Url to default', async () => {
     await expect(page).toClick('#manage');
-    await page.waitForNavigation();
+    await page.waitForTimeout(100);
+    await expect(page).toMatchElement('h3', {
+      text: 'Manage the URLs of each question',
+    });
 
     await page.waitForSelector('#setDefault0', { visible: true });
     await page.evaluate(() => document.querySelector('#setDefault0').click());

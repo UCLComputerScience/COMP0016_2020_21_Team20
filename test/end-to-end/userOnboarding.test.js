@@ -1,4 +1,4 @@
-import { logInAs, signOutToHomepage } from './e2e-helper';
+import { logInAs } from './e2e-helper';
 
 const testEmail = 'test@example.com';
 const testPassword = 'test';
@@ -7,9 +7,9 @@ describe('Logging in', () => {
 
   it('Registers as test user', async () => {
     await expect(page).toClick('a', { text: 'Log in' });
-    await page.waitForNavigation();
+    await page.waitForSelector('#kc-form-login');
     await expect(page).toClick('a', { text: 'Register' });
-    await page.waitForNavigation();
+    await page.waitForSelector('#kc-register-form');
     await expect(page).toFillForm('#kc-register-form', {
       email: testEmail,
       password: testPassword,
@@ -18,7 +18,8 @@ describe('Logging in', () => {
     await expect(page).toClick(
       'input.pf-c-button.pf-m-primary.pf-m-block.btn-lg'
     );
-    await page.waitForNavigation();
+    await page.waitForTimeout(500);
+    await expect(page).toClick('a', { text: 'Your account' });
   });
 
   it('Uses join code', async () => {

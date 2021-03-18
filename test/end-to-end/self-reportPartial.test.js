@@ -10,7 +10,7 @@ describe('Partially filling in self report', () => {
       password: 'clinician',
     });
     await expect(page).toClick('#self-reporting');
-    await page.waitForNavigation();
+    await page.waitForSelector('#submit');
   });
 
   it('Fills form partially', async () => {
