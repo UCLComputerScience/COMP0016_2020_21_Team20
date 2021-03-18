@@ -29,10 +29,14 @@ describe('Managing departments', () => {
     await page.waitForTimeout(1000);
 
     // Override the window.confirm function to always return true, to confirm the dialog in next step
-    await page.evaluate(`window.confirm = () => true`);
+    await page.evaluate(() => {
+      window.confirm = function () {
+        return true;
+      };
+    });
 
     // Delete 3rd (index starts at 0) as there are already 2 other departments in test environment
-    await page.evaluate(() => document.querySelector('#delete2').click());
+    await expect(page).toClick('#delete2');
     await expect(page).toMatchElement('div', {
       text: 'Department successfully deleted',
     });

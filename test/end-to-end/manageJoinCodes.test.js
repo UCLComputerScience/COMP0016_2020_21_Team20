@@ -3,11 +3,15 @@ import { logInAs } from './e2e-helper';
 describe('Managing join codes', () => {
   beforeAll(async () => {
     await page.goto(process.env.BASE_URL);
-    const context = await browser.defaultBrowserContext();
-    await context.overridePermissions(process.env.BASE_URL, [
-      'clipboard-write',
-      'clipboard-read',
-    ]);
+
+    // Puppeteer Firefox doesn't support overriding permissions yet
+    if (!process.env.TEST_FIREFOX) {
+      const context = await browser.defaultBrowserContext();
+      await context.overridePermissions(process.env.BASE_URL, [
+        'clipboard-write',
+        'clipboard-read',
+      ]);
+    }
   });
 
   it('Logs in and goes to manage tab', async () => {
@@ -24,21 +28,26 @@ describe('Managing join codes', () => {
 
   it('Copies join URL', async () => {
     await expect(page).toClick('#copy0');
-    const copiedText = await page.evaluate(
-      `(async () => await navigator.clipboard.readText())()`
-    );
-
     await expect(page).toMatchElement('div', {
       text: 'Copied',
     });
-    expect(copiedText).toMatch('/join/department_manager');
+
+    if (!process.env.TEST_FIREFOX) {
+      const copiedText = await page.evaluate(
+        `(async () => await navigator.clipboard.readText())()`
+      );
+      expect(copiedText).toMatch('/join/department_manager');
+    }
   });
 
   it('Regenerates URL', async () => {
-    await expect(page).toClick('#copy0');
-    const before = await page.evaluate(
-      `(async () => await navigator.clipboard.readText())()`
-    );
+    let before;
+    if (!process.env.TEST_FIREFOX) {
+      await expect(page).toClick('#copy0');
+      before = await page.evaluate(
+        `(async () => await navigator.clipboard.readText())()`
+      );
+    }
 
     await page.evaluate(() => document.querySelector('#regenerate0').click());
 
@@ -46,10 +55,13 @@ describe('Managing join codes', () => {
       text: 'Join URL updated',
     });
     await expect(page).toClick('#copy0');
-    const after = await page.evaluate(
-      `(async () => await navigator.clipboard.readText())()`
-    );
 
-    expect(after).not.toEqual(before);
+    if (!process.env.TEST_FIREFOX) {
+      const after = await page.evaluate(
+        `(async () => await navigator.clipboard.readText())()`
+      );
+
+      expect(after).not.toEqual(before);
+    }
   });
 });

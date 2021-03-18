@@ -28,6 +28,7 @@ describe('Logging in', () => {
     );
     await expect(page).toMatchElement('#joinSuccess');
     await expect(page).toClick('#goToHomepage');
+    await page.waitForTimeout(500);
   });
 
   it('Verfies now a department user', async () => {
@@ -40,12 +41,25 @@ describe('Logging in', () => {
   it('Goes to account settings', async () => {
     await expect(page).toClick('a', { text: 'Your account' });
     await expect(page).toClick('a', { text: 'Account settings' });
+    await page.waitForTimeout(1000);
     let pages = await browser.pages();
-    await pages[1].evaluate(() => {
-      document.body.contains(document.getElementById('#landingWelcomeMessage'));
-      document.body.contains(document.getElementById('#landing-personal-info'));
-      document.body.contains(document.getElementById('#landing-security'));
-    });
+    const accountPage = pages.find(
+      p => !p.url().includes(process.env.BASE_URL)
+    );
+    expect(
+      await accountPage.evaluate(() => {
+        return (
+          document.body.contains(
+            document.getElementById('landingWelcomeMessage')
+          ) &&
+          document.body.contains(
+            document.getElementById('landing-personal-info')
+          ) &&
+          document.body.contains(document.getElementById('landing-security'))
+        );
+      })
+    ).toBe(true);
+    await accountPage.close();
   });
 
   it('Leaves department', async () => {

@@ -6,7 +6,7 @@ export async function logInAs(props) {
     password: props.password,
   });
   await expect(page).toClick('input#kc-login');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(1000);
 }
 
 export async function signOutToHomepage() {
