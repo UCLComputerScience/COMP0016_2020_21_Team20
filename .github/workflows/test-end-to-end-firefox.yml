@@ -1,0 +1,23 @@
+name: Test entire platform on Firefox (end-to-end)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  test-end-to-end-firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1 # Install dependencies, with cache
+      - name: Start Docker containers
+        run: docker-compose -f docker-compose-e2e-test.yml up -d
+      - name: Install Firefox Nightly & XVFB
+        run: |
+          sudo add-apt-repository ppa:ubuntu-mozilla-daily/ppa -y
+          sudo apt update -y
+          sudo apt install firefox-trunk xvfb -y
+      - name: Test
+        run: TEST_FIREFOX=1 xvfb-run npm run test:e2e

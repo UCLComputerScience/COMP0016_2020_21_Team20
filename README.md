@@ -146,7 +146,7 @@ To create users (e.g. to make some test users to play around with locally), use 
 
    <img width="70%" alt="Edit password screen" src="./docs/new-user-attributes.png" />
 
-## Database
+### Database
 
 We use [Prisma](https://www.prisma.io/) as an ORM to interact with a [PostgreSQL database](http://postgresql.org/).
 
@@ -187,3 +187,62 @@ npx prisma migrate dev --preview-feature
 to apply the migrations on your local database!
 
 See the [Prisma docs](https://www.prisma.io/docs/) for more detailed information and the API reference.
+
+## Testing
+
+This project uses [Jest](https://jestjs.io/) as the test framework for all tests.
+
+There are currently 3 types of test suites:
+
+- Frontend Component Unit Tests
+- Backend REST API Integration Tests
+- Entire System End-to-End (E2E) Tests (and Compatibility Testing)
+
+These are described below in more detail.
+
+### Frontend Component Unit Tests
+
+These tests use [Enzyme](https://enzymejs.github.io/enzyme/) to test individual components in the [`./components`](./components) folder. Each test should be as small as possible, and should check that the components mount, and perform as required.
+
+Some components will use the API, so this isn't tested in these tests.
+
+These tests should be added within each component's directory, in the format `ComponentName.test.js`. See any of the existing tests in the `components` folder for examples.
+
+See the GitHub Actions CI workflow for running these tests: [`./.github/workflows/test-frontend.yml`](./.github/workflows/test-frontend.yml).
+
+**To perform these tests, run `npm run test:frontend`**.
+
+### Backend REST API Integration Tests
+
+These tests use a custom Jest Test enviroment found at [`./test/api/api-test.environment.js`](./test/api/api-test.environment.js) to test each REST API endpoint from the [`./pages/api`](./pages/api) directory.
+
+The custom Jest Test environment performs essential setup tasks (destroying and recreating the database schema, seeding initial basic data to it), and teardown tasks (destroying the database schema), so that each test suite (file) runs in it's own environment, meaning the database data is 'fresh' each time.
+
+These tests should be checking that the integration all the way from the network-level to the database-level is working correctly, so will probably use Prisma in the tests to ensure the database is being modified correctly.
+
+Each test file should correspond to a Next.js API Route file in that directory, and should be added to the [`./test/api`](./test/api) directory, in the format `endpoint_file_name.test.js`. See any of the existing tests in the `test/api` folder for examples.
+
+Note that there are some helper functions defined in [`./test/api/helpers.js`](./test/api/helpers.js) to allow for e.g. simple session mocking, which is required in most tests. To mock a session, import the `helpers` file and call e.g. `helpers.mockSessionWithUserType(Roles.USER_TYPE_ADMIN);` in a test. You'll need to use the `Roles` constant exported from [`./lib/constants.js`](./lib/constants.js).
+
+See the GitHub Actions CI workflow for running these tests: [`./.github/workflows/test-backend.yml`](./.github/workflows/test-backend.yml).
+
+**To perform these tests, run `npm run test:backend`**.
+
+### Entire System End-to-End (E2E) Tests (and Compatibility Testing)
+
+These tests also use a custom Jest Test environment found at [`./test/end-to-end/e2e-test.environment.js`](./test/end-to-end/e2e-test.enviroment.js) to test the entire platform as a whole, using a headless browser.
+
+The custom Jest Test enviroment performs essential setup tasks (destroying and recreating the database schema, starting a local server, seeding inital basic data to it, recreating the Keycloak realm, creating initial Keycloak users, spawning a headless browser instance) and teardown tasks (destroying the database schema and Keycloak realm, killing the browser instance), so that each test suite (file) runs it's own enviroment, meaning the database and Keycloak data is 'fresh' each time.
+
+These tests should be checking for each specific feature of the platform, with each test file devoted to testing a specific feature/task (e.g. performing a self-report). They should use [Puppeteer](https://github.com/puppeteer/puppeteer), a Headless Chrome Node.js API, which also has experimental support for programatically controlling Firefox.
+
+Each test file should be added to the [`./test/end-to-end`](./test/end-to-end) directory, in the format `featureName.test.js`. See any of the existing tests in the `test/end-to-end` folder for examples.
+
+Note that many of these tests use [`expect-puppeteer`](https://github.com/smooth-code/jest-puppeteer/tree/master/packages/expect-puppeteer) to provide helper functions that ease the testing experience for developers.
+
+The GitHub Actions CI has the following 2 workflows configured to automatically test the suite on Chrome and Firefox, to provide a form of Compatibility Testing, as these are the two most common desktop browsers:
+
+- [`./.github/workflows/test-end-to-end-chrome.yml`](./.github/workflows/test-end-to-end-chrome.yml) -- to test on Chrome
+- [`./.github/workflows/test-end-to-end-firefox.yml`](./.github/workflows/test-end-to-end-firefox.yml) -- to test on Firefox
+
+**To perform these tests, run `npm run test:e2e`**. The Next.js site will be automatically built for production before running this command.

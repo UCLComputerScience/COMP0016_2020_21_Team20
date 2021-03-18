@@ -10,7 +10,7 @@ describe('Fully filling in self report', () => {
       password: 'clinician',
     });
     await expect(page).toClick('#self-reporting');
-    await page.waitForNavigation();
+    await page.waitForSelector('#submit');
   });
 
   it('Fills and submits form', async () => {
@@ -30,11 +30,17 @@ describe('Fully filling in self report', () => {
     }
 
     await expect(page).toClick('#submit');
-    await page.evaluate(() => document.querySelector('#confirm').click());
-    await page.waitForNavigation();
+    await page.waitForTimeout(200);
+    await page.evaluate(() => {
+      document.getElementById('confirm').click();
+    });
   });
 
   it('Displays response in circles', async () => {
+    // Confusing FF Puppeteer bug causes selectors to stop working when trying to
+    // waitForSelector/waitForTimeout/anything really so need this
+    await page.goto(process.env.BASE_URL + '/statistics');
+    await expect(page).toMatchElement('text', { text: 'Quick Summary' });
     await expect(page).toClick('#summary');
 
     //wait for circles to load
@@ -48,6 +54,10 @@ describe('Fully filling in self report', () => {
   });
 
   it('Displays response in analytics', async () => {
+    // Confusing FF Puppeteer bug causes selectors to stop working when trying to
+    // waitForSelector/waitForTimeout/anything really so need this
+    await page.goto(process.env.BASE_URL + '/statistics');
+    await expect(page).toMatchElement('text', { text: 'Personal Analytics' });
     await expect(page).toClick('#analytics');
 
     //wait for analytics to load
@@ -64,7 +74,9 @@ describe('Fully filling in self report', () => {
 
   it('Displays response in word cloud', async () => {
     await expect(page).toClick('#lineChart');
-    await expect(page).toClick('text', { text: 'Enablers Word Cloud' });
+    await page.waitForTimeout(100);
+    await page.waitForSelector('#enablersWords');
+    await expect(page).toClick('#enablersWords');
 
     await page.waitForSelector('#wordGraphic', { visible: true });
     await new Promise(r => setTimeout(r, 500));
@@ -74,6 +86,7 @@ describe('Fully filling in self report', () => {
 
   it('Checks if mentoring filter works', async () => {
     await expect(page).toClick('span', { text: 'Any' });
+    await page.waitForTimeout(100);
     await expect(page).toClick('a', { text: 'Yes' });
 
     await new Promise(r => setTimeout(r, 500));

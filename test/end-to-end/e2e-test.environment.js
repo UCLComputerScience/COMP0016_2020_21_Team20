@@ -178,11 +178,27 @@ class PuppeteerTestEnvironment extends NodeEnvironment {
     );
 
     // Give each test suite (file) it's own new global browser and page
-    this.global.browser = await puppeteer.launch({
-      defaultViewport: { width: 1920, height: 1500 },
-      timeout: 10000,
-    });
-    this.global.page = await this.global.browser.newPage();
+    // Use different config options based on TEST_FIREFOX env variable
+    if (process.env.TEST_FIREFOX) {
+      console.warn('Testing firefox');
+      this.global.browser = await puppeteer.launch({
+        defaultViewport: null,
+        timeout: 10000,
+        headless: false,
+        // Note that (at the moment) firefox nightly must be manually installed to this
+        // location for this to work
+        executablePath: '/usr/bin/firefox-trunk',
+        product: 'firefox',
+      });
+      this.global.page = (await this.global.browser.pages())[0];
+    } else {
+      console.warn('Testing chrome');
+      this.global.browser = await puppeteer.launch({
+        defaultViewport: { width: 1920, height: 1500 },
+        timeout: 10000,
+      });
+      this.global.page = (await this.global.browser.pages())[0];
+    }
 
     const client = await getClient();
     await client.query('DROP SCHEMA IF EXISTS public CASCADE;');
