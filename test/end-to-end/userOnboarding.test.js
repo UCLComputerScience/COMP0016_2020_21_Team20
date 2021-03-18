@@ -47,6 +47,9 @@ describe('Logging in', () => {
     expect(pages.length).toBe(2);
 
     const accountPage = pages[1];
+
+    // Account page may take a while to load as it is coming from Keycloak
+    await accountPage.waitForTimeout(2000);
     expect(
       await accountPage.evaluate(() => {
         return (

@@ -74,6 +74,7 @@ describe('Fully filling in self report', () => {
 
   it('Displays response in word cloud', async () => {
     await expect(page).toClick('#lineChart');
+    await page.waitForTimeout(100);
     await expect(page).toClick('text', { text: 'Enablers Word Cloud' });
 
     await page.waitForSelector('#wordGraphic', { visible: true });
@@ -84,6 +85,7 @@ describe('Fully filling in self report', () => {
 
   it('Checks if mentoring filter works', async () => {
     await expect(page).toClick('span', { text: 'Any' });
+    await page.waitForTimeout(100);
     await expect(page).toClick('a', { text: 'Yes' });
 
     await new Promise(r => setTimeout(r, 500));
